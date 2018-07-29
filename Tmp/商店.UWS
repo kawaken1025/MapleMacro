@@ -1,0 +1,22 @@
+ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+while true
+
+IFB !CHKIMG("è§ìX.BMP",0,0,0,2000,1600)
+SOUND("E:\jubeat_analyser150530\fumen\bgm\Lisa-RICCIA.mp3")
+IF CHKIMG("mail.BMP",0,0,0,1500,1500) THEN BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y)
+sleep(0.3)
+ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+ENDIF
+
+sleep(3)
+
+IFB CHKIMG("ÉGÉäÉ{ÉX.BMP",0,0,0,2000,1600)
+SOUND("E:\jubeat_analyser150530\fumen\bgm\Lisa-RICCIA.mp3")
+IF CHKIMG("mail.BMP",0,0,0,1500,1500) THEN BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y)
+sleep(0.3)
+ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+ENDIF
+
+sleep(3)
+
+wend

@@ -1,0 +1,32 @@
+//=========================================
+// Map Name  : Chu Chu Island Inner part
+// Mob Level : 213
+// Mob HP    : 129,519,600
+// Mob Exp   : 265,808
+//
+// comment   : None
+// param     : None
+// return    : None
+// 
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/02/10
+//=========================================
+
+//=====================================
+// check Yellow Point
+//
+// comment : None
+// param   : None
+// return  : 0 (Success)
+//=====================================
+
+function checkYelloPoint()
+
+	//下段左にいた場合右に行く
+	IFB CHKIMG("黄点.BMP",0,107,95,150,160)
+		EXIT
+	ENDIF
+	
+	result = 0
+fend

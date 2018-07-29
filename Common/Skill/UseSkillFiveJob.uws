@@ -1,0 +1,57 @@
+//=====================================
+//
+// 5th Job use Skill (Luminous 5th job)
+//   @author k.kawabata
+//     create date 2018/02/09
+// 
+//=====================================
+
+CLASS skill
+//=====================================
+// use Skill
+//
+// comment : None
+// param   : None
+// return  : 0 (Success)
+//=====================================
+    function luminous_useSkill()
+        KBD(VK_G,0,500)
+        KBD(VK_H,0,3000)
+        //KBD(VK_6,0,1100)
+        KBD(VK_F8,0,1000)
+        //焼きそば Display Dpl : 1366x8768
+        KBD(VK_R,0,500)
+        BTN(LEFT,CLICK,731,470,1000)
+
+        result = 0
+    fend
+
+    function luminous_skillCheck()
+
+        //Display Dpl 1366 x 768
+        IF CHKIMG("../picture/扉.BMP",0,0,0,1368,800)           THEN KBD(VK_T,0,500)
+        IF CHKIMG("../picture/パニシング.BMP",0,0,0,1368,800)      THEN KBD(VK_Q,0,500)
+        IF CHKIMG("../picture/パニシング_1366.BMP",0,0,0,1368,800) THEN KBD(VK_Q,0,500)
+        IF CHKIMG("../picture/PHS.bmp",0,585,515,1368,800)      THEN KBD(VK_5,0,1000)
+        IF CHKIMG("../picture/扉.BMP",0,0,0,1368,800)           THEN KBD(VK_T,0,500)
+        IF CHKIMG("../picture/PCO.BMP",0,0,0,1368,800)          THEN KBD(VK_F7,0,500)
+        IF CHKIMG("../picture/PSE.BMP",0,0,0,1368,800)          THEN KBD(VK_9,0,500)
+        IF CHKIMG("../picture/PWB.BMP",0,0,0,1368,800)          THEN KBD(VK_8,0,500)
+        IFB CHKIMG("../picture/ヒーローズオース.BMP",0,0,0,1368,800)
+            IF CHKIMG("../picture/darkMode.BMP",0,0,0,1368,800) THEN KBD(VK_N,0,500)
+        ENDIF
+
+
+        result = 0
+    fend
+
+    function kannnaSkillCheck()
+
+        //Display Dpl 1366 x 768
+        IF CHKIMG("../picture/PHS.bmp",0,585,515,1368,800)      THEN KBD(VK_5,0,1000)
+
+
+        result = 0
+    fend
+
+ENDCLASS

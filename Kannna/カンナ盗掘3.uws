@@ -1,0 +1,139 @@
+//ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+
+THREAD 並列処理()
+
+//変数処理
+PET = 0
+KISHIN = 0
+
+KBD(VK_G,0,1000)
+
+WHILE TRUE //左端へ
+
+
+IFB PET > 5
+SLEEP(1.2)
+KBD(VK_T,0,1000)
+KBD(VK_J,0,800)
+PET = 0
+ENDIF
+
+KBD(VK_G,0,1000)
+SLEEP(1.2)
+KBD(VK_H,0,1500)
+
+	FOR ATTACK = 1 TO 2
+	
+		IFB KISHIN > 2
+		KBD(VK_H,0,1000)
+		KISHIN = 0
+		ENDIF
+
+		IF CHKIMG("../picture/緑点.BMP",0,0,0,800,600) THEN EXITEXIT
+		IF CHKIMG("../picture/エリボス.BMP",0,0,0,2000,2000) THEN SOUND("BEEP")
+
+		黄点チェック()
+		//IF CHKIMG("../picture/gm3.BMP",1,4,510,140,563) THEN CALL GM返答.uws
+	
+		FOR A = 1 TO 2
+		KBD(VK_LEFT,1)
+		KBD(VK_LEFT,2,100)
+		KBD(VK_A,0,300)
+		KBD(VK_A,0,300)
+		KBD(VK_A,0,300)
+		霊力回復()
+		NEXT
+
+		黄点チェック()	
+		//IF CHKIMG("../picture/gm3.BMP",1,4,510,140,563) THEN CALL GM返答.uws
+
+		FOR D = 1 to 2
+		KBD(VK_RIGHT,1)
+		KBD(VK_RIGHT,2,100)
+		KBD(VK_A,0,300)
+		KBD(VK_A,0,300)
+		KBD(VK_A,0,300)
+		霊力回復()
+		NEXT
+
+		黄点チェック()
+		//IF CHKIMG("../picture/gm3.BMP",1,4,510,140,563) THEN CALL GM返答.uws
+
+		FOR Z = 1 TO 2
+		KBD(VK_LEFT,1)
+		KBD(VK_LEFT,2,100)
+		KBD(VK_A,0,300)
+		KBD(VK_A,0,300)
+		KBD(VK_A,0,300)
+		霊力回復()
+		NEXT
+
+		黄点チェック()
+		//IF CHKIMG("../picture/gm3.BMP",1,4,510,140,563) THEN CALL GM返答.uws
+
+		FOR Z = 1 TO 2
+		KBD(VK_RIGHT,1)
+		KBD(VK_RIGHT,2,100)
+		KBD(VK_A,0,300)
+		KBD(VK_A,0,300)
+		KBD(VK_A,0,300)
+		霊力回復()
+		NEXT	
+	NEXT
+
+
+PET = PET + 1
+KISHIN = KISHIN + 1
+
+WEND
+
+
+PROCEDURE 並列処理()
+WHILE TRUE
+
+IFB CHKIMG("../picture/石化.BMP",0,0,0,800,600)
+FOR X = 1 TO 20
+KBD(VK_LEFT,0,100)
+KBD(VK_RIGHT,0,100)
+NEXT
+ENDIF
+
+
+
+WEND
+FEND
+
+PROCEDURE 霊力回復()
+
+	IFB CHKIMG("../picture/霊力回復.BMP",0,590,500,800,600)
+
+		IFB CHKIMG("../picture/妖怪巻.bmp",0,590,500,800,600)
+		SLEEP(1.3)
+		KBD(VK_INSERT,0,100)
+		KBD(VK_U,0,800)
+		KBD(VK_INSERT,0,500)
+		KBD(VK_SHIFT,0,1000)
+		EXIT
+		ENDIF
+
+	KBD(VK_INSERT,0,300)
+	KBD(VK_U,0,800)
+	KBD(VK_INSERT,0,500)
+	ENDIF
+
+FEND
+
+PROCEDURE 黄点チェック()
+
+	IFB CHKIMG("../picture/黄点.BMP",0,0,0,55,160)
+	KBD(VK_RIGHT,1,500)
+	KBD(VK_RIGHT,2,2000)
+	ENDIF
+
+	IFB CHKIMG("../picture/黄点.BMP",0,75,140,150,160)
+	KBD(VK_LEFT,1,500)
+	KBD(VK_LEFT,2,2000)
+	ENDIF
+
+FEND
+

@@ -1,0 +1,206 @@
+// (C)2010- メイプルストーリーマクロ生活 http://maplez2.blog90.fc2.com/
+// 一部・全部に関わらず、転載・転売等は一切お断りします。
+// 違反された場合、他の購入者の権利をを守るためにも、
+// 刑事告訴等の法的措置を取らざるを得ません。
+// その場合、民事提訴にて損害賠償の請求をさせて頂きます。
+
+THREAD 並列処理() //一番↓で指定した処理を、メイン部分と並列で実行
+
+//▼▼自動狩りメイン部分ココから▼▼
+ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+
+//▼▼ペットのエサの設定１▼▼
+PET = GETTIME( 900 / 86400 )
+//▲▲ココまで▲▲
+
+G=10
+V=10
+Z=0
+
+WHILE TRUE
+
+//薬の残量を確認、HP薬が9個以下、MP薬が0個だった場合はログアウト
+IF CHKIMG("../画像/チューチューアイス9.BMP",0,0,0,800,580) THEN CALL ../共通/ログアウト.UWS
+IF CHKIMG("../画像/かき氷0.BMP",0,0,0,800,580) THEN CALL ../共通/ログアウト.UWS
+
+//滞在マップ確認・この画像を発見したら異常が起きたと判断してログアウト
+IF CHKIMG("../画像/エーデルシュタイン.BMP",0,0,0,250,250) THEN CALL ../共通/ログアウト.UWS
+
+//モンスターブックの新しいタブが開放された時のメッセージを自動で閉じる
+IF CHKIMG("../画像/タブ確認.BMP",0,0,0,550,400) THEN KBD(VK_ESC,0)
+
+//▼▼他キャラを発見したらとりあえず10秒待機▼▼
+//いなくならない場合はチャンネル変更
+IFB CHKIMG("../画像/赤点.BMP",0,0,0,200,200)
+	WHILE TRUE
+		SLEEP(10)
+		IF !CHKIMG("../画像/赤点.BMP",0,0,0,200,200) THEN BREAK
+		KBD(VK_ESC,0,500)
+		KBD(VK_ENTER,0,500)
+		KBD(VK_RIGHT,0,500)
+		KBD(VK_ENTER,0,500)
+		SLEEP(2)
+		WHILE !CHKIMG("../画像/深い坑道.BMP",0,0,0,200,200)
+		WEND
+		IF !CHKIMG("../画像/赤点.BMP",0,0,0,200,200) THEN BREAK	
+	WEND
+ENDIF
+
+KBD(VK_LEFT,1)
+WHILE !CHKIMG("../画像/黄点.BMP",0,0,0,129,150)
+IF CHKIMG("../画像/エーデルシュタイン.BMP",0,0,0,250,250) THEN CALL ../共通/ログアウト.UWS
+WEND
+KBD(VK_LEFT,2)
+
+//▼▼補助スキル▼▼
+IFB G > 3 // マップ4周ごとに↓
+	Z = Z + 1
+	IFB Z MOD 2 < 1 // Z割る2の余りが0だったら
+	KBD(VK_LEFT,1,300)
+	KBD(VK_LEFT,2,50)
+	ENDIF
+KBD(VK_G,0,100) // ヘイスト・ブースター
+SLEEP(1.5) // Gにミラーも加える場合は1.5→3に変更
+G = 0
+ENDIF
+
+//▼▼この設定が不要な場合はこのブロックを削除▼▼
+IFB V > 1 // マップ2周ごとに↓
+KBD(VK_V,0,100) // ミラー
+SLEEP(2)
+V = 0
+ENDIF
+//▲▲ココまで▲▲
+
+//▼▼上段右へフラアサで移動▼▼
+KBD(VK_C,0,500)
+FOR X = 1 TO 7
+KBD(VK_END,0,50)
+NEXT
+SLEEP(0.5)
+
+//▼▼上段右をアッパーで殲滅▼▼
+FOR X = 1 TO 20 //アッパーの回数は20の数値を増減
+KBD(VK_CTRL,0,100)
+NEXT
+SLEEP(0.5)
+
+IF CHKIMG("../画像/タブ確認.BMP",0,0,0,550,400) THEN KBD(VK_ESC,0)
+
+//▼▼上段真ん中へフラッシュジャンプで移動▼▼
+KBD(VK_LEFT,1)
+WHILE !CHKIMG("../画像/黄点.BMP",0,0,0,100,150)
+IF CHKIMG("../画像/エーデルシュタイン.BMP",0,0,0,250,250) THEN CALL ../共通/ログアウト.UWS
+WEND
+KBD(VK_C,0)
+KBD(VK_UP,1)
+KBD(VK_HOME,0,100)
+WHILE !CHKIMG("../画像/黄点.BMP",0,0,0,81,150)
+IF CHKIMG("../画像/エーデルシュタイン.BMP",0,0,0,250,250) THEN CALL ../共通/ログアウト.UWS
+WEND
+KBD(VK_LEFT,2)
+KBD(VK_UP,2)
+
+//▼▼上段真ん中をアッパーで殲滅殲滅▼▼
+FOR X = 1 TO 30 //アッパーの回数は30の数値を増減
+KBD(VK_CTRL,0,100)
+NEXT
+SLEEP(0.5)
+
+IF CHKIMG("../画像/タブ確認.BMP",0,0,0,550,400) THEN KBD(VK_ESC,0)
+
+//▼▼上段左へフラアサで移動▼▼
+KBD(VK_LEFT,1)
+WHILE !CHKIMG("../画像/黄点.BMP",0,0,0,73,150)
+IF CHKIMG("../画像/エーデルシュタイン.BMP",0,0,0,250,250) THEN CALL ../共通/ログアウト.UWS
+WEND
+KBD(VK_LEFT,2)
+KBD(VK_C,0,100)
+FOR X = 1 TO 7
+KBD(VK_END,0,50)
+NEXT
+SLEEP(0.5)
+
+//▼▼上段左をアッパーで殲滅殲滅▼▼
+FOR X = 1 TO 20 //アッパーの回数は20の数値を増減
+KBD(VK_CTRL,0,100)
+NEXT
+SLEEP(0.5)
+
+IF CHKIMG("../画像/タブ確認.BMP",0,0,0,550,400) THEN KBD(VK_ESC,0)
+
+//▼▼下段左端へ移動▼▼
+KBD(VK_LEFT,1)
+WHILE !CHKIMG("../画像/黄点.BMP",0,0,0,35,150)
+KBD(VK_C,0,100)
+KBD(VK_HOME,0,100)
+IF CHKIMG("../画像/エーデルシュタイン.BMP",0,0,0,250,250) THEN CALL ../共通/ログアウト.UWS
+WEND
+KBD(VK_LEFT,2)
+
+IF CHKIMG("../画像/タブ確認.BMP",0,0,0,550,400) THEN KBD(VK_ESC,0)
+
+//▼▼下段右端までフラアサ→トルネードで移動▼▼
+KBD(VK_RIGHT,1,300)
+KBD(VK_RIGHT,2,200)
+WHILE CHKIMG("../画像/黄点.BMP",0,0,0,140,150)
+FOR X = 1 TO 8
+KBD(VK_END,0,50)
+KBD(VK_C,0,50)
+NEXT
+SLEEP(0.1)
+FOR X = 1 TO 4
+KBD(VK_SHIFT,0,100)
+NEXT
+SLEEP(0.3)
+IF CHKIMG("../画像/エーデルシュタイン.BMP",0,0,0,250,250) THEN CALL ../共通/ログアウト.UWS
+IF CHKIMG("../画像/タブ確認.BMP",0,0,0,550,400) THEN KBD(VK_ESC,0)
+WEND
+
+//▼▼集めた敵をアッパーで殲滅殲滅▼▼
+KBD(VK_LEFT,1,200)
+KBD(VK_LEFT,2,100)
+FOR X = 1 TO 20 //アッパーの回数は20の数値を増減
+KBD(VK_CTRL,0,100)
+NEXT
+SLEEP(0.5)
+
+IF CHKIMG("../画像/タブ確認.BMP",0,0,0,550,400) THEN KBD(VK_ESC,0)
+
+//▼▼ロープの上へ移動▼▼
+IFB !CHKIMG("../画像/黄点.BMP",0,0,0,140,150)
+KBD(VK_C,0,100)
+KBD(VK_HOME,0,100)
+ENDIF
+KBD(VK_LEFT,1)
+KBD(VK_UP,1)
+WHILE !CHKIMG("../画像/黄点.BMP",0,0,0,129,150)
+IF CHKIMG("../画像/エーデルシュタイン.BMP",0,0,0,250,250) THEN CALL ../共通/ログアウト.UWS
+WEND
+KBD(VK_LEFT,2)
+KBD(VK_UP,2)
+
+G = G + 1
+V = V + 1
+
+//▼▼ペットのエサの設定２▼▼
+IFB GETTIME() > PET
+KBD(VK_T,0,500)// ←Tを押す命令　必要なら変更してください
+SLEEP(0.1)
+PET = GETTIME( 900 / 86400 )
+ENDIF
+//▲▲ココまで▲▲
+
+WEND
+//▲▲自動狩りメイン部分ココまで▲▲
+
+
+PROCEDURE 並列処理()
+WHILE TRUE
+//▼▼自動狩りメイン部分と並列して繰り返し行う処理ココから▼▼
+
+
+
+//▲▲ココまで▲▲
+WEND
+FEND

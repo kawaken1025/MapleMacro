@@ -1,0 +1,195 @@
+// (C)2010- メイプルストーリーマクロ生活 http://maplez2.blog90.fc2.com/
+// 一部・全部に関わらず、転載・転売等は一切お断りします。
+// 違反された場合、他の購入者の権利をを守るためにも、
+// 刑事告訴等の法的措置を取らざるを得ません。
+// その場合、民事提訴にて損害賠償の請求をさせて頂きます。
+
+THREAD 並列処理() //一番↓で指定した処理を、メイン部分と並列で実行
+
+//▼▼自動狩りメイン部分ココから▼▼
+ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+
+WHILE TRUE
+
+//薬の残量を確認、HP薬が9個以下、MP薬が0個だった場合はログアウト
+IF CHKIMG("../画像/ホンスター9.BMP",0,0,0,800,580) THEN CALL ../共通/ログアウト.UWS
+IF CHKIMG("../画像/マナブル0.BMP",0,0,0,800,580) THEN CALL ../共通/ログアウト.UWS
+
+//▼▼中に入る処理▼▼
+WHILE !CHKIMG("../画像/永遠の警戒地.BMP",0,0,0,300,550)
+WEND
+KBD(VK_RIGHT,1,1000)
+KBD(VK_RIGHT,2,1000)
+
+WHILE CHKIMG("../画像/永遠の警戒地.BMP",0,0,0,300,550)
+KBD(VK_Y,0,500)
+KBD(VK_DOWN,0,1000)
+KBD(VK_DOWN,0,500)
+KBD(VK_Y,0,500)
+KBD(VK_Y,0,1000)
+SLEEP(3)
+WEND
+
+WHILE !CHKIMG("../画像/支配者の秘密の間.BMP",0,0,0,310,90)
+WEND
+
+//▼▼真ん中へ移動▼▼
+KBD(VK_RIGHT,1,1000)
+WHILE CHKIMG("../画像/黄点.BMP",0,0,0,145,250)
+WEND
+KBD(VK_RIGHT,2)
+
+//▼▼補助スキル▼▼
+KBD(VK_G,0,200)
+SLEEP(1)
+G = GETTIME( 170 / 86400 ) // ←170秒経過後にスキルかけ直し
+
+//▼▼ボス召喚▼▼
+FOR X = 270 TO 600 STEP 10
+BTN(LEFT,0,X,50) // 1024×768で使用する場合は50→240に変更
+NEXT
+KBD(VK_Y,0,1000)
+KBD(VK_Y,0,500)
+
+//▼▼１匹目ココから▼▼
+// とりあえず右端まで押す
+WHILE CHKIMG("../画像/黄点.BMP",0,0,0,168,250)
+FOR X = 1 TO 20
+KBD(VK_CTRL,1,100)
+NEXT
+KBD(VK_RIGHT,1,100)
+KBD(VK_RIGHT,2,100)
+
+IFB CHKIMG("../画像/MP20%.BMP",0,0,0,600,620)
+KBD(VK_CTRL,2)	
+KBD(VK_DELETE,0,500)
+ENDIF
+IFB CHKIMG("../画像/HP50%.BMP",0,0,0,450,620)
+KBD(VK_CTRL,2)	
+KBD(VK_PRIOR,0,500)
+ENDIF	
+WEND
+
+// ココから繰り返しスタート
+WHILE TRUE
+	IF !CHKIMG("../画像/クリムゾンボス1.BMP",0,0,0,300,80) THEN BREAK
+
+FOR Y = 1 TO 10
+	FOR X = 1 TO 20
+	KBD(VK_CTRL,1,100)
+	NEXT
+	
+	IFB CHKIMG("../画像/MP20%.BMP",0,0,0,600,620)
+	KBD(VK_CTRL,2)	
+	KBD(VK_DELETE,0,500)
+	ENDIF
+	IFB CHKIMG("../画像/HP50%.BMP",0,0,0,450,620)
+	KBD(VK_CTRL,2)	
+	KBD(VK_PRIOR,0,500)
+	ENDIF	
+	
+	IFB GETTIME() > G // 170秒経過していたらスキルかけ直し
+	KBD(VK_CTRL,2)
+	FOR Z = 1 TO 5
+	KBD(VK_G,0,100)
+	NEXT
+	SLEEP(1.5)
+	G = GETTIME( 170 / 86400 )
+	ENDIF
+	
+	IF !CHKIMG("../画像/クリムゾンボス1.BMP",0,0,0,300,80) THEN BREAK 2
+NEXT
+
+KBD(VK_RIGHT,1,500)
+WHILE CHKIMG("../画像/黄点.BMP",0,0,0,167,200)
+WEND
+KBD(VK_RIGHT,2,100)
+
+IF CHKIMG("../画像/ホンスター9.BMP",0,0,0,800,580) THEN CALL ../共通/ログアウト.UWS
+IF CHKIMG("../画像/マナブル0.BMP",0,0,0,800,580) THEN CALL ../共通/ログアウト.UWS
+
+FOR Y = 1 TO 10
+	FOR X = 1 TO 20
+	KBD(VK_CTRL,1,100)
+	NEXT
+	
+	IFB CHKIMG("../画像/MP20%.BMP",0,0,0,600,620)
+	KBD(VK_CTRL,2)	
+	KBD(VK_DELETE,0,500)
+	ENDIF
+	IFB CHKIMG("../画像/HP50%.BMP",0,0,0,450,620)
+	KBD(VK_CTRL,2)	
+	KBD(VK_PRIOR,0,500)
+	ENDIF	
+	
+	IFB GETTIME() > G // 170秒経過していたらスキルかけ直し
+	KBD(VK_CTRL,2)
+	FOR Z = 1 TO 5
+	KBD(VK_G,0,100)
+	NEXT
+	SLEEP(1.5)
+	G = GETTIME( 170 / 86400 )
+	ENDIF
+	
+	IF !CHKIMG("../画像/クリムゾンボス1.BMP",0,0,0,300,80) THEN BREAK 2
+NEXT
+
+KBD(VK_LEFT,1,500)
+KBD(VK_LEFT,2,300)
+KBD(VK_RIGHT,1)
+WHILE CHKIMG("../画像/黄点.BMP",0,0,0,166,200)
+WEND
+KBD(VK_RIGHT,2,100)
+
+IF CHKIMG("../画像/ホンスター9.BMP",0,0,0,800,580) THEN CALL ../共通/ログアウト.UWS
+IF CHKIMG("../画像/マナブル0.BMP",0,0,0,800,580) THEN CALL ../共通/ログアウト.UWS
+WEND // ← ボスの画像が消えたら(倒したら)BREAKでココを通過
+
+KBD(VK_CTRL,2,100)
+//▲▲１匹目ココまで▲▲
+
+//▼▼ペットのエサ▼▼
+KBD(VK_T,0,200)
+SLEEP(0.2)
+
+//▼▼外に出る処理▼▼
+CHKIMG("../画像/黄点.BMP",0,0,0,200,250)
+IFB G_IMG_X > 145
+KBD(VK_LEFT,1)
+WHILE !CHKIMG("../画像/黄点.BMP",0,0,0,145,250)
+WEND
+KBD(VK_LEFT,2)
+ENDIF
+IFB G_IMG_X < 146
+KBD(VK_RIGHT,1)
+WHILE CHKIMG("../画像/黄点.BMP",0,0,0,145,250)
+WEND
+KBD(VK_RIGHT,2)
+ENDIF
+FOR X = 270 TO 600 STEP 10
+BTN(LEFT,0,X,50) // 1024×768で使用する場合は50→240に変更
+NEXT
+KBD(VK_DOWN,0,1000)
+KBD(VK_Y,0,500)
+KBD(VK_Y,0,1000)
+
+SLEEP(5)
+
+WEND
+//▲▲自動狩りメイン部分ココまで▲▲
+
+
+PROCEDURE 並列処理()
+WHILE TRUE
+//▼▼自動狩りメイン部分と並列して繰り返し行う処理ココから▼▼
+
+
+
+//▲▲ココまで▲▲
+WEND
+FEND
+
+
+
+
+

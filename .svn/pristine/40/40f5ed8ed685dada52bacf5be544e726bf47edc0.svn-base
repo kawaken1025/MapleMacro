@@ -1,0 +1,121 @@
+// (C)2010- メイプルストーリーマクロ生活 http://maplez2.blog90.fc2.com/
+// 一部・全部に関わらず、転載・転売等は一切お断りします。
+// 違反された場合、他の購入者の権利をを守るためにも、
+// 刑事告訴等の法的措置を取らざるを得ません。
+// その場合、民事提訴にて損害賠償の請求をさせて頂きます。
+
+ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+
+//▼▼ゴミ捨て時にクリックする位置の指定▼▼
+ゴミ捨てX = 550 // 左から550
+ゴミ捨てY = 100  // 上から100の位置をクリック
+
+//▼▼アイテムウィンドウが開いてなかったら開く▼▼
+IFB !CHKIMG("../画像/アイテム欄.BMP",0,0,0,800,580)
+KBD(VK_I,0,500)
+ENDIF
+
+WHILE TRUE
+
+//▼▼消費タブをクリック▼▼
+WHILE TRUE
+IF CHKIMG("../画像/アイテム欄.BMP",0,0,0,800,600) THEN BREAK
+WEND
+BTN(LEFT,CLICK,G_IMG_X+35,G_IMG_Y-240,500)//消費欄クリック
+SLEEP(1)
+
+WHILE TRUE
+
+CHKIMG("../画像/ハピネスボックス.BMP",0,0,0,800,300)
+
+FOR X = 1 TO 300
+BTN(LEFT,0,G_IMG_X,G_IMG_Y)
+NEXT
+
+MMV(50,50,500)
+
+IF CHKIMG("../画像/ハピネスボックスアイテム満.BMP",1,0,0,400,620) THEN BREAK
+IF !CHKIMG("../画像/ハピネスボックス.BMP",0,0,0,800,300) THEN BREAK
+
+WEND
+
+//「バレンタインチョコ（苺）」があったら捨てる
+FOR X = 1 TO 5
+	IFB CHKIMG("../画像/バレンタインチョコ（苺）.BMP",0,0,0,800,300)
+	BTN(LEFT,0,G_IMG_X,G_IMG_Y,500)//アイテムクリック
+	BTN(LEFT,0,ゴミ捨てX,ゴミ捨てY,500)//捨てる
+	KBD(VK_ENTER,0,500)
+	BTN(LEFT,0,ゴミ捨てX,ゴミ捨てY,500)
+	ENDIF
+NEXT
+
+//「クッキー」があったら捨てる
+FOR X = 1 TO 5
+	IFB CHKIMG("../画像/クッキー.BMP",0,0,0,800,300)
+	BTN(LEFT,0,G_IMG_X,G_IMG_Y,500)//アイテムクリック
+	BTN(LEFT,0,ゴミ捨てX,ゴミ捨てY,500)//捨てる
+	KBD(VK_ENTER,0,500)
+	BTN(LEFT,0,ゴミ捨てX,ゴミ捨てY,500)
+	ENDIF
+NEXT
+
+//「謎のキャンディ箱」があったら使う
+SLEEP(0.5)
+FOR X = 1 TO 20
+	IF !CHKIMG("../画像/謎のキャンディ箱.BMP",0,0,0,800,300) THEN BREAK
+	IFB CHKIMG("../画像/謎のキャンディ箱.BMP",0,0,0,800,300)
+	FOR Y = 1 TO 4
+	BTN(LEFT,0,G_IMG_X,G_IMG_Y,100)//アイテムクリック
+	NEXT
+	SLEEP(0.5)
+	ENDIF
+NEXT
+
+//▼▼イヤリングを店売り▼▼
+KBD(VK_Y,0,1000)
+SLEEP(0.5)
+
+FOR Y = 1 TO 2
+
+FOR X = 1 TO 10
+	IF !CHKIMG("../画像/ハートイヤリング（赤）.BMP",0,0,0,800,600) and !CHKIMG("../画像/M.ハートイヤリング.BMP",0,0,0,800,600) THEN BREAK
+//「ハートイヤリング（赤）」があったら売る
+	IFB CHKIMG("../画像/ハートイヤリング（赤）.BMP",0,0,0,800,600)
+	SLEEP(0.1)
+	FOR Y = 1 TO 4
+	BTN(LEFT,0,G_IMG_X,G_IMG_Y,100)//アイテムクリック
+	NEXT
+	KBD(VK_ENTER,0,500)
+	MMV(50,50,500)	
+	ENDIF
+
+//「M.ハートイヤリング」があったら売る
+	IFB CHKIMG("../画像/M.ハートイヤリング.BMP",0,0,0,800,600)
+	SLEEP(0.1)
+	FOR Y = 1 TO 4
+	BTN(LEFT,0,G_IMG_X,G_IMG_Y,100)//アイテムクリック
+	NEXT
+	KBD(VK_ENTER,0,500)
+	MMV(50,50,500)	
+	ENDIF
+NEXT
+
+BTN(WHEEL,-5,590,300,1000)
+SLEEP(0.5)
+NEXT
+
+//「商店から出る」をクリック
+BTN(LEFT,0,360,195,500)
+
+SLEEP(1)
+IF !CHKIMG("../画像/ハピネスボックス.BMP",0,0,0,800,300) THEN BREAK
+
+WEND
+
+//▼▼終わったら音でお知らせ▼▼
+SOUND("BEEP")
+
+
+
+
+

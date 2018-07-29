@@ -1,0 +1,16 @@
+// (C)2010- メイプルストーリーマクロ生活 http://maplez2.blog90.fc2.com/
+// 一部・全部に関わらず、転載・転売等は一切お断りします。
+// 違反された場合、他の購入者の権利をを守るためにも、
+// 刑事告訴等の法的措置を取らざるを得ません。
+// その場合、民事提訴にて損害賠償の請求をさせて頂きます。
+
+MOUSEORG(GETID("MapleStory","MapleStoryClass"),2)
+
+While true
+
+	For　x　=　1　to　300
+	KBD(VK_Z,CLICK,100)
+	Next
+
+
+Wend

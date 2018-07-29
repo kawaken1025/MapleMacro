@@ -1,0 +1,12 @@
+ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+
+//GM‚ª˜b‚µ‚©‚¯‚Ä‚«‚½‚ç‰ž“š
+WHILE TRUE
+
+IF CHKIMG("gm",0,0,0,800,600) THEN CALL GM•Ô“š.uws
+
+IF CHKIMG("gm2",0,0,0,800,600)THEN CALL GM•Ô“š.uws
+
+IF CHKIMG("gm3",1,0,0,800,600)THEN CALL GM•Ô“š.uws
+
+WEND

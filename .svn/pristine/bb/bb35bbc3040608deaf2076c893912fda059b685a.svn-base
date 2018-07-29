@@ -1,0 +1,192 @@
+//=========================================//
+// Map Name    : アルカナ ケーヴロードの通路(上)   //
+//=========================================//
+// Mob Name    : 悲嘆の精霊
+// Mob Level   : 239
+// Mob HP      : 312,451,200
+// Mob Exp     : 462,670
+//=========================================//
+// Mob Name    : 不調和の精霊
+// Mob Level   : 240
+// Mob HP      : 318,873,600
+// Mob Exp     : 470,824
+//=========================================//
+// comment     : None
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 800x600 or 1366x768
+//=========================================//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/04/01
+//=========================================//
+
+//=========================================
+// init
+//=========================================
+
+//下段回収フラグ
+collectFlag = false
+collectTime = GETTIME( 180 / 86400 )
+
+//Parallel Program 
+thread parallelProgram()
+//Move Window initSetting x = 1 , y = 1
+BTN(LEFT,CLICK,450,385,300) 
+//ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+//File import
+//MapleAPI : LogWriter.uws , MapleLibrary.uws , UseSkillFiveJob.uws
+//CALL ../Common/Skill/UseSkillFiveJob.uws
+//CALL ../lib/MapleLibrary.uws
+//CALL ../Log/logWriter.uws
+CALL ../MapleAPI/MapleAPI.uws
+
+//=========================================
+//  Main Script Start
+//=========================================
+while TRUE
+
+    //時刻の取得     : 3分経過していたらスキルをかかけなおす
+    reUseSkillTime = GETTIME( 180 / 86400 )
+    useSkill()
+
+    SLEEP(0.5)
+    lib_checkFamiliarPower()
+    
+    while TRUE
+        goLeftAttack()
+        goRightAttack()
+        //3分経過していたらループを抜け出す
+        if GETTIME() > reUseSkillTime then break
+    wend
+wend
+
+//=========================================
+// Support Function
+//=========================================
+
+
+function goLeftAttack()
+
+    _equlibrium = false
+
+    //イクリブリアムフラグの設定 1366x768対応
+    IF CHKIMG("../picture/モード.bmp",0,0,0,1368,800)        THEN _equlibrium = true
+    IF CHKIMG("../picture/メモライズ_1366.bmp",0,0,0,1368,800) THEN _equlibrium = true
+
+    //ここから右へ行きながら攻撃する処理
+    KBD(VK_LEFT,1,100)
+    while true
+        urgentCheck()
+        ifb chkimg("../picture/黄点.bmp",0,82,98,140,123)
+            skillCheck()
+            ifb _equlibrium
+                KBD(VK_O,0,500)
+                KBD(VK_T,0,800)
+                _equlibrium = false
+            endif
+        endif
+
+        KBD(VK_X,0,200)
+        KBD(VK_X,0,200)
+        KBD(VK_SPACE,0,200)
+        KBD(VK_SPACE,0,200)
+
+        if chkimg("../picture/黄点.bmp",0,30,100,65,115) THEN break
+    wend
+    KBD(VK_X,0,200)
+    KBD(VK_X,0,200)
+    KBD(VK_LEFT,2,200)
+
+    result = 0
+
+fend
+
+function goRightAttack()
+
+    _equlibrium = false
+
+    //イクリブリアムフラグの設定 1366x768対応
+    IF CHKIMG("../picture/モード.bmp",0,0,0,1368,800)        THEN _equlibrium = true
+    IF CHKIMG("../picture/メモライズ_1366.bmp",0,0,0,1368,800) THEN _equlibrium = true
+
+    //ここから右へ行きながら攻撃する処理
+    KBD(VK_RIGHT,1,100)
+    while true
+        urgentCheck()
+        ifb chkimg("../picture/黄点.bmp",0,82,98,140,123)
+            skillCheck()
+            ifb _equlibrium
+                KBD(VK_O,0,500)
+                KBD(VK_T,0,800)
+                _equlibrium = false
+            endif
+        endif
+
+        KBD(VK_X,0,200)
+        KBD(VK_X,0,200)
+        KBD(VK_SPACE,0,200)
+        KBD(VK_SPACE,0,200)
+
+        //下段にいた場合上へ戻る処理
+        ifb chkimg("../picture/黄点.bmp",0,160,125,185,150)
+            KBD(VK_B,0,1000)
+            sleep(1)
+        endif
+
+        if chkimg("../picture/黄点.bmp",0,140,100,190,115) THEN break
+    wend
+    KBD(VK_X,0,200)
+    KBD(VK_X,0,200)
+    KBD(VK_RIGHT,2,200)
+    
+    result = 0
+
+fend
+
+//=========================================
+//
+// comment : 石化と他プレイヤー検知時Beep　並列処理
+// param   : None
+// return  : 0 
+//
+//=========================================
+procedure parallelProgram()
+    while TRUE
+        ifb chkimg("../picture/石化.BMP",0,0,0,1368,800)
+            for i = 1 to 20
+                KBD(VK_LEFT,0,100)
+                KBD(VK_RIGHT,0,100)
+            next
+        endif
+
+        if chkimg("../picture/加護.BMP",0,0,0,1368,800) then KBD(VK_F4,0,1000)
+
+        ifb chkimg("../picture/赤点.BMP",0,0,0,1368,800)
+            logger("プレイヤーを検知しました。")
+            for beeps = 1 to 20
+                SOUND(" ")
+                sleep(0.2)
+            next
+        endif   
+    wend
+fend
+
+
+
+//=========================================
+// comment : 緑点があれば街へ戻ったと判定して終了
+//           エリボ発見でBeep 突発は報酬受取
+// param   : None
+// return  : 0 
+//=========================================
+function urgentCheck()
+
+    IF CHKIMG("../picture/エリボス.BMP",0,0,0,2000,2000)  THEN SOUND(" ")
+    IF CHKIMG("../picture/緑点.BMP",0,0,0,1368,800)    THEN EXITEXIT
+    IF CHKIMG("../picture/突発.BMP",0,0,0,1368,800)    THEN BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y)
+
+    result = 0
+
+fend

@@ -1,0 +1,16 @@
+//=========================================
+//
+// comment     : MapleStory API
+// param       : None
+// return      : None
+//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/05/06
+//=========================================
+
+CALL ../Common/Skill/UseSkillFiveJob.uws
+CALL ../Common/Skill/useSkill.uws
+CALL ../Common/Messages.uws
+CALL ../lib/MapleLibrary.uws
+CALL ../Log/logWriter.uws

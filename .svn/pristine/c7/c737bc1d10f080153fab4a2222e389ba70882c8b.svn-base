@@ -1,0 +1,250 @@
+// (C)2010- メイプルストーリーマクロ生活 http://maplez2.blog90.fc2.com/
+// 一部・全部に関わらず、転載・転売等は一切お断りします。
+// 違反された場合、他の購入者の権利をを守るためにも、
+// 刑事告訴等の法的措置を取らざるを得ません。
+// その場合、民事提訴にて損害賠償の請求をさせて頂きます。
+
+THREAD 並列処理() //一番↓で指定した処理を、メイン部分と並列で実行
+
+//▼▼自動狩りメイン部分ココから▼▼
+ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+
+//▼▼ペットのエサの設定１▼▼
+PET = GETTIME( 900 / 86400 )
+//▲▲ココまで▲▲
+
+WHILE TRUE
+
+//▼▼まず、正しいマップにいるか確認▼▼
+WHILE TRUE
+IF CHKIMG("../画像/白草村周辺.BMP",0,0,0,100,100) THEN BREAK
+WEND
+
+//▼▼中に入る処理▼▼
+FOR X = 1 TO 5
+KBD(VK_UP,1,1000)
+KBD(VK_UP,2,100)
+SLEEP(3)
+IF !CHKIMG("../画像/白草村周辺.BMP",0,0,0,100,100) THEN BREAK
+NEXT
+
+//▼▼6600秒後の時間を記憶▼▼
+MD = GETTIME( 6600 / 86400 )
+
+G = 0
+
+KBD(VK_G,0,1000)
+KBD(VK_HOME,0,1000)
+SLEEP(1)
+FOR X = 1 TO 10
+KBD(VK_RIGHT,0,100)
+NEXT
+
+WHILE TRUE
+
+IF CHKIMG("../画像/白草村周辺.BMP",0,0,0,100,100) THEN CALL ../共通/ログアウト.UWS
+IF CHKIMG("../画像/タブ確認.BMP",0,0,0,550,400) THEN KBD(VK_ESC,0)
+
+//薬の残量を確認、HP薬が9個以下、MP薬が0個だった場合はログアウト
+IF CHKIMG("../画像/十字旅団最上級体力水薬9.bmp",0,0,0,800,580) THEN CALL ../共通/ログアウト.UWS
+IF CHKIMG("../画像/十字旅団最上級魔力水薬0.bmp",0,0,0,800,580) THEN CALL ../共通/ログアウト.UWS
+
+//▼▼補助スキル▼▼
+IFB G > 1
+KBD(VK_RIGHT,1,1000)
+KBD(VK_RIGHT,2,100)
+KBD(VK_G,0,100)
+SLEEP(1)
+G = 0
+ENDIF
+
+KBD(VK_HOME,0,100)
+
+//▼▼右下端へ移動▼▼
+FOR X = 1 TO 20
+KBD(VK_RIGHT,0,100)
+NEXT
+
+//▼▼下段を左端までドリルで移動▼▼
+KBD(VK_LEFT,1)
+FOR X = 1 TO 38
+KBD(VK_CTRL,0,100)
+NEXT
+KBD(VK_LEFT,2)
+
+//▼▼集めた敵をハンマーで殲滅▼▼
+KBD(VK_RIGHT,1,600)
+KBD(VK_RIGHT,2,100)
+FOR X = 1 TO 40
+KBD(VK_END,0,100)
+NEXT
+SLEEP(1)
+
+IF CHKIMG("../画像/白草村周辺.BMP",0,0,0,100,100) THEN CALL ../共通/ログアウト.UWS
+IF CHKIMG("../画像/タブ確認.BMP",0,0,0,550,400) THEN KBD(VK_ESC,0)
+
+//▼▼ちょっと右へ移動して中段へ移動▼▼
+KBD(VK_RIGHT,1)
+KBD(VK_RIGHT,2,1500)
+FOR X = 1 TO 10
+KBD(VK_SHIFT,0,100)
+NEXT
+SLEEP(0.5)
+
+//▼▼中段を右までドリルで移動▼▼
+FOR X = 1 TO 25
+KBD(VK_CTRL,0,100)
+NEXT
+
+//▼▼集めた敵をハンマーで殲滅▼▼
+KBD(VK_LEFT,1,800)
+KBD(VK_LEFT,2,100)
+FOR X = 1 TO 40
+KBD(VK_END,0,100)
+NEXT
+SLEEP(1)
+
+IF CHKIMG("../画像/白草村周辺.BMP",0,0,0,100,100) THEN CALL ../共通/ログアウト.UWS
+IF CHKIMG("../画像/タブ確認.BMP",0,0,0,550,400) THEN KBD(VK_ESC,0)
+
+//▼▼ちょっと左へ移動して上段へ移動▼▼
+KBD(VK_LEFT,1)
+KBD(VK_LEFT,2,1800)
+FOR X = 1 TO 10
+KBD(VK_SHIFT,0,100)
+NEXT
+SLEEP(0.5)
+
+//▼▼上段を左へドリルで移動▼▼
+FOR X = 1 TO 18
+KBD(VK_CTRL,0,100)
+NEXT
+
+//▼▼集めた敵をハンマーで殲滅▼▼
+FOR X = 1 TO 40
+KBD(VK_END,0,100)
+NEXT
+
+IF CHKIMG("../画像/白草村周辺.BMP",0,0,0,100,100) THEN CALL ../共通/ログアウト.UWS
+IF CHKIMG("../画像/タブ確認.BMP",0,0,0,550,400) THEN KBD(VK_ESC,0)
+
+KBD(VK_HOME,0,100)
+
+//▼▼左下端へ移動▼▼
+FOR X = 1 TO 20
+KBD(VK_LEFT,0,100)
+NEXT
+
+//▼▼下段を右端までドリルで移動▼▼
+KBD(VK_RIGHT,1)
+FOR X = 1 TO 38
+KBD(VK_CTRL,0,100)
+NEXT
+KBD(VK_RIGHT,2)
+
+//▼▼集めた敵をハンマーで殲滅▼▼
+KBD(VK_LEFT,1,600)
+KBD(VK_LEFT,2,100)
+FOR X = 1 TO 40
+KBD(VK_END,0,100)
+NEXT
+SLEEP(1)
+
+IF CHKIMG("../画像/白草村周辺.BMP",0,0,0,100,100) THEN CALL ../共通/ログアウト.UWS
+IF CHKIMG("../画像/タブ確認.BMP",0,0,0,550,400) THEN KBD(VK_ESC,0)
+
+//▼▼ちょっと左へ移動して中段へ移動▼▼
+KBD(VK_LEFT,1)
+KBD(VK_LEFT,2,2800)
+FOR X = 1 TO 5
+KBD(VK_SHIFT,0,100)
+NEXT
+SLEEP(0.5)
+
+//▼▼中段を左までドリルで移動▼▼
+FOR X = 1 TO 25
+KBD(VK_CTRL,0,100)
+NEXT
+
+//▼▼集めた敵をハンマーで殲滅▼▼
+KBD(VK_RIGHT,1,800)
+KBD(VK_RIGHT,2,100)
+FOR X = 1 TO 40
+KBD(VK_END,0,100)
+NEXT
+SLEEP(1)
+
+IF CHKIMG("../画像/白草村周辺.BMP",0,0,0,100,100) THEN CALL ../共通/ログアウト.UWS
+IF CHKIMG("../画像/タブ確認.BMP",0,0,0,550,400) THEN KBD(VK_ESC,0)
+
+//▼▼ちょっと右へ移動して上段へ移動▼▼
+KBD(VK_RIGHT,1)
+KBD(VK_RIGHT,2,1500)
+FOR X = 1 TO 5
+KBD(VK_SHIFT,0,100)
+NEXT
+SLEEP(1)
+
+//▼▼上段を右へドリルで移動▼▼
+FOR X = 1 TO 18
+KBD(VK_CTRL,0,100)
+NEXT
+
+//▼▼集めた敵をハンマーで殲滅▼▼
+FOR X = 1 TO 40
+KBD(VK_END,0,100)
+NEXT
+
+G = G + 1
+
+//▼▼ペットのエサの設定２▼▼
+IFB GETTIME() > PET
+KBD(VK_T,0,500)// ←Tを押す命令　必要なら変更してください
+SLEEP(0.1)
+PET = GETTIME( 900 / 86400 )
+ENDIF
+//▲▲ココまで▲▲
+
+//▼▼最初に記憶した時間を過ぎていたら、BREAKでWENDの下へ飛ぶ▼▼
+IF GETTIME() > MD THEN BREAK
+
+WEND
+
+//▼▼右下端へ移動▼▼
+FOR X = 1 TO 50
+KBD(VK_RIGHT,0,100)
+NEXT
+
+//▼▼中央付近へ移動▼▼
+KBD(VK_LEFT,1,500)
+KBD(VK_LEFT,2,5500) // ←ポータルの少し左まで移動するように、5500の数字を調整してください。
+
+//▼▼上段へ移動▼▼
+FOR X = 1 TO 50
+KBD(VK_SHIFT,0,100)
+NEXT
+SLEEP(1)
+
+//▼▼外へ出る処理▼▼
+FOR X = 1 TO 10
+KBD(VK_UP,1,100)
+KBD(VK_UP,2,100)
+SLEEP(5)
+IF CHKIMG("../画像/白草村周辺.BMP",0,0,0,100,100) THEN BREAK
+KBD(VK_RIGHT,1,100)
+KBD(VK_RIGHT,2,100)
+NEXT
+
+WEND
+//▲▲自動狩りメイン部分ココまで▲▲
+
+
+PROCEDURE 並列処理()
+WHILE TRUE
+//▼▼自動狩りメイン部分と並列して繰り返し行う処理ココから▼▼
+
+
+
+//▲▲ココまで▲▲
+WEND
+FEND

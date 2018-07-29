@@ -1,0 +1,36 @@
+WHILE TRUE
+BTN(LEFT,CLICK,200,200,500)
+
+KBD(VK_G,0,1000)
+//KBD(VK_H,0,3000)
+SLEEP(4)
+
+FOR X = 1 to 200
+
+KBD(VK_X,0,300)
+
+NEXT
+
+IF !CHKIMG("—´‚Ì‘ƒ.bmp",1,0,0,800,600) THEN exitexit
+
+KBD(VK_LEFT,1,500)
+KBD(VK_LEFT,2,500)
+
+FOR X = 1 to 190
+
+KBD(VK_X,0,500)
+
+NEXT
+
+
+KBD(VK_LEFT,1,500)
+KBD(VK_LEFT,2,500)
+
+//BTN(LEFT,CLICK,275,1050,1000)
+
+
+IF !CHKIMG("—´‚Ì‘ƒ.bmp",1,0,0,800,600) THEN exitexit
+
+//------------   END    --------------
+WEND
+

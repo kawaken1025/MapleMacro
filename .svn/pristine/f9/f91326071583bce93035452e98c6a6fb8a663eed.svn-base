@@ -1,0 +1,397 @@
+// (C)2010- メイプルストーリーマクロ生活 http://maplez2.blog90.fc2.com/
+// 一部・全部に関わらず、転載・転売等は一切お断りします。
+// 違反された場合、他の購入者の権利をを守るためにも、
+// 刑事告訴等の法的措置を取らざるを得ません。
+// その場合、民事提訴にて損害賠償の請求をさせて頂きます。
+
+ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+MMV(800,600)
+
+WHILE TRUE
+	//▼▼アイテムウィンドウが開いてなかったら開く▼▼
+	IFB !CHKIMG("../画像/アイテム欄.BMP",0,0,0,800,580)
+	KBD(VK_I,0)
+	ENDIF
+
+	//▼▼消費欄クリック▼▼
+	SLEEP(1)
+	CHKIMG("../画像/アイテム欄.BMP",0,0,0,800,580)
+	BTN(LEFT,0,G_IMG_X+35,G_IMG_Y-235,500)
+
+	//▼▼帰還の書でリプレへ移動▼▼
+	FOR X = 1 TO 50
+	IF CHKIMG("../画像/帰還の書.BMP",0,0,0,800,580) THEN BREAK
+	SLEEP(0.1)
+	NEXT
+	FOR X = 1 TO 6
+	BTN(LEFT,0,G_IMG_X,G_IMG_Y,100)
+	NEXT
+	FOR X = 1 TO 10
+	IF CHKIMG("../画像/リプレ.BMP",0,0,0,200,200) THEN BREAK 2
+	SLEEP(1)
+	NEXT
+WEND
+
+//▼▼アイテムウィンドウを閉じる▼▼
+KBD(VK_I,0,1000)
+
+//▼▼ミサイルタンク解除▼▼
+KBD(VK_D,0,1000)
+SLEEP(1)
+
+//▼▼十字旅団報酬箱へ移動▼▼
+KBD(VK_RIGHT,1)
+WHILE CHKIMG("../画像/黄点.BMP",0,0,0,120,200)
+WEND
+KBD(VK_RIGHT,2)
+FOR X = 1 TO 5
+KBD(VK_SHIFT,0,200)
+NEXT
+SLEEP(4)
+
+KBD(VK_Y,0)
+BTN(WHEEL,-5,300,380,1000)
+
+//▼▼十字旅団最上級魔力水薬購入▼▼
+XX = 90 // ←購入する薬の個数　デフォルトは90×2（↓で×2の設定）
+SendStr(0,XX) // クリップボードにXXを送る
+FOR Y = 1 TO 2 // ↑で指定した個数×2
+	SLEEP(0.5)
+	WHILE !CHKIMG("../画像/個数入力欄.BMP",0,0,0,400,400)
+	BTN(LEFT,0,280,470,100)
+	WEND
+	KBD(VK_CTRL,1,200) // Ctrl+VでXXを貼り付け
+	KBD(VK_V,0,100)
+	KBD(VK_CTRL,2,100)
+	KBD(VK_ENTER,0,200)
+	IF CHKIMG("../画像/アイテムエラー.BMP",0,0,0,500,350) THEN BREAK
+NEXT
+
+//▼▼十字旅団最上級体力水薬購入▼▼
+YY = 100
+SendStr(0,YY) // クリップボードにYYを送る
+FOR X = 1 TO 25 // 最大で100個×25回購入
+	WHILE !CHKIMG("../画像/個数入力欄.BMP",0,0,0,400,400)
+	BTN(LEFT,0,280,420,100)
+	WEND
+	KBD(VK_CTRL,1,300) // Ctrl+VでYYを貼り付け
+	KBD(VK_V,0,100)
+	KBD(VK_CTRL,2,100)
+	KBD(VK_ENTER,0,200)
+	SLEEP(0.5)
+	IF CHKIMG("../画像/アイテムエラー.BMP",0,0,0,500,350) THEN BREAK
+NEXT
+
+FOR X = 1 TO 4
+KBD(VK_ESC,0,500)
+NEXT
+BTN(LEFT,0,300,100,500)
+
+//▼▼タクシーで龍の森の入口へ移動▼▼
+KBD(VK_RIGHT,1)
+WHILE CHKIMG("../画像/黄点.BMP",0,0,0,148,200)
+WEND
+KBD(VK_RIGHT,2)
+FOR X = 1 TO 6
+KBD(VK_Y,0,500)
+NEXT
+
+//▼▼龍の森の入口→龍の森1▼▼
+WHILE !CHKIMG("../画像/龍の森の入口.BMP",0,0,0,200,250)
+WEND
+
+KBD(VK_RIGHT,1)
+WHILE CHKIMG("../画像/黄点.BMP",0,0,0,195,200)
+WEND
+KBD(VK_RIGHT,2,2000)
+
+FOR Y = 1 TO 5
+	KBD(VK_LEFT,1,100)
+	KBD(VK_LEFT,2,300)
+	
+	FOR X = 1 TO 3
+	KBD(VK_UP,1)
+	KBD(VK_UP,2,100)
+	SLEEP(1)
+	IF !CHKIMG("../画像/龍の森の入口.BMP",0,0,0,200,250) THEN BREAK 2
+	KBD(VK_LEFT,1)
+	KBD(VK_LEFT,2,100)
+	NEXT
+	
+	KBD(VK_RIGHT,1)
+	KBD(VK_RIGHT,2,2000)
+NEXT
+
+//▼▼龍の森1→龍の森2▼▼
+WHILE !CHKIMG("../画像/龍の森1.BMP",0,0,0,200,250)
+WEND
+
+KBD(VK_DOWN,1,1000)
+FOR X = 1 TO 3
+KBD(VK_C,0,200)
+NEXT
+KBD(VK_DOWN,2,500)
+
+KBD(VK_LEFT,1,500)
+KBD(VK_LEFT,2,200)
+
+FOR Y = 1 TO 5
+	FOR X = 1 TO 3
+	KBD(VK_UP,1)
+	KBD(VK_UP,2,100)
+	SLEEP(1)
+	IF !CHKIMG("../画像/黄点.BMP",0,0,0,50,250) THEN BREAK 2
+	KBD(VK_LEFT,1)
+	KBD(VK_LEFT,2,100)
+	NEXT
+
+	KBD(VK_RIGHT,1)
+	KBD(VK_RIGHT,2,500)
+NEXT
+
+KBD(VK_SHIFT,0,1000)
+SLEEP(3)
+
+FOR Y = 1 TO 5
+	KBD(VK_LEFT,1,100)
+	KBD(VK_LEFT,2,100)
+	
+	FOR X = 1 TO 3
+	KBD(VK_UP,1)
+	KBD(VK_UP,2,100)
+	SLEEP(1)
+	IF !CHKIMG("../画像/龍の森1.BMP",0,0,0,200,250) THEN BREAK 2
+	KBD(VK_LEFT,1)
+	KBD(VK_LEFT,2,100)
+	NEXT
+	
+	KBD(VK_RIGHT,1)
+	KBD(VK_RIGHT,2,2000)
+NEXT
+
+//▼▼龍の森2→龍の森3▼▼
+WHILE !CHKIMG("../画像/龍の森2.BMP",0,0,0,200,250)
+WEND
+
+FOR Y = 1 TO 5
+	KBD(VK_RIGHT,1)
+	WHILE CHKIMG("../画像/黄点.BMP",0,0,0,185,250)
+	WEND
+	KBD(VK_RIGHT,2)
+	
+	FOR X = 1 TO 3
+	KBD(VK_UP,1)
+	KBD(VK_UP,2,100)
+	SLEEP(1)
+	IF !CHKIMG("../画像/龍の森2.BMP",0,0,0,200,250) THEN BREAK 2
+	KBD(VK_RIGHT,1)
+	KBD(VK_RIGHT,2,100)
+	NEXT
+	
+	KBD(VK_LEFT,1)
+	WHILE !CHKIMG("../画像/黄点.BMP",0,0,0,184,250)
+	WEND
+	KBD(VK_LEFT,2)
+NEXT
+
+//▼▼龍の森3→龍の峡谷▼▼
+WHILE !CHKIMG("../画像/龍の森3.BMP",0,0,0,200,250)
+WEND
+
+FOR Y = 1 TO 5
+	KBD(VK_RIGHT,1)
+	WHILE CHKIMG("../画像/黄点.BMP",0,0,0,194,250)
+	WEND
+	KBD(VK_RIGHT,2)
+	
+	FOR X = 1 TO 3
+	KBD(VK_UP,1)
+	KBD(VK_UP,2,100)
+	SLEEP(1)
+	IF !CHKIMG("../画像/龍の森3.BMP",0,0,0,200,250) THEN BREAK 2
+	KBD(VK_RIGHT,1)
+	KBD(VK_RIGHT,2,100)
+	NEXT
+	
+	KBD(VK_LEFT,1)
+	WHILE !CHKIMG("../画像/黄点.BMP",0,0,0,192,250)
+	WEND
+	KBD(VK_LEFT,2)
+NEXT
+
+//▼▼龍の峡谷→峡谷の分かれ道▼▼
+WHILE !CHKIMG("../画像/龍の峡谷.BMP",0,0,0,150,200)
+WEND
+
+KBD(VK_DOWN,1,1000)
+WHILE CHKIMG("../画像/黄点.BMP",0,0,0,100,170)
+KBD(VK_C,0,200)
+WEND
+KBD(VK_DOWN,2,100)
+
+FOR Y = 1 TO 5
+	KBD(VK_RIGHT,1)
+	WHILE CHKIMG("../画像/黄点.BMP",0,0,0,85,200)
+	WEND
+	KBD(VK_RIGHT,2)
+	
+	FOR X = 1 TO 3
+	KBD(VK_UP,1)
+	KBD(VK_UP,2,100)
+	SLEEP(1)
+	IF !CHKIMG("../画像/龍の峡谷.BMP",0,0,0,150,200) THEN BREAK 2
+	KBD(VK_RIGHT,1)
+	KBD(VK_RIGHT,2,100)
+	NEXT
+
+	KBD(VK_LEFT,1)
+	WHILE !CHKIMG("../画像/黄点.BMP",0,0,0,83,250)
+	WEND
+	KBD(VK_LEFT,2)
+NEXT
+
+//▼▼峡谷の分かれ道→峡谷の西道▼▼
+WHILE !CHKIMG("../画像/峡谷の分かれ道.BMP",0,0,0,150,200)
+WEND
+
+KBD(VK_DOWN,1,1000)
+WHILE CHKIMG("../画像/黄点.BMP",0,0,0,100,200)
+KBD(VK_C,0,200)
+WEND
+KBD(VK_DOWN,2,500)
+
+FOR Y = 1 TO 5
+	KBD(VK_LEFT,1,100)
+	KBD(VK_LEFT,2,1500)
+	KBD(VK_RIGHT,1,100)
+	KBD(VK_RIGHT,2,300)
+	
+	FOR X = 1 TO 3
+	KBD(VK_UP,1)
+	KBD(VK_UP,2,100)
+	SLEEP(1)
+	IF !CHKIMG("../画像/峡谷の分かれ道.BMP",0,0,0,150,200) THEN BREAK 2
+	KBD(VK_RIGHT,1)
+	KBD(VK_RIGHT,2,100)
+	NEXT
+NEXT
+
+//▼▼峡谷の西道→ワイバーンの峡谷▼▼
+WHILE !CHKIMG("../画像/峡谷の西道.BMP",0,0,0,150,200)
+WEND
+
+KBD(VK_DOWN,1,1000)
+KBD(VK_C,0,200)
+KBD(VK_C,0,800)
+KBD(VK_C,0,500)
+KBD(VK_DOWN,2,1200)
+
+FOR X = 1 TO 10
+KBD(VK_UP,1)
+KBD(VK_UP,2,100)
+SLEEP(1)
+IF !CHKIMG("../画像/峡谷の西道.BMP",0,0,0,150,200) THEN BREAK
+NEXT
+
+//▼▼ワイバーンの峡谷→龍の巣の入口▼▼
+WHILE !CHKIMG("../画像/ワイバーンの峡谷.BMP",0,0,0,150,200)
+WEND
+
+KBD(VK_RIGHT,1,1000)
+WHILE CHKIMG("../画像/黄点.BMP",0,0,0,100,200)
+WEND
+KBD(VK_RIGHT,2)
+
+KBD(VK_DOWN,1,100)
+FOR X = 1 TO 3
+KBD(VK_C,0,200)
+NEXT
+KBD(VK_DOWN,2,1500)
+
+FOR Y = 1 TO 5
+	FOR X = 1 TO 3
+	KBD(VK_UP,1)
+	KBD(VK_UP,2,100)
+	SLEEP(1)
+	IF !CHKIMG("../画像/ワイバーンの峡谷.BMP",0,0,0,150,200) THEN BREAK 2
+	KBD(VK_RIGHT,1)
+	KBD(VK_RIGHT,2,100)
+	NEXT
+
+	KBD(VK_LEFT,1)
+	WHILE !CHKIMG("../画像/黄点.BMP",0,0,0,98,250)
+	WEND
+	KBD(VK_LEFT,2)
+	
+	KBD(VK_RIGHT,1)
+	WHILE CHKIMG("../画像/黄点.BMP",0,0,0,100,200)
+	WEND
+	KBD(VK_RIGHT,2)
+NEXT
+
+//▼▼龍の巣の入口→壊れた龍の巣▼▼
+WHILE !CHKIMG("../画像/龍の巣の入口.BMP",0,0,0,200,250)
+WEND
+
+FOR X = 1 TO 10
+KBD(VK_SHIFT,0,200)
+NEXT
+
+FOR X = 1 TO 5
+	KBD(VK_LEFT,1)
+	WHILE !CHKIMG("../画像/黄点.BMP",0,0,0,31,200)
+	WEND
+	KBD(VK_LEFT,2)
+	
+	FOR X = 1 TO 3
+	KBD(VK_UP,1)
+	KBD(VK_UP,2,100)
+	SLEEP(1)
+	IF !CHKIMG("../画像/龍の巣の入口.BMP",0,0,0,200,250) THEN BREAK 2
+	KBD(VK_LEFT,1)
+	KBD(VK_LEFT,2,100)
+	NEXT
+	
+	KBD(VK_RIGHT,1)
+	WHILE CHKIMG("../画像/黄点.BMP",0,0,0,34,200)
+	WEND
+	KBD(VK_RIGHT,2)
+NEXT
+
+//▼▼壊れた龍の巣→ニュート保護区域▼▼
+WHILE !CHKIMG("../画像/壊れた龍の巣.BMP",0,0,0,200,250)
+WEND
+
+FOR X = 1 TO 40
+KBD(VK_SHIFT,0,200)
+NEXT
+
+KBD(VK_RIGHT,1,200)
+KBD(VK_RIGHT,2,100)
+
+FOR Y = 1 TO 5
+	FOR X = 1 TO 3
+	KBD(VK_UP,1)
+	KBD(VK_UP,2,100)
+	SLEEP(1)
+	IF !CHKIMG("../画像/壊れた龍の巣.BMP",0,0,0,200,250) THEN BREAK 2
+	KBD(VK_RIGHT,1)
+	KBD(VK_RIGHT,2,100)
+	NEXT
+	
+	KBD(VK_LEFT,1)
+	KBD(VK_LEFT,2,2000)
+	
+	KBD(VK_RIGHT,1,100)
+	KBD(VK_RIGHT,2,500)
+NEXT	
+
+//▼▼ペットのエサ▼▼
+KBD(VK_T,0,4000)
+
+//▼▼ミサイルタンクへ変形▼▼
+KBD(VK_D,0,1000)
+SLEEP(1)
+
+CALL メカニック9C（設定ファイル・狩り部分）.UWS
+

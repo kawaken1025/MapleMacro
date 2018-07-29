@@ -1,0 +1,35 @@
+// (C)2010- メイプルストーリーマクロ生活 http://maplez2.blog90.fc2.com/
+// 一部・全部に関わらず、転載・転売等は一切お断りします。
+// 違反された場合、他の購入者の権利をを守るためにも、
+// 刑事告訴等の法的措置を取らざるを得ません。
+// その場合、民事提訴にて損害賠償の請求をさせて頂きます。
+
+CHKIMG("../画像/墓落ち.BMP",0,0,0,350,250)
+WHILE TRUE
+BTN(LEFT,0,G_IMG_X+210,G_IMG_Y+65)
+SLEEP(1)
+IF !CHKIMG("../画像/墓落ち.BMP",0,0,0,350,250) THEN BREAK
+WEND
+
+WHILE !CHKIMG("../画像/リプレ.BMP",0,0,0,200,200)
+WEND
+
+KBD(VK_NEXT,0,5000)
+KBD(VK_D,0,4000)
+SLEEP(4)
+
+KBD(VK_ESC,0,1000)
+KBD(VK_ENTER,0,500)
+KBD(VK_RIGHT,0,1000)
+KBD(VK_ENTER,0,500)
+
+WHILE CHKIMG("../画像/リプレ.BMP",0,0,0,200,200)
+WEND
+WHILE !CHKIMG("../画像/リプレ.BMP",0,0,0,200,200)
+WEND
+
+SLEEP(1)
+KBD(VK_PRIOR,0,500)
+SLEEP(0.2)
+
+CALL メカニック9C（設定ファイル・薬補充部分）.UWS

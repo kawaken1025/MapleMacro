@@ -1,0 +1,91 @@
+// (C)2010- メイプルストーリーマクロ生活 http://maplez2.blog90.fc2.com/
+// 一部・全部に関わらず、転載・転売等は一切お断りします。
+// 違反された場合、他の購入者の権利をを守るためにも、
+// 刑事告訴等の法的措置を取らざるを得ません。
+// その場合、民事提訴にて損害賠償の請求をさせて頂きます。
+
+THREAD 並列処理() //一番↓で指定した処理を、メイン部分と並列で実行
+
+//▼▼自動狩りメイン部分ココから▼▼
+ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+
+// ステータスウィンドウが開いていなかったら開く
+IF !CHKIMG("../画像/APINT.BMP",0,0,0,800,580) THEN KBD(VK_S,0)
+
+//▼▼ペットのエサの設定１▼▼
+PET = GETTIME( 900 / 86400 )
+//▲▲ココまで▲▲
+
+WHILE TRUE
+
+//薬の残量を確認、HP薬が9個以下、MP薬が0個だった場合はログアウト
+IF CHKIMG("../画像/十字旅団中級体力水薬9.bmp",0,0,0,800,580) THEN CALL ../共通/ログアウト.UWS
+IF CHKIMG("../画像/十字旅団中級魔力水薬0.bmp",0,0,0,800,580) THEN CALL ../共通/ログアウト.UWS
+
+IFB CHKIMG("../画像/黄点.BMP",0,0,0,200,130)
+KBD(VK_DOWN,1,100)
+KBD(VK_C,0,200)
+KBD(VK_DOWN,2,200)
+ENDIF
+
+KBD(VK_LEFT,1,500)
+FOR X = 1 TO 25
+KBD(VK_CTRL,0,200)
+KBD(VK_CTRL,0,200)
+KBD(VK_CTRL,0,200)
+IF CHKIMG("../画像/黄点.BMP",0,0,0,32,200) THEN BREAK
+SLEEP(0.9)
+IF CHKIMG("../画像/カニングスクエアロビー.BMP",0,0,0,210,150) THEN CALL ../共通/ログアウト.UWS
+IF CHKIMG("../画像/タブ確認.BMP",0,0,0,550,400) THEN KBD(VK_ESC,0)
+NEXT
+KBD(VK_LEFT,2,500)
+
+IFB CHKIMG("../画像/黄点.BMP",0,0,0,200,130)
+KBD(VK_DOWN,1,100)
+KBD(VK_C,0,200)
+KBD(VK_DOWN,2,200)
+ENDIF
+
+KBD(VK_RIGHT,1,500)
+FOR X = 1 TO 25
+KBD(VK_CTRL,0,200)
+KBD(VK_CTRL,0,200)
+KBD(VK_CTRL,0,200)
+IF !CHKIMG("../画像/黄点.BMP",0,0,0,156,200) THEN BREAK
+SLEEP(0.9)
+IF CHKIMG("../画像/カニングスクエアロビー.BMP",0,0,0,210,150) THEN CALL ../共通/ログアウト.UWS
+IF CHKIMG("../画像/タブ確認.BMP",0,0,0,550,400) THEN KBD(VK_ESC,0)
+NEXT
+KBD(VK_RIGHT,2,500)
+
+//▼▼　自動でINTを振る部分　不要なら削除してOK　ココから▼▼
+IFB !CHKIMG("../画像/AP0.BMP",0,0,0,800,580)
+FOR A = 1 TO 30
+CHKIMG("../画像/APINT.BMP",0,0,0,800,580)
+BTN(LEFT,0,G_IMG_X+138,G_IMG_Y+4,200)
+IF CHKIMG("../画像/AP0.BMP",0,0,0,800,580) THEN BREAK
+NEXT
+ENDIF
+//▲▲　自動でINTを振る部分　ココまで▲▲
+
+//▼▼ペットのエサの設定２▼▼
+IFB GETTIME() > PET
+KBD(VK_T,0,500)// ←Tを押す命令　必要なら変更してください
+SLEEP(0.1)
+PET = GETTIME( 900 / 86400 )
+ENDIF
+//▲▲ココまで▲▲
+
+WEND
+//▲▲自動狩りメイン部分ココまで▲▲
+
+
+PROCEDURE 並列処理()
+WHILE TRUE
+//▼▼自動狩りメイン部分と並列して繰り返し行う処理ココから▼▼
+
+
+
+//▲▲ココまで▲▲
+WEND
+FEND

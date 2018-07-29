@@ -1,0 +1,77 @@
+
+THREAD 並列処理() //一番↓で指定した処理を、メイン部分と並列で実行
+
+//▼▼自動狩りメイン部分ココから▼▼
+ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+
+SKILL = 0
+KBD(VK_G,0,500)
+
+WHILE TRUE
+
+//滞在マップ確認・この画像を発見したら異常が起きたと判断してログアウト
+IF CHKIMG("緑点.BMP",0,20,131,180,200) THEN EXITEXIT
+
+	KBD(VK_X,1,100)
+	IFB CHKIMG("黄点.BMP",0,144,137,166,155) 
+	KBD(VK_X,2,300)	
+	KBD(VK_LEFT,1,300)
+	KBD(VK_LEFT,2,600)
+	KBD(VK_HOME,0,500)
+	SKILL = SKILL + 1		
+	ENDIF
+
+	KBD(VK_X,1,100)
+	IFB CHKIMG("黄点.BMP",0,0,0,33,153) 
+	KBD(VK_X,2,300)	
+	KBD(VK_RIGHT,1,300)
+	KBD(VK_RIGHT,2,600)	
+	KBD(VK_HOME,0,500)		
+	SKILL = SKILL + 1
+	ENDIF	
+
+	IFB SKILL = 30
+	KBD(VK_G,0,500)
+	SKILL = 0
+	ENDIF
+
+	IF CHKIMG("EXP90.bmp",0,0,0,800,600) THEN EXP()
+
+					PROCEDURE EXP() //ワイルドカーゴの狩場で死ぬ
+					WHILE TRUE
+					SLEEP(5)
+					IFB CHKIMG("墓.bmp",0,0,0,800,600) THEN BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y)
+					SLEEP(5)
+					BTN(LEFT,CLICK,300,300,600)//ポインタ初期化
+					BREAK
+					ENDIF
+					WEND
+					FEND//
+
+					PROCEDURE DEATH()//ドレイクで経験値0になるまで死亡LOOP
+					WHILE TRUE
+					IF !CHKIMG("EXP0")
+					WEND
+						
+
+WEND
+//▲▲自動狩りメイン部分ココまで▲▲
+
+
+
+PROCEDURE 並列処理()
+WHILE TRUE
+//▼▼自動狩りメイン部分と並列して繰り返し行う処理ココから▼▼
+
+IF !CHKIMG("HP60.BMP",0,425,597,436,608) THEN KBD(VK_INSERT,0,500)
+
+IFB CHKIMG("石化.BMP",0,0,0,800,600)
+FOR X = 1 TO 20
+KBD(VK_LEFT,0,100)
+KBD(VK_RIGHT,0,100)
+NEXT
+ENDIF
+
+//▲▲ココまで▲▲
+WEND
+FEND

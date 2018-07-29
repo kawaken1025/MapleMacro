@@ -1,0 +1,58 @@
+// マウスカーソル下の情報取得
+// Windowタイトル, Windowクラス名, クライアント位置, オブジェクトクラス名, POSACC, 色
+// 
+
+title = "マウスカーソル下の情報"
+if GETID(title, "TFormhtm")>0 then Exit
+dbg_id = GETID("UWSC Debugger","TFOya")
+CtrlWin(dbg_id, MIN)
+Try
+  obj = CREATEFORM("about:blank", title, True, 0, 400, 210, 0 ,0)
+  CONST MAX_LENGTH = 64    // Maximum number of characters
+  CtrlWin(GETID(GET_FORM_WIN), ACTIVATE)
+  while obj.Visible
+     Sleep(0.5)
+     if GetKeyState(VK_ESC) then break
+     x=G_MOUSE_X;  y=G_MOUSE_Y
+     fm = def_form
+     fpid = GETID(GET_FROMPOINT_WIN)
+     objid = GETID(GET_FROMPOINT_OBJ)
+     gx = G_MOUSE_X
+     gy = G_MOUSE_Y
+     clx = gx - Status(fpid,ST_CLX)
+     cly = gy - Status(fpid,ST_CLY)
+     fm = Replace(fm, "DEF_WTITLE", Status(fpid,ST_TITLE))
+     fm = Replace(fm, "DEF_WCLASS", Status(fpid,ST_CLASS))
+     fm = Replace(fm, "DEF_X", clx)
+     fm = Replace(fm, "DEF_Y", cly)
+     fm = Replace(fm, "DEF_OBJCLS", Status(objid,ST_CLASS))
+     s = POSACC(fpid, clx, cly)
+     if Length(s)>MAX_LENGTH then s = Copy(s,1,MAX_LENGTH)+"..."
+     fm = Replace(fm, "DEF_ACC", s)
+     gbr = PEEKCOLOR(gx, gy)
+     gbr16 = Replace(Format(gbr,6,-1)," ","0")
+     fm = Replace(fm, "DEF_BGR", "$"+gbr16)
+     fm = Replace(fm, "DEF_R", gbr and $FF)
+     fm = Replace(fm, "DEF_G", (gbr/$100) and $FF)
+     fm = Replace(fm, "DEF_B", (gbr/$10000) and $FF)
+     fm = Replace(fm, "DEF_FNTCOL", Copy(gbr16,5,2)+Copy(gbr16,3,2)+Copy(gbr16,1,2)) // RGB
+     obj.Document.open()
+     obj.Document.write(fm)
+     obj.Document.close()
+  wend
+Finally
+  CtrlWin(dbg_id, NORMAL)
+EndTry
+// --- main end ---
+
+// 表示フォーム
+TextBlock def_form
+<nobr>
+Windowタイトル： DEF_WTITLE<br>
+Windowクラス名： DEF_WCLASS<br>
+クライアント位置： DEF_X, DEF_Y<br>
+オブジェクトクラス名： DEF_OBJCLS<br>
+POSACC:　DEF_ACC<br>
+色：BGR=DEF_BGR （R=DEF_R, G=DEF_G, B=DEF_B） <font color='#DEF_FNTCOL'>■■■■■</font>
+</nobr>
+EndTextBlock

@@ -1,0 +1,22 @@
+//=========================================//
+// comment     : ÉLÅ[ê›íË
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 800x600 or 1366x768
+//=========================================//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/04/01
+//=========================================//
+
+CLASS key
+
+	const TELEPORT_KEY        = VK_SPACE
+	const REFLECTION_KEY      = VK_X
+	const MEMORIZE_KEY        = VK_O
+	const PSYCHOLOGY_DOOR_KEY = VK_T
+	const PANISHING_KEY       = VK_Q
+	const ROPE_CONNECT_KEY    = VK_B
+
+ENDCLASS

@@ -1,0 +1,48 @@
+//=========================================
+//
+// comment     : スキル使用クラス
+// param       : None
+// return      : None
+// 
+// Display Dpl : None
+//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/07/15
+//=========================================
+
+//skill使用
+class useSkill
+
+//=========================================
+// comment     : ルミナス：リフレクション
+// param       : None
+// return      : None
+////=========================================
+
+	function reflection(REFLECTION_KEY)
+
+        KBD(REFLECTION_KEY,0,200);
+        KBD(REFLECTION_KEY,0,200);
+
+        result = 0
+	fend
+
+//=========================================
+// comment     : 魔法使い：テレポート
+// param       : None
+// return      : None
+////=========================================
+
+	function teleport(TELEPORT_KEY)
+
+        KBD(TELEPORT_KEY,0,200);
+        KBD(TELEPORT_KEY,0,200);
+
+        result = 0
+
+	fend
+
+
+
+endclass

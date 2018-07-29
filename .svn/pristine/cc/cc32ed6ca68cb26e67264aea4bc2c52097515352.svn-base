@@ -1,0 +1,18 @@
+//ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+//MOUSEORG(GETID("MapleStory","MapleStoryClass"),1,1)
+
+
+
+while true
+	KBD(VK_D,0,500)
+	KBD(VK_G,0,500)
+	SkillTime = GETTIME( 180 / 86400 )
+
+	while true
+		if skillTime < GETTIME() then break
+		KBD(VK_A,0,100)
+		KBD(VK_A,0,100)
+		KBD(VK_X,0,100)
+		KBD(VK_X,0,100)
+	wend
+wend

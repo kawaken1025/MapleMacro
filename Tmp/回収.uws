@@ -1,0 +1,88 @@
+//梯子につかまっている状態を格納する変数
+abnormality = 0
+
+//プルレンジャー期間のみ
+//
+//IFB CHKIMG("プルレンジャー.BMP",0,0,0,800,600)	
+//	FOR X = 1 TO  40
+//		KBD(VK_Q,0,200)
+//	NEXT
+//ENDIF
+//
+
+SLEEP(1)
+
+//右端へ
+KBD(VK_UP,1,1000)
+KBD(VK_UP,2,3000)
+
+KBD(VK_RIGHT,1,1000)
+KBD(VK_RIGHT,2,4000)
+
+//下段へ
+KBD(VK_DOWN,1,500)
+KBD(VK_C,0,200)
+KBD(VK_C,0,100)
+KBD(VK_C,0,100)
+KBD(VK_DOWN,2,500)
+
+KBD(VK_LEFT,1,1000)
+
+	WHILE TRUE
+		IF CHKIMG("黄点.BMP",0,0,0,85,150) THEN BREAK
+			KBD(VK_SPACE,0,800)
+						IFB CHKIMG("back.bmp",0,0,0,800,600)
+							KBD(VK_LEFT,2,500)
+							KBD(VK_UP,1,500)
+							KBD(VK_UP,2,3000)
+							KBD(VK_LEFT,1)
+							KBD(VK_LEFT,2,2500)
+			  			ENDIF
+	WEND
+
+KBD(VK_LEFT,2,100)
+
+KBD(VK_UP,1,1000)
+KBD(VK_SPACE,0,300)
+KBD(VK_SPACE,0,300)
+KBD(VK_UP,2,1000)
+
+KBD(VK_RIGHT,1,500)
+KBD(VK_RIGHT,2,3000)
+KBD(VK_B,0,1000)
+KBD(VK_B,0,1000)
+SLEEP(2)
+
+IFB CHKIMG("黄点.BMP",0,122,90,155,129)
+
+WHILE TRUE
+	KBD(VK_LEFT,1,500)
+		IF CHKIMG("黄点.BMP",0,90,100,114,129) THEN BREAK
+			IFB CHKIMG("back.bmp",0,0,0,800,600)
+				KBD(VK_LEFT,2,500)
+				KBD(VK_UP,1,500)
+				KBD(VK_UP,2,3000)
+				KBD(VK_LEFT,1)
+				KBD(VK_LEFT,2,2500)
+			ENDIF
+					abnormality = abnormality + 1
+				
+			IFB abnormality <= 15
+	
+				abnormality = 0
+				BREAK			
+
+			ENDIF
+
+
+WEND
+KBD(VK_LEFT,2,300)
+
+ENDIF
+
+PROCEDURE 初期位置へ()
+
+	KBD(VK_UP,1,1000)
+	KBD(VK_UP,2,4000)
+
+FEND

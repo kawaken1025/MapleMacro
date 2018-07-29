@@ -1,0 +1,374 @@
+// (C)2010- メイプルストーリーマクロ生活 http://maplez2.blog90.fc2.com/
+// 一部・全部に関わらず、転載・転売等は一切お断りします。
+// 違反された場合、他の購入者の権利をを守るためにも、
+// 刑事告訴等の法的措置を取らざるを得ません。
+// その場合、民事提訴にて損害賠償の請求をさせて頂きます。
+
+THREAD 並列処理() //一番↓で指定した処理を、メイン部分と並列で実行
+
+//▼▼ゴミ捨て時にクリックする位置の指定▼▼
+ゴミ捨てX = 550 // 左から550
+ゴミ捨てY = 100  // 上から100の位置をクリック
+
+//▼▼メイン部分ココから▼▼
+ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+
+//▼▼ペットのエサの設定１▼▼
+PET = GETTIME( 900 / 86400 )
+//▲▲ココまで▲▲
+
+WHILE TRUE
+
+//▼▼狩り部分ココから▼▼
+G = GETTIME( 150 / 86400 ) // スキルかけなおしまでの時間、150秒に設定
+
+//▼▼ダンジョン入場時、補助スキル▼▼
+KBD(VK_G,0,500)
+SLEEP(2)
+
+//▼▼まず左端へ移動▼▼
+KBD(VK_LEFT,1)
+KBD(VK_LEFT,2,4000) // 左に4秒歩きます
+
+//▼▼ココからループスタート▼▼
+WHILE TRUE
+
+//▼▼補助スキル▼▼
+IFB GETTIME() > G // ↓で設定した秒数を経過していたら補助スキル使用
+	FOR X = 1 TO 5
+	KBD(VK_G,0,100)
+	NEXT
+	SLEEP(2) // スキル使用後の待機時間
+	G = GETTIME( 150 / 86400 ) // ←150秒に設定
+ENDIF
+
+//▼▼右端まで移動▼▼
+KBD(VK_RIGHT,1,500)
+KBD(VK_CTRL,0,100)
+FOR X = 1 TO 14 // ↓×14回に設定してあります
+KBD(VK_CTRL,0,1000) // 1秒おきに攻撃に設定してあります
+IF CHKIMG("../画像/クエスト完了.BMP",1,0,0,800,600) THEN BREAK 2
+NEXT
+KBD(VK_RIGHT,2)
+
+//▼▼ハシゴで上段へ移動▼▼
+KBD(VK_LEFT,1,500)
+KBD(VK_CTRL,0,100)
+SLEEP(1.2) // ハシゴに向かって歩く時間、1.2秒を調整してください
+KBD(VK_C,0)// 接触時は失敗すると思いますが、毎回成功する必要はありません
+KBD(VK_UP,1)
+SLEEP(1.5) // ハシゴを登る時間、1.5秒を調整してください
+//登り切ったところで攻撃
+FOR X = 1 TO 5
+KBD(VK_CTRL,0,100)
+NEXT
+
+//▼▼左端まで移動▼▼
+FOR X = 1 TO 12 // ↓×12回に設定してあります
+KBD(VK_CTRL,0,1000) // 1秒おきに攻撃に設定してあります
+IF CHKIMG("../画像/クエスト完了.BMP",1,0,0,800,600) THEN BREAK 2
+NEXT
+KBD(VK_LEFT,2)
+KBD(VK_UP,2)
+
+//▼▼ペットのエサの設定２▼▼
+IFB GETTIME() > PET
+KBD(VK_T,0,500)// ←Tを押す命令　必要なら変更してください
+SLEEP(0.1)
+PET = GETTIME( 900 / 86400 )
+ENDIF
+//▲▲ココまで▲▲
+
+WEND
+//▲▲狩り部分ココまで▲▲
+KBD(VK_RIGHT,2)
+KBD(VK_LEFT,2)
+
+WHILE TRUE
+	//▼▼アイテムウィンドウが開いてなかったら開く▼▼
+	IFB !CHKIMG("../画像/アイテム欄.BMP",0,0,0,800,580)
+	KBD(VK_I,0,500)
+	ENDIF
+
+	//▼▼消費欄クリック▼▼
+	SLEEP(1)
+	CHKIMG("../画像/アイテム欄.BMP",0,0,0,800,580)
+	BTN(LEFT,0,G_IMG_X+35,G_IMG_Y-235,500)
+
+	//▼▼帰還の書でマガティアへ移動▼▼
+	WHILE TRUE
+	IF CHKIMG("../画像/帰還の書.BMP",0,0,0,800,580) THEN BREAK
+	WEND
+	FOR X = 1 TO 6
+	BTN(LEFT,0,G_IMG_X,G_IMG_Y,100)
+	NEXT
+	FOR X = 1 TO 10
+	IF CHKIMG("../画像/マガティア左.BMP",0,0,0,250,200) THEN BREAK 2
+	IF CHKIMG("../画像/マガティア右.BMP",0,0,0,250,200) THEN BREAK 2	
+	SLEEP(1)
+	NEXT
+WEND
+
+//▼▼消費欄ゴミ捨て▼▼
+WHILE TRUE
+IF CHKIMG("../画像/アイテム欄.BMP",0,0,0,800,600) THEN BREAK
+WEND
+BTN(LEFT,CLICK,G_IMG_X+35,G_IMG_Y-240,500)//消費欄クリック
+SLEEP(0.5)
+//「マナエリ」があったら捨てる
+IFB CHKIMG("../画像/マナエリ.BMP",0,0,0,800,300)
+BTN(LEFT,0,G_IMG_X,G_IMG_Y,500)//アイテムクリック
+BTN(LEFT,0,ゴミ捨てX,ゴミ捨てY,500)//捨てる
+KBD(VK_ENTER,0,500)
+BTN(LEFT,0,ゴミ捨てX,ゴミ捨てY,500)
+ENDIF
+//「弓専用の矢」があったら捨てる
+IFB CHKIMG("../画像/弓専用の矢.BMP",0,0,0,800,300)
+BTN(LEFT,0,G_IMG_X,G_IMG_Y,500)//アイテムクリック
+BTN(LEFT,0,ゴミ捨てX,ゴミ捨てY,500)//捨てる
+KBD(VK_ENTER,0,500)
+BTN(LEFT,0,ゴミ捨てX,ゴミ捨てY,500)
+ENDIF
+
+//▼▼ETC欄ゴミ捨て▼▼
+WHILE TRUE
+IF CHKIMG("../画像/アイテム欄.BMP",0,0,0,800,600) THEN BREAK
+WEND
+BTN(LEFT,CLICK,G_IMG_X+70,G_IMG_Y-240,500)//ETC欄クリック
+SLEEP(0.5)
+//「電線束」があったら捨てる
+FOR X = 1 TO 5
+	IFB CHKIMG("../画像/電線束.BMP",0,0,0,800,300)
+	BTN(LEFT,0,G_IMG_X,G_IMG_Y,500)//アイテムクリック
+	BTN(LEFT,0,ゴミ捨てX,ゴミ捨てY,500)//捨てる
+	KBD(VK_ENTER,0,500)
+	BTN(LEFT,0,ゴミ捨てX,ゴミ捨てY,500)
+	ENDIF
+NEXT
+//「魔法のパウダー（赤）」があったら捨てる
+IFB CHKIMG("../画像/魔法のパウダー（赤）.BMP",0,0,0,800,300)
+BTN(LEFT,0,G_IMG_X,G_IMG_Y,500)//アイテムクリック
+BTN(LEFT,0,ゴミ捨てX,ゴミ捨てY,500)//捨てる
+KBD(VK_ENTER,0,500)
+BTN(LEFT,0,ゴミ捨てX,ゴミ捨てY,500)
+ENDIF
+//「魔法のパウダー（茶）」があったら捨てる
+IFB CHKIMG("../画像/魔法のパウダー（茶）.BMP",0,0,0,800,300)
+BTN(LEFT,0,G_IMG_X,G_IMG_Y,500)//アイテムクリック
+BTN(LEFT,0,ゴミ捨てX,ゴミ捨てY,500)//捨てる
+KBD(VK_ENTER,0,500)
+BTN(LEFT,0,ゴミ捨てX,ゴミ捨てY,500)
+ENDIF
+
+//▼▼アイテムウィンドウを閉じる▼▼
+KBD(VK_I,0,500)
+KBD(VK_ESC,0,500)
+BTN(LEFT,0,50,50,500)
+
+//▼▼イベントガイドの所へ移動▼▼
+IFB CHKIMG("../画像/マガティア右.BMP",0,0,0,250,200)
+	KBD(VK_LEFT,1)
+	WHILE !CHKIMG("../画像/マガティア左.BMP",0,0,0,250,200)
+	WEND
+	KBD(VK_LEFT,2)
+ELSEIF CHKIMG("../画像/マガティア左.BMP",0,0,0,250,200)
+	KBD(VK_RIGHT,1)
+	WHILE !CHKIMG("../画像/マガティア右.BMP",0,0,0,250,200)
+	WEND
+	KBD(VK_RIGHT,2)
+ENDIF
+
+//▼▼クエスト完了→再受注▼▼
+MMV(50,50,500)//マウスカーソルが邪魔にならないように移動
+WHILE !CHKIMG("../画像/シアワセノカケラNPC.BMP",0,0,0,800,620)
+KBD(VK_Y,0)
+SLEEP(1.5)
+WEND
+KBD(VK_ESC,0)
+
+//▼▼ライディングを使用する場合はココ 1/2 ▼▼
+
+//▲▲ライディングを使用する場合はココ▲▲
+
+//▼▼マガティア→アルカドノ協会▼▼
+KBD(VK_RIGHT,1)
+WHILE CHKIMG("../画像/黄点.BMP",0,0,0,120,200)
+//▼▼テレポを使用する場合はココ 1/4 ▼▼
+
+//▲▲テレポを使用する場合はココ▲▲
+WEND
+KBD(VK_C,0,500)
+
+WHILE TRUE
+	KBD(VK_RIGHT,1)
+	WHILE CHKIMG("../画像/黄点.BMP",0,0,0,134,200)//位置がズレる場合は134を増減
+	KBD(VK_UP,0)
+	IF !CHKIMG("../画像/マガティア右.BMP",0,0,0,200,200) THEN BREAK 2
+	WEND
+	KBD(VK_RIGHT,2)
+	KBD(VK_LEFT,1)
+	WHILE !CHKIMG("../画像/黄点.BMP",0,0,0,134,200)//位置がズレる場合は134を増減
+	KBD(VK_UP,0)
+	IF !CHKIMG("../画像/マガティア右.BMP",0,0,0,200,200) THEN BREAK 2		
+	WEND
+	KBD(VK_LEFT,2)
+WEND
+KBD(VK_RIGHT,2)
+KBD(VK_LEFT,2)
+
+WHILE !CHKIMG("../画像/アルカドノ協会.BMP",1,0,0,200,100)
+WEND
+
+//▼▼アルカドノ協会→研究所中央ゲート▼▼
+KBD(VK_RIGHT,1)
+SLEEP(1)
+FOR X = 1 TO 10 // テレポする距離は10を増減
+//▼▼テレポを使用する場合はココ 2/4 ▼▼
+
+//▲▲テレポを使用する場合はココ▲▲
+NEXT
+
+WHILE CHKIMG("../画像/アルカドノ協会.BMP",1,0,0,200,100)
+KBD(VK_UP,0)
+WEND
+KBD(VK_RIGHT,2)
+
+WHILE !CHKIMG("../画像/研究所中央ゲート.BMP",0,0,0,200,200)
+WEND
+
+//▼▼研究所中央ゲート→B-1▼▼
+KBD(VK_LEFT,1)
+WHILE !CHKIMG("../画像/黄点.BMP",0,0,0,50,150)
+//▼▼テレポを使用する場合はココ 3/4 ▼▼
+
+//▲▲テレポを使用する場合はココ▲▲
+WEND
+
+WHILE TRUE
+	KBD(VK_LEFT,1)
+	WHILE !CHKIMG("../画像/黄点.BMP",0,0,0,41,150)//位置がズレる場合は41を増減
+	KBD(VK_UP,0)
+	IF !CHKIMG("../画像/研究所中央ゲート.BMP",0,0,0,200,200) THEN BREAK 2		
+	WEND
+	KBD(VK_LEFT,2)
+	KBD(VK_RIGHT,1)
+	WHILE CHKIMG("../画像/黄点.BMP",0,0,0,41,150)//位置がズレる場合は41を増減
+	KBD(VK_UP,0)
+	IF !CHKIMG("../画像/研究所中央ゲート.BMP",0,0,0,200,200) THEN BREAK 2
+	WEND
+	KBD(VK_RIGHT,2)
+WEND
+KBD(VK_RIGHT,2)
+KBD(VK_LEFT,2)
+
+WHILE !CHKIMG("../画像/B-1.BMP",0,0,0,200,200)
+WEND
+
+//▼▼B-1→C-1▼▼
+KBD(VK_LEFT,1)
+WHILE !CHKIMG("../画像/黄点.BMP",0,0,0,95,150)
+//▼▼テレポを使用する場合はココ 4/4 ▼▼
+
+//▲▲テレポを使用する場合はココ▲▲
+WEND
+
+WHILE TRUE
+	KBD(VK_LEFT,1)
+	WHILE !CHKIMG("../画像/黄点.BMP",0,0,0,82,150)//位置がズレる場合は82を増減
+	KBD(VK_UP,0)
+	IF !CHKIMG("../画像/B-1.BMP",0,0,0,200,200) THEN BREAK 2		
+	WEND
+	KBD(VK_LEFT,2)
+	KBD(VK_RIGHT,1)
+	WHILE CHKIMG("../画像/黄点.BMP",0,0,0,82,150)//位置がズレる場合は82を増減
+	KBD(VK_UP,0)
+	IF !CHKIMG("../画像/B-1.BMP",0,0,0,200,200) THEN BREAK 2
+	WEND
+	KBD(VK_RIGHT,2)
+WEND
+KBD(VK_RIGHT,2)
+KBD(VK_LEFT,2)
+
+WHILE !CHKIMG("../画像/C-1.BMP",0,0,0,200,200)
+WEND
+
+//▼▼C-1→禁断の実験室▼▼
+KBD(VK_RIGHT,1)
+SLEEP(1)
+
+FOR Z = 1 TO 5
+	KBD(VK_UP,1)
+	FOR Y = 1 TO 5
+		//一つ目の段差を登る
+		FOR X = 1 TO 5
+			KBD(VK_RIGHT,1)
+			WHILE CHKIMG("../画像/黄点.BMP",0,0,0,100,150)
+			IF CHKIMG("../画像/黄点.BMP",0,0,0,100,123) THEN BREAK 2
+			WEND
+			KBD(VK_RIGHT,2)
+			KBD(VK_LEFT,1)
+			WHILE !CHKIMG("../画像/黄点.BMP",0,0,0,90,150)
+			IF CHKIMG("../画像/黄点.BMP",0,0,0,100,123) THEN BREAK 2
+			WEND
+			KBD(VK_LEFT,2)
+		NEXT
+		KBD(VK_RIGHT,2)
+		
+		//二つ目の段差を登る
+		KBD(VK_LEFT,1)
+		WHILE !CHKIMG("../画像/黄点.BMP",0,0,0,80,150)
+		IF CHKIMG("../画像/黄点.BMP",0,0,0,100,116) THEN BREAK 2
+		WEND
+		KBD(VK_LEFT,2)
+	NEXT
+	
+	KBD(VK_LEFT,2)
+	KBD(VK_UP,2,1000)// 最後のハシゴの途中で止まる場合は1000→1500程度に変更
+	
+	//ポータルへ
+	KBD(VK_C,0,100)
+	FOR X = 1 TO 5
+		KBD(VK_RIGHT,1)
+		WHILE CHKIMG("../画像/黄点.BMP",0,0,0,95,150)//位置がズレる場合は95を増減
+		KBD(VK_UP,0)
+		IF !CHKIMG("../画像/C-1.BMP",0,0,0,200,200) THEN BREAK 3
+		WEND
+		KBD(VK_RIGHT,2)
+		KBD(VK_LEFT,1)
+		WHILE !CHKIMG("../画像/黄点.BMP",0,0,0,95,150)//位置がズレる場合は95を増減
+		KBD(VK_UP,0)
+		IF !CHKIMG("../画像/C-1.BMP",0,0,0,200,200) THEN BREAK 3
+		WEND
+		KBD(VK_LEFT,2)
+	NEXT
+
+	//失敗したらいったん左下へ戻る
+	KBD(VK_LEFT,1)
+	WHILE !CHKIMG("../画像/黄点.BMP",0,0,0,80,150)
+	WEND
+	KBD(VK_LEFT,2)
+NEXT
+KBD(VK_RIGHT,2)
+KBD(VK_LEFT,2)
+
+WHILE !CHKIMG("../画像/禁断の実験室.BMP",1,0,0,200,100)
+WEND
+
+//▼▼ライディングを使用する場合はココ 2/2 ▼▼
+
+//▲▲ライディングを使用する場合はココ▲▲
+
+WEND
+//▲▲メイン部分ココまで▲▲
+
+
+PROCEDURE 並列処理()
+WHILE TRUE
+//▼▼メイン部分と並列して繰り返し行う処理ココから▼▼
+
+
+
+//▲▲ココまで▲▲
+WEND
+FEND
+

@@ -1,0 +1,53 @@
+ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+while true
+
+//じゃんけん会話
+
+
+
+FOR X = 1 TO 1
+//IFB CHKIMG("参加.bmp",0,0,0,800,600)
+//BTN(LEFT,CLICK,558,404,1000)
+//BREAK
+//ENDIF
+
+KBD(VK_Y,0,1000)
+
+IF CHKIMG("じゃんけん.bmp",0,0,0,800,600) THEN BREAK //あいこ再戦なら抜ける
+BTN(LEFT,CLICK,450,350,1000)
+BTN(LEFT,CLICK,558,404,1000)
+KBD(VK_ENTER,0,700)
+NEXT
+//じゃんけん待ち
+SLEEP(8)
+		while true
+
+//勝利後、報酬をもらい先頭へ戻る
+IFB CHKIMG("勝利.bmp",0,0,0,800,600)
+BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y)
+KBD(VK_RIGHT,0,1000)
+KBD(VK_ENTER,0,1000)
+KBD(VK_ENTER,0,1000)
+BTN(LEFT,CLICK,200,500,1000)
+SLEEP(1)
+BREAK
+ENDIF
+
+//あいこの場合、再度挑戦する
+
+IFB CHKIMG("あいこ.bmp",0,0,0,800,600)
+KBD(VK_ENTER,0,1000)
+SLEEP(10)
+CONTINUE
+ENDIF
+
+//負けの場合、再度リトライ
+
+IFB CHKIMG("敗北.bmp",0,0,0,800,600)
+KBD(VK_ENTER,0,1000)
+SLEEP(1)
+BREAK
+ENDIF
+
+		wend
+wend

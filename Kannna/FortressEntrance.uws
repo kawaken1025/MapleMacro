@@ -1,0 +1,104 @@
+//=========================================
+//
+// comment     : MapleStory Kannna - 騎士団要塞入り口
+// param       : None
+// return      : None
+// 
+// Display Dpl : 800x600 [only]
+//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/04/28
+//=========================================
+
+thread urgentCheck()
+
+while true
+
+	reUseSkillTime = GETTIME( 180 / 86400 );
+	KBD(VK_T,0,1000)
+	KBD(VK_G,0,1000)
+	KBD(VK_H,0,3000)
+
+	while true
+
+		for a = 1 to 10
+			KBD(VK_A,0,400)
+		next
+		
+		sleep(1)
+		checkYelloPoint()
+		sleep(1)
+		recovery()
+		if GETTIME() > reUseSkillTime then break;
+			
+	wend
+wend
+
+PROCEDURE recovery()
+
+	IFB CHKIMG("../picture/霊力回復.BMP",0,590,500,800,600)
+
+		IFB CHKIMG("../picture/雪女.bmp",0,585,515,800,600)
+			KBD(VK_U,0,500)
+			KBD(VK_9,0,800)
+			EXIT
+		ENDIF
+
+
+		IFB CHKIMG("../picture/白狐.bmp",0,585,515,800,600)
+			//KBD(VK_INSERT,0,100)
+			KBD(VK_U,0,800)
+			//KBD(VK_INSERT,0,500)
+			KBD(VK_CTRL,0,500)
+			EXIT
+		ENDIF
+
+		IFB CHKIMG("../picture/妖怪巻.bmp",0,585,515,800,600)
+			//KBD(VK_INSERT,0,100)
+			KBD(VK_U,0,800)
+			//KBD(VK_INSERT,0,500)
+			KBD(VK_SHIFT,0,500)
+			EXIT
+		ENDIF
+
+		KBD(VK_U,0,500)
+	ENDIF
+
+FEND
+
+function checkYelloPoint()
+
+	IFB CHKIMG("../picture/../picture/黄点.BMP",0,0,0,60,160)
+		KBD(VK_RIGHT,1,500)
+		KBD(VK_RIGHT,2,800)
+		EXIT
+	ENDIF
+
+	IFB CHKIMG("../picture/../picture/黄点.BMP",0,90,130,130,160)
+		KBD(VK_LEFT,1,500)
+		KBD(VK_LEFT,2,800)
+		EXIT
+	ENDIF	
+	
+	result = 0
+
+FEND
+
+PROCEDURE urgentCheck()
+	WHILE TRUE
+		IFB CHKIMG("../picture/石化.BMP",0,0,0,800,600)
+			FOR X = 1 TO 20
+				KBD(VK_LEFT,0,100)
+				KBD(VK_RIGHT,0,100)
+			NEXT
+		ENDIF
+
+		IFB CHKIMG("../picture/赤点.BMP",0,0,0,800,600)
+			FOR BEEPS = 1 to 10
+				SOUND(" ")
+				sleep(0.2)
+			NEXT
+		ENDIF
+	WEND
+FEND

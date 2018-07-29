@@ -1,0 +1,68 @@
+// (C)2010- メイプルストーリーマクロ生活 http://maplez2.blog90.fc2.com/
+// 一部・全部に関わらず、転載・転売等は一切お断りします。
+// 違反された場合、他の購入者の権利をを守るためにも、
+// 刑事告訴等の法的措置を取らざるを得ません。
+// その場合、民事提訴にて損害賠償の請求をさせて頂きます。
+
+ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+
+WHILE TRUE
+
+//▼▼滞在マップ確認▼▼
+//画像認識に失敗すると先に進みません
+WHILE TRUE
+IF CHKIMG("../画像/レジスタンス秘密本部.BMP",0,0,0,200,200) THEN BREAK
+WEND
+
+BTN(LEFT,0,480,380,500) // ←NPC(480,380)をクリック
+KBD(VK_ENTER,0,500)
+
+//▼▼全部で16chを想定しています▼▼
+FOR CH = 1 TO 16
+
+//▼▼中に入るまで待機▼▼
+WHILE TRUE
+IF CHKIMG("../画像/ゼキュア生息地.BMP",0,0,0,200,200) THEN BREAK
+WEND
+
+//▼▼青ログがあったら音を鳴らし続ける▼▼
+//30秒経っても青ログが出ない場合はチャンネル変更
+//他のプレイヤーを発見したらマップ入り直しへ
+XX = GETTIME( 30 / 86400 ) // ←待機する秒数はココの30を調整
+WHILE TRUE
+	IF CHKIMG("../画像/赤点.BMP",0,0,0,200,200) THEN BREAK 2
+	IFB CHKIMG("../画像/青ログ.BMP",0,0,0,100,600) AND !CHKIMG("../画像/ホンテログ.BMP",0,0,0,300,600)
+		WHILE TRUE
+		SOUND("BEEP")
+		SLEEP(2)
+		WEND
+	ENDIF
+	IF GETTIME() > XX THEN BREAK
+WEND
+
+//▼▼チャンネル変更▼▼
+KBD(VK_ESC,0,500)
+KBD(VK_ENTER,0,500)
+KBD(VK_RIGHT,0,500)
+KBD(VK_ENTER,0,500)
+SLEEP(1)
+
+NEXT
+
+//▼▼全CH回ったらマップの入り直し▼▼
+WHILE TRUE
+IF CHKIMG("../画像/ゼキュア生息地.BMP",0,0,0,200,200) THEN BREAK
+WEND
+KBD(VK_RIGHT,1,1000)
+KBD(VK_RIGHT,2,1300) //←マップを出る時に右に移動する所、1.3秒→を押すように設定してあります。
+WHILE TRUE
+KBD(VK_UP,1)
+KBD(VK_UP,2,100)
+SLEEP(1)
+IF !CHKIMG("../画像/ゼキュア生息地.BMP",0,0,0,200,200) THEN BREAK
+KBD(VK_RIGHT,1,100)
+KBD(VK_RIGHT,2,100)
+WEND
+
+WEND
+

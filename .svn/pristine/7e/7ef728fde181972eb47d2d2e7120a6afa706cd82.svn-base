@@ -1,0 +1,248 @@
+//=========================================
+// Map Name    : 夢の都市レヘルン 本性が現れる場所3
+// Mob Level   : 224
+// Mob HP      : 206,683,440
+// Mob Exp     : 335,675
+//
+// comment     : None
+// param       : None
+// return      : None
+// 
+// Display Dpl : 800x600 or 1366x768
+//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/03/10
+//=========================================
+
+//=========================================
+// init
+//=========================================
+
+//Parallel Program 
+thread parallelProgram()
+//Move Window initSetting x = 1 , y = 1 
+ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+//File import
+CALL ../Common/Skill/UseSkillFiveJob.uws
+CALL ../Log/logWriter.uws
+
+//=========================================
+//	Main Script Start
+//=========================================
+
+leftEnemyCount =  0
+kagoCount      =  0
+
+while TRUE
+
+	//時刻の取得     : 3分経過していたらスキルをかかけなおす
+	reUseSkillTime = GETTIME( 180 / 86400 )
+	useSkill()
+
+	KBD(VK_R,0,500)
+	BTN(LEFT,CLICK,450,385,1000)
+	
+	while TRUE
+
+
+		upAttack()
+		upAttack()
+
+		KBD(VK_LEFT,1,100)
+		KBD(VK_LEFT,2,50)
+
+		checkYelloPoint()
+
+		downAttack()
+		downAttack()
+
+		KBD(VK_RIGHT,1,100)
+		KBD(VK_RIGHT,2,50)
+
+		checkYelloPoint()
+
+		leftEnemyCount = leftEnemyCount + 1
+
+		IF CHKIMG("../picture/エリボス.BMP",0,0,0,2000,2000) THEN SOUND(" ")
+		IF CHKIMG("../picture/緑点.BMP",0,0,0,1368,800) THEN EXITEXIT
+		IF CHKIMG("../picture/突発.BMP",0,0,0,1368,800) THEN BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y)
+
+		//左端の塔の敵を倒す
+		ifb leftEnemyCount > 6
+
+			//異常用カウンター
+			failedCounter = GETTIME( 10 / 86400 )
+
+			KBD(VK_LEFT,1,100)
+			while true
+				if chkimg("../picture/黄点.bmp",0,0,0,56,130) then break
+				KBD(VK_SPACE,0,100)
+				if GETTIME() > failedCounter then break
+			wend
+			KBD(VK_LEFT,2,100)
+
+			KBD(VK_B,0,500)
+			SLEEP(1.5)
+
+
+			for x = 1 to 10
+				KBD(VK_X,0,200)
+			next
+
+			KBD(VK_RIGHT,1,100)
+			while true
+				if !chkimg("../picture/黄点.bmp",0,0,0,96,130) then break
+				KBD(VK_SPACE,0,100)
+			wend
+			KBD(VK_RIGHT,2,100)
+
+			leftEnemyCount = 0
+
+		endif
+
+		//3分経過していたらループを抜け出す
+		if GETTIME() > reUseSkillTime then break
+	wend
+wend
+
+//=========================================
+// Support Function
+//=========================================
+
+
+function upAttack()
+
+	IFB CHKIMG("../picture/モード.bmp",0,0,0,1368,800)
+		KBD(VK_O,0,500)
+		KBD(VK_T,0,1000)
+	ENDIF
+
+	//1366x768対応
+	IFB CHKIMG("../picture/メモライズ_1366.bmp",0,0,0,1368,800)
+		KBD(VK_O,0,500)
+		KBD(VK_T,0,1000)
+	ENDIF
+
+
+	KBD(VK_X,0,200)
+	KBD(VK_X,0,200)
+
+	KBD(VK_UP,1,100)
+	KBD(VK_SPACE,0,200)
+	KBD(VK_SPACE,0,200)
+	KBD(VK_UP,2,100)
+
+	skillCheck()
+
+	result = 0
+
+fend
+
+function downAttack()
+
+	IFB CHKIMG("../picture/モード.bmp",0,0,0,1368,800)
+		KBD(VK_O,0,500)
+		KBD(VK_T,0,1000)
+	ENDIF
+
+	//1366x768対応
+	IFB CHKIMG("../picture/メモライズ_1366.bmp",0,0,0,1368,800)
+		KBD(VK_O,0,500)
+		KBD(VK_T,0,1000)
+	ENDIF
+
+	KBD(VK_X,0,200)
+	KBD(VK_X,0,200)
+
+	KBD(VK_DOWN,1,100)
+	KBD(VK_SPACE,0,200)
+	KBD(VK_SPACE,0,200)
+	KBD(VK_DOWN,2,100)
+
+	skillCheck()
+	result = 0
+
+fend
+
+
+//=========================================
+//
+// comment : 石化と他プレイヤー検知時Beep　並列処理
+// param   : None
+// return  : 0 
+//
+//=========================================
+procedure parallelProgram()
+	while TRUE
+		ifb chkimg("../picture/石化.BMP",0,0,0,1368,800)
+			for i = 1 to 20
+				KBD(VK_LEFT,0,100)
+				KBD(VK_RIGHT,0,100)
+			next
+		endif
+
+		//ifb chkimg("../picture/加護.BMP",0,0,0,1368,800)
+		//kagoCount += 1
+		//    ifb kagoCount < 6
+		//	      sllepTime = GETTIME( 30 / 86400 )
+		//        ifb GETTIME() > sleepTime
+		//        	kagoCOunt = 0
+		//	      endif	  
+		//    break;
+		//    endif
+		//    KBD(VK_F9,0,1000)
+		//endif	
+
+		ifb chkimg("../picture/赤点.BMP",0,0,0,1368,800)
+			logger("プレイヤーを検知しました。")
+			for beeps = 1 to 20
+				SOUND(" ")
+				sleep(0.2)
+			next
+		endif	
+	wend
+fend
+
+//=========================================
+//
+// comment : 黄点の場所を取得する
+// param   : None
+// return  : 0 
+//
+//=========================================
+
+function checkYelloPoint()
+
+	ifb chkimg("../picture/黄点.bmp",0,102,88,154,133)
+		KBD(VK_LEFT,1,100)
+		while TRUE
+			if chkimg("../picture/黄点.bmp",0,86,88,104,133) then break
+		wend
+		KBD(VK_LEFT,2,100)
+	endif
+
+	ifb chkimg("../picture/黄点.bmp",0,0,0,96,130)
+		KBD(VK_RIGHT,1,100)
+		while true
+			if !chkimg("../picture/黄点.bmp",0,0,0,95,130) then break
+		wend
+		KBD(VK_RIGHT,2,100)
+	endif
+
+	result = 0
+fend
+
+
+function skillCheck()
+
+	IF CHKIMG("../picture/扉.BMP",0,0,0,1368,800) THEN KBD(VK_T,0,500)
+	IF CHKIMG("../picture/パニシング.BMP",0,0,0,1368,800) THEN KBD(VK_Q,0,500)
+	IF CHKIMG("../picture/パニシング_1366.BMP",0,0,0,1368,800) THEN KBD(VK_Q,0,500)
+	IF CHKIMG("../picture/PHS.bmp",0,585,515,1368,800) THEN KBD(VK_5,0,1000)
+	IF CHKIMG("../picture/扉.BMP",0,0,0,1368,800) THEN KBD(VK_T,0,500)
+
+
+
+	result = 0
+fend

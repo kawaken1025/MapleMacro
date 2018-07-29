@@ -1,0 +1,18 @@
+//=========================================
+//
+// comment     : コアジェム作成
+// param       : None
+// return      : None
+// 
+// Display Dpl : 1366x768 [only]
+//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/04/02
+//=========================================
+
+while TRUE
+    BTN(LEFT,CLICK,850,490,500)
+    BTN(LEFT,CLICK,850,490,500)
+    KBD(VK_ENTER,0,500)
+wend

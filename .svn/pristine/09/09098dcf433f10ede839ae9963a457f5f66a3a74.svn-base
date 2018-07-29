@@ -1,0 +1,162 @@
+// (C)2010- メイプルストーリーマクロ生活 http://maplez2.blog90.fc2.com/
+// 一部・全部に関わらず、転載・転売等は一切お断りします。
+// 違反された場合、他の購入者の権利をを守るためにも、
+// 刑事告訴等の法的措置を取らざるを得ません。
+// その場合、民事提訴にて損害賠償の請求をさせて頂きます。
+
+THREAD 並列処理() //一番↓で指定した処理を、メイン部分と並列で実行
+
+//▼▼自動狩りメイン部分ココから▼▼
+ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+
+//▼▼ペットのエサの設定１▼▼
+PET = GETTIME( 900 / 86400 )
+//▲▲ココまで▲▲
+
+WHILE TRUE
+
+//▼▼ミニダンジョンに入る処理▼▼
+WHILE TRUE
+IF CHKIMG("../画像/リプレ周辺.BMP",0,0,0,100,100) THEN BREAK
+WEND
+KBD(VK_UP,1,1000)
+KBD(VK_HOME,0,100)
+KBD(VK_UP,2,100)
+KBD(VK_UP,1,1000)
+KBD(VK_UP,2,100)
+WHILE TRUE
+IF !CHKIMG("../画像/リプレ周辺.BMP",0,0,0,100,100) THEN BREAK
+WEND
+
+//▼▼6600秒後の時間を記憶▼▼
+MD = GETTIME( 6600 / 86400 )
+
+KBD(VK_V,0,4000)
+KBD(VK_END,0,2000)
+KBD(VK_END,0,500)
+
+//▼▼とりあえず左下へ移動▼▼
+KBD(VK_LEFT,1,2000)
+FOR X = 1 TO 50
+KBD(VK_HOME,0,100)
+NEXT
+KBD(VK_LEFT,2)
+
+//▼▼変数の宣言▼▼
+G = 10
+MH = 30
+
+WHILE TRUE
+
+//薬の残量を確認、HP薬が9個以下、MP薬が0個だった場合はログアウト
+IF CHKIMG("../画像/ホンスター9.BMP",0,0,0,800,580) THEN CALL ../共通/ログアウト.UWS
+IF CHKIMG("../画像/マナブル0.BMP",0,0,0,800,580) THEN CALL ../共通/ログアウト.UWS
+
+//▼▼補助スキル▼▼
+IFB G > 9
+KBD(VK_LEFT,1)
+FOR X = 1 TO 15
+KBD(VK_HOME,0,100)
+NEXT
+KBD(VK_LEFT,2)
+KBD(VK_G,0,100)
+KBD(VK_V,0,3000)
+SLEEP(1)
+G = 0
+//▼▼メイプルヒーローの設定・ココから▼▼
+IFB MH > 29
+KBD(VK_NEXT,0)
+MH = 0
+ENDIF
+//▲▲メイプルヒーローの設定・ココまで▲▲
+KBD(VK_RIGHT,1)
+FOR X = 1 TO 10
+KBD(VK_HOME,0,100)
+NEXT
+KBD(VK_RIGHT,2)
+ENDIF
+
+//▼▼自動狩り部分▼▼
+KBD(VK_RIGHT,1)	
+	WHILE !CHKIMG("../画像/卵ダンジョン4.BMP",0,0,0,800,580)
+		FOR X = 1 TO 3
+		KBD(VK_HOME,0,100)
+		NEXT
+		FOR X = 1 TO 3
+		KBD(VK_CTRL,0,100)
+		NEXT
+		SLEEP(0.2)
+		IF CHKIMG("../画像/リプレ周辺.BMP",0,0,0,100,100) THEN CALL ../共通/ログアウト.UWS
+	WEND
+KBD(VK_RIGHT,2)
+KBD(VK_LEFT,1)	
+	WHILE CHKIMG("../画像/卵ダンジョン4.BMP",0,0,0,800,580)
+		FOR X = 1 TO 3
+		KBD(VK_HOME,0,100)
+		NEXT
+		FOR X = 1 TO 3
+		KBD(VK_CTRL,0,100)
+		NEXT
+		SLEEP(0.2)
+		IF CHKIMG("../画像/リプレ周辺.BMP",0,0,0,100,100) THEN CALL ../共通/ログアウト.UWS
+	WEND
+		FOR X = 1 TO 3
+		KBD(VK_HOME,0,100)
+		NEXT
+		FOR X = 1 TO 3
+		KBD(VK_CTRL,0,100)
+		NEXT
+		SLEEP(0.2)
+		IF CHKIMG("../画像/リプレ周辺.BMP",0,0,0,100,100) THEN CALL ../共通/ログアウト.UWS
+KBD(VK_LEFT,2)
+
+G = G + 1
+MH = MH + 1
+
+//▼▼ペットのエサの設定２▼▼
+IFB GETTIME() > PET
+KBD(VK_T,0,500)// ←Tを押す命令　必要なら変更してください
+SLEEP(0.1)
+PET = GETTIME( 900 / 86400 )
+ENDIF
+//▲▲ココまで▲▲
+
+//▼▼最初に記憶した時間を過ぎていたら、BREAKで↓へ飛ぶ▼▼
+IF GETTIME() > MD THEN BREAK
+
+WEND
+
+//▼▼チャンネル変更▼▼
+KBD(VK_LEFT,1)
+FOR X = 1 TO 20
+KBD(VK_HOME,0,100)
+NEXT
+KBD(VK_LEFT,2)
+
+FOR X = 1 TO 10
+KBD(VK_U,0,100)
+NEXT
+SLEEP(5)
+
+WHILE TRUE
+KBD(VK_ESC,0,500)
+KBD(VK_ENTER,0,500)
+KBD(VK_RIGHT,0,500)
+KBD(VK_ENTER,0,500)
+SLEEP(4)
+IF CHKIMG("../画像/リプレ周辺.BMP",0,0,0,100,100) THEN BREAK
+WEND
+
+WEND
+//▲▲自動狩りメイン部分ココまで▲▲
+
+
+PROCEDURE 並列処理()
+WHILE TRUE
+//▼▼自動狩りメイン部分と並列して繰り返し行う処理ココから▼▼
+
+
+
+//▲▲ココまで▲▲
+WEND
+FEND

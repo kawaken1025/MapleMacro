@@ -1,0 +1,28 @@
+//==========================================================
+//
+// 4th Job use Skill (Magician Ice and Ligtning 4th job)
+//   @author k.kawabata 
+//     create date 2018/02/13
+// 
+//==========================================================
+
+
+//=====================================
+// use Skill
+//
+// comment : None
+// param   : None
+// return  : 0 (Success)
+//=====================================
+
+function useSkill()
+
+	//skill使用(スキルマクロ)
+	KBD(VK_G,0,1000)
+	KBD(VK_H,0,3000)
+
+	//単発スキル
+	KBD(VK_D,0,1000) //インフィニティ
+	//KBD(VK_F,0,1000) //仮
+	result = 0
+fend

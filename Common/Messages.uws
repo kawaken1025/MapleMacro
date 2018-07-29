@@ -1,0 +1,47 @@
+//=========================================
+//
+// comment     : メッセージ定義
+// param       : None
+// return      : None
+//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/05/12
+//=========================================
+CLASS Messages
+
+	const RECOVERY_FAMILIAR_POWER = "ファミリアの気力を回復しました。";
+	const DETECTION_RED_POINT     = "プレイヤーを検知しました。";
+	const DETECTION_AREA_BOSS     = "エリアボスが出現しました";
+	const SCRIPT_START            = "スクリプトが起動しました。";
+	const SCRIPT_END              = "異常を検知したためスクリプトが終了しました。";
+
+ENDCLASS
+
+CLASS ErrorCode
+
+	const BACK_TOWN             = "E00001"
+	const DETECTION_GAME_MASTER = "E00002"
+	const DETECTION_PLAYER      = "E00003"
+
+ENDCLASS
+
+CLASS LogLevel
+
+	const LOG_INFO   = "[INFO]";
+	const LOG_DEBUG  = "[DEBUG]"
+	const LOG_ERROR  = "[ERROR]";
+	const LOG_WARN   = "[WARN]";
+
+ENDCLASS
+
+CLASS ResponseMessages
+
+	const RESPONSE_STR   = "最近大変っすね"
+	const RESPONSE_STR_0 = "今日も元気にメイプルストーリーを楽しんでます";
+	const RESPONSE_STR_1 = "疲れたよゲームマスターさん";
+	const RESPONSE_STR_2 = "本日はお日柄もよく・・・";
+	const RESPONSE_STR_3 = "またかよｗｗｗｗｗｗｗｗｗｗｗｗ";
+
+ENDCLASS
+

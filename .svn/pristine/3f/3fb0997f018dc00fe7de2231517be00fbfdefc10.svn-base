@@ -1,0 +1,128 @@
+// (C)2010- メイプルストーリーマクロ生活 http://maplez2.blog90.fc2.com/
+// 一部・全部に関わらず、転載・転売等は一切お断りします。
+// 違反された場合、他の購入者の権利をを守るためにも、
+// 刑事告訴等の法的措置を取らざるを得ません。
+// その場合、民事提訴にて損害賠償の請求をさせて頂きます。
+
+THREAD 並列処理() //一番↓で指定した処理を、メイン部分と並列で実行
+
+//▼▼自動狩りメイン部分ココから▼▼
+ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+
+//▼▼ペットのエサの設定１▼▼
+PET = GETTIME( 900 / 86400 )
+//▲▲ココまで▲▲
+
+WHILE TRUE
+
+//薬の残量を確認、HP薬が9個以下、MP薬が0個だった場合はログアウト
+IF CHKIMG("../画像/マナエリ0.BMP",0,0,0,800,580) THEN CALL ../共通/ログアウト.UWS 
+IF CHKIMG("../画像/白い薬9.BMP",0,0,0,800,580) THEN CALL ../共通/ログアウト.UWS
+
+//滞在マップ確認・この画像を発見したら異常が起きたと判断してログアウト
+IF CHKIMG("../画像/カニングスクエアロビー.BMP",0,0,0,210,150) THEN CALL ../共通/ログアウト.UWS
+
+//モンスターブックの新しいタブが開放された時のメッセージを自動で閉じる
+IF CHKIMG("../画像/タブ確認.BMP",0,0,0,550,400) THEN KBD(VK_ESC,0)
+
+//▼▼下段を右端まで移動▼▼
+KBD(VK_RIGHT,1)
+KBD(VK_SHIFT,0,100)
+WHILE CHKIMG("../画像/黄点.BMP",0,0,0,163,150)
+KBD(VK_SHIFT,0,1400)
+IF CHKIMG("../画像/タブ確認.BMP",0,0,0,550,400) THEN KBD(VK_ESC,0)
+WEND
+KBD(VK_RIGHT,2)
+
+//▼▼エスカレーターまで移動▼▼
+KBD(VK_LEFT,1)
+WHILE !CHKIMG("../画像/黄点.BMP",0,0,0,150,150)
+FOR X = 1 TO 5
+KBD(VK_SHIFT,0,100)
+NEXT
+SLEEP(0.8)
+IF CHKIMG("../画像/カニングスクエアロビー.BMP",0,0,0,210,150) THEN CALL ../共通/ログアウト.UWS
+IF CHKIMG("../画像/タブ確認.BMP",0,0,0,550,400) THEN KBD(VK_ESC,0)
+WEND
+WHILE !CHKIMG("../画像/黄点.BMP",0,0,0,140,150)
+IF CHKIMG("../画像/カニングスクエアロビー.BMP",0,0,0,210,150) THEN CALL ../共通/ログアウト.UWS
+WEND
+KBD(VK_LEFT,2)
+
+//▼▼エスカレーターで上段へ移動▼▼
+KBD(VK_RIGHT,1)
+WHILE CHKIMG("../画像/黄点.BMP",0,0,0,140,150)
+WEND
+FOR X = 1 TO 4
+KBD(VK_C,0,100)
+NEXT
+WHILE CHKIMG("../画像/黄点.BMP",0,0,0,163,150)
+WEND
+KBD(VK_SHIFT,0,100)
+KBD(VK_RIGHT,2)
+
+IF CHKIMG("../画像/カニングスクエアロビー.BMP",0,0,0,210,150) THEN CALL ../共通/ログアウト.UWS
+IF CHKIMG("../画像/タブ確認.BMP",0,0,0,550,400) THEN KBD(VK_ESC,0)
+
+//▼▼上段を左端まで移動▼▼
+KBD(VK_LEFT,1)
+WHILE !CHKIMG("../画像/黄点.BMP",0,0,0,28,150)
+FOR X = 1 TO 5
+KBD(VK_SHIFT,0,100)
+NEXT
+SLEEP(0.8)
+IF CHKIMG("../画像/カニングスクエアロビー.BMP",0,0,0,210,150) THEN CALL ../共通/ログアウト.UWS
+IF CHKIMG("../画像/タブ確認.BMP",0,0,0,550,400) THEN KBD(VK_ESC,0)
+WEND
+KBD(VK_LEFT,2)
+
+//▼▼たまった敵を殲滅▼▼
+//ほぼ1確ならこのブロックは削除
+KBD(VK_RIGHT,1)
+FOR Y = 1 TO 5
+	FOR X = 1 TO 6
+	KBD(VK_SHIFT,0,100)
+	NEXT
+	SLEEP(0.4)
+NEXT
+KBD(VK_RIGHT,2)
+KBD(VK_LEFT,1)
+WHILE !CHKIMG("../画像/黄点.BMP",0,0,0,28,150)
+FOR X = 1 TO 5
+KBD(VK_SHIFT,0,100)
+NEXT
+SLEEP(1)
+IF CHKIMG("../画像/カニングスクエアロビー.BMP",0,0,0,210,150) THEN CALL ../共通/ログアウト.UWS
+IF CHKIMG("../画像/タブ確認.BMP",0,0,0,550,400) THEN KBD(VK_ESC,0)
+WEND
+KBD(VK_LEFT,2)
+//▲▲ココまで▲▲
+
+//▼▼下ジャンプで下段へ移動▼▼
+KBD(VK_DOWN,1,200)
+FOR X = 1 TO 5
+KBD(VK_C,0,100)
+NEXT
+KBD(VK_DOWN,2,300)
+
+//▼▼ペットのエサの設定２▼▼
+IFB GETTIME() > PET
+KBD(VK_T,0,500)// ←Tを押す命令　必要なら変更してください
+SLEEP(0.1)
+PET = GETTIME( 900 / 86400 )
+ENDIF
+//▲▲ココまで▲▲
+
+WEND
+//▲▲自動狩りメイン部分ココまで▲▲
+
+
+PROCEDURE 並列処理()
+WHILE TRUE
+//▼▼自動狩りメイン部分と並列して繰り返し行う処理ココから▼▼
+
+
+
+//▲▲ココまで▲▲
+WEND
+FEND
