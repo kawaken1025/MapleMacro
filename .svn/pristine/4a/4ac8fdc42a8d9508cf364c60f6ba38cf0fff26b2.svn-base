@@ -1,4 +1,0 @@
-while true
-	BTN(RIGHT,CLICK,762,307,79)
-	BTN(RIGHT,CLICK,762,307,62)
-wend

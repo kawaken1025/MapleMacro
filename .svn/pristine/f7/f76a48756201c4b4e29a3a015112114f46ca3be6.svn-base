@@ -1,7 +1,0 @@
-ACW(GETID("MapleStory","MapleStoryClass"),1,1)
-
-WHILE TRUE
-	IFB CHKIMG("../画像/青ログ.BMP",0,0,0,100,600) AND !CHKIMG("../画像/ホンテログ.BMP",0,0,0,300,600)
-	SOUND("BEEP")
-	ENDIF
-WEND

@@ -1,0 +1,3 @@
+# 「.svn」フォルダを除外
+.svn/
+.Repository/

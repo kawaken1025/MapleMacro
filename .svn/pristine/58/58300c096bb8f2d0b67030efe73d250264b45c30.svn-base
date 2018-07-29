@@ -1,7 +1,0 @@
-ACW(GETID("MapleStory","MapleStoryClass"),1,1)
-WHILE TRUE
-
-KBD(VK_Z,0,100)
-
-WEND
-

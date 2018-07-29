@@ -1,5 +1,0 @@
-// 使用すると、ミニマップ内の黄色い点の位置座標を別窓に表示します。
-
-ACW(GETID("MapleStory","MapleStoryClass"),1,1)
-CHKIMG("../画像/黄点.BMP",0,0,0,300,300)
-PRINT G_IMG_X + "," + G_IMG_Y
