@@ -1,0 +1,6 @@
+LIBRARY
+EXPORTS
+   startup_neko
+   shutdown_neko
+   get_message
+   get_internal_message_buffer

@@ -15,54 +15,50 @@ CALL ../Log/logWriter.uws;
 CALL ../Common/Messages.uws;
 
 public PIC_PATH = "../picture/";
+public MAPLE_RESULT_OK = 0;
 
 CLASS lib
-
-//=========================================
-//
+//==========================================
 // comment : ファミリアの気力が500以下であれば回復
 // param   : None
 // return  : 0 
-//
-//=========================================
+//==========================================
 
-    function checkFamiliarPower()
-        
-        KBD(VK_F6,0,300);
-        SLEEP(0.5);
-        ifb chkimg("../picture/fam500以下.bmp",0,0,0,1368,800);
-            KBD(VK_4,0,300);
-            logger.logWriter(LogLevel.LOG_INFO,Messages.RECOVERY_FAMILIAR_POWER);
-        endif;
-        KBD(VK_F6,0,300);
+function checkFamiliarPower(bookKey,recoveryKey)
     
-        result = 0;
-    fend
+    KBD(bookKey,0,300);
+    SLEEP(0.5);
+    ifb chkimg("../picture/fam500以下.bmp",0,0,0,1368,800);
+        KBD(recoveryKey,0,300);
+        logger.logWriter(LogLevel.LOG_INFO,Messages.RECOVERY_FAMILIAR_POWER);
+    endif;
+    KBD(bookKey,0,300);
+
+    result = MAPLE_RESULT_OK; ;
+fend
 
 //=========================================
-//
 // comment : テレポート職業限定　往復狩
 // param   : None
 // return  : 0 
-//
 //=========================================
-//                                           攻撃キー         移動キー     黄点x起点    黄点y起点   黄点x終点   黄点y終点
-    function roundTripTeleportAttack( execKBD_Attack, execKBD_Move, yellowX_S, yellowY_S, yellowX_E, yellowY_E, );
+//                                  攻撃キー         移動キー     黄点x起点    黄点y起点   黄点x終点   黄点y終点
+function roundTripTeleportAttack( execKBD_Attack, execKBD_Move, yellowX_S, yellowY_S, yellowX_E, yellowY_E, );
 
-        KBD(execKBD_Move,1,500);
-        
-        while true;
-            KBD(execKBD_Attack,0,200);
-            KBD(execKBD_Attack,0,200);
-            KBD(VK_SPACE,0,200);
-            KBD(VK_SPACE,0,200);
-            if chkimg("../picture/黄点.bmp",0,yellowX_S,yellowY_S,yellowX_E,yellowY_E) then break;
-        wend;
+    KBD(execKBD_Move,1,500);
+    
+    while true;
+        KBD(execKBD_Attack,0,200);
+        KBD(execKBD_Attack,0,200);
+        KBD(VK_SPACE,0,200);
+        KBD(VK_SPACE,0,200);
+        if chkimg("../picture/黄点.bmp",0,yellowX_S,yellowY_S,yellowX_E,yellowY_E) then break;
+    wend;
 
-        KBD(execKBD_Move,2,500);
+    KBD(execKBD_Move,2,500);
 
-        result = 0;
-    fend
+    result = MAPLE_RESULT_OK; ;
+fend
 
 //=========================================
 //
@@ -71,39 +67,41 @@ CLASS lib
 // return  : 0
 //
 //=========================================
-    function urgentCheck()
+function urgentCheck()
 
-        IF CHKIMG("../picture/エリボス.BMP",0,0,0,2000,2000) THEN SOUND(" ");
-        IF CHKIMG("../picture/緑点.BMP",0,0,0,1368,800)   THEN EXITEXIT;
-        IFB CHKIMG("../picture/突発.BMP",0,0,0,1368,800)
-            for i = 1 to 3
-                BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,200);
-            next
-        endif
+    IF CHKIMG("../picture/エリボス.bmp",0,0,0,2000,2000) THEN SOUND(" ");
+    IF CHKIMG("../picture/緑点.bmp",0,0,0,1368,800)   THEN EXITEXIT;
+    IFB CHKIMG("../picture/突発.bmp",0,0,0,1368,800)
+        for i = 1 to 3
+            BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,200);
+        next
+    endif
 
-        result = 0
-    fend
+    result = MAPLE_RESULT_OK; 
+fend
 
 //=========================================
 //
 // comment : メイプルをアクティブウィンドウにする
-//           1366x800 Mode           
+//           DisplayDpl : 可変対応           
 //           2018/04/18 Ver3.68 対策済
 // param   : None
 // return  : 0
 //
 //=========================================
-    function activeWindow()
+function activeWindow()
 
-        ACW(GETID("MapleStory","MapleStoryClass"),1,1)
-        BTN(LEFT,CLICK,1400,600,100,500) 
-        BTN(LEFT,CLICK,200,405,500)
-        BTN(LEFT,CLICK,200,405,200) 
+    mapleWindowID = GETID("MapleStory","MapleStoryClass");
+    x = STATUS(mapleWindowID,ST_CLWIDTH) + 50;
+    y = STATUS(mapleWindowID,ST_CLHEIGHT) + 50;
+    ACW(mapleWindowID,1,1);
+    BTN(LEFT,CLICK,x,y,500); 
+    BTN(LEFT,CLICK,200,405,500);
+    BTN(LEFT,CLICK,200,405,200);
 
+    result = MAPLE_RESULT_OK; ;
 
-        result = 0 
-
-    fend
+fend
 
 //=========================================
 //
@@ -114,23 +112,18 @@ CLASS lib
 //
 //=========================================
 
-    procedure urgentCheckAndRock()
-        while true
-            ifb chkimg("../picture/石化.BMP",0,0,0,1368,800)
-                for x = 1 TO 20
-                    KBD(VK_LEFT,0,100)
-                    KBD(VK_RIGHT,0,100)
-                next
-            endif
+procedure urgentCheckAndRock()
+    while true
+        ifb chkimg("../picture/石化.bmp",0,0,0,1368,800)
+            for x = 1 TO 20
+                KBD(VK_LEFT,0,100)
+                KBD(VK_RIGHT,0,100)
+            next
+        endif
 
-            ifb chkimg("../picture/赤点.BMP",0,0,0,1368,800)
-                for BEEPS = 1 to 10
-                    SOUND(" ")
-                    sleep(0.2)
-                next
-            endif
-        wend
-    fend
+        if chkimg("../picture/赤点.bmp",0,0,0,1368,800) then alartSound();
+    wend
+fend
 
 //=========================================
 //
@@ -142,44 +135,74 @@ CLASS lib
 //=========================================
 
 
-    function checkYelloPoint()
-        ifb chkimg("../picture/../picture/黄点.BMP",0,0,0,60,160)
-            KBD(VK_RIGHT,1,500)
-            KBD(VK_RIGHT,2,800)
-            exit
-        endif
+function checkYelloPoint()
+    ifb chkimg(picPathHelper("黄点"),0,0,0,60,160)
+        KBD(VK_RIGHT,1,500)
+        KBD(VK_RIGHT,2,800)
+        exit
+    endif
 
-        ifb chkimg("../picture/../picture/黄点.BMP",0,90,130,130,160)
-            KBD(VK_LEFT,1,500)
-            KBD(VK_LEFT,2,800)
-            exit
-        endif   
-        
-        result = 0
-    fend
+    ifb chkimg(picPathHelper("黄点"),0,90,130,130,160)
+        KBD(VK_LEFT,1,500)
+        KBD(VK_LEFT,2,800)
+        exit
+    endif   
+    
+    result = MAPLE_RESULT_OK; 
+fend
 
-//=========================================
-//
+//======================================================================================
 // comment : ゲームマスターからの返答要求確認
 //           1366x800       
 // param   : None
-// return  : 0
-//
-//=========================================
-
-
-    function checkGameMaster()
-        ifb chkimg(picPathHelper("replyRequest"),1,0,0,1366,800)
-            ifb !chkimg(picPathHelper("heart"),0,0,0,1366,800)
-                ifb chkimg(picPathHelper("赤点"),0,0,0,400,400)
-                    responseToGameMaster(getResponse())
-                endif
-            else
-                initChat()
+// return  : MAPLE_RESULT_OK : 0
+// 備考    : 次の順に判定を行う
+//           1.チャット欄に「ご返答」が存在するか
+//　         2.ハート拡声器ではないか
+//           3.MiniMapに赤点があるか
+//           上記条件が全て当てはまった場合返答処理を行う
+//======================================================================================
+function checkGameMaster()
+    ifb chkimg(picPathHelper("replyRequest"),1,0,621,150,780); //「ご返答」がチャット欄にあるか
+        ifb !chkimg(picPathHelper("heart"),0,0,621,150,780);   //ハート拡声器ではないか
+            ifb chkimg(picPathHelper("赤点"),0,0,0,400,400);   //ミニMAPに赤点が存在するか
+                logger.logWriter(LogLevel.LOG_WARN,Messages.ENCOUNT_GAME_MASTER);
+                responseToGameMaster(getResponse()); //返答処理
             endif
-        endif       
-        result = 0
-    fend
+        else
+            initChat(); //GMではない場合チャット欄初期化
+        endif
+    endif       
+    result = MAPLE_RESULT_OK;
+fend
+
+//======================================================================================
+// comment : ゲームマスターからの返答要求に使用
+//           する文字列をランダムで取得
+//           1366x800       
+// param   : None
+// return  : responseStr : 返却文字列
+//======================================================================================
+function getResponse()
+    //返答用の文字列初期化
+    responseStr = ResponseMessages.RESPONSE_STR;
+    num = random(4);
+    select num;
+        case 0
+            responseStr = ResponseMessages.RESPONSE_STR_0;
+        case 1
+            responseStr = ResponseMessages.RESPONSE_STR_1;
+        case 2
+            responseStr = ResponseMessages.RESPONSE_STR_2;
+        case 3
+            responseStr = ResponseMessages.RESPONSE_STR_3;
+        default
+            responseStr = ResponseMessages.RESPONSE_STR;
+    selend
+    //応答文字列返却
+    result = responseStr;
+fend
+
 
 //=========================================
 // comment : ゲームマスターからの返答要求に返答
@@ -187,44 +210,17 @@ CLASS lib
 // param   : None
 // return  : 0
 //=========================================
-    function getResponse()
-        //返答用の文字列初期化
-        responseStr = ResponseMessages.RESPONSE_STR
-        num = RANDOM(4)
-        select num
-            case 0
-                responseStr = ResponseMessages.RESPONSE_STR_0
-            case 1
-                responseStr = ResponseMessages.RESPONSE_STR_1
-            case 2
-                responseStr = ResponseMessages.RESPONSE_STR_2
-            case 3
-                responseStr = ResponseMessages.RESPONSE_STR_3
-            default
-                responseStr = ResponseMessages.RESPONSE_STR
-        selend
-        
-        //応答文字列返却
-        result = responseStr
-    fend
-
-
-//=========================================
-// comment : ゲームマスターからの返答要求に返答
-//           1366x800       
-// param   : None
-// return  : 0
-//=========================================
-    function responseToGameMaster(responseStr)
-        KBD(VK_1,0,1000)
-        SendStr(0,responseStr,1,True)
-        KBD(VK_CTRL,1,1500)
-        KBD(VK_V,0,1500)
-        KBD(VK_CTRL,2,1000)
-        KBD(VK_ENTER,0,1000)
-        BTN(LEFT,CLICK,400,350,600)
-        result = 0 
-    fend
+function responseToGameMaster(responseStr)
+    KBD(VK_1,0,1000);
+    SendStr(0,responseStr,1,True);
+    KBD(VK_CTRL,1,1500);
+    KBD(VK_V,0,1500);
+    KBD(VK_CTRL,2,1000);
+    KBD(VK_ENTER,0,1000);
+    BTN(LEFT,CLICK,400,350,600);
+    BTN(LEFT,CLICK,400,350,600);
+    result = MAPLE_RESULT_OK; 
+fend
 
 //=========================================
 // comment : ♡拡声器が見えたらチャットを初期化する
@@ -232,17 +228,20 @@ CLASS lib
 // param   : None
 // return  : 0
 //=========================================
-    function initChat()
-        KBD(VK_1,0,1000)
-        SendStr(0,"/?",1,True)
-        KBD(VK_CTRL,1,1500)
-        KBD(VK_V,0,1500)
-        KBD(VK_CTRL,2,1000)
-        KBD(VK_ENTER,0,1000)
-        BTN(LEFT,CLICK,400,350,600)
-        BTN(LEFT,CLICK,400,350,600)
-        result = 0
-    fend
+function initChat()
+
+    CHAT_INIT_CMD = "/?";
+
+    KBD(VK_1,0,1000)
+    SendStr(0,CHAT_INIT_CMD,1,True)
+    KBD(VK_CTRL,1,1500)
+    KBD(VK_V,0,1500)
+    KBD(VK_CTRL,2,1000)
+    KBD(VK_ENTER,0,1000)
+    BTN(LEFT,CLICK,400,350,600)
+    BTN(LEFT,CLICK,400,350,600)
+    result = MAPLE_RESULT_OK; 
+fend
 
 //=========================================
 //
@@ -251,38 +250,76 @@ CLASS lib
 // return  : 0 
 //
 //=========================================
-    procedure parallelProgram()
-        while TRUE
-            ifb chkimg("../picture/石化.BMP",0,0,0,1368,800)
-                for i = 1 to 20
-                    KBD(VK_LEFT,0,100);
-                    KBD(VK_RIGHT,0,100);
-                next
-            endif
+procedure parallelProgram()
+    while TRUE
+        ifb chkimg("../picture/石化.bmp",0,0,0,1368,800)
+            for i = 1 to 20
+                KBD(VK_LEFT,0,100);
+                KBD(VK_RIGHT,0,100);
+            next
+        endif
 
-            if chkimg("../picture/加護.BMP",0,0,0,1368,800) then KBD(VK_F4,0,1000)
+        if chkimg("../picture/加護.bmp",0,0,0,1368,800) then KBD(VK_F4,0,1000)
 
-            ifb chkimg("../picture/赤点.BMP",0,0,0,1368,800)
-                logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
-                for beeps = 1 to 20
-                    SOUND(" ");
-                    sleep(0.2);
-                next
-            endif   
-        wend
-    fend
+        ifb chkimg("../picture/赤点.bmp",0,0,0,1368,800)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+            alartSound();
+        endif   
+    wend
+fend
 
 //=========================================
-//
-// comment : 石化チェック・赤点チェック・加護チェック
+// comment : 画像認識用パスヘルパー
 // param   : None
 // return  : 0 
-//
+// 備考    : ../picture/fileName.bmp を返却
 //=========================================
-    function picPathHelper(fileName)
-        result = PIC_PATH + fileName + ".bmp"
-    fend
+function picPathHelper(fileName)
+    result = PIC_PATH + fileName + ".bmp";
+fend
 
+//=========================================
+// comment : メイプルが起動されていなければ終了
+// param   : None
+// return  : 0 
+// 備考    : windowIDが -1 であれば起動されてない
+//=========================================
+function checkStartingMapleStory()
+    windowID = GETID("MapleStory","MapleStoryClass")
     
+    ifb windowID < 0
+        logger.logWriter(LogLevel.LOG_ERROR,Messages.STOP_MAPLE_MESSAGE);
+        exitexit
+    endif
+    result = MAPLE_RESULT_OK; 
+fend
+
+//=========================================
+// comment : 警告時のサウンド通知
+// param   : None
+// return  : 0 
+//=========================================
+function alartSound()
+    for i = 1 to 20
+        SOUND(" ");
+        sleep(0.2);
+    next
+    result = MAPLE_RESULT_OK; ;
+fend
+
+//=========================================
+// comment : メモリ解放
+// param   : None
+// return  : 0 
+//=========================================
+function memoryRelease()
+    memoryReleaseCommand = "empty.exe *"; 
+    DOSCMD(memoryReleaseCommand);
+    result = 0;
+fend
+
+
 
 ENDCLASS
+
+

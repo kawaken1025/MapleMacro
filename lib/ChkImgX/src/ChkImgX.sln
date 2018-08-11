@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NekoAddon", "NekoAddon\NekoAddon.vcxproj", "{ECA8D9B4-B6A2-45E5-8D64-2A26D90FBE8B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ChkImgX", "ChkImgX\ChkImgX.vcxproj", "{2E602FF1-8CFC-4ED0-A19A-25641448E7D4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{ECA8D9B4-B6A2-45E5-8D64-2A26D90FBE8B} = {ECA8D9B4-B6A2-45E5-8D64-2A26D90FBE8B}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		DebugConsole|Win32 = DebugConsole|Win32
+		Release|Win32 = Release|Win32
+		ReleaseConsole|Win32 = ReleaseConsole|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ECA8D9B4-B6A2-45E5-8D64-2A26D90FBE8B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{ECA8D9B4-B6A2-45E5-8D64-2A26D90FBE8B}.Debug|Win32.Build.0 = Debug|Win32
+		{ECA8D9B4-B6A2-45E5-8D64-2A26D90FBE8B}.DebugConsole|Win32.ActiveCfg = Debug|Win32
+		{ECA8D9B4-B6A2-45E5-8D64-2A26D90FBE8B}.DebugConsole|Win32.Build.0 = Debug|Win32
+		{ECA8D9B4-B6A2-45E5-8D64-2A26D90FBE8B}.Release|Win32.ActiveCfg = Release|Win32
+		{ECA8D9B4-B6A2-45E5-8D64-2A26D90FBE8B}.Release|Win32.Build.0 = Release|Win32
+		{ECA8D9B4-B6A2-45E5-8D64-2A26D90FBE8B}.ReleaseConsole|Win32.ActiveCfg = Release|Win32
+		{ECA8D9B4-B6A2-45E5-8D64-2A26D90FBE8B}.ReleaseConsole|Win32.Build.0 = Release|Win32
+		{2E602FF1-8CFC-4ED0-A19A-25641448E7D4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2E602FF1-8CFC-4ED0-A19A-25641448E7D4}.Debug|Win32.Build.0 = Debug|Win32
+		{2E602FF1-8CFC-4ED0-A19A-25641448E7D4}.DebugConsole|Win32.ActiveCfg = DebugConsole|Win32
+		{2E602FF1-8CFC-4ED0-A19A-25641448E7D4}.DebugConsole|Win32.Build.0 = DebugConsole|Win32
+		{2E602FF1-8CFC-4ED0-A19A-25641448E7D4}.Release|Win32.ActiveCfg = Release|Win32
+		{2E602FF1-8CFC-4ED0-A19A-25641448E7D4}.Release|Win32.Build.0 = Release|Win32
+		{2E602FF1-8CFC-4ED0-A19A-25641448E7D4}.ReleaseConsole|Win32.ActiveCfg = ReleaseConsole|Win32
+		{2E602FF1-8CFC-4ED0-A19A-25641448E7D4}.ReleaseConsole|Win32.Build.0 = ReleaseConsole|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

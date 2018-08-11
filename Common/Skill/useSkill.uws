@@ -20,13 +20,58 @@ class useSkill
 // return      : None
 ////=========================================
 
-	function reflection(REFLECTION_KEY)
-
-        KBD(REFLECTION_KEY,0,200);
-        KBD(REFLECTION_KEY,0,200);
-
+function reflection(reflectionKey)
+        KBD(reflectionKey,0,200);
+        KBD(reflectionKey,0,200);
         result = 0
-	fend
+fend
+
+//イリウム
+
+//=========================================
+// comment     : イリウム：ジャベリン
+// param       : None
+// return      : None
+////=========================================
+function javelin(javelinKey)
+        KBD(javelinKey,0,150);
+        KBD(javelinKey,0,150);
+        result = 0
+fend
+
+//=========================================
+// comment     : イリウム：オーブ
+// param       : None
+// return      : None
+////=========================================
+function orb(orbKey)
+        KBD(orbKey,0,50);
+        KBD(orbKey,0,25);
+        result = 0
+fend
+
+//=========================================
+// comment     : イリウム：クリスタル移動
+// param       : None
+// return      : None
+////=========================================
+function moveCrystal(crystalKey)
+        KBD(crystalKey,0,150);
+        KBD(cryStalKey,0,150);
+        result = 0
+fend
+
+//=========================================
+// comment     : イリウム：ロンギヌス
+// param       : None
+// return      : None
+////=========================================
+function checkAndUseLonginus(longinusKey)
+        result = 0
+fend
+
+
+//魔法使い共通
 
 //=========================================
 // comment     : 魔法使い：テレポート
@@ -34,14 +79,14 @@ class useSkill
 // return      : None
 ////=========================================
 
-	function teleport(TELEPORT_KEY)
-
-        KBD(TELEPORT_KEY,0,200);
-        KBD(TELEPORT_KEY,0,200);
-
+function teleport(teleportKey)
+        KBD(teleportKey,0,200);
+        KBD(teleportKey,0,200);
         result = 0
+fend
 
-	fend
+
+
 
 
 

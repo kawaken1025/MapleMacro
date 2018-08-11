@@ -1,0 +1,34 @@
+//=========================================//
+// comment     : キー設定(イリウム)
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 800x600 or 1366x768
+//=========================================//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/04/01
+//=========================================//
+
+CLASS key
+
+	//SkillKey
+	const TELEPORT_KEY      = VK_SPACE
+	const JAVELIN_KEY       = VK_X
+	const ORB_KEY           = VK_A
+	const LONGINUS_KEY      = VK_CTRL
+	const CRYSTAL_KEY       = VK_SHIFT
+	const DEUS_KEY          = VK_END
+	const FAST_CHARGE_KEY   = VK_NEXT
+	const LONGINUS_ZONE_KEY = VK_R
+	const RACE_OF_GOD_KEY   = VK_N
+
+	//SupportSkillKey
+	const ROPE_CONNECT_KEY  = VK_B
+
+	//SupportKey
+	const FAM_BOOK_KEY      = VK_F6
+	const FAM_RECOVERY_KEY  = VK_4
+	const PET_FEED          = VK_T
+
+ENDCLASS

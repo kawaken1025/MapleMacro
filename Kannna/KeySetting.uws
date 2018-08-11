@@ -1,0 +1,30 @@
+//=========================================//
+// comment     : キー設定(カンナ)
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 800x600 or 1366x768
+//=========================================//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/08/05
+//=========================================//
+
+CLASS key
+
+	//SkillKey
+	const DEMON_KEY        = VK_H //鬼神
+	const BRAGGART_KEY     = VK_A     //天狗
+	const SAKURA_KEY       = VK_G     //サクラ
+
+	//SupportSkillKey
+	const SKILL_MACRO1_KEY    = VK_G
+	const ROPE_CONNECT_KEY    = VK_B
+
+	//SupportKey
+	const FAM_BOOK_KEY        = VK_F6
+	const FAM_RECOVERY_KEY    = VK_4
+	const PET_FEED_KEY        = VK_T
+	const HP_PORTION_KEY      = VK_INSERT
+
+ENDCLASS

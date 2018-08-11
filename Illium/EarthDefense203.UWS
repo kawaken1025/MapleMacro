@@ -1,0 +1,58 @@
+//=========================================//
+// Map Name    : xxx                       //
+//=========================================//
+// Mob Name    : 
+// Mob Level   : 
+// Mob HP      : 
+// Mob Exp     : 
+//=========================================//
+// comment     : None
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 800x600 or 1366x768
+//=========================================//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/08/05
+//=========================================//
+
+//MapleAPI : LogWriter.uws , MapleLibrary.uws , UseSkillFiveJob.uws
+CALL ../MapleAPI/MapleAPI.uws;
+//import Luminous skillKeySetting
+CALL KeySetting.uws;
+//Illium Utility Class
+CALL IlliumUtil.uws;
+//Move Window initSetting x = 1 , y = 1
+lib.activeWindow();
+//multiThread checkRedPoint and checkMineralization
+thread lib.parallelProgram();
+
+while true
+	skillTime = gettime( 180 / 86400 );
+    skill.illiumSupportSkill();
+    while true
+		util.attack(VK_LEFT);
+		checkYelloPoint();
+		util.attack(VK_RIGHT);
+		checkYelloPoint();
+		if gettime() > skillTime then break;
+	wend
+
+wend
+
+function checkYelloPoint()
+
+	IFB CHKIMG("../picture/黄点.BMP",0,0,0,58,134)
+		KBD(VK_RIGHT,1,500)
+		KBD(VK_RIGHT,2,2000)
+	ENDIF
+
+	IFB CHKIMG("../picture/黄点.BMP",0,90,90,140,130)
+		KBD(VK_LEFT,1,500)
+		KBD(VK_LEFT,2,2000)
+	ENDIF
+
+	result = 0;
+
+fend

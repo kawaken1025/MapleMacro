@@ -34,46 +34,37 @@ CALL KeySetting.uws;
 lib.activeWindow();
 //multiThread checkRedPoint and checkMineralization
 thread lib.parallelProgram();
-
-//=========================================
 //  Main Script Start
-//=========================================
-
-//エクリブリアムモードであるかどうかのフラグ
 public isEqulibrium = false;
 
 while true;
-    //時刻の取得     : 3分経過していたらスキルをかかけなおす
+    //Acquisition of Time : Get the time after 3 minutes
     reUseSkillTime = GETTIME( 180 / 86400 );
     skill.luminous_useSkill();
-
     SLEEP(0.5);
-    lib.checkFamiliarPower();
-    
+    lib.checkFamiliarPower(key.FAM_BOOK_KEY,key.FAM_RECOVERY_KEY);
     while true;
-        goLeftAttack();
-        goRightAttack();
-        //3分経過していたらループを抜け出す
+        oneWayAttack(VK_LEFT,30,100,65,115);
+        oneWayAttack(VK_RIGHT,140,100,190,115);
+        //3minutes elapsed?
         if GETTIME() > reUseSkillTime then break;
     wend
 wend
-
 //=========================================
-// Support Function
+// param   : $1:移動方向キー
+//           $2:chkimg準拠
+// comment : 左右往復
 //=========================================
-
-
-function goLeftAttack()
-
-    //イクリブリアムフラグの設定 1366x768対応
-    IF CHKIMG("../picture/モード.bmp",0,0,0,1368,800)        THEN isEqulibrium = true;
-    IF CHKIMG("../picture/メモライズ_1366.bmp",0,0,0,1368,800) THEN isEqulibrium = true;
-
-    //ここから左へ行きながら攻撃する処理
-    KBD(VK_LEFT,1,100);
-    while true;
+function oneWayAttack(moveKey,x1,y1,x2,y2)
+    // Equlibrium check
+    if chkimg(lib.picPathHelper("mode"),0,0,0,1368,800)     _
+        or                                                  _
+       chkimg(lib.picPathHelper("memorize"),0,0,0,1368,800) then isEqulibrium = true;
+    //execute moveHunting
+    KBD(moveKey,1,100);
+    while true
         lib.urgentCheck();
-        ifb chkimg("../picture/黄点.bmp",0,82,98,140,123);
+        ifb chkimg(lib.picPathHelper("yellowPoint"),0,82,98,140,123);
             skill.luminous_skillCheck();
             ifb isEqulibrium
                 KBD(key.MEMORIZE_KEY,0,500);
@@ -81,54 +72,16 @@ function goLeftAttack()
                 isEqulibrium = false;
             endif
         endif
-
         useSkill.reflection(key.REFLECTION_KEY);
         useSkill.teleport(key.TELEPORT_KEY);
 
-
-        if chkimg("../picture/黄点.bmp",0,30,100,65,115) THEN break;
+        if chkimg(lib.picPathHelper("yellowPoint"),0,x1,y1,x2,y2)     then break;
+        if chkimg(lib.picPathHelper("yellowPoint"),0,163,123,180,143) then KBD(key.ROPE_CONNECT_KEY,0,800);
+        lib.checkStartingMapleStory();
     wend
     useSkill.reflection(key.REFLECTION_KEY);
-    KBD(VK_LEFT,2,200);
+    KBD(moveKey,2,200);
 
     result = 0;
-
-fend
-
-function goRightAttack()
-
-    //イクリブリアムフラグの設定 1366x768対応
-    IF CHKIMG("../picture/モード.bmp",0,0,0,1368,800)        THEN isEqulibrium = true;
-    IF CHKIMG("../picture/メモライズ_1366.bmp",0,0,0,1368,800) THEN isEqulibrium = true;
-
-    //ここから右へ行きながら攻撃する処理
-    KBD(VK_RIGHT,1,100);
-    while true;
-        lib.urgentCheck();
-        ifb chkimg("../picture/黄点.bmp",0,82,98,140,123);
-            skill.luminous_skillCheck();
-            ifb isEqulibrium;
-                KBD(key.MEMORIZE_KEY,0,500);
-                KBD(key.PSYCHOLOGY_DOOR_KEY,0,800);
-                isEqulibrium = false;
-            endif
-        endif
-
-        useSkill.reflection(key.REFLECTION_KEY)
-        useSkill.teleport(key.TELEPORT_KEY)
-
-        //下段にいた場合上へ戻る処理
-        ifb chkimg("../picture/黄点.bmp",0,160,125,185,150);
-            KBD(key.ROPE_CONNECT_KEY,0,1000);
-            sleep(1);
-        endif
-
-        if chkimg("../picture/黄点.bmp",0,140,100,190,115) THEN break;
-    wend
-    useSkill.reflection(key.REFLECTION_KEY);
-    KBD(VK_RIGHT,2,200);
-    
-    result = 0;
-
 fend
 

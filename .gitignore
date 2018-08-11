@@ -1,3 +1,4 @@
 # 「.svn」フォルダを除外
 .svn/
-.Repository/
+.Repository/.svn
+.主要

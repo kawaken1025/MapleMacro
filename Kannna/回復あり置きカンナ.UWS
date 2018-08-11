@@ -1,0 +1,44 @@
+﻿thread 並列処理()
+
+
+CALL ../MapleAPI/MapleAPI.uws
+CALL ../Kannna/KeySetting.uws
+
+lib.activeWindow();
+
+
+sleep(2)
+
+while True
+	KBD(key.SKILL_MACRO1_KEY,0,1000)
+	sleep(2)
+	for x = 1 to 10
+		kbd(key.DEMON_KEY,0,1000)
+		sleep(5)
+	next
+
+	KBD(key.SKILL_MACRO1_KEY,0,1000)
+	sleep(2)
+
+	kbd(vk_left,1,100)
+	kbd(vk_left,2,50)
+	for x = 1 to 10
+		kbd(key.DEMON_KEY,0,1000)
+		sleep(5)
+	next
+	kbd(vk_right,1,100)
+	kbd(vk_right,2,50)
+
+	KBD(key.PET_FEED_KEY,0,1000)
+wend
+
+procedure 並列処理()
+	while true
+		ifb chkimg("../PICTURE/石化.bmp",0,0,0,800,600)
+			for x = 1 to 20
+				kbd(vk_left,0,100)
+				kbd(vk_right,0,100)
+			next
+		endif
+	wend
+fend

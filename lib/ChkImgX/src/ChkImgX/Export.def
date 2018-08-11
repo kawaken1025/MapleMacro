@@ -1,0 +1,11 @@
+LIBRARY
+EXPORTS
+   startup_chkimgx
+   shutdown_chkimgx
+   get_message
+   chkimgx_generic
+   imagesize
+   encrypt_file
+   chkimgx_option
+   get_screen_rect
+   get_mouse_click

@@ -6,7 +6,47 @@ startup_chkimgx()
 
 try
 
+
+while True
+	try
+
+	KBD(VK_G,0,1000)
+	sleep(3)
 	for x = 1 to 10
+		kbd(VK_H,0,1000)
+		for i = 1 to 160
+			if chkimgx("../picture/Hp50Less.bmp",0,505,570,515,610,1,2,-1) then KBD(VK_INSERT,0,500)
+			sleep(0.5)
+		next
+	next
+
+	KBD(VK_G,0,1000)
+	sleep(3)
+
+	kbd(vk_left,1,100)
+	kbd(vk_left,2,50)
+	for i = 1 to 160
+		if chkimgx("../picture/Hp50Less.bmp",0,505,570,515,610,1,2,-1) then KBD(VK_INSERT,0,500)
+		sleep(0.5)
+	next
+	kbd(vk_right,1,100)
+	kbd(vk_right,2,50)
+
+
+	finally
+  		shutdown_chkimgx()
+	endtry
+
+wend
+
+
+
+finally
+  shutdown_chkimgx()
+endtry
+
+function a()
+		for x = 1 to 10
 		SOUND("BEEP")
 		sleep(0.2)
 	next
@@ -81,8 +121,5 @@ try
 			print arrowArray_D[x]
 		next
 	next
-
-
-finally
-  shutdown_chkimgx()
-endtry
+	result =0
+fend

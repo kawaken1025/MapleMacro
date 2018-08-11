@@ -79,6 +79,7 @@ function roundTripAttack(execKBD_Move, x1, y1, x2, y2 );
 			exit
 		endif
 		if chkimg("../picture/mysterMAP.bmp",0,0,0,400,400) then exitexit;
+		lib.checkStartingMapleStory()
 	wend;
 
 	KBD(execKBD_Move,2,500);

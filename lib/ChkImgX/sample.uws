@@ -1,0 +1,40 @@
+
+// finallyを必ず実行してもらう
+OPTION OPTFINALLY
+
+// ChkImgX関数をインクルード
+CALL ChkImgX.uws
+
+startup_chkimgx()
+try
+	// デバッグ用にダンプをONにする
+	chkimgx_option(true, false)
+
+	// 画像サイズを取得
+	dim w, h
+	imagesize("sample.png", w, h)
+	print "画像 幅:" + w + "px,高さ:" + h + "px"
+
+	// IEで2chトップページを開く
+	ie = createOLEobj("InternetExplorer.Application")
+	ie.visible = True
+	id = HNDtoID( ie.hwnd )
+	ie.navigate( "http://www.2ch.net/" )
+
+	// トップ画像をマッチングで探してクリック
+	mouseorg(id)
+	for n = 1 to 10
+		sleep(1)
+		if chkimgx("sample.png", id) then
+			print "見つけた スコア:" + G_IMGX_SCORE
+			acw(id)
+			mmv(G_IMGX_X, G_IMGX_Y)
+			btn(LEFT, CLICK, G_IMGX_X, G_IMGX_Y)
+			exit
+		endif
+	next
+	print "ない？"
+
+finally
+	shutdown_chkimgx()
+endtry
