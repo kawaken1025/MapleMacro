@@ -22,6 +22,7 @@ CLASS key
 	const FAST_CHARGE_KEY   = VK_NEXT
 	const LONGINUS_ZONE_KEY = VK_R
 	const RACE_OF_GOD_KEY   = VK_N
+	const GRAM_HOLDER_KEY   = VK_F
 
 	//SupportSkillKey
 	const ROPE_CONNECT_KEY  = VK_B

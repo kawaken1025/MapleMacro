@@ -5,7 +5,7 @@
 //     create date 2018/02/09
 // 
 //=====================================
-
+CALL pKeySetting.uws
 CLASS skill
 //=====================================
 // use Skill
@@ -30,8 +30,8 @@ fend
 // Common : パサーブルスキル
 //===========================
 function pSkill()
-    if chkimg(lib.picPathHelper("PHS"),0,0,0,1368,800)      then KBD(VK_5,0,1000)
-    if chkimg(lib.picPathHelper("PCO"),0,0,0,1368,800)      then KBD(VK_F7,0,1000)
+    if chkimg(lib.picPathHelper("PHS"),0,0,0,1368,800)      then KBD(pSkillKey.P_HOLY_SYMBOL,0,1000)
+    if chkimg(lib.picPathHelper("PCO"),0,0,0,1368,800)      then KBD(pSkillKey.P_COMBAT_ORDER_KEY,0,1000)
         result = 0
 fend
 //============================
@@ -43,11 +43,11 @@ function luminous_skillCheck()
     IF CHKIMG("../picture/扉.BMP",0,0,0,1368,800)           THEN KBD(VK_T,0,500)
     IF CHKIMG("../picture/パニシング.BMP",0,0,0,1368,800)      THEN KBD(VK_Q,0,500)
     IF CHKIMG("../picture/パニシング_1366.BMP",0,0,0,1368,800) THEN KBD(VK_Q,0,500)
-    IF CHKIMG("../picture/PHS.bmp",0,585,515,1368,800)      THEN KBD(VK_5,0,1000)
+    IF CHKIMG("../picture/PHS.bmp",0,585,515,1368,800)      THEN KBD(pSkillKey.P_HOLY_SYMBOL,0,1000)
     IF CHKIMG("../picture/扉.BMP",0,0,0,1368,800)           THEN KBD(VK_T,0,500)
-    IF CHKIMG("../picture/PCO.BMP",0,0,0,1368,800)          THEN KBD(VK_F7,0,500)
-    IF CHKIMG("../picture/PSE.BMP",0,0,0,1368,800)          THEN KBD(VK_9,0,500)
-    IF CHKIMG("../picture/PWB.BMP",0,0,0,1368,800)          THEN KBD(VK_8,0,500)
+    IF CHKIMG("../picture/PCO.BMP",0,0,0,1368,800)          THEN KBD(pSkillKey.P_COMBAT_ORDER_KEY,0,500)
+    IF CHKIMG("../picture/PSE.BMP",0,0,0,1368,800)          THEN KBD(pSkillKey.P_SHARP_EYES_KEY,0,500)
+    IF CHKIMG("../picture/PWB.BMP",0,0,0,1368,800)          THEN KBD(pSkillKey.P_WIND_BOOSTER,0,500)
     IFB CHKIMG("../picture/ヒーローズオース.BMP",0,0,0,1368,800)
         IF CHKIMG("../picture/darkMode.BMP",0,0,0,1368,800) THEN KBD(VK_N,0,500)
     ENDIF
@@ -67,11 +67,12 @@ function illiumSupportSkill()
     result = 0
 fend
 
-function illiumSkillCheck(deusKey,fastChargeKey,longinusZoneKey,raceOfGodKey)
-    if chkimg(lib.picPathHelper("deus"),0,0,0,1366,800)         then KBD(deusKey,0,700);
+function illiumSkillCheck(deusKey,fastChargeKey,longinusZoneKey,raceOfGodKey,gramHolderKey)
+    if chkimg(lib.picPathHelper("deus"),0,0,0,1366,800)          then KBD(deusKey,0,700);
     //if chkimg(lib.picPathHelper("FastCharge"),0,0,0,1366,800)   then KBD(fastChargeKey,0,700);
-    //if chkimg(lib.picPathHelper("LonginusZone"),0,0,0,1366,800) then KBD(longinusZoneKey,0,700);
-    //if chkimg(lib.picPathHelper("RaceOfGod"),0,0,0,1366,800)    then KBD(raceOfGodKey,0,700);
+    if chkimg(lib.picPathHelper("LonginusZone"),0,0,0,1366,800)  then KBD(longinusZoneKey,0,700);
+    if chkimg(lib.picPathHelper("RaceOfGod"),0,0,0,1366,800)     then KBD(raceOfGodKey,0,700);
+    if chkimg(lib.picPathHelper("GramHolder"),0,0,0,1366,800)    then KBD(gramHolderKey,0,700);
     result = 0;
 fend
 

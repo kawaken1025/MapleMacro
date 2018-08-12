@@ -1,0 +1,21 @@
+//=========================================//
+// comment     : キー設定(イリウム)
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 800x600 or 1366x768
+//=========================================//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/08/12
+//=========================================//
+
+CLASS pSkillKey
+
+	//SupportSkillKey
+	const P_COMBAT_ORDER_KEY  = VK_F7
+	const P_SHARP_EYES_KEY    = VK_9
+	const P_HOLY_SYMBOL       = VK_5
+	const P_WIND_BOOSTER      = VK_8
+
+ENDCLASS

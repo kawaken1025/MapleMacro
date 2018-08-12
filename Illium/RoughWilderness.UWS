@@ -14,7 +14,7 @@
 //=========================================//
 // Copy Right (C) 2018 All Right Reserved. 
 //   @author k.kawabata @kawaken1025
-//     Create Date : 2018/08/05
+//     Create Date : 2018/08/12
 //=========================================//
 
 //MapleAPI : LogWriter.uws , MapleLibrary.uws , UseSkillFiveJob.uws
@@ -33,11 +33,26 @@ while true
     skill.illiumSupportSkill();
     while true
 		util.attack(VK_LEFT);
-		util.checkYellowPointExcavationArea2();
+		checkYelloPoint();
 		util.attack(VK_RIGHT);
-		util.checkYellowPointExcavationArea2();
+		checkYelloPoint();
 		if gettime() > skillTime then break;
 	wend
 
 wend
 
+function checkYelloPoint()
+
+	IFB CHKIMG("../picture/黄点.BMP",0,0,0,66,150)
+		KBD(VK_RIGHT,1,500)
+		KBD(VK_RIGHT,2,2000)
+	ENDIF
+
+	IFB CHKIMG("../picture/黄点.BMP",0,133,105,200,150)
+		KBD(VK_LEFT,1,500)
+		KBD(VK_LEFT,2,2000)
+	ENDIF
+
+	result = 0;
+
+fend
