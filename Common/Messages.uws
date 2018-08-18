@@ -17,21 +17,27 @@ CLASS Messages
 	const SCRIPT_END              = "異常を検知したためスクリプトが終了しました。";
 	const STOP_MAPLE_MESSAGE      = "メイプルストーリーが起動していません。マクロを終了します。";
 	const ENCOUNT_GAME_MASTER     = "ゲームマスターを検知しました。";
+	const REPLY_REQUEST           = "「ご返答」を検出しました。";
+	const HEART_SPEAKER           = "ハート拡声器を検出しました。";
+	const NOT_RED_POINT           = "赤点を確認できませんでした。"
+	const NOT_GAMEMASTER          = "ゲームマスターではありませんでした。";
+	const INIT_CHAT               = "チャット欄を初期化します。";
+	const RESPONSE_MESSAGE        = "ゲームマスターにチャットで返答します。";
 
 ENDCLASS
 
 CLASS ErrorCode
 
-	const BACK_TOWN             = "E00001"
-	const DETECTION_GAME_MASTER = "E00002"
-	const DETECTION_PLAYER      = "E00003"
+	const BACK_TOWN             = "E00001";
+	const DETECTION_GAME_MASTER = "E00002";
+	const DETECTION_PLAYER      = "E00003";
 
 ENDCLASS
 
 CLASS LogLevel
 
 	const LOG_INFO   = "[INFO]";
-	const LOG_DEBUG  = "[DEBUG]"
+	const LOG_DEBUG  = "[DEBUG]";
 	const LOG_ERROR  = "[ERROR]";
 	const LOG_WARN   = "[WARN]";
 
@@ -44,6 +50,11 @@ CLASS ResponseMessages
 	const RESPONSE_STR_1 = "疲れたよゲームマスターさん";
 	const RESPONSE_STR_2 = "本日はお日柄もよく・・・";
 	const RESPONSE_STR_3 = "またかよｗｗｗｗｗｗｗｗｗｗｗｗ";
+
+	public resMessages[] = "今日も元気にメイプルストーリーを楽しんでます",_
+	                       "疲れたよゲームマスターさん",_
+	                       "本日はお日柄もよく・・・",_
+	                       "またかよｗｗｗｗｗｗｗｗｗｗｗｗ";
 
 ENDCLASS
 

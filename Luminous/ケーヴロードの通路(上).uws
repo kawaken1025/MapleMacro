@@ -77,6 +77,7 @@ function oneWayAttack(moveKey,x1,y1,x2,y2)
         if chkimg(lib.picPathHelper("yellowPoint"),0,x1,y1,x2,y2)     then break;
         if chkimg(lib.picPathHelper("yellowPoint"),0,163,123,180,143) then KBD(key.ROPE_CONNECT_KEY,0,800);
         lib.checkStartingMapleStory();
+        lib.checkGameMaster();
     wend
     useSkill.reflection(key.REFLECTION_KEY);
     KBD(moveKey,2,200);

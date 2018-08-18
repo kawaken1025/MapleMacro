@@ -7,6 +7,7 @@
 //=====================================
 CALL pKeySetting.uws
 CALL ../../Illium/KeySetting.uws
+
 CLASS skill
 //=====================================
 // use Skill
@@ -34,7 +35,8 @@ function pSkill()
     if chkimg(lib.picPathHelper("PHS"),0,0,0,1368,800) then KBD(pSkillKey.P_HOLY_SYMBOL,0,1000);
     if chkimg(lib.picPathHelper("PCO"),0,0,0,1368,800) then KBD(pSkillKey.P_COMBAT_ORDER_KEY,0,1000);
     if chkimg(lib.picPathHelper("PSE"),0,0,0,1368,800) then KBD(pSkillKey.P_SHARP_EYES_KEY,0,500);
-        result = 0
+    if chkimg(lib.picPathHelper("PWB"),0,0,0,1368,800) then KBD(pSkillKey.P_WIND_BOOSTER,0,500);
+        result = 0;
 fend
 //============================
 // ルミナス：クールタイムスキル
@@ -42,18 +44,13 @@ fend
 function luminous_skillCheck()
 
     //Display Dpl 1366 x 768
-    IF CHKIMG("../picture/扉.BMP",0,0,0,1368,800)           THEN KBD(VK_T,0,500)
-    IF CHKIMG("../picture/パニシング.BMP",0,0,0,1368,800)      THEN KBD(VK_Q,0,500)
-    IF CHKIMG("../picture/パニシング_1366.BMP",0,0,0,1368,800) THEN KBD(VK_Q,0,500)
-    IF CHKIMG("../picture/PHS.bmp",0,585,515,1368,800)      THEN KBD(pSkillKey.P_HOLY_SYMBOL,0,1000)
-    IF CHKIMG("../picture/扉.BMP",0,0,0,1368,800)           THEN KBD(VK_T,0,500)
-    IF CHKIMG("../picture/PCO.BMP",0,0,0,1368,800)          THEN KBD(pSkillKey.P_COMBAT_ORDER_KEY,0,500)
-    IF CHKIMG("../picture/PSE.BMP",0,0,0,1368,800)          THEN KBD(pSkillKey.P_SHARP_EYES_KEY,0,500)
-    IF CHKIMG("../picture/PWB.BMP",0,0,0,1368,800)          THEN KBD(pSkillKey.P_WIND_BOOSTER,0,500)
-    IFB CHKIMG("../picture/ヒーローズオース.BMP",0,0,0,1368,800)
-        IF CHKIMG("../picture/darkMode.BMP",0,0,0,1368,800) THEN KBD(VK_N,0,500)
-    ENDIF
-
+    if chkimg(lib.picPathHelper("扉"),0,0,0,1368,800)           then KBD(VK_T,0,500);
+    if chkimg(lib.picPathHelper("パニシング"),0,0,0,1368,800)      then KBD(VK_Q,0,500);
+    if chkimg(lib.picPathHelper("パニシング_1366"),0,0,0,1368,800) then KBD(VK_Q,0,500);
+    ifb chkimg(lib.picPathHelper("ヒーローズオース"),0,0,0,1368,800)
+        if chkimg(lib.picPathHelper("darkMode"),0,0,0,1368,800) then KBD(VK_N,0,500);
+    endif
+    pSkill();
 
     result = 0
 fend
@@ -68,10 +65,12 @@ function illiumSupportSkill()
 
     result = 0
 fend
-
+//============================
+// イリウム：クールタイムスキル
+//============================
 function illiumSkillCheck(deusKey,fastChargeKey,longinusZoneKey,raceOfGodKey,gramHolderKey)
     if chkimg(lib.picPathHelper("deus"),0,0,0,1366,800)          then KBD(deusKey,0,700);
-    if chkimg(lib.picPathHelper("FastCharge"),0,0,0,1366,800)   then KBD(fastChargeKey,0,700);
+    if chkimg(lib.picPathHelper("FastCharge"),0,0,0,1366,800)    then KBD(fastChargeKey,0,700);
     if chkimg(lib.picPathHelper("LonginusZone"),0,0,0,1366,800)  then KBD(longinusZoneKey,0,700);
     if chkimg(lib.picPathHelper("RaceOfGod"),0,0,0,1366,800)     then KBD(raceOfGodKey,0,700);
     if chkimg(lib.picPathHelper("GramHolder"),0,0,0,1366,800)    then KBD(gramHolderKey,0,700);

@@ -36,8 +36,10 @@ function attack(moveKey)
         skill.pSkill()
     next
     lib.urgentCheck();
+    lib.checkGameMaster();
     KBD(moveKey,1,300)
     KBD(moveKey,2,300)
+    
     
     result = 0
 fend
@@ -57,6 +59,7 @@ function moveCrystalAttack(moveKey)
         if chkimg(lib.picPathHelper("CrystalIgnition"),0,0,0,1366,800) then useSkill.crystalIgnition(key.IGNITION_KEY,key.CRYSTAL_KEY);
     next
     lib.urgentCheck();
+    lib.checkGameMaster();
     KBD(moveKey,1,300)
     KBD(moveKey,2,150)
     
