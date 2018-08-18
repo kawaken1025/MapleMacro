@@ -25,7 +25,6 @@
 //=========================================
 // init
 //=========================================
-
 //MapleAPI : LogWriter.uws , MapleLibrary.uws , UseSkillFiveJob.uws
 CALL ../MapleAPI/MapleAPI.uws;
 //import Luminous skillKeySetting

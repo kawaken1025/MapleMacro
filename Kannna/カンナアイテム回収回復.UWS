@@ -22,6 +22,7 @@ While true
 		SLEEP(0.5)
 		IF CHKIMG("../picture/—Î“_.BMP",0,0,0,800,600) THEN EXITEXIT
 		KBD(VK_DELETE,0,100)
+		KBD(VK_R,0,1000)
 		IF CHKIMG("../picture/PHS.bmp",0,585,515,800,600) THEN KBD(VK_5,0,1000)
 		recovery()
 
@@ -69,7 +70,7 @@ PROCEDURE recovery()
 			EXIT
 		ENDIF
 
-		KBD(VK_HOME,0,300)
+		//KBD(VK_DELETE,0,300)
 		KBD(VK_R,0,300)
 
 FEND

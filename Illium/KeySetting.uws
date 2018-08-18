@@ -7,7 +7,7 @@
 //=========================================//
 // Copy Right (C) 2018 All Right Reserved. 
 //   @author k.kawabata @kawaken1025
-//     Create Date : 2018/04/01
+//     Create Date : 2018/08/01
 //=========================================//
 
 CLASS key
@@ -23,6 +23,7 @@ CLASS key
 	const LONGINUS_ZONE_KEY = VK_R
 	const RACE_OF_GOD_KEY   = VK_N
 	const GRAM_HOLDER_KEY   = VK_F
+	const IGNITION_KEY      = VK_D
 
 	//SupportSkillKey
 	const ROPE_CONNECT_KEY  = VK_B

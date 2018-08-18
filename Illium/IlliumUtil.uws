@@ -24,7 +24,9 @@ CALL KeySetting.uws;
 //Move Window initSetting x = 1 , y = 1
 
 class util
-
+//------------------------------------------
+// comment : オーブ位置固定攻撃
+//------------------------------------------
 function attack(moveKey)
     for i = 1 to 5
         useSkill.javelin(key.JAVELIN_KEY);
@@ -40,32 +42,112 @@ function attack(moveKey)
     result = 0
 fend
 
-function checkYellowPoint(x1,y1,x2,y2)
-	ifb chkimg(lib.picPathHelper("yellowPoint"),0,x1,y1,x2,y2)
-		kbd(vk_right,1,500)
-		kbd(vk_right,2,1500)
-		exit
-	endif
-	result = 0;
+//------------------------------------------
+// comment : クリスタルを移動させて攻撃
+//------------------------------------------
+function moveCrystalAttack(moveKey)
+    for i = 1 to 2
+        useSkill.moveCrystal(key.CRYSTAL_KEY)
+        sleep(0.5);
+        useSkill.javelin(key.JAVELIN_KEY);
+        useSkill.orb(key.ORB_KEY);
+        if chkimg(lib.picPathHelper("Longinus"),0,0,0,1366,800) then KBD(key.LONGINUS_KEY,0,700);
+        skill.illiumSkillCheck(key.DEUS_KEY,key.FAST_CHARGE_KEY,key.LONGINUS_ZONE_KEY,key.RACE_OF_GOD_KEY,key.GRAM_HOLDER_KEY);
+        skill.pSkill();
+        if chkimg(lib.picPathHelper("CrystalIgnition"),0,0,0,1366,800) then useSkill.crystalIgnition(key.IGNITION_KEY,key.CRYSTAL_KEY);
+    next
+    lib.urgentCheck();
+    KBD(moveKey,1,300)
+    KBD(moveKey,2,150)
+    
+    result = 0
 fend
 
-endclass
 
 //----------------------------------------
 // Yellow Point Check : 黄昏発掘2
 //----------------------------------------
 function checkYellowPointExcavationArea2()
 
-    IFB CHKIMG(lib.picPathHelper("yellowPoint"),0,0,0,84,150)
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,84,150)
         KBD(VK_RIGHT,1,500)
         KBD(VK_RIGHT,2,2000)
-    ENDIF
+    endif
 
-    IFB !CHKIMG(lib.picPathHelper("yellowPoint"),0,0,0,120,150)
+    ifb !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,120,150)
         KBD(VK_LEFT,1,500)
         KBD(VK_LEFT,2,2000)
-    ENDIF
+    endif
 
     result = 0;
 
 fend
+
+//----------------------------------------
+// Yellow Point Check : 魂の領土
+//----------------------------------------
+function checkYellowPointSoulOfTheTerritory()
+
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,59,88,103,108)
+        KBD(VK_DOWN,1,500)
+        KBD(VK_DOWN,2,2000)
+    endif
+
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,60,122)
+        KBD(VK_RIGHT,1,500)
+        KBD(VK_RIGHT,2,1000)
+    endif
+
+    ifb !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,97,122)
+        KBD(VK_LEFT,1,500)
+        KBD(VK_LEFT,2,1000)
+    endif
+
+    if chkimg(lib.picPathHelper("yellowPoint"),0,0,123,155,150) then upStageSoulOfTheTerritory();
+
+    result = 0;
+
+fend
+
+//-----------------------------------------
+// map     : 魂の領土
+// comment : 最下段にいた場合上に戻る
+//-----------------------------------------
+function upStageSoulOfTheTerritory()
+
+    
+    //いったん右へ
+    while true
+        KBD(VK_RIGHT,1,500)
+        for i = 1 to 5
+            KBD(key.TELEPORT_KEY,0,500)
+        next
+        if !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,133,150) then break;
+    wend
+    KBD(VK_RIGHT,2,500)
+    
+
+    //真ん中へ
+    KBD(VK_LEFT,1,500)
+    for i = 1 to 4
+        KBD(key.TELEPORT_KEY,0,500)
+    next    
+    KBD(VK_LEFT,2,500)
+
+    //上へテレポート
+    KBD(VK_UP,1,500)
+    for i = 1 to 3
+        KBD(key.TELEPORT_KEY,0,500)
+    next
+    KBD(VK_UP,2,500)
+
+    KBD(VK_LEFT,1,500)
+    KBD(VK_LEFT,2,1500)
+
+    result = 0;
+
+fend
+
+
+
+endclass

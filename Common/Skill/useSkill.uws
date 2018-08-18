@@ -70,6 +70,25 @@ function checkAndUseLonginus(longinusKey)
         result = 0
 fend
 
+//=========================================
+// comment     : イリウム：クリスタルイグニッション
+// param       : None
+// return      : None
+////=========================================
+function crystalIgnition(ignitionKey,crystalKey)
+        KBD(ignitionKey,1,1000);
+        for i = 1 to 6
+            KBD(VK_LEFT,1,300);
+            KBD(VK_LEFT,2,150);
+            moveCrystal(cryStalKey);
+            KBD(VK_RIGHT,1,300);
+            KBD(VK_RIGHT,2,150);
+            moveCrystal(cryStalKey);
+        next
+        KBD(ignitionKey,2,300);
+        result = 0;
+fend
+
 
 //魔法使い共通
 
@@ -82,8 +101,10 @@ fend
 function teleport(teleportKey)
         KBD(teleportKey,0,200);
         KBD(teleportKey,0,200);
-        result = 0
+        result = 0;
 fend
+
+
 
 
 
