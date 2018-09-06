@@ -45,16 +45,16 @@ ENDCLASS
 
 CLASS ResponseMessages
 
+	//初期化用
 	const RESPONSE_STR   = "最近大変っすね"
-	const RESPONSE_STR_0 = "今日も元気にメイプルストーリーを楽しんでます";
-	const RESPONSE_STR_1 = "疲れたよゲームマスターさん";
-	const RESPONSE_STR_2 = "本日はお日柄もよく・・・";
-	const RESPONSE_STR_3 = "またかよｗｗｗｗｗｗｗｗｗｗｗｗ";
-
+	//メッセージ
 	public resMessages[] = "今日も元気にメイプルストーリーを楽しんでます",_
 	                       "疲れたよゲームマスターさん",_
 	                       "本日はお日柄もよく・・・",_
-	                       "またかよｗｗｗｗｗｗｗｗｗｗｗｗ";
+	                       "またかよｗｗｗｗｗｗｗｗｗｗｗｗ",_
+	                       "加藤純一最強!!!!!!!!!!!!!!!",_
+	                       "加藤純一は偉いよなぁ！？",_
+	                       "面白い返答が思いつきません";
 
 ENDCLASS
 

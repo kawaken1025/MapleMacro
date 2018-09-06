@@ -12,13 +12,19 @@
 
 CLASS key
 
-	const TELEPORT_KEY        = VK_SPACE
-	const REFLECTION_KEY      = VK_X
-	const MEMORIZE_KEY        = VK_O
-	const PSYCHOLOGY_DOOR_KEY = VK_T
-	const PANISHING_KEY       = VK_Q
-	const ROPE_CONNECT_KEY    = VK_B
-	const FAM_BOOK_KEY        = VK_F6
-	const FAM_RECOVERY_KEY    = VK_4
+    //スキル
+    const TELEPORT_KEY        = VK_SPACE
+    const REFLECTION_KEY      = VK_X
+    const MEMORIZE_KEY        = VK_O
+    const PSYCHOLOGY_DOOR_KEY = VK_T
+    const PANISHING_KEY       = VK_Q
+    const ROPE_CONNECT_KEY    = VK_B
+
+    //スキル以外 
+    const FAM_BOOK_KEY        = VK_F6  //ファミリアブックキー
+    const FAM_RECOVERY_KEY    = VK_4   //ファミリア気力回復薬キー
+    const MAPRAGE_KEY         = VK_F9  //メイプレージキー
+    const DURABILITY_RCV_KEY  = VK_F10 //耐久装備回復クーポンキー
 
 ENDCLASS
+

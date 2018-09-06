@@ -1,0 +1,98 @@
+//=========================================//
+// Map Name    : 安息の洞窟(下)     //
+//=========================================//
+// Mob Name    : 
+// Mob Level   : 
+// Mob HP      : 
+// Mob Exp     : 
+//=========================================//
+// comment     : None
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 800x600 or 1366x768
+//=========================================//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/08/06
+//=========================================//
+
+//MapleAPI : LogWriter.uws , MapleLibrary.uws , UseSkillFiveJob.uws
+CALL ../MapleAPI/MapleAPI.uws;
+//import Luminous skillKeySetting
+CALL KeySetting.uws;
+//Move Window initSetting x = 1 , y = 1
+lib.activeWindow();
+//multiThread checkRedPoint and checkMineralization
+thread lib.parallelProgram();
+
+//=========================================
+//  Main Script Start
+//=========================================
+
+//時刻の取得     : 3分経過していたらスキルをかかけなおす
+public reUseSkillTime = GETTIME( 180 / 86400 );
+public leaveTime = GETTIME( 480 / 86400 );
+
+skill.illiumSupportSkill();
+   
+while true;
+
+        //右へ行く
+        ret = roundTripTeleportAttack(VK_RIGHT,200,115,240,160);
+
+        //3分経過していたらループを抜け出す
+        ifb GETTIME() > reUseSkillTime
+            skill.luminous_useSkill();
+            reUseSkillTime = GETTIME( 180 / 86400 );
+        endif
+
+        //左へ行く
+        ret = roundTripTeleportAttack(VK_LEFT,0,0,75,160);
+        if chkimg(lib.picPathHelper("LonginusZone"),0,0,0,1366,800)  then KBD(key.LONGINUS_ZONE_KEY,0,700);
+
+wend
+
+
+function roundTripTeleportAttack(execKBD_Move, x1, y1, x2, y2 );
+    KBD(execKBD_Move,1,500);    
+    while true;
+        useSkill.moveCrystal(key.CRYSTAL_KEY);
+        useSkill.reflection(key.JAVELIN_KEY);
+        useSkill.reflection(key.ORB_KEY);
+        for i = 1 to 2
+            useSkill.teleport(key.TELEPORT_KEY);
+        next
+        illiumSkillCheck();
+        lib.checkGameMaster();
+        if chkimg("../picture/黄点.bmp",0,x1,y1,x2,y2) then break;
+        ifb chkimg("../picture/緑点.bmp",0,0,0,400,400)
+            exitexit
+        endif
+    wend
+    KBD(execKBD_Move,2,500);
+    skill.pSkill();
+
+    result = 0;
+fend
+
+//============================
+// イリウム：安息用クールタイムスキル
+//============================
+function illiumSkillCheck()
+    if chkimg(lib.picPathHelper("deus"),0,0,0,1366,800)          then KBD(key.DEUS_KEY,0,700);
+    if chkimg(lib.picPathHelper("FastCharge"),0,0,0,1366,800)    then KBD(key.FAST_CHARGE_KEY,0,700);
+    if chkimg(lib.picPathHelper("RaceOfGod"),0,0,0,1366,800)     then KBD(key.RACE_OF_GOD_KEY,0,700);
+    if chkimg(lib.picPathHelper("GramHolder"),0,0,0,1366,800)    then KBD(key.GRAM_HOLDER_KEY,0,700);
+    if chkimg(lib.picPathHelper("Longinus"),0,0,0,1366,800)      then KBD(key.LONGINUS_KEY,0,700);
+    result = 0;
+fend
+
+function upStage()
+
+    KBD(VK_UP,1,700)
+    KBD(VK_C,0,300)
+    KBD(VK_C,0,100)
+    KBD(VK_SPACE)
+    result = 0;
+fend

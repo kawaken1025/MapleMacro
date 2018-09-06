@@ -1,0 +1,157 @@
+// サンプル
+
+if KINDOFOS() < 21       // Windows7 未満
+   msgbox("ごめんなさい。<#CR>このサンプルは Windows7 以上の必要があります。")
+   Exit
+endif
+Speak("Run the sample script", True)
+
+// メッセージ表示位置
+PUBLIC msgx, msgy
+msgx = MONITOR(0, MON_WIDTH) / 2    // メインモニタの真ん中
+msgy = MONITOR(0, MON_HEIGHT) / 2
+
+// マウス、キーボード入力をブロックする
+StopForm(False)                 // Stopウィンドウは出さない
+LockHardEX(0, LOCK_MOUSE)       // マウス禁止
+
+// Paint 全画面表示
+paintid = paintimg()
+
+// メモ帳 起動
+メモID = EXEC(GET_SYS_DIR+"\notepad.exe", False, 200, 10, 400, 400)
+if Pos("メモ帳", Status(メモID, ST_TITLE)) = 0
+   msgbox("Japanese-Windows only")
+   Exit
+endif
+
+// メモ帳 フォントの変更
+ClkItem(メモID, "フォント", CLK_MENU or CLK_SHORT)
+fontid = GETID("フォント", "#32770", 3)
+if fontid<0 then fontid = GETID("Font", "#32770")
+sv_fontStyl = GETSTR(fontid, 2)       // 現在のスタイル
+sv_fontSize = GETSTR(fontid, 3)       // 現在のサイズ
+ClkItem(fontid, "太字", CLK_LIST)     // スタイル変更
+SendStr(fontid, "16", 3, True)        // サイズ変更 (ClkItemでも可)
+Sleep(1)
+ClkItem(fontid, "ＯＫ")
+
+// 計算式をメモ帳に書き込み
+計算式 = "12345+98765="
+SendStr(メモID, 計算式)
+Sleep(1)
+
+// 電卓で計算
+電卓ID = EXEC(GET_SYS_DIR+"\calc.exe")
+if KINDOFOS() < 30                       // Windows7, 8
+   ClkItem(電卓ID, "普通の電卓")
+   SendStr(電卓ID, 計算式)
+   Sleep(1)
+   ret = GetStr(電卓ID, 4, STR_STATIC)
+else                                     // Windows10 ストアアプリ
+   電卓ID = GETID("電卓", "ApplicationFrameWindow")
+   clkbtn = ""
+   for n = GetItem(電卓ID, ITM_BTN)-1 to 1 step -1  // 現在のモードを調べる
+       if Pos("最小化", ALL_ITEM_LIST[n])>0
+          clkbtn = ALL_ITEM_LIST[n-1]
+          break
+       endif
+   next
+   if clkbtn <> "標準"             // 標準 電卓に切り替え
+      ClkItem(電卓ID, clkbtn, CLK_BTN)
+      sleep(1)
+      ClkItem(電卓ID, "標準 電卓", CLK_LIST)
+      KBD(VK_RETURN)
+   endif
+   for n in 計算式                 // １文字づつクリック
+      if n = "+" then n = "プラス"
+      if n = "=" then n = "等号"
+      ClkItem(電卓ID, n)
+   next
+   Sleep(1)
+   ret = GetStr(電卓ID, 2, STR_STATIC)
+   Token(" ", ret)
+endif
+SendStr(メモID, ret+"<#CR>")       // メモ帳に答えを追加
+
+// 電卓回す
+SendStr(メモID, "電卓をグルグル回してみる<#CR>")
+if  MsgBox("回してみます？", BTN_YES or BTN_NO) = BTN_YES
+    moji = "音楽を入れますか？<#CR>Ｙｅｓなら５秒以内に Shift キーを押してね"
+    if  音楽を入れるかキーチェック(VK_SHIFT, moji)
+        musicnm = "flourish.mid"
+        Balloon("読み込み中...", msgx, msgy)
+        Sound(musicnm) 　                     // バックミュージック
+        Balloon()
+    endif
+    for 回数 = 1 to 3
+       if 回数=2 then Balloon("いつもより余計に回しています<#cr>パチパチパチ"_
+                  , msgx, msgy-20, 3, 14)        // _により前行と繋がっている
+       call .\grugru.uws                         // grugru.uws を実行
+    next
+else
+    Balloon("それは残念", msgx, msgy, 0, 14)
+    Sleep(3)
+endif
+
+// 終了処理
+Balloon("フォントの変更を戻す")
+ClkItem(メモID, "フォント", CLK_MENU or CLK_SHORT) // フォントの変更を戻す
+fontid = GETID("フォント", "#32770", 3)
+if fontid<0 then fontid = GETID("Font", "#32770")
+SendStr(fontid, sv_fontStyl, 2, True)     // スタイル戻す
+SendStr(fontid, sv_fontSize, 3, True)     // サイズ戻す
+Sleep(1)
+ClkItem(fontid, "ＯＫ")
+CtrlWin(paintid, CLOSE2)                  // Paint終了
+Sound()    　　　　　　　　　  　　   　  // SOUND OFF
+Balloon()                                 // 吹出しOFF
+CtrlWin(電卓ID, CLOSE)                    // 電卓終了
+SendStr(メモID, "終了～")
+Sleep(1)
+CtrlWin(メモID, CLOSE)                    // メモ終了
+Sleep(1)
+ClkItem(GETID("メモ帳", "#32770"), "保存しない")
+LockHardEX()                              // 入力ブロックの解除
+// メイン処理はここまでになる（関数の前まで）
+
+
+
+// 以下 関数(サブルーチン)
+
+// 指定キーが押されたらTrueを返す
+Function 音楽を入れるかキーチェック(chk_key, moji)
+   Result = False                       // 戻り値
+   sv_tm = GetTime()
+   while GetTime()-sv_tm < 5            // 5秒まで待つ
+       wk_sec = 5 - (GetTime()-sv_tm)
+       Balloon(moji+"　"+wk_sec, msgx, msgy, 0, 14)
+       if  GETKEYSTATE(chk_key)         // 指定キーチェック
+　　　     Result = True                // 戻り値=True
+　　　　　 break
+       endif
+       sleep(0.2)
+   wend
+   Balloon()                            // 吹出しOFF
+fend
+
+
+// usertile12.bmp/user-200.png/user-192.pngを Paintで表示
+Function paintimg()
+   Result = 0
+   Const dpath = "C:\ProgramData\Microsoft\User Account Pictures\"
+   img = dpath + "Default Pictures\usertile12.bmp"  // Win7
+   if  ! FOPEN(img, F_EXISTS)
+       img = dpath + "user-200.png"                 // Win8
+       if ! FOPEN(img, F_EXISTS)
+          img = dpath + "user-192.png"              // Win10
+          if ! FOPEN(img, F_EXISTS) then exit       // 無し
+       endif
+   endif
+   id = exec("mspaint.exe <#DBL>"+ img +"<#DBL>")
+   sleep(1)
+   ClkItem(id, "表示", CLK_ACC)
+   ClkItem(id, "全画面", CLK_ACC or CLK_BACK)
+   sleep(1)
+   Result = id                    // IDを返す
+Fend

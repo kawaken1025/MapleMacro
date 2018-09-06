@@ -13,10 +13,12 @@
 
 CALL ../Log/logWriter.uws;
 CALL ../Common/Messages.uws;
+CALL ../Common/CommonKeySetting.uws;
 
-public PIC_PATH = "../picture/";
-public SCREEN_SHOT_SAVE_DIR = "../picture/ScreenShot/"
-public MAPLE_RESULT_OK = 0;
+public PIC_PATH             = "../picture/";
+public SCREEN_SHOT_SAVE_DIR = "../picture/ScreenShot/";
+public MAPLE_STORY_EXE_DIR  = "C:\Nexon\MapleStory\MapleStory.exe";
+public MAPLE_RESULT_OK      = 0;
 
 
 CLASS lib
@@ -26,18 +28,31 @@ CLASS lib
 // return  : 0 
 //==========================================
 
-function checkFamiliarPower(bookKey,recoveryKey)
+function checkFamiliarPower()
     
-    KBD(bookKey,0,300);
+    KBD(comKey.FAM_BOOK_KEY,0,300);
     SLEEP(0.5);
     ifb chkimg("../picture/fam500以下.bmp",0,0,0,1368,800);
-        KBD(recoveryKey,0,300);
+        KBD(comKey.FAM_RECOVERY_KEY,0,300);
         logger.logWriter(LogLevel.LOG_INFO,Messages.RECOVERY_FAMILIAR_POWER);
     endif;
-    KBD(bookKey,0,300);
+    KBD(comKey.FAM_BOOK_KEY,0,300);
 
-    result = MAPLE_RESULT_OK; ;
+    result = MAPLE_RESULT_OK;
 fend
+
+//==========================================
+// comment : メイプレージを使用する
+// param   : None
+// return  : 0 
+//==========================================
+function useMaprage()
+
+    KBD(comKey.MAPRAGE_KEY,0,500)
+    //TODO:5回以上使用したときの窓を閉じる処理
+    result = MAPLE_RESULT_OK;
+fend
+
 
 //=========================================
 // comment : テレポート職業限定　往復狩
@@ -59,7 +74,7 @@ function roundTripTeleportAttack( execKBD_Attack, execKBD_Move, yellowX_S, yello
 
     KBD(execKBD_Move,2,500);
 
-    result = MAPLE_RESULT_OK; ;
+    result = MAPLE_RESULT_OK;
 fend
 
 //=========================================
@@ -71,9 +86,9 @@ fend
 //=========================================
 function urgentCheck()
 
-    IF CHKIMG("../picture/エリボス.bmp",0,0,0,2000,2000) THEN SOUND(" ");
-    IF CHKIMG("../picture/緑点.bmp",0,0,0,1368,800)   THEN EXITEXIT;
-    IFB CHKIMG("../picture/突発.bmp",0,0,0,1368,800)
+    if  chkimg("../picture/エリボス.bmp",0,0,0,2000,2000) then SOUND(" ");
+    if  chkimg("../picture/緑点.bmp",0,0,0,1368,800)    then exitexit;
+    ifb chkimg("../picture/突発.bmp",0,0,0,1368,800)
         for i = 1 to 3
             BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,200);
         next
@@ -197,8 +212,9 @@ fend
 function getResponse()
     //返答用の文字列初期化
     responseStr = ResponseMessages.RESPONSE_STR;
-    num = random(length(ResponseMessages.resMessages) - 1);
-    responseStr = ResponseMessages.resMessages[num]
+    //ランダムで返答用の文字列を取得
+    num = random(length(ResponseMessages.resMessages) - 1); // ArraySize - 1
+    responseStr = ResponseMessages.resMessages[num];
     //応答文字列返却
     result = responseStr;
 fend
@@ -207,7 +223,7 @@ fend
 //=========================================
 // comment : ゲームマスターからの返答要求に返答
 //           1366x800       
-// param   : None
+// param   : 応答文字列
 // return  : 0
 //=========================================
 function responseToGameMaster(responseStr)
@@ -273,7 +289,7 @@ fend
 
 //=========================================
 // comment : 画像認識用パスヘルパー
-// param   : None
+// param   : ファイル名
 // return  : 0 
 // 備考    : ../picture/fileName.bmp を返却
 //=========================================
@@ -290,9 +306,9 @@ fend
 function checkStartingMapleStory()
     windowID = GETID("MapleStory","MapleStoryClass")
     
-    ifb windowID < 0
+    ifb windowID < 0;
         logger.logWriter(LogLevel.LOG_ERROR,Messages.STOP_MAPLE_MESSAGE);
-        exitexit
+        exitexit;
     endif
     result = MAPLE_RESULT_OK; 
 fend
@@ -307,7 +323,7 @@ function alartSound()
         SOUND(" ");
         sleep(0.2);
     next
-    result = MAPLE_RESULT_OK; ;
+    result = MAPLE_RESULT_OK;
 fend
 
 //=========================================
@@ -318,7 +334,7 @@ fend
 function memoryRelease()
     memoryReleaseCommand = "empty.exe *"; 
     DOSCMD(memoryReleaseCommand);
-    result = 0;
+    result = MAPLE_RESULT_OK;
 fend
 
 //=========================================
@@ -329,7 +345,7 @@ fend
 function screenShot()
     //現在日時を名前にして保存する
     SAVEIMG(SCREEN_SHOT_SAVE_DIR + getNowDateTime(),0);
-    result = 0;
+    result = MAPLE_RESULT_OK;
 fend
 
 //=========================================
@@ -339,7 +355,19 @@ fend
 //=========================================
 function getNowDateTime()
     GETTIME();
-    result = G_TIME_YY4 + G_TIME_MM2 + G_TIME_DD2 + G_TIME_HH2 + G_TIME_NN2 + G_TIME_SS2 + G_TIME_ZZ2;
+    result = G_TIME_YY4 + G_TIME_MM2 + G_TIME_DD2 + _ //YYYYMMDD
+             G_TIME_HH2 + G_TIME_NN2 + G_TIME_SS2 + _ //HHNNSS
+             G_TIME_ZZ2;                              //ZZ
+fend
+
+//=========================================
+// comment : メイプルストーリーを起動する
+// param   : None
+// return  : 0
+//=========================================
+function execMapleStory()
+    DOSCMD(MAPLE_STORY_EXE_DIR,TRUE,FALSE)
+    result = MAPLE_RESULT_OK;
 fend
 
 

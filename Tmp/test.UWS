@@ -1,0 +1,5 @@
+print for(i = 0; i < 10 ; i++);
+
+function for()
+	result = 0;
+fend

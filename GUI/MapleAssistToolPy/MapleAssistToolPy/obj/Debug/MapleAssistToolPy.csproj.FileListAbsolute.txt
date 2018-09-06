@@ -1,0 +1,11 @@
+c:\users\test\documents\visual studio 2015\Projects\MapleAssistToolPy\MapleAssistToolPy\bin\Debug\MapleAssistToolPy.exe.config
+c:\users\test\documents\visual studio 2015\Projects\MapleAssistToolPy\MapleAssistToolPy\bin\Debug\MapleAssistToolPy.exe
+c:\users\test\documents\visual studio 2015\Projects\MapleAssistToolPy\MapleAssistToolPy\bin\Debug\MapleAssistToolPy.pdb
+c:\users\test\documents\visual studio 2015\Projects\MapleAssistToolPy\MapleAssistToolPy\obj\Debug\MapleAssistToolPy.Properties.Resources.resources
+c:\users\test\documents\visual studio 2015\Projects\MapleAssistToolPy\MapleAssistToolPy\obj\Debug\MapleAssistToolPy.csproj.GenerateResource.Cache
+c:\users\test\documents\visual studio 2015\Projects\MapleAssistToolPy\MapleAssistToolPy\obj\Debug\MapleAssistToolPy.exe
+c:\users\test\documents\visual studio 2015\Projects\MapleAssistToolPy\MapleAssistToolPy\obj\Debug\MapleAssistToolPy.pdb
+c:\users\test\documents\visual studio 2015\Projects\MapleAssistToolPy\MapleAssistToolPy\bin\Debug\Newtonsoft.Json.dll
+c:\users\test\documents\visual studio 2015\Projects\MapleAssistToolPy\MapleAssistToolPy\bin\Debug\Newtonsoft.Json.xml
+c:\users\test\documents\visual studio 2015\Projects\MapleAssistToolPy\MapleAssistToolPy\obj\Debug\MapleAssistToolPy.MapleAssistTool.resources
+C:\Users\test\documents\visual studio 2015\Projects\MapleAssistToolPy\MapleAssistToolPy\obj\Debug\MapleAssistToolPy.StopButton.resources

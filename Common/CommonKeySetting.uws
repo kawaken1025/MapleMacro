@@ -1,0 +1,22 @@
+//=========================================//
+// comment     : キー設定 共通
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 800x600 or 1366x768
+//=========================================//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/08/21
+//=========================================//
+
+CLASS comKey
+
+    //スキル以外 
+    const FAM_BOOK_KEY        = VK_F6  //ファミリアブックキー
+    const FAM_RECOVERY_KEY    = VK_4   //ファミリア気力回復薬キー
+    const MAPRAGE_KEY         = VK_F9  //メイプレージキー
+    const DURABILITY_RCV_KEY  = VK_F10 //耐久装備回復クーポンキー
+
+ENDCLASS
+

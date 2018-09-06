@@ -78,10 +78,10 @@ fend
 function crystalIgnition(ignitionKey,crystalKey)
         KBD(ignitionKey,1,1000);
         for i = 1 to 4
-            KBD(VK_LEFT,1,750);
+            KBD(VK_LEFT,1,850);
             KBD(VK_LEFT,2,150);
             moveCrystal(cryStalKey);
-            KBD(VK_RIGHT,1,750);
+            KBD(VK_RIGHT,1,850);
             KBD(VK_RIGHT,2,150);
             moveCrystal(cryStalKey);
         next

@@ -1,0 +1,10 @@
+		BTN(LEFT,CLICK,1400,600,100,500) 
+		BTN(LEFT,CLICK,200,405,500)
+		BTN(LEFT,CLICK,200,405,200) 
+
+
+for i = 1 to 100
+	print i
+	sleep(1)
+next
+

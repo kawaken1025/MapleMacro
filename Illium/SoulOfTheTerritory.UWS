@@ -33,8 +33,10 @@ while true
     skill.illiumSupportSkill();
     while true
 		util.moveCrystalAttack(VK_LEFT);
+		lib.checkGameMaster();
 		util.checkYellowPointSoulOfTheTerritory();
 		util.moveCrystalAttack(VK_RIGHT);
+		lib.checkGameMaster();
 		util.checkYellowPointSoulOfTheTerritory();
 		if gettime() > skillTime then break;
 	wend

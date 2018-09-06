@@ -1,0 +1,58 @@
+// 指定ウィンドウの全オブジェクトの文字を種類別に取得
+// "ボタン", "リスト/コンボ", "タブ", "メニュー", "ツリービュ", "リストビュ", "エディト",
+//  "スタテック文字", "ACCクリック可", "ACCテキスト", "ツールバー", "ステータスバー"
+// (注:IEに適用すると ITM_STATUSBAR, ITM_TOOLBARにて IE側でエラーが出る事がある)
+//
+
+dbg_id = GETID("UWSC Debugger","TFOya")
+CtrlWin(dbg_id, MIN)
+Try
+  Fukidasi("オブジェクトの文字を種類別に取得<#CR>  ウィンドウにカーソルを合わせから Shiftキーを押してください<#CR>  キャンセル： ESCキー")
+  Repeat
+     if GetKeyState(VK_ESC) then Exit
+     Sleep(0.02)
+  Until GetKeyState(VK_SHIFT)
+  Fukidasi()
+
+  Option OPTFINALLY
+  thread chkESC()
+  dim oname[] = "ボタン", "リスト/コンボ", "タブ", "メニュー", "ツリービュ", "リストビュ", "エディト", "スタテック文字", "ACCクリック可", "ACCテキスト", "ACCエディト", "ツールバー", "ステータスバー"
+  dim okind[] =  ITM_BTN, ITM_LIST, ITM_TAB, ITM_MENU, ITM_TREEVEW, ITM_LSTVEW, ITM_EDIT, ITM_STATIC, ITM_ACCCLK, ITM_ACCTXT, ITM_ACCEDIT, ITM_TOOLBAR, ITM_STATUSBAR
+  CONST MAX_LENGTH = 64    // Maximum number of characters
+  fpid = GETID(GET_FROMPOINT_WIN)
+  Fukidasi("サーチ中  (キャンセル：ESCキー)", 0, 0)
+  ACW(fpid)
+  lcnt = 0
+  form = "<select name='hlist' size='_DEF_SIZE_'>"
+  for x = 0 to Length(oname)-1
+     form = form + "<optgroup label='" + oname[x] + "'>"
+     for y = 0 to GETITEM(fpid, okind[x])-1
+        s = ALL_ITEM_LIST[y]
+        if Length(s)>MAX_LENGTH then s = Copy(s,1,MAX_LENGTH)+"..."
+        form = form + "<option>" + s + "</option>"
+        lcnt = lcnt + 1
+  　 next
+     form = form + "</optgroup>"
+     lcnt = lcnt + 1
+  next
+  form = form + "</select>"
+  form = Replace(form, "_DEF_SIZE_", lcnt)
+  Fukidasi()
+  obj = CREATEFORM("about:blank", "種類別オブジェクト文字", True, 0, 540, 360, 0 ,0)
+  obj.Document.write(form)
+  CtrlWin(GETID(GET_FORM_WIN), ACTIVATE)
+  while obj.Visible
+     Sleep(0.1)
+  wend
+Finally
+  CtrlWin(dbg_id, NORMAL)
+EndTry
+// --- main end ---
+
+// ESCキーによる終了
+Procedure chkESC()
+   while True
+      if GetKeyState(VK_ESC) then ExitExit
+      Sleep(0.1)
+   wend
+Fend
