@@ -18,6 +18,7 @@ namespace MapleAssistToolPy
 	public partial class MapleAssistTool : Form
 	{
 		public string cmd = "";
+		public string uwscExePath = "C:\\UWSC\\UWSC.exe "; //空白1文字
 		public MapleAssistTool()
 		{
 			InitializeComponent();
@@ -45,10 +46,9 @@ namespace MapleAssistToolPy
 			cmd = "C:\\UWSC\\UWSC.exe C:\\MapleMacro\\Luminous\\ケーヴロードの通路(上).uws";
 			Console.WriteLine("ベタ書きcmd=" + cmd);
 
-			//UWSCパスと実行する.uwsスクリプトパスを変数に設定
-			//UWSCパスはiniかどっかで将来的にユーザー側で設定させる予定
-			string uwscExePath = "C:\\UWSC\\UWSC.exe "; //空白1文字
-			string ScriptPath =  "C:\\MapleMacro\\Luminous\\ケーヴロードの通路(上).uws";
+			//.uwsスクリプトパスを変数に設定
+			//UWSCパスはiniかどっかで将来的にユーザー側で設定させる予定	
+			string ScriptPath = "C:\\MapleMacro\\Luminous\\ケーヴロードの通路(上).uws";
 			//連結
 			cmd = uwscExePath + ScriptPath;
 			Console.WriteLine("文字列連結cmd=" + cmd);
