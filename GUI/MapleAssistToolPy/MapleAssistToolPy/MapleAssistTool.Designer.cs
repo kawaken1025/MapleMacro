@@ -232,6 +232,7 @@
 			this.BuyFamiliar.TabIndex = 9;
 			this.BuyFamiliar.Text = "ファミリア購入";
 			this.BuyFamiliar.UseVisualStyleBackColor = true;
+			this.BuyFamiliar.Click += new System.EventHandler(this.BuyFamiliar_Click);
 			// 
 			// MapleUtility
 			// 
@@ -251,6 +252,7 @@
 			this.CoreCreate.TabIndex = 7;
 			this.CoreCreate.Text = "コア作成";
 			this.CoreCreate.UseVisualStyleBackColor = true;
+			this.CoreCreate.Click += new System.EventHandler(this.CoreCreate_Click);
 			// 
 			// SellEquipment
 			// 
@@ -260,6 +262,7 @@
 			this.SellEquipment.TabIndex = 6;
 			this.SellEquipment.Text = "装備売却";
 			this.SellEquipment.UseVisualStyleBackColor = true;
+			this.SellEquipment.Click += new System.EventHandler(this.SellEquipment_Click);
 			// 
 			// CoreBreak
 			// 
@@ -269,6 +272,7 @@
 			this.CoreBreak.TabIndex = 5;
 			this.CoreBreak.Text = "コア分解";
 			this.CoreBreak.UseVisualStyleBackColor = true;
+			this.CoreBreak.Click += new System.EventHandler(this.CoreBreak_Click);
 			// 
 			// CoreOpen
 			// 
@@ -278,6 +282,7 @@
 			this.CoreOpen.TabIndex = 3;
 			this.CoreOpen.Text = "コア開封";
 			this.CoreOpen.UseVisualStyleBackColor = true;
+			this.CoreOpen.Click += new System.EventHandler(this.CoreOpen_Click);
 			// 
 			// KannnaPanel
 			// 
@@ -334,9 +339,9 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
 			this.ClientSize = new System.Drawing.Size(751, 495);
+			this.Controls.Add(this.UtilPanel);
 			this.Controls.Add(this.KannnaPanel);
 			this.Controls.Add(this.LuminousPanel);
-			this.Controls.Add(this.UtilPanel);
 			this.Controls.Add(this.MenuPanel);
 			this.Name = "MapleAssistTool";
 			this.Text = "MapleAssistTool version : 0.3";

@@ -51,6 +51,19 @@ function orb(orbKey)
 fend
 
 //=========================================
+// comment     : イリウム：ジャベリンandオーブ
+// param       : None
+// return      : None
+////=========================================
+function javorb(javelinKey,orbKey)
+        KBD(javelinKey,0,150)
+        KBD(orbKey,0,50);
+        KBD(orbKey,0,25);
+        KBD(javelinKey,0,150)
+        result = 0
+fend
+
+//=========================================
 // comment     : イリウム：クリスタル移動
 // param       : None
 // return      : None

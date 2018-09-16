@@ -7,6 +7,7 @@ while true
 	sleep(3)
 
 	KBD(VK_ENTER,0,300)
+	if GetKeyState(VK_ESC) then break;
 wend
 
 function coreBreak(x,y,rangeNum,plusX,plusY)
@@ -26,6 +27,8 @@ function coreBreak(x,y,rangeNum,plusX,plusY)
 		clickX = x
 		clickY = clickY + plusY
 	next
+
+
 
 	result = 0
 

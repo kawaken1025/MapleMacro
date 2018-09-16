@@ -14,7 +14,6 @@
 CALL ../Log/logWriter.uws;
 CALL ../Common/Messages.uws;
 CALL ../Common/CommonKeySetting.uws;
-CALL ../MapleManagement/MapleManagement.uws;
 
 public PIC_PATH             = "../picture/";
 public SCREEN_SHOT_SAVE_DIR = "../picture/ScreenShot/";
@@ -109,10 +108,7 @@ fend
 //=========================================
 function activeWindow()
 
-    
     mapleWindowID = GETID("MapleStory","MapleStoryClass");
-    manager.setWindowSize_X_MAX(ST_CLWIDTH);
-    manager.setWindowSize_Y_MAX(ST_CLHEIGHT);
     x = STATUS(mapleWindowID,ST_CLWIDTH) + 50;
     y = STATUS(mapleWindowID,ST_CLHEIGHT) + 50;
     ACW(mapleWindowID,1,1);

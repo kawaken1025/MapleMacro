@@ -58,8 +58,8 @@ function roundTripTeleportAttack(execKBD_Move, x1, y1, x2, y2 );
     KBD(execKBD_Move,1,500);    
     while true;
         useSkill.moveCrystal(key.CRYSTAL_KEY);
-        useSkill.reflection(key.JAVELIN_KEY);
-        useSkill.reflection(key.ORB_KEY);
+        useSkill.javelin(key.JAVELIN_KEY);
+        useSkill.orb(key.ORB_KEY);
         for i = 1 to 2
             useSkill.teleport(key.TELEPORT_KEY);
         next

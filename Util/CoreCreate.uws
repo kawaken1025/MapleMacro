@@ -15,4 +15,5 @@ while TRUE
     BTN(LEFT,CLICK,850,490,500)
     BTN(LEFT,CLICK,850,490,500)
     KBD(VK_ENTER,0,500)
+    if GetKeyState(VK_ESC) then break;
 wend

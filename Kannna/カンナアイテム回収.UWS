@@ -1,6 +1,7 @@
 THREAD ï¿óÒèàóù()
-
-ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+CALL ../lib/MapleLibrary.uws;
+//ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+lib.activeWindow();
 
 PET = 0
 

@@ -25,4 +25,5 @@ while TRUE
     KBD(VK_ENTER,0,400)
 
     SLEEP(0.4)
+    if GetKeyState(VK_ESC) then break;
 wend

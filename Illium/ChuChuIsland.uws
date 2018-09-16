@@ -1,0 +1,81 @@
+//=========================================//
+// Map Name    : xxx                       //
+//=========================================//
+// Mob Name    : 
+// Mob Level   : 
+// Mob HP      : 
+// Mob Exp     : 
+//=========================================//
+// comment     : None
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 800x600 or 1366x768
+//=========================================//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/09/15
+//=========================================//
+
+//MapleAPI : LogWriter.uws , MapleLibrary.uws , UseSkillFiveJob.uws
+CALL ../MapleAPI/MapleAPI.uws;
+//import Luminous skillKeySetting
+CALL KeySetting.uws;
+//Illium Utility Class
+CALL IlliumUtil.uws;
+//Move Window initSetting x = 1 , y = 1
+lib.activeWindow();
+//multiThread checkRedPoint and checkMineralization
+thread lib.parallelProgram();
+
+while true
+    skillTime = gettime( 180 / 86400 );
+    skill.illiumSupportSkill();
+    while true
+        useSkill.javorb(key.JAVELIN_KEY,key.ORB_KEY);
+        checkYelloPoint();
+        useSkill.javorb(key.JAVELIN_KEY,key.ORB_KEY);
+        KBD(key.LONGINUS_KEY,0,500);
+        useSkill.javorb(key.JAVELIN_KEY,key.ORB_KEY);
+        skill.illiumSkillCheck(key.DEUS_KEY,key.FAST_CHARGE_KEY,key.LONGINUS_ZONE_KEY,key.RACE_OF_GOD_KEY,key.GRAM_HOLDER_KEY);
+        useSkill.javorb(key.JAVELIN_KEY,key.ORB_KEY);
+        lib.checkGameMaster();
+        skill.pSkill();
+    wend
+
+wend
+
+function checkYelloPoint()
+
+    ifb chkimg("../picture/黄点.BMP",0,123,112,160,181)
+        KBD(VK_LEFT,1,500)
+        while true
+            if !chkimg("../picture/黄点.BMP",0,123,112,160,181) then break;
+        wend
+        KBD(VK_LEFT,2,300)
+    endif
+
+    ifb chkimg("../picture/黄点.BMP",0,0,0,110,181)
+        KBD(VK_RIGHT,1,500)
+        while true
+            if !chkimg("../picture/黄点.BMP",0,0,0,110,181) then break;
+        wend
+        KBD(VK_RIGHT,2,50)
+        KBD(VK_LEFT,1,200)
+        KBD(VK_LEFT,2,50)
+        exit;
+    endif
+
+    IFB CHKIMG("../picture/黄点.BMP",0,50,80,150,138)
+        util.downTeleport();
+        exit;
+    ENDIF
+
+    IFB CHKIMG("../picture/黄点.BMP",0,43,139,161,160)
+        util.upTeleport();
+        exit;
+    ENDIF
+
+    result = 0;
+
+fend

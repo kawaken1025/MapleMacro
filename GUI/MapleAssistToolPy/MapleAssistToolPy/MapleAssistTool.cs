@@ -13,54 +13,73 @@ using Newtonsoft.Json;
 
 namespace MapleAssistToolPy
 {
-
-
-	public partial class MapleAssistTool : Form
+    public partial class MapleAssistTool : Form
 	{
-		public string cmd = "";
-		public string uwscExePath = "C:\\UWSC\\UWSC.exe "; //空白1文字
+		public string cmd  = "";
+		public string job  = "";
+		public string uwscExePath = @"C:\UWSC\UWSC.exe ";
 		public MapleAssistTool()
 		{
 			InitializeComponent();
 			this.LuminousPanel.Visible = true;
 			this.UtilPanel.Visible = false;
 			this.KannnaPanel.Visible = false;
+			job = @"Luminous\";
 		}
 
-		MapleGuiUtil util = new MapleGuiUtil();
+		MapleGuiUtil util;
 
+
+
+		private async void CaveLoadAisleUp_Click(object sender, EventArgs e)
+		{
+			await execCmd(setCommand("ケーヴロードの通路(上).uws"));
+		}
+
+		private async void MapleUnion_Click(object sender, EventArgs e)
+		{
+			await execCmd(setCommand("MapleUnion.uws"));
+		}
+
+		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		// Util群
+		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		private async void CoreCreate_Click(object sender, EventArgs e)
+		{
+			await execCmd(setCommand("CoreCreate.uws"));
+		}
+
+		private async void CoreOpen_Click(object sender, EventArgs e)
+		{
+			await execCmd(setCommand("CoreOpen.uws"));
+		}
+
+		private async void CoreBreak_Click(object sender, EventArgs e)
+		{
+			await execCmd(setCommand("CoreBreak.uws"));
+		}
+
+		private async void BuyFamiliar_Click(object sender, EventArgs e)
+		{
+			await execCmd(setCommand("BuyFamiliar.uws"));
+		}
+
+		private async void SellEquipment_Click(object sender, EventArgs e)
+		{
+			await execCmd(setCommand("SellEquipment.uws"));
+		}
+
+
+		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		// メニューバーの切り替えを行うメソッド群
+		// グローバル変数jobに実行ディレクトリを設定する
+		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		private void LuminousButton_Click(object sender, EventArgs e)
 		{
 			this.LuminousPanel.Visible = true;
 			this.UtilPanel.Visible = false;
 			this.KannnaPanel.Visible = false;
-		}
-
-
-		//今回の問題のところ
-		//ボタンを押した際にcmd変数のコマンドをプロセスに渡す設定
-		private async void CaveLoadAisleUp_Click(object sender, EventArgs e)
-		{
-			//ひとまずCドライブにUWSCフォルダと.uwsファイルがある想定
-			//ベタ書きでコマンドを設定(こっちは動く)
-			cmd = "C:\\UWSC\\UWSC.exe C:\\MapleMacro\\Luminous\\ケーヴロードの通路(上).uws";
-			Console.WriteLine("ベタ書きcmd=" + cmd);
-
-			//.uwsスクリプトパスを変数に設定
-			//UWSCパスはiniかどっかで将来的にユーザー側で設定させる予定	
-			string ScriptPath = "C:\\MapleMacro\\Luminous\\ケーヴロードの通路(上).uws";
-			//連結
-			cmd = uwscExePath + ScriptPath;
-			Console.WriteLine("文字列連結cmd=" + cmd);
-
-			//execCmdにcmd変数を渡してコマンドプロンプトで実行させる
-			await execCmd(cmd,this.CaveLoadAisleUp.Text);
-			
-		}
-
-		private void MapleUnion_Click(object sender, EventArgs e)
-		{
-			util.execStartUp(this.UWSC_RadioButton.Checked, "Luminous",MapleUnion.Text);
+			job = @"Luminous\";
 		}
 
 		private void UtilButton_Click(object sender, EventArgs e)
@@ -68,14 +87,30 @@ namespace MapleAssistToolPy
 			this.LuminousPanel.Visible = false;
 			this.UtilPanel.Visible = true;
 			this.KannnaPanel.Visible = false;
+			job = @"Util\";
 		}
+
+
+		private void KannnaButton_Click(object sender, EventArgs e)
+		{
+			this.LuminousPanel.Visible = false;
+			this.UtilPanel.Visible = false;
+			this.KannnaPanel.Visible = true;
+			job = @"Kannna\";
+		}
+
+		private string setCommand(string macroName)
+		{
+			return uwscExePath + @"\\KAWAKEN\FileServer\010_マクロ\MapleMacro\" + job + macroName;
+		}
+
 		//+++++++++++++++++++++++++++++++++++++++++++++++++++++
-		// description : 非同期でスクリプトを起動する
-		// param       : $1:CommandLine $2:ScriptName
+		// description : スクリプトを起動する
+		// param       : $2:ScriptName
 		// comment     : executeCommand
 		// return      : None
 		//+++++++++++++++++++++++++++++++++++++++++++++++++++++
-		static async Task execCmd(string cmd, string macroName)
+		static async Task execCmd(string cmd)
 		{
 			System.Diagnostics.Process p = new System.Diagnostics.Process();
 			//ComSpec(cmd.exe)のパスを取得して、FileNameプロパティに指定
@@ -93,14 +128,8 @@ namespace MapleAssistToolPy
 
 			//起動
 			p.Start();
-
 		}
 
-		private void KannnaButton_Click(object sender, EventArgs e)
-		{
-			this.LuminousPanel.Visible = false;
-			this.UtilPanel.Visible = false;
-			this.KannnaPanel.Visible = true;
-		}
+
 	}
 }

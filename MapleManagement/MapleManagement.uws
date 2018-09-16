@@ -1,0 +1,30 @@
+//=========================================
+//
+// comment     : MapleStory Management
+//               様々なものを管理するマネジメントクラス
+// param       : None
+// return      : None
+//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/09/10
+//=========================================
+
+public windowSize_X_MAX = 0;
+public windowSize_Y_MAX = 0;
+
+class manager
+
+function setWindowSize_X_MAX(x)
+	windowSize_X_MAX = x;
+	result = 0;
+fend
+
+function setWindowSize_Y_MAX(y)
+	windowSize_Y_MAX = y;
+	result = 0;
+fend
+
+
+endclass
+

@@ -151,6 +151,25 @@ function upStageSoulOfTheTerritory()
 
 fend
 
+function upTeleport()
+
+    KBD(VK_UP,1,300)
+    KBD(key.TELEPORT_KEY,0,200);
+    KBD(key.TELEPORT_KEY,0,100);
+    KBD(key.TELEPORT_KEY,0,100);
+    KBD(VK_UP,2,100);
+    result = 0;
+fend
+
+function downTeleport()
+
+    KBD(VK_DOWN,1,300);
+    KBD(key.TELEPORT_KEY,0,200);
+    KBD(key.TELEPORT_KEY,0,100);
+    KBD(key.TELEPORT_KEY,0,100);
+    KBD(VK_DOWN,2,100);
+    result = 0;
+fend
 
 
 endclass

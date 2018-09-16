@@ -33,8 +33,11 @@ CALL KeySetting.uws;
 lib.activeWindow();
 //multiThread checkRedPoint and checkMineralization
 thread lib.parallelProgram();
-//  Main Script Start
+//Main Script Start
 public isEqulibrium = false;
+//StartMessage and MessageWindow init
+logger.logWriter(LogLevel.LOG_INFO,Messages.CAVELOAD_AISLEUP_START);
+LOGPRINT(true,10,800,500,100)
 
 while true;
     //Acquisition of Time : Get the time after 3 minutes
