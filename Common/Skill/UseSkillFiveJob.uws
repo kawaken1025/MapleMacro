@@ -6,7 +6,8 @@
 // 
 //=====================================
 CALL pKeySetting.uws
-CALL ../../Illium/KeySetting.uws
+CALL ../../Illium/KeySetting.uws;
+
 
 CLASS skill
 //=====================================

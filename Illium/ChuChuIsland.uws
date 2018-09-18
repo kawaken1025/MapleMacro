@@ -1,3 +1,6 @@
+
+
+
 //=========================================//
 // Map Name    : xxx                       //
 //=========================================//
@@ -40,6 +43,7 @@ while true
         skill.illiumSkillCheck(key.DEUS_KEY,key.FAST_CHARGE_KEY,key.LONGINUS_ZONE_KEY,key.RACE_OF_GOD_KEY,key.GRAM_HOLDER_KEY);
         useSkill.javorb(key.JAVELIN_KEY,key.ORB_KEY);
         lib.checkGameMaster();
+        lib.urgentCheck();
         skill.pSkill();
     wend
 

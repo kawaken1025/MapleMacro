@@ -24,6 +24,7 @@ CLASS Messages
 	const INIT_CHAT               = "チャット欄を初期化します。";
 	const RESPONSE_MESSAGE        = "ゲームマスターにチャットで返答します。";
 	const CAVELOAD_AISLEUP_START  = "ケーヴロードの通路(上)スクリプトを開始しました。";
+	const SLEEP_START             = "秒待機します。";
 
 ENDCLASS
 

@@ -1,0 +1,19 @@
+[MAPLE-0001] Source    : MapleLibrary.uws checkGameMaster()
+　　　　　　　BugDetail : 解像度800x600モードでGMチェックが動作しない
+　　　　　　　STATUS    : NG->OK
+-----------------------------------------------------------
+[MAPLE-0002] Source    : 
+　　　　　　　BugDetail : 
+　　　　　　　STATUS    : NG
+-----------------------------------------------------------
+[MAPLE-0003] Source    : 
+　　　　　　　BugDetail : 
+　　　　　　　STATUS    : NG
+-----------------------------------------------------------
+[MAPLE-0004] Source    : 
+　　　　　　　BugDetail : 
+　　　　　　　STATUS    : NG
+-----------------------------------------------------------
+[MAPLE-0005] Source    : 
+　　　　　　　BugDetail : 
+　　　　　　　STATUS    : NG

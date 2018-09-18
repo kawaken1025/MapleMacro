@@ -184,9 +184,9 @@ fend
 //           上記条件が全て当てはまった場合返答処理を行う
 //======================================================================================
 function checkGameMaster()
-    ifb chkimg(picPathHelper("replyRequest"),1,0,621,150,780); //「ご返答」がチャット欄にあるか
+    ifb chkimg(picPathHelper("replyRequest"),1,0,400,150,780); //「ご返答」がチャット欄にあるか
         logger.logWriter(LogLevel.LOG_WARN,Messages.REPLY_REQUEST);
-        ifb !chkimg(picPathHelper("heart"),0,0,621,150,780);   //ハート拡声器ではないか
+        ifb !chkimg(picPathHelper("heart"),0,0,0,150,780);   //ハート拡声器ではないか
             ifb chkimg(picPathHelper("赤点"),0,0,0,400,400);   //ミニMAPに赤点が存在するか
                 screenShot(); //スクリーンショット保存
                 logger.logWriter(LogLevel.LOG_WARN,Messages.ENCOUNT_GAME_MASTER);
@@ -372,6 +372,29 @@ fend
 function execMapleStory()
     DOSCMD(MAPLE_STORY_EXE_DIR,TRUE,FALSE)
     result = MAPLE_RESULT_OK;
+fend
+
+//=========================================
+// comment : 指定時間待機する
+// param   : None
+// return  : 0
+//=========================================
+function wait(sleepTime)
+
+    counter = 1;
+    //待機秒ログ出力
+    message = sleepTime + Messages.STOP_MAPLE_MESSAGE;
+    logger.logWriter(LogLevel.LOG_ERROR,message);
+    //待機処理
+    for i = 1 to sleepTime
+        sleep(1)
+        print counter + "秒待機しました";
+        counter = counter + 1;
+    next
+    print sleepTime + "秒経過しました。待機を終了します。"
+    counter = 1;
+    result = 0;
+
 fend
 
 ENDCLASS

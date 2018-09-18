@@ -1,0 +1,31 @@
+//=========================================//
+// Map Name    : Maple Utility                       
+//=========================================//
+// Mob Name    : 
+// Mob Level   : 
+// Mob HP      : 
+// Mob Exp     : 
+//=========================================//
+// comment     : None
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 800x600 or 1366x768
+//=========================================//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/09/18
+//=========================================//
+
+public MAPLE_RESULT_OK = 0;
+CALL ../MapleLibrary/MapleLibrary.uws;
+
+class mutil
+
+function graveConfirm()
+
+    //if chkimg(lib.picPathHelper("graveOK"),0,0,0,1366,800) then KBD(G_IMG_X,G_IMG_Y,1000); 
+    result = MAPLE_RESULT_OK;
+fend
+
+endclass
