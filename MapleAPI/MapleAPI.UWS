@@ -12,6 +12,7 @@
 CALL ../Common/Skill/UseSkillFiveJob.uws;
 CALL ../Common/Skill/useSkill.uws;
 CALL ../Common/Messages.uws;
+CALL ../Common/Initialization.uws;
 CALL ../lib/MapleLibrary.uws;
 CALL ../Log/logWriter.uws;
 CALL ../MapleManagement/MapleManagement.uws;

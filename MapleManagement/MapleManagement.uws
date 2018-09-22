@@ -12,6 +12,7 @@
 
 public windowSize_X_MAX = 0;
 public windowSize_Y_MAX = 0;
+public isSugar = READINI("SUGAR_TIME","IS_SUGAR","../MapleManagement/MapleManagement.ini");
 
 class manager
 

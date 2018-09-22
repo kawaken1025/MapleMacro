@@ -29,6 +29,8 @@
 CALL ../MapleAPI/MapleAPI.uws;
 //import Luminous skillKeySetting
 CALL KeySetting.uws;
+//Util - sugarTime exec
+CALL ../Util/MapleUtil.uws;
 //Move Window initSetting x = 1 , y = 1
 lib.activeWindow();
 //multiThread checkRedPoint and checkMineralization

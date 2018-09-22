@@ -18,7 +18,8 @@
 //=========================================//
 
 //MapleAPI : LogWriter.uws , MapleLibrary.uws , UseSkillFiveJob.uws
-CALL ../MapleAPI/MapleAPI.uws;
+//CALL ../MapleAPI/MapleAPI.uws;
+CALL ../lib/MapleLibrary.uws;
 //import Luminous skillKeySetting
 CALL KeySetting.uws;
 //Move Window initSetting x = 1 , y = 1

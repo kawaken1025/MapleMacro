@@ -1,0 +1,20 @@
+//=========================================//
+// comment     : Initialization
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 800x600 or 1366x768
+//=========================================//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/09/22
+//=========================================//
+
+CALL ../Util/MapleUtil.uws;
+CALl ../MapleManagement/MapleManagement.uws;
+
+//シュガータイムスレッド起動可否チェック
+ifb isSugar = "ON"
+    print "[INFO]シュガータイム実施中。受取スレッドを起動します。";
+    thread mutil.getSugarTime();
+endif

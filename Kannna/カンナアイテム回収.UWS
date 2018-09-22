@@ -1,5 +1,5 @@
 THREAD •À—ñˆ—()
-CALL ../lib/MapleLibrary.uws;
+CALL ../MapleAPI/MapleAPI.uws;
 //ACW(GETID("MapleStory","MapleStoryClass"),1,1)
 lib.activeWindow();
 

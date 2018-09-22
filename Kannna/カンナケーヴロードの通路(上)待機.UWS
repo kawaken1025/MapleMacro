@@ -1,5 +1,7 @@
 THREAD •À—ñˆ—()
 
+CALL ../MapleAPI/MapleAPI.uws;
+
 
 ACW(GETID("MapleStory","MapleStoryClass"),1,1)
 BTN(LEFT,CLICK,900,100,500) 

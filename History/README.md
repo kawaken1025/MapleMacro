@@ -37,10 +37,18 @@ MapleMacro Ver 1.5<br>
 　　ほか色々な事をここで管理する予定(PG中)<br><br>
 
 MapleMacro Ver 1.6<br>
-　★History(新規)
-　　履歴管理ファイルを追加しました。
-　　・バグ修正履歴(BugFIX.txt)
-　　・開発予定(DevelopList.txt)
-　★lib
-　　・wait(sleepTime)追加
-　　　引数sleepTIme秒待機するメソッド
+　★History(新規)<br>
+　　履歴管理ファイルを追加しました。<br>
+　　・バグ修正履歴(BugFIX.txt)<br>
+　　・開発予定(DevelopList.txt)<br>
+　★lib<br>
+　　・wait(sleepTime)追加<br>
+　　　引数sleepTIme秒待機するメソッド<br><br>
+
+MapleStory Ver 1.6.1
+　★Util/MapleUtil.uws<br>
+　　・シュガータイム対応 -> getSugarTime()<br>
+　　 スレッドを起動して30秒に1回受取確認を行います。<br>
+　　 スレッド起動判定はMapleManagementクラスで行います。<br>
+　★Common/Initialization.uws(新規追加)<br>
+　　・共通初期化処理を行うようにします。<br>
