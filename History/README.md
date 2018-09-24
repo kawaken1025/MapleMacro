@@ -45,10 +45,12 @@ MapleMacro Ver 1.6<br>
 　　・wait(sleepTime)追加<br>
 　　　引数sleepTIme秒待機するメソッド<br><br>
 
-MapleStory Ver 1.6.1
+MapleStory Ver 1.6.1<br>
 　★Util/MapleUtil.uws<br>
 　　・シュガータイム対応 -> getSugarTime()<br>
 　　 スレッドを起動して30秒に1回受取確認を行います。<br>
-　　 スレッド起動判定はMapleManagementクラスで行います。<br>
+　　 スレッド起動判定はMapleManagementクラスでiniファイルを読み込んで行います。<br>
 　★Common/Initialization.uws(新規追加)<br>
-　　・共通初期化処理を行うようにします。<br>
+　　・共通初期化処理を行うようにします。<br><br>
+
+MapleStory Ver 1.6.2<br>

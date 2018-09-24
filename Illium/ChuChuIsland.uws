@@ -30,10 +30,14 @@ CALL IlliumUtil.uws;
 lib.activeWindow();
 //multiThread checkRedPoint and checkMineralization
 thread lib.parallelProgram();
+//util
+CALL ../Util/MapleUtil.uws;
 
 while true
-    skillTime = gettime( 180 / 86400 );
+    skillTime = GETTIME( 180 / 86400 );
     skill.illiumSupportSkill();
+    lib.checkFamiliarPower();
+    mutil.magicBuff(VK_Q);
     while true
         useSkill.javorb(key.JAVELIN_KEY,key.ORB_KEY);
         checkYelloPoint();
@@ -45,6 +49,7 @@ while true
         lib.checkGameMaster();
         lib.urgentCheck();
         skill.pSkill();
+        if GETTIME() > skillTime then break;
     wend
 
 wend

@@ -1,10 +1,10 @@
 [MAPLE-0001] Source    : MapleLibrary.uws checkGameMaster()
 　　　　　　　BugDetail : 解像度800x600モードでGMチェックが動作しない
-　　　　　　　STATUS    : NG->OK
+　　　　　　　STATUS    : NG -> OK
 -----------------------------------------------------------
-[MAPLE-0002] Source    : 
-　　　　　　　BugDetail : 
-　　　　　　　STATUS    : NG
+[MAPLE-0002] Source    : Illium/ChuChuIsland.uws
+　　　　　　　BugDetail : 無限ループから抜けず、スキル使用がされない
+　　　　　　　STATUS    : NG -> OK
 -----------------------------------------------------------
 [MAPLE-0003] Source    : 
 　　　　　　　BugDetail : 

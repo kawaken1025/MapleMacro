@@ -30,7 +30,6 @@ function graveConfirm()
 fend
 
 function getSugarTime()
-
     while true
         //iniファイルの[SUGAR_TINE]セクションのIS_SUGARキーがONの場合のみ実行
         ifb chkimg(lib.picPathHelper("sugarTime"),0,0,0,1366,800)
@@ -38,9 +37,18 @@ function getSugarTime()
             KBD(VK_ENTER,0,1000)
             KBD(VK_ENTER,0,2000)
         endif
+        BTN(LEFT,CLICK,400,350,600);
         sleep(30);
     wend
+    result = MAPLE_RESULT_OK;
+fend
 
+// 
+// 焼きそば使用
+//
+function magicBuff(buffKey)
+    KBD(buffKey,0,500)
+    BTN(LEFT,CLICK,446,382,1000);
     result = MAPLE_RESULT_OK;
 fend
 
