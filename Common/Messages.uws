@@ -23,6 +23,7 @@ CLASS Messages
 	const NOT_GAMEMASTER          = "ゲームマスターではありませんでした。";
 	const INIT_CHAT               = "チャット欄を初期化します。";
 	const RESPONSE_MESSAGE        = "ゲームマスターにチャットで返答します。";
+	const WAIT_NEXT_RESPONSE      = "次の質問があるか確認します。";
 	const CAVELOAD_AISLEUP_START  = "ケーヴロードの通路(上)スクリプトを開始しました。";
 	const SLEEP_START             = "秒待機します。";
 
@@ -48,7 +49,8 @@ ENDCLASS
 CLASS ResponseMessages
 
 	//初期化用
-	const RESPONSE_STR   = "最近大変っすね"
+	const RESPONSE_STR    = "最近大変っすね"
+	const PLAY_GAME_TITLE = 0;
 	//メッセージ
 	public resMessages[] = "今日も元気にメイプルストーリーを楽しんでます",_
 	                       "疲れたよゲームマスターさん",_
@@ -57,6 +59,9 @@ CLASS ResponseMessages
 	                       "加藤純一最強!!!!!!!!!!!!!!!",_
 	                       "加藤純一は偉いよなぁ！？",_
 	                       "面白い返答が思いつきません";
+
+	public answer[] = "メイプルストーリー",_
+	                  "TODO";
 
 ENDCLASS
 

@@ -29,6 +29,11 @@ function graveConfirm()
     result = MAPLE_RESULT_OK;
 fend
 
+//**************************************
+// param  : None
+// comment: シュガータイム受取
+// return : 0
+//**************************************
 function getSugarTime()
     while true
         //iniファイルの[SUGAR_TINE]セクションのIS_SUGARキーがONの場合のみ実行
@@ -43,9 +48,11 @@ function getSugarTime()
     result = MAPLE_RESULT_OK;
 fend
 
-// 
-// 焼きそば使用
-//
+//**************************************
+// param  : 焼きそば配置キー
+// comment: 焼きそば使用
+// return : 0
+//**************************************
 function magicBuff(buffKey)
     KBD(buffKey,0,500)
     BTN(LEFT,CLICK,446,382,1000);

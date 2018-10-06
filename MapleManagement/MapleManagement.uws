@@ -10,22 +10,17 @@
 //     Create Date : 2018/09/10
 //=========================================
 
-public windowSize_X_MAX = 0;
-public windowSize_Y_MAX = 0;
+
 public isSugar = READINI("SUGAR_TIME","IS_SUGAR","../MapleManagement/MapleManagement.ini");
 
 class manager
 
-function setWindowSize_X_MAX(x)
-	windowSize_X_MAX = x;
-	result = 0;
-fend
+	public windowSize_X_MAX = 0;
+	public windowSize_Y_MAX = 0;
 
-function setWindowSize_Y_MAX(y)
-	windowSize_Y_MAX = y;
-	result = 0;
-fend
-
+	function getMapleStoryExePath()
+		result = READINI("MAPLESTORY_EXE_PATH","PATH","../MapleManagement/MapleManagement.ini");
+	fend
 
 endclass
 
