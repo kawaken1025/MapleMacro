@@ -1,0 +1,59 @@
+//=========================================//
+// comment     : ScriptExecutor
+// param       : args[0]
+// return      : None
+// ========================================//
+// Display Dpl : 800x600 or 1366x768
+//=========================================//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/10/10
+//=========================================//
+
+CALL ScriptNameDefine.uws;
+CALL ../common/Messages.uws;
+CALL ../lib/MapleLibrary.uws;
+
+//startScript
+ScriptExecutor.main(PARAM_STR[0]);
+
+class ScriptExecutor
+
+    
+    //main call
+    function main(scriptName)
+    
+       MAPLE_RESULT_OK = 0;
+        returnCode = 0;
+        //起動スクリプト名出力
+        print "ScriptName: " + scriptName + ".uws Start.";
+        
+        //起動するスクリプトを判定する
+        if (scriptName = FileName.CaveloadAisleUp)
+            //CALL ../Luminous/ケーヴロードの通路(上).uws; //ケーヴロードの通路(上)スクリプト
+            
+        elseif (scriptName = FileName.MapleUnion)
+            CALL ../Luminous/MapleUnion.uws; // メイプルユニオンスクリプト
+            
+        elseif (scriptName = FileName.SellEquipment)
+            CALL ../Util/SellEquipment.uws;  // 装備売却スクリプト
+            
+        elseif (scriptName = FileName.CoreOpen)
+            CALL ../Util/CoreOpen.uws;       // コア開封スクリプト
+            
+        elseif (scriptName = FileName.CoreBreak)
+            CALL ../Util/CoreBreak.uws;      // コア分解スクリプト
+
+        elseif (scriptName = FileName.CoreCreate)
+            CALL ../Util/CoreCreate.uws;     // コア作成スクリプト
+               
+        
+        else
+            print "Not Script : " + scriptName;
+            result = ErrorCode.NOT_SCRIPT;
+        endif
+            
+        result = MAPLE_RESULT_OK;
+    fend
+
+endclass

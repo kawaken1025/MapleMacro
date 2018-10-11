@@ -12,61 +12,50 @@
 Option LogPath = "C:\log.log"
 Option LogFile = 2 // 1:ログ出力しない, 2:日付（時分秒）付けない, 3:日付（時分秒）を付ける
 
-	function logger( outputLog )
 
-		const WAR_LOG = "[WAR]";
-		GETTIME()
-		date = "" + G_TIME_YY4 + "/" + G_TIME_MM2 + "/" + G_TIME_DD2
-		time = "" + G_TIME_HH2 + ":" + G_TIME_NN2
-		dateTime = WAR_LOG + "[" + date + " " + time + "] " 
+function logger( outputLog )
 
-		print dateTime + outputLog
+    const WAR_LOG = "[WAR]";
+    GETTIME()
+    date = "" + G_TIME_YY4 + "/" + G_TIME_MM2 + "/" + G_TIME_DD2
+    time = "" + G_TIME_HH2 + ":" + G_TIME_NN2
+    dateTime = WAR_LOG + "[" + date + " " + time + "] " 
 
-		result = 0
+    print dateTime + outputLog
 
-	fend
+    result = 0
 
-	function infoLogger( outputLog )
+fend
 
-		const INFO_LOG = "[INFO]";
-		GETTIME();
-		date = "" + G_TIME_YY4 + "/" + G_TIME_MM2 + "/" + G_TIME_DD2;
-		time = "" + G_TIME_HH2 + ":" + G_TIME_NN2;
-		dateTime = INFO_LOG + "[" + date + " " + time + "] ";
+function infoLogger( outputLog )
 
-		print dateTime + outputLog;	
+    const INFO_LOG = "[INFO]";
+    GETTIME();
+    date = "" + G_TIME_YY4 + "/" + G_TIME_MM2 + "/" + G_TIME_DD2;
+    time = "" + G_TIME_HH2 + ":" + G_TIME_NN2;
+    dateTime = INFO_LOG + "[" + date + " " + time + "] ";
 
-		result = 0;
+    print dateTime + outputLog; 
 
-	fend
+    result = 0;
+
+fend
 
 
 CLASS logger
 
-	function printLog( outputLog , logLevel)
+    function logWriter( logLevel , outputLog)
 
-		GETTIME();
-		date = "" + G_TIME_YY4 + "/" + G_TIME_MM2 + "/" + G_TIME_DD2;
-		time = "" + G_TIME_HH2 + ":" + G_TIME_NN2;
-		dateTime = logLevel + "[" + date + " " + time + "] "; 
+        Option LogPath = "../var/log/MapleMacro/MacroLog.log"
+        GETTIME();
+        date = "" + G_TIME_YY4 + "/" + G_TIME_MM2 + "/" + G_TIME_DD2;
+        time = "" + G_TIME_HH2 + ":" + G_TIME_NN2;
+        dateTime = logLevel + "[" + date + " " + time + "] "; 
 
-		print dateTime + outputLog;
+        print dateTime + outputLog;
 
-		result = 0;
+        result = 0;
 
-	fend
-
-	function logWriter( logLevel , outputLog)
-
-		GETTIME();
-		date = "" + G_TIME_YY4 + "/" + G_TIME_MM2 + "/" + G_TIME_DD2;
-		time = "" + G_TIME_HH2 + ":" + G_TIME_NN2;
-		dateTime = logLevel + "[" + date + " " + time + "] "; 
-
-		print dateTime + outputLog;
-
-		result = 0;
-
-	fend
+    fend
 
 ENDCLASS

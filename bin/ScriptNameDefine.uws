@@ -1,0 +1,24 @@
+//=========================================//
+// comment     : ScriptExecutor
+// param       : args[0]
+// return      : None
+// ========================================//
+// Display Dpl : 800x600 or 1366x768
+//=========================================//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/10/11
+//=========================================//
+
+class FileName
+
+	const CaveLoadAisleUp = "ケーヴロードの通路(上)";
+	const MapleUnion      = "MapleUnion";
+	const SellEquipment   = "SellEquipment";
+	const CoreOpen        = "CoreOpen";
+	const CoreBreak       = "CoreBreak";
+	const CoreCreate      = "CoreCreate";
+	
+
+endclass
+

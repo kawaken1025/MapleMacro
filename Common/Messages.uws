@@ -34,6 +34,7 @@ CLASS ErrorCode
 	const BACK_TOWN             = "E00001";
 	const DETECTION_GAME_MASTER = "E00002";
 	const DETECTION_PLAYER      = "E00003";
+	const NOT_SCRIPT            = "E00099";
 
 ENDCLASS
 
