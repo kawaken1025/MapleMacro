@@ -1,5 +1,5 @@
 # 「.svn」フォルダを除外
 .svn/
-.Repository/.svn
-.主要
-./picture/ScreenShot
+Repository/.svn
+主要
+picture/ScreenShot/*

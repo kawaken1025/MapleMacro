@@ -59,4 +59,11 @@ function magicBuff(buffKey)
     result = MAPLE_RESULT_OK;
 fend
 
+function getBitGoddess()
+    while true
+        KBD(VK_F3,0,5000)
+    wend
+    result = MAPLE_RESULT_OK;
+fend
+
 endclass

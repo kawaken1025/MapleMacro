@@ -54,3 +54,10 @@ MapleStory Ver 1.6.1<br>
 　　・共通初期化処理を行うようにします。<br><br>
 
 MapleStory Ver 1.6.2<br>
+　★/bin/ScriptExecutor.uws 新規追加<br>
+　　　・コマンドプロンプトから主要スクリプトを呼び出せます。<br>
+　　　 多言語からのAPIとして用意しました。<br>
+　　　 # UWSCpath スクリプト名(path) で呼び出せます。<br>
+　★/var/log/MapleMacro/xxx.log<br>
+　　　・ログファイルの出力先を変更<br>
+ 　　　共有して運用している場合は、MacroLog-"ユーザー名".log が個別に作成され出力されます。<br>

@@ -12,6 +12,7 @@
 
 
 public isSugar = READINI("SUGAR_TIME","IS_SUGAR","../MapleManagement/MapleManagement.ini");
+public isBitGoddess = READINI("BIT_GODDESS","IS_BIT_GODDESS","../MapleManagement/MapleManagement.ini");
 
 class manager
 

@@ -1,6 +1,6 @@
 //=========================================//
-// comment     : ScriptExecutor
-// param       : args[0]
+// comment     : スクリプト名定義
+// param       : None
 // return      : None
 // ========================================//
 // Display Dpl : 800x600 or 1366x768

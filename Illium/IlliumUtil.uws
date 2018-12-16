@@ -43,20 +43,23 @@ fend
 // comment : クリスタルを移動させて攻撃
 //------------------------------------------
 function moveCrystalAttack(moveKey)
+    //for i = 1 to 2
+    useSkill.moveCrystal(key.CRYSTAL_KEY)
     for i = 1 to 2
-        useSkill.moveCrystal(key.CRYSTAL_KEY)
         sleep(0.5);
         useSkill.javelin(key.JAVELIN_KEY);
         useSkill.orb(key.ORB_KEY);
-        if chkimg(lib.picPathHelper("Longinus"),0,0,0,1366,800) then KBD(key.LONGINUS_KEY,0,700);
+        KBD(key.LONGINUS_KEY,0,250);
+        KBD(key.LONGINUS_KEY,0,250);
+        //f chkimg(lib.picPathHelper("Longinus"),0,0,0,1366,800) then KBD(key.LONGINUS_KEY,0,700);
         skill.illiumSkillCheck(key.DEUS_KEY,key.FAST_CHARGE_KEY,key.LONGINUS_ZONE_KEY,key.RACE_OF_GOD_KEY,key.GRAM_HOLDER_KEY);
         skill.pSkill();
         if chkimg(lib.picPathHelper("CrystalIgnition"),0,0,0,1366,800) then useSkill.crystalIgnition(key.IGNITION_KEY,key.CRYSTAL_KEY);
     next
     lib.urgentCheck();
     lib.checkGameMaster();
-    KBD(moveKey,1,300)
-    KBD(moveKey,2,150)
+    KBD(moveKey,1,100)
+    KBD(moveKey,2,50)
     
     result = 0
 fend
@@ -164,6 +167,38 @@ function downTeleport()
     KBD(key.TELEPORT_KEY,0,100);
     KBD(VK_DOWN,2,100);
     result = 0;
+fend
+
+
+//----------------------------------------
+// Yellow Point Check : 本性が現れる場所3
+//----------------------------------------
+function checkYellowPoint_WhereTheNatureAppears3()
+
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,71,118,160,140)
+        upTeleport();
+    endif
+
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,100,90,155,140)
+        print 1
+        KBD(VK_LEFT,1,500)
+        while true
+           if chkimg(lib.picPathHelper("yellowPoint"),0,0,0,85,140) then break;
+        wend
+        KBD(VK_LEFT,2,100)
+    endif
+
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,75,140)
+        print 2
+        KBD(VK_RIGHT,1,500)
+        while true
+           if !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,75,140) then break;
+        wend
+        KBD(VK_RIGHT,2,100)
+    endif
+
+    result = 0;
+
 fend
 
 

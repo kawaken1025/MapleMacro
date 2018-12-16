@@ -51,6 +51,7 @@ function luminous_skillCheck()
     ifb chkimg(lib.picPathHelper("ヒーローズオース"),0,0,0,1368,800)
         if chkimg(lib.picPathHelper("darkMode"),0,0,0,1368,800) then KBD(VK_N,0,500);
     endif
+    if chkimg(lib.picPathHelper("SpiderInMirror"),0,0,0,1368,800) then KBD(VK_DELETE,0,500);
     pSkill();
 
     result = 0

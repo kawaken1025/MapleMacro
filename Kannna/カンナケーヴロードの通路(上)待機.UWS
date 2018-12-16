@@ -15,7 +15,6 @@ While true
     KBD(VK_G,0,1000)
     SLEEP(2)
     KBD(VK_U,0,1000)
-    KBD(VK_H,0,1000)
     for i = 1 to 6
         urgentCheck()
         recovery()
@@ -92,7 +91,8 @@ function goLeft()
         if chkimg("../picture/‰©“_.bmp",0,0,0,70,143) THEN break
     wend
     KBD(VK_LEFT,2,200)
-
+    KBD(VK_H,0,1000)
+    KBD(VK_H,0,300)
     sleep(2)
 
     result = 0

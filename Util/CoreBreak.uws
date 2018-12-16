@@ -1,3 +1,6 @@
+CALL ../lib/MapleLibrary.uws;
+lib.activeWindow();
+
 while true
 	coreBreak(400,220,4,125,120)
 	coreBreak(470,280,3,100,120)

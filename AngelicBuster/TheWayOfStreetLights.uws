@@ -1,0 +1,61 @@
+
+CALL ../MapleAPI/MapleAPI.uws;
+CALL KeySetting.uws;
+
+
+lib.activeWindow();
+thread lib.parallelProgram();
+
+petTime = GETTIME( 300 / 86400 )
+
+while true
+	KBD(key.NORMAL_ATTACK_KEY,1,500);
+    KBD(VK_LEFT,1,500);
+    while true
+        if chkimg(lib.picPathHelper("yellowPoint"),0,0,0,48,147) then break;
+        lib.urgentCheck();
+        lib.checkStartingMapleStory();
+        lib.checkGameMaster();
+        //RedPointStop();
+    wend
+    KBD(key.NORMAL_ATTACK_KEY,2,200);
+    KBD(VK_LEFT,2,200);
+    upStage();
+
+    KBD(key.NORMAL_ATTACK_KEY,1,500);
+    KBD(VK_RIGHT,1,500)
+    while true
+        KBD(VK_V,0,300);
+        if chkimg(lib.picPathHelper("yellowPoint"),0,139,119,158,139) then break;
+        lib.urgentCheck();
+        lib.checkGameMaster();
+       // RedPointStop();
+    wend
+    KBD(key.NORMAL_ATTACK_KEY,2,200);
+    KBD(VK_RIGHT,2,200);
+
+    ifb petTime < GETTIME()
+        KBD(VK_T,0,1000)
+        logger.logWriter(LogLevel.LOG_INFO,"ペットの餌を使用しました。");
+        petTime = GETTIME( 600 / 86400 )
+    endif
+
+wend
+
+function upStage()
+
+    KBD(VK_RIGHT,1,1000)
+    KBD(VK_UP,1,200)
+    while true
+        if chkimg(lib.picPathHelper("yellowPoint"),0,48,103,62,112) then break;
+    wend
+    KBD(VK_UP,2,1000)
+    KBD(VK_RIGHT,2,100)   
+    result = 0;
+fend
+
+function RedPointStop()
+
+    if chkimg(lib.picPathHelper("yellowPoint"),0,0,0,300,300) then KBD(key.DAY_DREAM_KEY,0,1000);
+    result = 0;
+fend

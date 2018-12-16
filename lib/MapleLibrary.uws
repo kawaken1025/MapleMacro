@@ -115,12 +115,18 @@ function activeWindow()
     manager.WindowSize_Y_MAX = ST_CLHEIGHT;
     x = STATUS(mapleWindowID,ST_CLWIDTH) + 50;
     y = STATUS(mapleWindowID,ST_CLHEIGHT) + 50;
-    ACW(mapleWindowID,1,1);
-    BTN(LEFT,CLICK,x,y,500); 
-    BTN(LEFT,CLICK,200,405,500);
-    BTN(LEFT,CLICK,200,405,200);
-
-    result = MAPLE_RESULT_OK; ;
+    //ウィンドウが左上(1,1)にあるなら移動させない
+    ifb STATUS(mapleWindowID,ST_X) <> 1 AND STATUS(mapleWindowID,ST_Y) <> 1
+	    ACW(mapleWindowID,1,1);
+	    for i = 1 to 2
+		    BTN(LEFT,CLICK,x,y,500); 
+		    BTN(LEFT,CLICK,200,405,500);
+		    BTN(LEFT,CLICK,200,405,200);
+	    next
+	else
+		BTN(LEFT,CLICK,200,405,500);
+	endif
+    result = MAPLE_RESULT_OK;
 
 fend
 
@@ -188,9 +194,9 @@ function checkGameMaster()
         logger.logWriter(LogLevel.LOG_WARN,Messages.REPLY_REQUEST);
         ifb !chkimg(picPathHelper("heart"),0,0,0,150,780);   //ハート拡声器ではないか
             ifb chkimg(picPathHelper("赤点"),0,0,0,400,400);   //ミニMAPに赤点が存在するか
-                screenShot(); //スクリーンショット保存
                 logger.logWriter(LogLevel.LOG_WARN,Messages.ENCOUNT_GAME_MASTER);
                 responseToGameMaster(getResponse()); //返答処理
+                screenShot(); //スクリーンショット保存
                 initChat(); //チャット欄初期化
             else //赤点がなかった時はチャット欄を初期化
                 logger.logWriter(LogLevel.LOG_INFO,Messages.NOT_RED_POINT);
@@ -447,7 +453,7 @@ function wait(sleepTime)
     counter = 1;
     //待機秒ログ出力
     message = sleepTime + Messages.STOP_MAPLE_MESSAGE;
-    logger.logWriter(LogLevel.LOG_ERROR,message);
+    logger.logWriter(LogLevel.LOG_INFO,message);
     //待機処理
     for i = 1 to sleepTime
         sleep(1)

@@ -13,12 +13,13 @@
 CLASS key
 
     //スキル
-    const TELEPORT_KEY        = VK_SPACE
-    const REFLECTION_KEY      = VK_X
-    const MEMORIZE_KEY        = VK_O
-    const PSYCHOLOGY_DOOR_KEY = VK_T
-    const PANISHING_KEY       = VK_Q
-    const ROPE_CONNECT_KEY    = VK_B
+    const TELEPORT_KEY         = VK_SPACE
+    const REFLECTION_KEY       = VK_X
+    const MEMORIZE_KEY         = VK_O
+    const PSYCHOLOGY_DOOR_KEY  = VK_T
+    const PANISHING_KEY        = VK_Q
+    const ROPE_CONNECT_KEY     = VK_B
+    const SPIDER_IN_MIRROR_KEY = VK_DELETE
 
     //スキル以外 
     const FAM_BOOK_KEY        = VK_F6  //ファミリアブックキー

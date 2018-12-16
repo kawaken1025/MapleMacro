@@ -18,3 +18,8 @@ ifb isSugar = "ON"
     print "[INFO]シュガータイム実施中。受取スレッドを起動します。";
     thread mutil.getSugarTime();
 endif
+
+ifb isBitGoddess = "ON"
+	print "[INFO]ビット女神実施中。受取スレッドを起動します。"
+	thread mutil.getBitGoddess();
+endif

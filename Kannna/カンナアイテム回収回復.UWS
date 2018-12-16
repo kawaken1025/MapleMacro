@@ -70,7 +70,7 @@ PROCEDURE recovery()
 			EXIT
 		ENDIF
 
-		//KBD(VK_DELETE,0,300)
-		KBD(VK_R,0,300)
+		KBD(VK_HOME,0,500)
+		KBD(VK_R,0,500)
 
 FEND
