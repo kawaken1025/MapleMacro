@@ -1,0 +1,26 @@
+//=========================================//
+// comment     : キー設定
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 
+//=========================================//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/11/15
+//=========================================//
+
+CLASS key
+
+    //スキル
+    const NORMAL_ATTACK_KEY   = VK_X
+    const DAY_DREAM_KEY       = VK_8
+
+    //スキル以外 
+    const FAM_BOOK_KEY        = VK_F6  //ファミリアブックキー
+    const FAM_RECOVERY_KEY    = VK_4   //ファミリア気力回復薬キー
+    const MAPRAGE_KEY         = VK_F9  //メイプレージキー
+    const DURABILITY_RCV_KEY  = VK_F10 //耐久装備回復クーポンキー
+
+ENDCLASS
+

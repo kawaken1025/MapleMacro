@@ -1,5 +1,8 @@
 # 「.svn」フォルダを除外
 .svn/
 Repository/.svn
-主要
-picture/ScreenShot/*
+picture/ScreenShot/*.png
+picture/ScreenShot/*.bmp
+picture/ScreenShot/*.jpg
+picture/ScreenShot/*.jpeg
+var/log/MapleMacro/*.log
