@@ -1,5 +1,17 @@
-print for(i = 0; i < 10 ; i++);
+mapleWindowID = GETID("MapleStory","MapleStoryClass");
+WindowSize_X_MAX = ST_CLWIDTH;
+WindowSize_Y_MAX = ST_CLHEIGHT;
+x = STATUS(mapleWindowID,ST_CLWIDTH)
+y = STATUS(mapleWindowID,ST_CLHEIGHT)
 
-function for()
-	result = 0;
-fend
+ifb x = 800 and y = 600
+
+	print "a"
+
+endif
+
+ifb x = 1024 and y = 768
+
+	print "b"
+
+endif

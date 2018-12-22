@@ -12,6 +12,9 @@
 
 CALL ../Util/MapleUtil.uws;
 CALl ../MapleManagement/MapleManagement.uws;
+CALL ../lib/MapleLibrary.uws;
+
+lib.activeWindow();
 
 //シュガータイムスレッド起動可否チェック
 ifb isSugar = "ON"
@@ -23,3 +26,7 @@ ifb isBitGoddess = "ON"
 	print "[INFO]ビット女神実施中。受取スレッドを起動します。"
 	thread mutil.getBitGoddess();
 endif
+
+
+mutil.useBlackUnionEventItem();
+

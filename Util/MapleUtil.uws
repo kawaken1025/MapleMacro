@@ -20,7 +20,6 @@
 public MAPLE_RESULT_OK = 0;
 CALL ../lib/MapleLibrary.uws;
 
-
 class mutil
 
 function graveConfirm()
@@ -64,6 +63,27 @@ function getBitGoddess()
         KBD(VK_F3,0,5000)
     wend
     result = MAPLE_RESULT_OK;
+fend
+
+function useBlackUnionEventItem()
+
+    mapleWindowID = GETID("MapleStory","MapleStoryClass");
+    x = STATUS(mapleWindowID,ST_CLWIDTH)
+    y = STATUS(mapleWindowID,ST_CLHEIGHT)
+
+    ifb x = 800 and y = 600
+        BTN(LEFT,CLICK,559,407,700);
+        KBD(VK_3,0,700);
+        BTN(LEFT,CLICK,559,407,700);
+        exit;
+    endif
+    ifb x = 1024 and y = 768
+        BTN(LEFT,CLICK,669,491,1000);
+        KBD(VK_3,0,700);
+        BTN(LEFT,CLICK,669,491,700);
+        exit;
+    endif
+    result = 0;
 fend
 
 endclass

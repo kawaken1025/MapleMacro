@@ -1,0 +1,40 @@
+
+CALL ../MapleAPI/MapleAPI.uws;
+CALL KeySetting.uws;
+
+
+lib.activeWindow();
+thread lib.parallelProgram();
+
+skillTime = GETTIME( 180 / 86400 )
+KBD(VK_G,0,500)
+sleep(1)
+KBD(VK_H,0,500)
+
+while true
+	
+    roundTripTeleportAttack(VK_X,VK_RIGHT,117,100,140,150);
+    roundTripTeleportAttack(VK_X,VK_LEFT,0,0,47,150);
+
+    ifb skillTime < GETTIME()
+        KBD(VK_G,0,1000);
+        sleep(1.5);
+        skillTime = GETTIME(180/86400);
+    endif
+
+wend
+
+function roundTripTeleportAttack( execKBD_Attack, execKBD_Move, yellowX_S, yellowY_S, yellowX_E, yellowY_E, );
+
+    KBD(execKBD_Move,1,100);
+    
+    while true;
+        KBD(execKBD_Attack,0,100);
+        KBD(execKBD_Attack,0,100);
+        if chkimg("../picture/黄点.bmp",0,yellowX_S,yellowY_S,yellowX_E,yellowY_E) then break;
+    wend;
+
+    KBD(execKBD_Move,2,100);
+
+    result = MAPLE_RESULT_OK;
+fend

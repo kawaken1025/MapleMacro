@@ -87,7 +87,7 @@ fend
 //=========================================
 function urgentCheck()
 
-    if  chkimg("../picture/エリボス.bmp",0,0,0,2000,2000) then SOUND(" ");
+    //if  chkimg("../picture/エリボス.bmp",0,0,0,2000,2000) then SOUND(" ");
     if  chkimg("../picture/緑点.bmp",0,0,0,1368,800)    then exitexit;
     ifb chkimg("../picture/突発.bmp",0,0,0,1368,800)
         for i = 1 to 3
