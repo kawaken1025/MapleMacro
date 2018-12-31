@@ -25,6 +25,7 @@ CLASS Messages
 	const RESPONSE_MESSAGE        = "ゲームマスターにチャットで返答します。";
 	const WAIT_NEXT_RESPONSE      = "次の質問があるか確認します。";
 	const CAVELOAD_AISLEUP_START  = "ケーヴロードの通路(上)スクリプトを開始しました。";
+	const UNDER_THE_CAVE          = "洞窟の通路(下)スクリプトを開始しました。";
 	const SLEEP_START             = "秒待機します。";
 	const USE_PET_FEED            = "ペットの餌を使用しました。";
 	const BACK_TOWN_STOP          = "緑点を検出しました。マクロを停止します。";

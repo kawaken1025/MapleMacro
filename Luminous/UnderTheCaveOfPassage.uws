@@ -1,0 +1,109 @@
+//=========================================//
+// Map Name    : アルカナ 洞窟の通路(下)       //
+//=========================================//
+// Mob Name    : 悲嘆の精霊
+// Mob Level   : 239
+// Mob HP      : 312,451,200
+// Mob Exp     : 462,670
+//=========================================//
+// Mob Name    : 不調和の精霊
+// Mob Level   : 240
+// Mob HP      : 318,873,600
+// Mob Exp     : 470,824
+//=========================================//
+// comment     : None
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 800x600 or 1366x768
+//=========================================//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/04/01
+//=========================================//
+
+//=========================================
+// init
+//=========================================
+// MapleAPI : LogWriter.uws , MapleLibrary.uws , UseSkillFiveJob.uws
+CALL ../MapleAPI/MapleAPI.uws;
+// import Luminous skillKeySetting
+CALL KeySetting.uws;
+// Util - sugarTime exec
+CALL ../Util/MapleUtil.uws;
+// multiThread checkRedPoint and checkMineralization
+thread lib.parallelProgram();
+// Main Script Start
+// StartMessage and MessageWindow init
+logger.logWriter(LogLevel.LOG_INFO,Messages.UNDER_THE_CAVE);
+LOGPRINT(true,10,800,500,100)
+isEqulibrium = false;
+
+while true;
+    //Acquisition of Time : Get the time after 3 minutes
+    reUseSkillTime = GETTIME( 180 / 86400 );
+    skill.luminous_useSkill();
+    SLEEP(0.5);
+    lib.checkFamiliarPower();
+    lib.useMaprage();
+    while true;
+        // Equlibrium check
+        for i = 1 to 3
+            if chkimg(lib.picPathHelper("mode"),0,0,0,1368,800)     _
+                or                                                  _
+               chkimg(lib.picPathHelper("memorize"),0,0,0,1368,800) then isEqulibrium = true;
+            urgentCheck();
+            skill.luminous_skillCheck();
+            ifb isEqulibrium
+                KBD(key.MEMORIZE_KEY,0,500);
+                KBD(key.PSYCHOLOGY_DOOR_KEY,0,800);
+                isEqulibrium = false;
+            endif
+            useSkill.reflection(key.REFLECTION_KEY);
+        next
+
+        moveStage();
+
+        //3minutes elapsed?
+        if GETTIME() > reUseSkillTime then break;
+    wend
+wend
+
+function moveStage()
+
+    IFB CHKIMG("../picture/黄点.BMP",0,0,0,124,128)
+        KBD(VK_DOWN,1,500);
+        useSkill.teleport(key.TELEPORT_KEY);
+        KBD(VK_DOWN,2);
+        exit
+        result = 2;
+    ENDIF
+
+    IFB CHKIMG("../picture/黄点.BMP",0,37,130,125,150)
+        upStage();
+        exit
+        result = 3;
+    ENDIF
+
+fend
+
+function upStage()
+
+    KBD(VK_UP,1,200)
+    useSkill.teleport(key.TELEPORT_KEY);
+    KBD(VK_UP,2,500)
+    result = 0;
+fend
+
+function urgentCheck()
+
+    //if  chkimg("../picture/エリボス.bmp",0,0,0,2000,2000) then SOUND(" ");
+    if  chkimg("../picture/緑点.bmp",0,0,107,1368,800)    then exitexit;
+    ifb chkimg("../picture/突発.bmp",0,0,0,1368,800)
+        for i = 1 to 3
+            BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,200);
+        next
+    endif
+
+    result = MAPLE_RESULT_OK; 
+fend

@@ -1,0 +1,88 @@
+
+CALL ../MapleAPI/MapleAPI.uws;
+CALL KeySetting.uws;
+
+
+lib.activeWindow();
+thread lib.parallelProgram();
+
+skillTime = GETTIME( 180 / 86400 )
+KBD(VK_G,0,500)
+sleep(1)
+KBD(VK_H,0,500)
+
+nowRow = getNowRow()
+
+while true
+	
+    KBD(VK_D,1,1000)
+    checkYellowPoint();
+    for i = 1 to 5
+        KBD(VK_C,0,200);
+    next
+    KBD(VK_D,2,3000)
+
+    getNowRow();
+    sleep(0.5)
+    KBD(VK_SHIFT,0,500)
+
+    ifb skillTime < GETTIME()
+        KBD(VK_G,0,1000);
+        sleep(1.5);
+        skillTime = GETTIME(180/86400);
+    endif
+
+wend
+
+
+function getNowRow()
+
+    IFB CHKIMG("../picture/黄点.BMP",0,80,140,140,190)
+        KBD(VK_DOWN,1,500);
+        KBD(VK_C,0,500);
+        KBD(VK_C,0,500);
+        KBD(VK_DOWN,2);
+        result = 2;
+    ENDIF
+
+    IFB CHKIMG("../picture/黄点.BMP",0,80,190,145,250)
+        upStage();
+        result = 3;
+    ENDIF
+
+fend
+
+function upStage()
+
+    KBD(VK_C,0,700)
+    KBD(VK_C,0,100)
+    KBD(VK_UP,1,200)
+    for i = 1 to 5
+        KBD(VK_C,0,100)
+    next
+    KBD(VK_UP,2,500)
+    result = 0;
+fend
+
+
+function downStage()
+    KBD(VK_DOWN,1,500)
+    KBD(VK_C,0,500)
+    KBD(VK_C,0,500)
+    KBD(VK_DOWN,2)
+    result = 0;
+fend
+
+PROCEDURE checkYellowPoint()
+
+    IFB CHKIMG("../picture/黄点.BMP",0,0,0,90,250)
+    KBD(VK_RIGHT,1,500)
+    KBD(VK_RIGHT,2,2000)
+    ENDIF
+
+    IFB CHKIMG("../picture/黄点.BMP",0,133,180,150,240)
+    KBD(VK_LEFT,1,500)
+    KBD(VK_LEFT,2,2000)
+    ENDIF
+
+FEND

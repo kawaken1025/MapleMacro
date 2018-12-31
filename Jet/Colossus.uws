@@ -1,0 +1,81 @@
+
+CALL ../MapleAPI/MapleAPI.uws;
+CALL KeySetting.uws;
+
+
+lib.activeWindow();
+thread lib.parallelProgram();
+
+skillTime = GETTIME( 140 / 86400 )
+
+KBD(VK_G,0,1000)
+SLEEP(3)
+KBD(VK_H,0,500)
+SLEEP(3.3)
+
+while true
+
+    KBD(VK_LEFT,1,500);
+    while true
+        KBD(key.BACKUP_BEAT_KEY,1,500);
+        if chkimg(lib.picPathHelper("yellowPoint"),0,0,0,48,114) then break;
+        lib.urgentCheck();
+        lib.checkStartingMapleStory();
+        lib.checkGameMaster();
+        //RedPointStop();
+    wend
+    KBD(key.BACKUP_BEAT_KEY,2,200);
+    KBD(VK_LEFT,2,200);
+    upStage();
+
+    KBD(key.BACKUP_BEAT_KEY,1,500);
+    KBD(VK_RIGHT,1,500)
+    while true
+        if chkimg(lib.picPathHelper("yellowPoint"),0,139,96,167,130) then break;
+        lib.urgentCheck();
+        lib.checkGameMaster();
+       // RedPointStop();
+    wend
+    KBD(key.BACKUP_BEAT_KEY,2,200);
+    KBD(VK_RIGHT,2,200);
+    SLEEP(1)
+    downStage();
+
+    ifb skillTime < GETTIME()
+        KBD(VK_G,0,1000)
+        SLEEP(3)
+        KBD(VK_H,0,500)
+        SLEEP(3.3)
+        skillTime = GETTIME( 140 / 86400 )
+    endif
+
+wend
+
+function upStage()
+
+    KBD(VK_RIGHT,1,1000)
+    KBD(VK_UP,1,200)
+    while true
+        if chkimg(lib.picPathHelper("yellowPoint"),0,48,90,56,100) then break;
+    wend
+    KBD(VK_UP,2,1000)
+    KBD(VK_RIGHT,2,100)   
+    result = 0;
+fend
+
+function downStage()
+
+    KBD(VK_DOWN,1,500)
+    KBD(VK_C,0,100)
+    KBD(VK_C,0,100)
+    KBD(VK_C,0,100)
+    KBD(VK_DOWN,2,100)
+      
+    result = 0;
+fend
+
+function RedPointStop()
+
+    if chkimg(lib.picPathHelper("yellowPoint"),0,0,0,300,300) then KBD(key.DAY_DREAM_KEY,0,1000);
+    result = 0;
+fend

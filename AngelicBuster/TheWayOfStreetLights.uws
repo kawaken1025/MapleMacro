@@ -5,6 +5,7 @@ CALL KeySetting.uws;
 
 lib.activeWindow();
 thread lib.parallelProgram();
+thread pick();
 
 petTime = GETTIME( 300 / 86400 )
 
@@ -58,4 +59,11 @@ function RedPointStop()
 
     if chkimg(lib.picPathHelper("yellowPoint"),0,0,0,300,300) then KBD(key.DAY_DREAM_KEY,0,1000);
     result = 0;
+fend
+
+function pick()
+    while true
+        KBD(VK_Z,0,10);
+        result = 0;
+    wend
 fend
