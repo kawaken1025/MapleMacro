@@ -16,6 +16,7 @@ CLASS key
     const NORMAL_ATTACK_KEY   = VK_X
     const DAY_DREAM_KEY       = VK_8
     const BACKUP_BEAT_KEY     = VK_D
+    const PLANET_BUSTER_KEY   = VK_A
 
     //スキル以外 
     const FAM_BOOK_KEY        = VK_F6  //ファミリアブックキー
