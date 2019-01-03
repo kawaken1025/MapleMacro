@@ -1,3 +1,0 @@
-call ../Log/LogWriter.uws
-
-logger.logWriter("info","test");
