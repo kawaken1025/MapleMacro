@@ -88,12 +88,13 @@ fend
 function urgentCheck()
 
     //if  chkimg("../picture/エリボス.bmp",0,0,0,2000,2000) then SOUND(" ");
-    if  chkimg("../picture/緑点.bmp",0,0,0,1368,800)    then exitexit;
-    ifb chkimg("../picture/突発.bmp",0,0,0,1368,800)
+    if  chkimg("../picture/緑点.bmp",0,0,0,1368,800) then exitexit;
+    ifb chkimg("../picture/突発.bmp",0,0,0,1368,800);
         for i = 1 to 3
             BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,200);
         next
     endif
+    if chkimg("../picture/talkEnd.bmp",0,0,0,1368,800) then BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,500);
 
     result = MAPLE_RESULT_OK; 
 fend
@@ -464,6 +465,30 @@ function wait(sleepTime)
     counter = 1;
     result = 0;
 
+fend
+
+//=========================================
+// comment : 職業別ログ出力先フォルダを取得する
+// param   : None
+// return  : 0
+//=========================================
+function getOutputDirectory()
+
+    currentDirectory = GET_CUR_DIR
+    outputDirectory = ""
+
+    re=CreateOleObj("VBScript.RegExp")
+    re.pattern = "([^\\]+?)?$" //正規表現パターン。1と5の間の文字を取り出す。
+    re.Global = True //文字列全体を検索。trueでする(規定)、falseでしない(マッチしたらそこで終了)。
+    re.IgnoreCase = True //大文字・小文字を区別。trueでしない(規定)、falseでする。
+    match = re.Execute(currentDirectory)
+
+    //マッチしたものをすべて出力
+    for i = 0 To match.Count - 1
+        outputDirectory = outputDirectory + match.Item(i).Value
+    next
+
+    result = outputDirectory;
 fend
 
 ENDCLASS

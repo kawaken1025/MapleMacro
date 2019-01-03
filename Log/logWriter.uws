@@ -46,6 +46,10 @@ CLASS logger
 
     function logWriter( logLevel , outputLog)
 
+        //CALL ../lib/MapleLibrary.uws;
+        //jobPath = lib.getOutputDirectory();
+        //checkDirectory(jobPath);
+        //logPath = outputPath(jobPath);
         Option LogPath = "../var/log/MapleMacro/MacroLog.log"
         GETTIME();
         date = "" + G_TIME_YY4 + "/" + G_TIME_MM2 + "/" + G_TIME_DD2;
@@ -56,6 +60,21 @@ CLASS logger
 
         result = 0;
 
+    fend
+
+    function checkDirectory(path)
+
+        outputDirectory = GET_CUR_DIR + "\..\var\log\MapleMacro\" + path + "\";
+        ifb !FOPEN(outputDirectory, F_EXISTS) // ディレクトリ確認
+            DOSCMD("mkdir " + outputDirectory); // ディレクトリ作成
+            DOSCMD("type nul > " + outputDirectory +  "MacroLog.log"); // ファイル作成
+        endif
+
+        result = 0;
+    fend
+
+    function outputPath(path)
+        result = GET_CUR_DIR + "\..\var\log\MapleMacro\" + path + "\MacroLog.log";
     fend
 
 ENDCLASS
