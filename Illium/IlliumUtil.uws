@@ -56,10 +56,37 @@ function moveCrystalAttack(moveKey)
         skill.pSkill();
         if chkimg(lib.picPathHelper("CrystalIgnition"),0,0,0,1366,800) then useSkill.crystalIgnition(key.IGNITION_KEY,key.CRYSTAL_KEY);
     next
+    KBD(key.SOUL_OF_CRYSTAL_KEY,0,750);
     lib.urgentCheck();
     lib.checkGameMaster();
     KBD(moveKey,1,100)
     KBD(moveKey,2,50)
+    
+    result = 0
+fend
+
+//------------------------------------------
+// comment : クリスタルを移動させて攻撃
+//------------------------------------------
+function moveSoulOfCrystalAttack(moveKey)
+    //for i = 1 to 2
+    useSkill.moveCrystal(key.CRYSTAL_KEY)
+    KBD(moveKey,1,100)
+    KBD(moveKey,2,50)
+    KBD(key.SOUL_OF_CRYSTAL_KEY,0,1050);
+    for i = 1 to 2
+        sleep(0.5);
+        useSkill.javelin(key.JAVELIN_KEY);
+        useSkill.orb(key.ORB_KEY);
+        KBD(key.LONGINUS_KEY,0,250);
+        KBD(key.LONGINUS_KEY,0,250);
+        //f chkimg(lib.picPathHelper("Longinus"),0,0,0,1366,800) then KBD(key.LONGINUS_KEY,0,700);
+        skill.illiumSkillCheck(key.DEUS_KEY,key.FAST_CHARGE_KEY,key.LONGINUS_ZONE_KEY,key.RACE_OF_GOD_KEY,key.GRAM_HOLDER_KEY);
+        skill.pSkill();
+        if chkimg(lib.picPathHelper("CrystalIgnition"),0,0,0,1366,800) then useSkill.crystalIgnition(key.IGNITION_KEY,key.CRYSTAL_KEY);
+    next
+    lib.urgentCheck();
+    lib.checkGameMaster();
     
     result = 0
 fend
