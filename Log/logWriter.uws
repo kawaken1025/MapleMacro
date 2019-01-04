@@ -44,24 +44,36 @@ fend
 
 CLASS logger
 
+    //=========================================
+    // comment : ログの出力
+    // param   : None
+    // return  : 0
+    //=========================================
     function logWriter( logLevel , outputLog)
 
-        //CALL ../lib/MapleLibrary.uws;
-        //jobPath = lib.getOutputDirectory();
-        //checkDirectory(jobPath);
-        //logPath = outputPath(jobPath);
-        Option LogPath = "../var/log/MapleMacro/MacroLog.log"
+        CALL ../lib/MapleLibrary.uws;
+
+        jobPath = lib.getOutputDirectory(); // 実行中職業ディレクトリの取得
+        checkDirectory(jobPath);            // ディレクトリ存在チェック
+        logPath = getOutputPath(jobPath);      // 出力先パス設定
         GETTIME();
         date = "" + G_TIME_YY4 + "/" + G_TIME_MM2 + "/" + G_TIME_DD2;
         time = "" + G_TIME_HH2 + ":" + G_TIME_NN2;
         dateTime = logLevel + "[" + date + " " + time + "] "; 
+        logText = dateTime + outputLog;
 
-        print dateTime + outputLog;
+        print logText; // UWSCプリント
+        DOSCMD("echo " + logText + " >> " + logPath); // コマンドプロンプトからファイルへ追記
 
         result = 0;
 
     fend
 
+    //=========================================
+    // comment : 出力先ディレクトリの存在確認
+    // param   : None
+    // return  : 0
+    //=========================================
     function checkDirectory(path)
 
         outputDirectory = GET_CUR_DIR + "\..\var\log\MapleMacro\" + path + "\";
@@ -73,7 +85,12 @@ CLASS logger
         result = 0;
     fend
 
-    function outputPath(path)
+    //=========================================
+    // comment : 出力先ディレクトリの取得
+    // param   : None
+    // return  : 0
+    //=========================================
+    function getOutputPath(path)
         result = GET_CUR_DIR + "\..\var\log\MapleMacro\" + path + "\MacroLog.log";
     fend
 
