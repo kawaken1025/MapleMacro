@@ -1,75 +1,39 @@
-
+﻿
 
 OPTION OPTFINALLY
 CALL ChkImgX.uws
 startup_chkimgx()
 
 try
-
-
-while True
-	try
-
-	KBD(VK_G,0,1000)
-	sleep(3)
-	for x = 1 to 10
-		kbd(VK_H,0,1000)
-		for i = 1 to 160
-			if chkimgx("../picture/Hp50Less.bmp",0,505,570,515,610,1,2,-1) then KBD(VK_INSERT,0,500)
-			sleep(0.5)
-		next
-	next
-
-	KBD(VK_G,0,1000)
-	sleep(3)
-
-	kbd(vk_left,1,100)
-	kbd(vk_left,2,50)
-	for i = 1 to 160
-		if chkimgx("../picture/Hp50Less.bmp",0,505,570,515,610,1,2,-1) then KBD(VK_INSERT,0,500)
-		sleep(0.5)
-	next
-	kbd(vk_right,1,100)
-	kbd(vk_right,2,50)
-
-
-	finally
-  		shutdown_chkimgx()
-	endtry
-
-wend
-
-
+a();
 
 finally
   shutdown_chkimgx()
 endtry
 
 function a()
-		for x = 1 to 10
-		SOUND("BEEP")
-		sleep(0.2)
-	next
 
-	threshold = 16
+	threshold = 13
 
-	CHKIMGX("../picture/arrow/open.png",0,0,0,600,200,-1,threshold,-1)
-	print "x="+G_IMGX_X
-	print "y="+G_IMGX_Y
-	exitexit
+	//CHKIMGX("../picture/arrow/open.png",0,0,0,600,200,-1,threshold,-1)
+	//print "x="+G_IMGX_X
+	//print "y="+G_IMGX_Y
+	//exitexit
 
-	arrowCountL = CHKIMGX("../picture/arrow/Left.png",0,381,202,900,320,-1,threshold,-1)
+	arrowCountL = CHKIMGX("../picture/arrow/l.png",0,381,202,900,320,-1,threshold,-1)
 	print "color = " + G_IMGX_NUM
 	print "======================="
 	num = "." + G_IMGX_NUM
 	if G_IMGX_NUM < 0 then num = ""
-	arrowCountL = CHKIMGX("../picture/arrow/Left" +num+ ".png",0,381,202,900,320,-1,threshold,-1)
+	arrowCountL = CHKIMGX("../picture/arrow/l" +num+ ".png",0,381,202,900,320,-1,threshold,-1)
 	print "左発見個数=" + arrowCountL
 	for i = 0 to arrowCountL - 1
 		j = 0
 		DIM arrowArray_L[arrowCountL*2 - 1]
 			arrowArray_L[j]   =   ALL_IMGX_X[i]
 		    arrowArray_L[j+1] = "LEFT"
+		    list.add(ALL_IMGX_X[i])
+		    list.add("←")
 		j = j + 2;
 		for x = 0 to length(arrowArray_L) -1
 			print arrowArray_L[x]
@@ -78,13 +42,15 @@ function a()
 
 	print "======================="
 
-	arrowCountR = CHKIMGX("../picture/arrow/right" + num + ".png",0,381,202,900,320,-1,threshold,-1)
+	arrowCountR = CHKIMGX("../picture/arrow/r" + num + ".png",0,381,202,900,320,-1,threshold,-1)
 	print "右発見個数" + arrowCountR
 	for i = 0 to arrowCountR - 1
 		j = 0
 		DIM arrowArray_R[arrowCountR*2 - 1]
 			arrowArray_R[j]   =   ALL_IMGX_X[i]
 		    arrowArray_R[j+1] = "RIGHT"
+		    list.add(ALL_IMGX_X[i])
+		    list.add("→")
 		j = j + 2;
 		for x = 0 to length(arrowArray_R) -1
 			print arrowArray_R[x]
@@ -94,13 +60,15 @@ function a()
 	print "======================="
 
 
-	arrowCountU = CHKIMGX("../picture/arrow/up" + num + ".png",0,381,202,900,320,-1,threshold,-1)
+	arrowCountU = CHKIMGX("../picture/arrow/u" + num + ".png",0,381,202,900,320,-1,threshold,-1)
 	print "上発見個数" + arrowCountU
 	for i = 0 to arrowCountU - 1
 		j = 0
 		DIM arrowArray_U[arrowCountU*2 - 1]
 			arrowArray_U[j]   =   ALL_IMGX_X[i]
 		    arrowArray_U[j+1] = "UP"
+		    list.add(ALL_IMGX_X[i])
+		    list.add("↑")
 		j = j + 2;
 		for x = 0 to length(arrowArray_U) -1
 			print arrowArray_U[x]
@@ -109,13 +77,15 @@ function a()
 
 	print "======================="
 
-	arrowCountD = CHKIMGX("../picture/arrow/down" + num + ".png",0,381,202,900,320,-1,threshold,-1)
+	arrowCountD = CHKIMGX("../picture/arrow/d" + num + ".png",0,381,202,900,320,-1,threshold,-1)
 	print "下発見個数" + arrowCountD
 	for i = 0 to arrowCountD - 1
 		j = 0
 		DIM arrowArray_D[arrowCountD*2 - 1]
 			arrowArray_D[j]   =   ALL_IMGX_X[i]
 		    arrowArray_D[j+1] = "DOWN"
+		    list.add(ALL_IMGX_X[i])
+		    list.add("↓")
 		j = j + 2;
 		for x = 0 to length(arrowArray_D) -1
 			print arrowArray_D[x]

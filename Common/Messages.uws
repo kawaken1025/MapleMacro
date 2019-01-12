@@ -29,6 +29,7 @@ CLASS Messages
 	const SLEEP_START             = "秒待機します。";
 	const USE_PET_FEED            = "ペットの餌を使用しました。";
 	const BACK_TOWN_STOP          = "緑点を検出しました。マクロを停止します。";
+	const START_SCRIPT_NAME       = REPLACE(GET_UWSC_NAME, ".uws", "") + "スクリプトを開始しました。";
 
 ENDCLASS
 
@@ -67,6 +68,7 @@ CLASS ResponseMessages
 	                       "面白い返答が思いつきません";
 
 	public answer[] = "メイプルストーリー",_
+	                  "10",_
 	                  "TODO";
 
 ENDCLASS

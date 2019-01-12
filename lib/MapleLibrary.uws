@@ -491,6 +491,66 @@ function getOutputDirectory()
     result = outputDirectory;
 fend
 
+//=========================================
+// comment : ルーンの矢印を解析し入力する
+// param   : None
+// return  : 0
+//=========================================
+function OpenRune()
+
+    moveRunePoint();
+	CALL ChkimgRune.uws;
+	
+	result = 0;
+fend
+
+//=========================================
+// comment : ルーンの位置まで移動する
+// param   : None
+// return  : 0
+//=========================================
+function moveRunePoint()
+
+    // ルーンの位置を取得
+    runePointX = 0;
+    runePointY = 0;
+	ifb chkimg(lib.picPathHelper("runePoint"),0,0,0,250,300);
+		runePointX = G_IMG_X;
+		runePointY = G_IMG_Y;
+	else
+	    print "ルーンの位置が取得できません";
+	    result = 1;
+    endif
+    
+    // 黄点を取得
+    yellowPointX = 0;
+    yellowPointY = 0;
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,250,300);
+		yellowPointX = G_IMG_X;
+		yellowPointY = G_IMG_Y;
+    else
+        print "黄点の位置が取得できません";
+        result = 2;
+    endif
+    	
+    // 移動する方向を決定
+    moveKey = VK_RIGHT
+    ifb yellowPointX > runePointX
+        moveKey = VK_LEFT
+    endif
+    
+    // ルーンの横位置まで移動
+	KBD(moveKey,1,500);
+    while true
+    	if chkimg(lib.picPathHelper("yellowPoint"),0, runePointX-5, 0, runePointX+5, 300) then break;  
+    wend
+	KBD(moveKey,2,50)
+    
+	result = 0;
+fend
+
+
+
 ENDCLASS
 
 

@@ -5,7 +5,6 @@ CALL KeySetting.uws;
 
 lib.activeWindow();
 thread lib.parallelProgram();
-thread pick();
 
 petTime = GETTIME( 300 / 86400 )
 
@@ -16,11 +15,12 @@ while true
         if chkimg(lib.picPathHelper("yellowPoint"),0,0,0,48,147) then break;
         lib.urgentCheck();
         lib.checkStartingMapleStory();
-        lib.checkGameMaster();
         //RedPointStop();
     wend
+
     KBD(key.NORMAL_ATTACK_KEY,2,200);
     KBD(VK_LEFT,2,200);
+    lib.checkGameMaster();
     upStage();
 
     KBD(key.NORMAL_ATTACK_KEY,1,500);
@@ -29,11 +29,11 @@ while true
         KBD(VK_V,0,300);
         if chkimg(lib.picPathHelper("yellowPoint"),0,139,119,158,139) then break;
         lib.urgentCheck();
-        lib.checkGameMaster();
        // RedPointStop();
     wend
     KBD(key.NORMAL_ATTACK_KEY,2,200);
     KBD(VK_RIGHT,2,200);
+    lib.checkGameMaster();
 
     ifb petTime < GETTIME()
         KBD(VK_T,0,1000)

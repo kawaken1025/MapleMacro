@@ -1,0 +1,66 @@
+//=========================================//
+// Map Name    : 霧と雷の森 2                //
+//=========================================//
+// Mob Name    : 
+// Mob Level   : 
+// Mob HP      : 
+// Mob Exp     : 
+//=========================================//
+// comment     : None
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 800x600 or 1366x768
+//=========================================//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/08/15
+//=========================================//
+
+//MapleAPI : LogWriter.uws , MapleLibrary.uws , UseSkillFiveJob.uws
+CALL ../MapleAPI/MapleAPI.uws;
+//import Luminous skillKeySetting
+CALL KeySetting.uws;
+//Illium Utility Class
+CALL IlliumUtil.uws;
+//Move Window initSetting x = 1 , y = 1
+lib.activeWindow();
+//multiThread checkRedPoint and checkMineralization
+thread lib.parallelProgram();
+
+while true
+	skillTime = gettime( 180 / 86400 );
+    skill.illiumSupportSkill();
+    lib.checkFamiliarPower();
+    while true
+		util.moveSoulOfCrystalAttack(VK_LEFT);
+		checkYellowPoint();
+		util.moveSoulOfCrystalAttack(VK_RIGHT);
+		checkYellowPoint();
+		if gettime() > skillTime then break;
+		util.upTeleport();
+	wend
+wend
+
+function checkYellowPoint()
+
+	ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,117,125)
+        KBD(VK_RIGHT,1,500)
+        while true
+        	if !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,117,125) then break;
+        wend
+        KBD(VK_RIGHT,2,1000)
+        util.upTeleport();
+    endif
+
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,132,85,217,130)
+        KBD(VK_LEFT,1,500)
+        while true
+        	if !chkimg(lib.picPathHelper("yellowPoint"),0,132,85,217,130) then break;
+        wend
+        KBD(VK_LEFT,2,1000)
+        util.upTeleport();
+    endif
+
+	result = 0;
+fend

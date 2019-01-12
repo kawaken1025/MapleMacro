@@ -120,7 +120,7 @@ function goRight()
             KBD(VK_C,0,500)
             KBD(VK_C,0,250)
             KBD(VK_C,0,500)
-            KBD(VK_DOWN,2,1000)
+            KBD(VK_DOWN,2,2200)
         endif
 
         if chkimg("../picture/‰©“_.bmp",0,170,100,180,143) THEN break

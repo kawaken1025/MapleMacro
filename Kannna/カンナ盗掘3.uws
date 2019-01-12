@@ -105,20 +105,14 @@ FEND
 
 PROCEDURE —ì—Í‰ñ•œ()
 
-	IFB CHKIMG("../picture/—ì—Í‰ñ•œ.BMP",0,590,500,800,600)
-
-		IFB CHKIMG("../picture/—d‰öŠª.bmp",0,590,500,800,600)
+	KBD(VK_U,0,800)
+	IFB CHKIMG("../picture/—d‰öŠª.bmp",0,590,500,800,600)
 		SLEEP(1.3)
 		KBD(VK_INSERT,0,100)
 		KBD(VK_U,0,800)
 		KBD(VK_INSERT,0,500)
 		KBD(VK_SHIFT,0,1000)
 		EXIT
-		ENDIF
-
-	KBD(VK_INSERT,0,300)
-	KBD(VK_U,0,800)
-	KBD(VK_INSERT,0,500)
 	ENDIF
 
 FEND

@@ -16,3 +16,6 @@ CALL ../Common/Initialization.uws;
 CALL ../lib/MapleLibrary.uws;
 CALL ../Log/logWriter.uws;
 CALL ../MapleManagement/MapleManagement.uws;
+
+// 起動スクリプト名出力
+logger.logWriter(LogLevel.LOG_INFO,Messages.START_SCRIPT_NAME);

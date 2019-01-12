@@ -11,7 +11,7 @@
 
 Option LogPath = "C:\log.log"
 Option LogFile = 2 // 1:ログ出力しない, 2:日付（時分秒）付けない, 3:日付（時分秒）を付ける
-
+MAPLE_RESULT_OK = 0;
 
 function logger( outputLog )
 
@@ -21,9 +21,9 @@ function logger( outputLog )
     time = "" + G_TIME_HH2 + ":" + G_TIME_NN2
     dateTime = WAR_LOG + "[" + date + " " + time + "] " 
 
-    print dateTime + outputLog
+    print dateTime + outputLog;
 
-    result = 0
+    result = MAPLE_RESULT_OK;
 
 fend
 
@@ -44,18 +44,25 @@ fend
 
 CLASS logger
 
+    public mLogPath = "";
+
+    // コンストラクタ
+    // 初回呼び出し時にディレクトリの確認
+    function logger()
+        CALL ../lib/MapleLibrary.uws;
+        jobPath = lib.getOutputDirectory(); // 実行中職業ディレクトリの取得
+        checkDirectory(jobPath);            // ディレクトリ存在チェック
+        mLogPath = getOutputPath(jobPath);  // 出力先パス設定
+        result = MAPLE_RESULT_OK;
+    fend
+
     //=========================================
-    // comment : ログの出力
+    // comment : ログ出力
     // param   : None
     // return  : 0
     //=========================================
     function logWriter( logLevel , outputLog)
 
-        CALL ../lib/MapleLibrary.uws;
-
-        jobPath = lib.getOutputDirectory(); // 実行中職業ディレクトリの取得
-        checkDirectory(jobPath);            // ディレクトリ存在チェック
-        logPath = getOutputPath(jobPath);      // 出力先パス設定
         GETTIME();
         date = "" + G_TIME_YY4 + "/" + G_TIME_MM2 + "/" + G_TIME_DD2;
         time = "" + G_TIME_HH2 + ":" + G_TIME_NN2;
@@ -63,10 +70,8 @@ CLASS logger
         logText = dateTime + outputLog;
 
         print logText; // UWSCプリント
-        DOSCMD("echo " + logText + " >> " + logPath); // コマンドプロンプトからファイルへ追記
-
-        result = 0;
-
+        DOSCMD("echo " + logText + " >> " + mLogPath); // コマンドプロンプトからログファイルへ追記
+        result = MAPLE_RESULT_OK;
     fend
 
     //=========================================
@@ -81,8 +86,7 @@ CLASS logger
             DOSCMD("mkdir " + outputDirectory); // ディレクトリ作成
             DOSCMD("type nul > " + outputDirectory +  "MacroLog.log"); // ファイル作成
         endif
-
-        result = 0;
+        result = MAPLE_RESULT_OK;
     fend
 
     //=========================================

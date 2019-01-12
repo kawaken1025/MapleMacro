@@ -1,0 +1,126 @@
+﻿
+OPTION OPTFINALLY
+CALL ChkImgX.uws
+startup_chkimgx()
+
+try
+a();
+
+finally
+  shutdown_chkimgx()
+endtry
+
+function a()
+
+	// ルーン起動
+	KBD(VK_Y,0,500);
+
+	threshold = 15
+
+	//CHKIMGX("../picture/arrow/open.png",0,0,0,600,200,-1,threshold,-1)
+	//print "x="+G_IMGX_X
+	//print "y="+G_IMGX_Y
+	//exitexit
+	list = CreateOleObj("System.Collections.ArrayList")
+
+	arrowCountL = CHKIMGX("../picture/arrow/l.png",0,300,150,900,350,-1,threshold,-1)
+	print "======================="
+	//num = "." + G_IMGX_NUM
+	if G_IMGX_NUM < 0 then num = ""
+	arrowCountL = CHKIMGX("../picture/arrow/l.png",0,300,150,900,350,-1,threshold,-1)
+	print "左発見個数=" + arrowCountL
+	for i = 0 to arrowCountL - 1
+		j = 0
+		DIM arrowArray_L[arrowCountL*2 - 1]
+			arrowArray_L[j]   =   ALL_IMGX_X[i]
+		    arrowArray_L[j+1] = "LEFT"
+		    list.add(ALL_IMGX_X[i])
+		    list.add(VK_LEFT)
+		j = j + 2;
+		for x = 0 to length(arrowArray_L) -1
+			print arrowArray_L[x]
+		next
+	next
+
+	print "======================="
+
+	arrowCountR = CHKIMGX("../picture/arrow/r.png",0,300,150,900,350,-1,threshold,-1)
+	print "右発見個数" + arrowCountR
+	for i = 0 to arrowCountR - 1
+		j = 0
+		DIM arrowArray_R[arrowCountR*2 - 1]
+			arrowArray_R[j]   =   ALL_IMGX_X[i]
+		    arrowArray_R[j+1] = "RIGHT"
+		j = j + 2;
+		    list.add(ALL_IMGX_X[i])
+		    list.add(VK_RIGHT)
+		for x = 0 to length(arrowArray_R) -1
+			print arrowArray_R[x]
+		next
+	next
+
+	print "======================="
+
+
+	arrowCountU = CHKIMGX("../picture/arrow/u.png",0,300,150,900,350,-1,threshold,-1)
+	print "上発見個数" + arrowCountU
+	for i = 0 to arrowCountU - 1
+		j = 0
+		DIM arrowArray_U[arrowCountU*2 - 1]
+			arrowArray_U[j]   =   ALL_IMGX_X[i]
+		    arrowArray_U[j+1] = "UP"
+		    list.add(ALL_IMGX_X[i])
+		    list.add(VK_UP)
+		j = j + 2;
+		for x = 0 to length(arrowArray_U) -1
+			print arrowArray_U[x]
+		next
+	next
+
+	print "======================="
+
+	arrowCountD = CHKIMGX("../picture/arrow/d.png",0,300,150,900,350,-1,threshold,-1)
+	print "下発見個数" + arrowCountD
+	for i = 0 to arrowCountD - 1
+		j = 0
+		DIM arrowArray_D[arrowCountD*2 - 1]
+			arrowArray_D[j]   =   ALL_IMGX_X[i]
+		    arrowArray_D[j+1] = "DOWN"
+		    list.add(ALL_IMGX_X[i])
+		    list.add(VK_DOWN)
+		j = j + 2;
+		for x = 0 to length(arrowArray_D) -1
+			print arrowArray_D[x]
+		next
+	next
+	print list.count
+	if list.count <> 8 then exit;
+
+    arrowList = CreateOleObj("System.Collections.ArrayList")
+
+
+    for i = 1 to 4
+        _min = 99999;
+        minidx = 0;
+        j = 0;
+
+        for check = 1 to list.count/2;
+        	print "check:"+list.item(j)
+            ifb _min > list.item(j)
+                minidx = j;
+                _min = list.item(j);
+            endif
+            j = j + 2;
+        next
+        arrowList.add(list.item(minidx + 1));
+        list.RemoveAt(minidx);
+        list.RemoveAt(minidx);
+    next
+
+    print arrowList.item(0) + arrowList.item(1) + arrowList.item(2) + arrowList.item(3) 
+    for i = 0 to arrowList.count-1
+    	KBD(arrowList.item(i),0,70)
+    next
+
+	result =0
+fend
