@@ -14,8 +14,10 @@ While true
     while true
         goLeft();
         KBD(VK_H,0,1000);
+        recovery();
         goRight();
         KBD(VK_H,0,1000);
+        recovery();
         if skillTime < GETTIME() then break;
     wend
 
@@ -23,8 +25,8 @@ wend
 
 function recovery()
 
+    KBD(VK_U,0,500)
     IFB CHKIMG("../picture/á—.bmp",0,585,515,800,600)
-        KBD(VK_U,0,500)
         KBD(VK_9,0,800)
     ENDIF
 
@@ -59,7 +61,6 @@ fend
 
 function goRight()
 
-    print "right go"
     //‚±‚±‚©‚ç‰E‚Ös‚­ˆ—
     KBD(VK_RIGHT,1,1000)
     while true

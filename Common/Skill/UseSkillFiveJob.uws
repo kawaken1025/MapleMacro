@@ -64,6 +64,7 @@ function illiumSupportSkill()
     KBD(VK_T,0,500)
     KBD(VK_G,0,1000)
     KBD(VK_H,0,2000)
+    KBD(VK_8,0,1000)
 
     result = 0
 fend

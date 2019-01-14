@@ -29,38 +29,92 @@ lib.activeWindow();
 thread lib.parallelProgram();
 
 while true
-	skillTime = gettime( 180 / 86400 );
+    skillTime = gettime( 180 / 86400 );
     skill.illiumSupportSkill();
     lib.checkFamiliarPower();
     while true
-		util.moveSoulOfCrystalAttack(VK_LEFT);
-		checkYellowPoint();
-		util.moveSoulOfCrystalAttack(VK_RIGHT);
-		checkYellowPoint();
-		if gettime() > skillTime then break;
-		util.upTeleport();
-	wend
+        util.moveSoulOfCrystalAttack(VK_LEFT);
+        checkYellowPoint();
+        util.moveSoulOfCrystalAttack(VK_RIGHT);
+        checkYellowPoint();
+        if gettime() > skillTime then break;
+        util.upTeleport();
+    wend
+    // アイテム回収
+    logger.logWriter(LogLevel.LOG_INFO,Messages.START_COLLECT);
+    goLeft();
+    goRight();
 wend
 
 function checkYellowPoint()
 
-	ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,117,125)
-        KBD(VK_RIGHT,1,500)
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,117,125)
+        KBD(VK_RIGHT,1,500);
         while true
-        	if !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,117,125) then break;
+            if !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,117,125) then break;
         wend
-        KBD(VK_RIGHT,2,1000)
-        util.upTeleport();
+        KBD(VK_RIGHT,2,500);
+        KBD(VK_B,0,500);
     endif
 
     ifb chkimg(lib.picPathHelper("yellowPoint"),0,132,85,217,130)
-        KBD(VK_LEFT,1,500)
+        KBD(VK_LEFT,1,500);
         while true
-        	if !chkimg(lib.picPathHelper("yellowPoint"),0,132,85,217,130) then break;
+            if !chkimg(lib.picPathHelper("yellowPoint"),0,132,85,217,130) then break;
         wend
-        KBD(VK_LEFT,2,1000)
-        util.upTeleport();
+        KBD(VK_LEFT,2,500);
+        KBD(VK_B,0,500);
     endif
 
-	result = 0;
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,118,102,128,120)
+        KBD(VK_UP,1,500);
+        while true
+            if !chkimg(lib.picPathHelper("yellowPoint"),0,118,102,128,120) then break;
+        wend
+        KBD(VK_UP,2,1000);
+        exit;
+    endif
+
+    result = 0;
+fend
+
+function goLeft()
+
+    //ここから左へ行く処理
+    KBD(VK_LEFT,1,1000);
+    while true
+        KBD(VK_SPACE,0,500);
+        if chkimg("../picture/黄点.bmp",0,0,0,20,130) THEN break;
+    wend
+    KBD(VK_LEFT,2,1000);
+
+    result = 0;
+
+fend
+
+function goRight()
+
+    //ここから右へ行く処理
+    KBD(VK_RIGHT,1,1000)
+    while true
+        KBD(VK_SPACE,0,500);
+        if chkimg("../picture/黄点.bmp",0,170,80,220,143) THEN break;
+    wend
+    KBD(VK_RIGHT,2,1000);
+    KBD(VK_LEFT,1,500);
+    KBD(VK_LEFT,2,100);
+
+    upStage();
+    result = 0;
+fend
+
+function upStage()
+    KBD(VK_LEFT,1,1000);
+    KBD(VK_LEFT,2,1250);
+    KBD(VK_B,0,500);
+    SLEEP(1);
+    KBD(VK_LEFT,1,1000);
+    KBD(VK_SPACE,0,1000);
+    KBD(VK_LEFT,2,1000);
+    result = 0;
 fend
