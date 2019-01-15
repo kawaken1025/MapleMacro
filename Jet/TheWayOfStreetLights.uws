@@ -48,9 +48,9 @@ function upStage()
     KBD(VK_RIGHT,1,1000)
     KBD(VK_UP,1,200)
     while true
-        if chkimg(lib.picPathHelper("yellowPoint"),0,48,103,62,108) then break;
+        if chkimg(lib.picPathHelper("yellowPoint"),0,48,103,62,115) then break;
     wend
-    KBD(VK_UP,2,1500)
+    KBD(VK_UP,2,2500)
     KBD(VK_RIGHT,2,100)   
     result = 0;
 fend
