@@ -30,7 +30,7 @@ class ScriptExecutor
         
         //起動するスクリプトを判定する
         if (scriptName = FileName.CaveloadAisleUp)
-            //CALL ../Luminous/ケーヴロードの通路(上).uws; //ケーヴロードの通路(上)スクリプト
+            //CALL ../Luminous/CaveloadAisleUp.uws; //ケーヴロードの通路(上)スクリプト
             
         elseif (scriptName = FileName.MapleUnion)
             CALL ../Luminous/MapleUnion.uws; // メイプルユニオンスクリプト

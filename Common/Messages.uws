@@ -30,7 +30,7 @@ CLASS Messages
     const USE_PET_FEED            = "ペットの餌を使用しました。";
     const BACK_TOWN_STOP          = "緑点を検出しました。マクロを停止します。";
     const START_SCRIPT_NAME       = REPLACE(GET_UWSC_NAME, ".uws", "") + "スクリプトを開始しました。";
-    const START_COLLECT           = "アイテム回収を行います";
+    const START_COLLECT           = "アイテム回収を行います。";
 
 ENDCLASS
 

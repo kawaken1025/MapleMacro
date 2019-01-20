@@ -1,0 +1,148 @@
+//=========================================//
+// Map Name    : アルカナ ケーヴロードの通路(上)   //
+//=========================================//
+// Mob Name    : 悲嘆の精霊
+// Mob Level   : 239
+// Mob HP      : 312,451,200
+// Mob Exp     : 462,670
+//=========================================//
+// Mob Name    : 不調和の精霊
+// Mob Level   : 240
+// Mob HP      : 318,873,600
+// Mob Exp     : 470,824
+//=========================================//
+// comment     : None
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 800x600 or 1366x768
+//=========================================//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/04/01
+//=========================================//
+
+//=========================================
+// init
+//=========================================
+// MapleAPI : LogWriter.uws , MapleLibrary.uws , UseSkillFiveJob.uws
+CALL ../MapleAPI/MapleAPI.uws;
+// import Luminous skillKeySetting
+CALL KeySetting.uws;
+// Util - sugarTime exec
+CALL ../Util/MapleUtil.uws;
+// multiThread checkRedPoint and checkMineralization
+thread lib.parallelProgram();
+// Main Script Start
+public isEqulibrium = false;
+// MessageWindow init
+LOGPRINT(true,10,800,500,100)
+
+while true;
+    //Acquisition of Time : Get the time after 3 minutes
+    reUseSkillTime = GETTIME( 180 / 86400 );
+    skill.luminous_useSkill();
+    SLEEP(0.5);
+    lib.checkFamiliarPower();
+    lib.useMaprage();
+    while true;
+        oneWayAttack(VK_LEFT,30,100,65,115);
+        oneWayAttack(VK_RIGHT,140,100,190,115);
+        //3minutes elapsed?
+        if GETTIME() > reUseSkillTime then break;
+    wend
+wend
+//=========================================
+// param   : $1:移動方向キー
+//           $2:chkimg準拠
+// comment : 左右往復
+//=========================================
+function oneWayAttack(moveKey,x1,y1,x2,y2)
+    // Equlibrium check
+    if chkimg(lib.picPathHelper("mode"),0,0,0,1368,800)     _
+        or                                                  _
+       chkimg(lib.picPathHelper("memorize"),0,0,0,1368,800) then isEqulibrium = true;
+    //execute moveHunting
+    KBD(moveKey,1,100);
+    while true
+        lib.urgentCheck();
+        ifb chkimg(lib.picPathHelper("yellowPoint"),0,82,98,140,123);
+            skill.luminous_skillCheck();
+            ifb isEqulibrium
+                KBD(key.MEMORIZE_KEY,0,500);
+                KBD(key.PSYCHOLOGY_DOOR_KEY,0,800);
+                isEqulibrium = false;
+            endif
+        endif
+        useSkill.reflection(key.REFLECTION_KEY);
+        useSkill.teleport(key.TELEPORT_KEY);
+
+        if chkimg(lib.picPathHelper("yellowPoint"),0,x1,y1,x2,y2)     then break;
+        if chkimg(lib.picPathHelper("yellowPoint"),0,163,123,180,143) then KBD(key.ROPE_CONNECT_KEY,0,800);
+        lib.checkStartingMapleStory();
+        lib.checkGameMaster();
+    wend
+    useSkill.reflection(key.REFLECTION_KEY);
+    KBD(moveKey,2,200);
+    
+    // ルーンが出現しているか確認します。
+    // 出現していた場合は解除します
+    ret = checkRuneStage();
+    ifb ret <> 0
+        lib.OpenRune();
+    endif
+
+    result = 0;
+fend
+
+//=========================================
+// param   : None 
+// comment : ルーンが出現しているか確認
+//=========================================
+function checkRuneStage()
+
+    // 上段にあるか
+    ifb chkimg(lib.picPathHelper("runePoint"),0,0,0,180,120)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを上段で発見しました。");
+        moveStage(1);
+        result = 1;
+    elseif chkimg(lib.picPathHelper("runePoint"),0,0,127,180,145)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを下段で発見しました。");
+        moveStage(2);
+        result = 1;
+    endif
+    
+    result = 0;
+fend
+
+
+//=========================================
+// param   : 1 or 2
+// comment : ルーンが出現している段へ移動
+//=========================================
+function moveStage(num)
+    // いったん一番→へいく
+    KBD(VK_RIGHT,1,500)
+    while true
+        if chkimg(lib.picPathHelper("yellowPoint"),0,163,0,180,143) then break;
+        KBD(key.TELEPORT_KEY,0,100)
+    wend
+    KBD(VK_RIGHT,2,500)
+    
+    // 上段にルーンがある場合は右へ行って終了
+    ifb num = 1
+        result = 0;
+    
+    // 下段にある場合は右へ行って下ジャンプ
+    else
+        KBD(VK_DOWN,1,500)
+        for i = 1 to 5
+            KBD(VK_C,0,100)
+        next
+        KBD(VK_DOWN,2,100)
+        result = 0;
+    endif
+    lib.OpenRune();
+    
+    result = 0;
+fend

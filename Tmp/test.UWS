@@ -1,2 +1,22 @@
-CALL ../lib/MapleLibrary.uws;
-lib.OpenRune()
+
+main();
+
+function main()
+	for i = 1 to 100
+		print FizzBuzzCalc(i);
+	next
+	result = 0;
+fend
+
+// 余り計算 
+function FizzBuzzCalc(value)
+	ifb  value mod 3 = 0 and value mod 5 = 0
+		value = "FizzBuzz";
+	elseif value mod 3 = 0
+		value = "Fizz";
+	elseif value mod 5 = 0
+		value = "Buzz";
+	endif
+	
+	result = value;
+fend

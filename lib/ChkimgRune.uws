@@ -1,4 +1,27 @@
-﻿
+﻿//=========================================//
+// Map Name    : ルーン解除スクリプト      //
+//=========================================//
+// Mob Name    : 
+// Mob Level   : 
+// Mob HP      : 
+// Mob Exp     : 
+//=========================================//
+// Mob Name    : 
+// Mob Level   : 
+// Mob HP      : 
+// Mob Exp     : 
+//=========================================//
+// comment     : None
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 1366x768 only
+//=========================================//
+// Copy Right (C) 2019 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2019/01/06
+//=========================================//
+
 OPTION OPTFINALLY
 CALL ChkImgX.uws
 startup_chkimgx()
@@ -14,13 +37,9 @@ function a()
 
 	// ルーン起動
 	KBD(VK_Y,0,500);
-
+	// 画像判定閾値
 	threshold = 15
 
-	//CHKIMGX("../picture/arrow/open.png",0,0,0,600,200,-1,threshold,-1)
-	//print "x="+G_IMGX_X
-	//print "y="+G_IMGX_Y
-	//exitexit
 	list = CreateOleObj("System.Collections.ArrayList")
 
 	arrowCountL = CHKIMGX("../picture/arrow/l.png",0,300,150,900,350,-1,threshold,-1)
@@ -32,10 +51,10 @@ function a()
 	for i = 0 to arrowCountL - 1
 		j = 0
 		DIM arrowArray_L[arrowCountL*2 - 1]
-			arrowArray_L[j]   =   ALL_IMGX_X[i]
-		    arrowArray_L[j+1] = "LEFT"
-		    list.add(ALL_IMGX_X[i])
-		    list.add(VK_LEFT)
+		arrowArray_L[j]   =   ALL_IMGX_X[i]
+		arrowArray_L[j+1] = "LEFT"
+		list.add(ALL_IMGX_X[i])
+		list.add(VK_LEFT)
 		j = j + 2;
 		for x = 0 to length(arrowArray_L) -1
 			print arrowArray_L[x]
@@ -49,8 +68,8 @@ function a()
 	for i = 0 to arrowCountR - 1
 		j = 0
 		DIM arrowArray_R[arrowCountR*2 - 1]
-			arrowArray_R[j]   =   ALL_IMGX_X[i]
-		    arrowArray_R[j+1] = "RIGHT"
+		arrowArray_R[j]   =   ALL_IMGX_X[i]
+		arrowArray_R[j+1] = "RIGHT"
 		j = j + 2;
 		    list.add(ALL_IMGX_X[i])
 		    list.add(VK_RIGHT)
@@ -67,10 +86,10 @@ function a()
 	for i = 0 to arrowCountU - 1
 		j = 0
 		DIM arrowArray_U[arrowCountU*2 - 1]
-			arrowArray_U[j]   =   ALL_IMGX_X[i]
-		    arrowArray_U[j+1] = "UP"
-		    list.add(ALL_IMGX_X[i])
-		    list.add(VK_UP)
+		arrowArray_U[j]   =   ALL_IMGX_X[i]
+	    arrowArray_U[j+1] = "UP"
+	    list.add(ALL_IMGX_X[i])
+	    list.add(VK_UP)
 		j = j + 2;
 		for x = 0 to length(arrowArray_U) -1
 			print arrowArray_U[x]
@@ -84,10 +103,10 @@ function a()
 	for i = 0 to arrowCountD - 1
 		j = 0
 		DIM arrowArray_D[arrowCountD*2 - 1]
-			arrowArray_D[j]   =   ALL_IMGX_X[i]
-		    arrowArray_D[j+1] = "DOWN"
-		    list.add(ALL_IMGX_X[i])
-		    list.add(VK_DOWN)
+		arrowArray_D[j]   =   ALL_IMGX_X[i]
+		arrowArray_D[j+1] = "DOWN"
+		list.add(ALL_IMGX_X[i])
+		list.add(VK_DOWN)
 		j = j + 2;
 		for x = 0 to length(arrowArray_D) -1
 			print arrowArray_D[x]
@@ -98,14 +117,14 @@ function a()
 
     arrowList = CreateOleObj("System.Collections.ArrayList")
 
-
+	// ここからソート
+	// ヒットした座標の昇順でソートする
     for i = 1 to 4
         _min = 99999;
         minidx = 0;
         j = 0;
 
         for check = 1 to list.count/2;
-        	print "check:"+list.item(j)
             ifb _min > list.item(j)
                 minidx = j;
                 _min = list.item(j);
