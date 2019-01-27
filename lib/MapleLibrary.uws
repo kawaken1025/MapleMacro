@@ -32,7 +32,7 @@ CLASS lib
 function checkFamiliarPower()
     
     KBD(comKey.FAM_BOOK_KEY,0,300);
-    SLEEP(0.2);
+    SLEEP(1);
     ifb chkimg("../picture/fam500以下.bmp",0,0,0,1368,800);
         KBD(comKey.FAM_RECOVERY_KEY,0,10);
         logger.logWriter(LogLevel.LOG_INFO,Messages.RECOVERY_FAMILIAR_POWER);
@@ -88,7 +88,10 @@ fend
 function urgentCheck()
 
     //if  chkimg("../picture/エリボス.bmp",0,0,0,2000,2000) then SOUND(" ");
-    if  chkimg("../picture/緑点.bmp",0,0,0,1368,800) then exitexit;
+    ifb  chkimg("../picture/緑点.bmp",0,0,0,1368,800)
+        logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
+        exitexit;
+    endif
     ifb chkimg("../picture/突発.bmp",0,0,0,1368,800);
         for i = 1 to 3
             BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,200);
@@ -118,15 +121,15 @@ function activeWindow()
     y = STATUS(mapleWindowID,ST_CLHEIGHT) + 50;
     //ウィンドウが左上(1,1)にあるなら移動させない
     ifb STATUS(mapleWindowID,ST_X) <> 1 AND STATUS(mapleWindowID,ST_Y) <> 1
-	    ACW(mapleWindowID,1,1);
-	    for i = 1 to 2
-		    BTN(LEFT,CLICK,x,y,500); 
-		    BTN(LEFT,CLICK,200,405,500);
-		    BTN(LEFT,CLICK,200,405,200);
-	    next
-	else
-		BTN(LEFT,CLICK,200,405,500);
-	endif
+        ACW(mapleWindowID,1,1);
+        for i = 1 to 2
+            BTN(LEFT,CLICK,x,y,500); 
+            BTN(LEFT,CLICK,200,405,500);
+            BTN(LEFT,CLICK,200,405,200);
+        next
+    else
+        BTN(LEFT,CLICK,200,405,500);
+    endif
     result = MAPLE_RESULT_OK;
 
 fend
@@ -499,9 +502,9 @@ fend
 function OpenRune()
 
     moveRunePoint();
-	CALL ChkimgRune.uws;
-	
-	result = 0;
+    CALL ChkimgRune.uws;
+    
+    result = 0;
 fend
 
 //=========================================
@@ -514,25 +517,25 @@ function moveRunePoint()
     // ルーンの位置を取得
     runePointX = 0;
     runePointY = 0;
-	ifb chkimg(lib.picPathHelper("runePoint"),0,0,0,250,300);
-		runePointX = G_IMG_X;
-		runePointY = G_IMG_Y;
-	else
-	    print "ルーンの位置が取得できません";
-	    result = 1;
+    ifb chkimg(lib.picPathHelper("runePoint"),0,0,0,250,300);
+        runePointX = G_IMG_X;
+        runePointY = G_IMG_Y;
+    else
+        print "ルーンの位置が取得できません";
+        exit;
     endif
     
     // 黄点を取得
     yellowPointX = 0;
     yellowPointY = 0;
-    ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,250,300);
-		yellowPointX = G_IMG_X;
-		yellowPointY = G_IMG_Y;
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,350,350);
+        yellowPointX = G_IMG_X;
+        yellowPointY = G_IMG_Y;
     else
         print "黄点の位置が取得できません";
         result = 2;
     endif
-    	
+        
     // 移動する方向を決定
     moveKey = VK_RIGHT
     ifb yellowPointX > runePointX
@@ -540,13 +543,13 @@ function moveRunePoint()
     endif
     
     // ルーンの横位置まで移動
-	KBD(moveKey,1,500);
+    KBD(moveKey,1,500);
     while true
-    	if chkimg(lib.picPathHelper("yellowPoint"),0, runePointX-5, 0, runePointX+5, 300) then break;  
+        if chkimg(lib.picPathHelper("yellowPoint"),0, runePointX-5, 0, runePointX+5, 300) then break;  
     wend
-	KBD(moveKey,2,50)
+    KBD(moveKey,2,50)
     
-	result = 0;
+    result = 0;
 fend
 
 

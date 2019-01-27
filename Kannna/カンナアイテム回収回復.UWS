@@ -17,6 +17,7 @@ While true
 		for X = 1 to 20 
 			KBD(VK_X,0,100)
 		next
+		KBD(VK_H,0,1000)
 		KBD(VK_SPACE,0,800)
 		KBD(VK_SPACE,0,250)
 		SLEEP(0.5)

@@ -49,6 +49,9 @@ function checkYellowPoint()
         KBD(VK_RIGHT,1,500);
         while true
             if chkimg(lib.picPathHelper("yellowPoint"),0,84,101,99,122) then break;
+            ifb chkimg(lib.picPathHelper("yellowPoint"),0,40,120,86,142)
+                KBD(VK_B,0,1000)
+            endif
         wend
         KBD(VK_RIGHT,2,100);
     endif
@@ -58,12 +61,22 @@ function checkYellowPoint()
         SLEEP(1.2);
         KBD(VK_LEFT,1,500);
         while true
+            ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,33,133)
+                init();
+            endif
             if chkimg(lib.picPathHelper("yellowPoint"),0,84,101,99,122) then break;
         wend
         KBD(VK_LEFT,2,100);
     endif
 
     ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,33,133)
+        init()
+    endif
+
+    result = 0;
+fend
+
+function init()
         KBD(VK_RIGHT,1,500);
         while true
             if chkimg(lib.picPathHelper("yellowPoint"),0,50,121,75,135) then break;
@@ -76,48 +89,5 @@ function checkYellowPoint()
             if chkimg(lib.picPathHelper("yellowPoint"),0,84,101,99,122) then break;
         wend
         KBD(VK_RIGHT,2,100);
-    endif
-
-    result = 0;
-fend
-
-function goLeft()
-
-    //ここから左へ行く処理
-    KBD(VK_LEFT,1,1000);
-    while true
-        KBD(VK_SPACE,0,500);
-        if chkimg("../picture/黄点.bmp",0,0,0,70,130) THEN break;
-    wend
-    KBD(VK_LEFT,2,1000);
-
-    result = 0;
-
-fend
-
-function goRight()
-
-    //ここから右へ行く処理
-    KBD(VK_RIGHT,1,1000)
-    while true
-        KBD(VK_SPACE,0,500);
-        if chkimg("../picture/黄点.bmp",0,170,80,220,143) THEN break;
-    wend
-    KBD(VK_RIGHT,2,1000);
-    KBD(VK_LEFT,1,500);
-    KBD(VK_LEFT,2,100);
-
-    upStage();
-    result = 0;
-fend
-
-function upStage()
-    KBD(VK_LEFT,1,1000);
-    KBD(VK_LEFT,2,1250);
-    KBD(VK_B,0,500);
-    SLEEP(1);
-    KBD(VK_LEFT,1,1000);
-    KBD(VK_SPACE,0,1000);
-    KBD(VK_LEFT,2,1000);
-    result = 0;
+        result = 0;
 fend

@@ -15,6 +15,7 @@ CLASS Messages
     const DETECTION_AREA_BOSS     = "エリアボスが出現しました";
     const SCRIPT_START            = "スクリプトが起動しました。";
     const SCRIPT_END              = "異常を検知したためスクリプトが終了しました。";
+    const DISCOVERY_GREEN_POINT   = "緑点を発見しました。スクリプトを終了します。";
     const STOP_MAPLE_MESSAGE      = "メイプルストーリーが起動していません。マクロを終了します。";
     const ENCOUNT_GAME_MASTER     = "ゲームマスターを検知しました。";
     const REPLY_REQUEST           = "「ご返答」を検出しました。";
