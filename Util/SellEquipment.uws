@@ -1,5 +1,25 @@
+CALL ../lib/MapleLibrary.uws;
+size = lib.getWindowSize();
+
+x = 0;
+y = 0;
+// ウィンドウサイズによってクリック位置設定
+ifb size = "800x600"
+	x = 500;
+	y = 220;
+elseif size = "1024x768"
+    x = 600;
+    y = 300;
+elseif size = "1280x720"
+    x = 700;
+    y = 300;
+elseif size = "1366x768"
+    x = 800;
+    y = 300;
+endif
+
 while true
-	BTN(RIGHT,CLICK,700,307,79)
-	BTN(RIGHT,CLICK,700,307,62)
-	if GetKeyState(VK_ESC) then break
+	BTN(RIGHT,CLICK,x,y,50);
+	BTN(RIGHT,CLICK,x,y,50);
+	if GetKeyState(VK_ESC) then break;
 wend

@@ -1,0 +1,9 @@
+﻿
+class List
+
+	function List()
+		DIM List[1];
+		result = List;
+	fend
+
+endclass

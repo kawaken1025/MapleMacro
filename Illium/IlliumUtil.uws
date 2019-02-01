@@ -63,14 +63,14 @@ function moveCrystalAttack(moveKey)
 fend
 
 //------------------------------------------
-// comment : クリスタルを移動させて攻撃
+// comment : ソウルオブクリスタルを使用してクリスタルを移動させて攻撃
 //------------------------------------------
 function moveSoulOfCrystalAttack(moveKey)
     //for i = 1 to 2
     useSkill.moveCrystal(key.CRYSTAL_KEY)
     KBD(moveKey,1,100)
     KBD(moveKey,2,50)
-    KBD(key.SOUL_OF_CRYSTAL_KEY,0,1050);
+    KBD(key.SOUL_OF_CRYSTAL_KEY,0,800);
     for i = 1 to 2
         sleep(0.5);
         useSkill.javelin(key.JAVELIN_KEY);

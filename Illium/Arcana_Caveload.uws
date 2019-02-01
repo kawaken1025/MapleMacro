@@ -61,7 +61,8 @@ function checkYellowPoint()
         SLEEP(1.2);
         KBD(VK_LEFT,1,500);
         while true
-            ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,33,133)
+            ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,33,160)
+                KBD(VK_LEFT,2,300);
                 init();
             endif
             if chkimg(lib.picPathHelper("yellowPoint"),0,84,101,99,122) then break;

@@ -136,6 +136,31 @@ fend
 
 //=========================================
 //
+// comment : 画面サイズを返却する
+// param   : None
+// return  : 0
+//
+//=========================================
+function getWindowSize()
+
+    mapleWindowID = GETID("MapleStory","MapleStoryClass");
+    size = "1024x768";
+    //ウィンドウが左上(1,1)にあるなら移動させない
+    ifb ST_CLWIDTH = 800 AND ST_CLHEIGHT = 600
+        size = "800x600"; 
+    elseif ST_CLWIDTH = 1024 AND ST_CLHEIGHT = 768
+        size = "1024x768";
+    elseif ST_CLWIDTH = 1280 AND ST_CLHEIGHT = 720
+        size = "1280x720";
+    elseif ST_CLWIDTH = 1366 AND ST_CLHEIGHT = 768
+        size = "1366x768";
+    endif
+    
+    result = size;
+fend
+
+//=========================================
+//
 // comment : 赤点チェック and 石化チェック
 //           1366x800           
 // param   : None
