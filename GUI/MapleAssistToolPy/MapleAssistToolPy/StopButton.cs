@@ -23,15 +23,27 @@ namespace MapleAssistToolPy
 
 		private void Stop_Click(object sender, EventArgs e)
 		{
-			Process p = Process.Start("UWSC.exe");
-			// 起動したプロセスを終了させる
-			p.CloseMainWindow();
-			p.Close();
+			//notepadのプロセスを取得
+			System.Diagnostics.Process[] ps =
+				System.Diagnostics.Process.GetProcessesByName("uwsc");
 
-			// プロセスを強制終了させる
-			p.Kill();
-			//stop画面を閉じる
-			this.Close();
+			foreach (System.Diagnostics.Process p in ps)
+			{
+				//クローズメッセージを送信する
+				p.CloseMainWindow();
+
+				//プロセスが終了するまで最大10秒待機する
+				p.WaitForExit(10000);
+				//プロセスが終了したか確認する
+				if (p.HasExited)
+				{
+					Console.WriteLine("uwscが終了しました。");
+				}
+				else
+				{
+					Console.WriteLine("uwscが終了しませんでした。");
+				}
+			}
 		}
 
 		public int stopScript()

@@ -118,6 +118,7 @@
 			this.SettingButton.TabIndex = 4;
 			this.SettingButton.Text = "Setting";
 			this.SettingButton.UseVisualStyleBackColor = true;
+			this.SettingButton.Click += new System.EventHandler(this.SettingButton_Click);
 			// 
 			// LuminousButton
 			// 

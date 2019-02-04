@@ -9,3 +9,4 @@ c:\users\test\documents\visual studio 2015\Projects\MapleAssistToolPy\MapleAssis
 c:\users\test\documents\visual studio 2015\Projects\MapleAssistToolPy\MapleAssistToolPy\bin\Debug\Newtonsoft.Json.xml
 c:\users\test\documents\visual studio 2015\Projects\MapleAssistToolPy\MapleAssistToolPy\obj\Debug\MapleAssistToolPy.MapleAssistTool.resources
 C:\Users\test\documents\visual studio 2015\Projects\MapleAssistToolPy\MapleAssistToolPy\obj\Debug\MapleAssistToolPy.StopButton.resources
+C:\Users\test\documents\visual studio 2015\Projects\MapleAssistToolPy\MapleAssistToolPy\obj\Debug\MapleAssistToolPy.SettingView.resources

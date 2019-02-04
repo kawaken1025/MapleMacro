@@ -8,6 +8,8 @@ BTN(LEFT,CLICK,900,100,500)
 BTN(LEFT,CLICK,400,405,500) 
 
 
+
+
 SLEEP(2)
 
 //左右移動でアイテム回収処理

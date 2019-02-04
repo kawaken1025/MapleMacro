@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Runtime.Serialization;
-using System.IO;
-using Newtonsoft.Json;
+using MapleAssistToolPy.Common.Enumlation;
+using System.Configuration;
 
 namespace MapleAssistToolPy
 {
@@ -17,7 +10,14 @@ namespace MapleAssistToolPy
 	{
 		public string cmd  = "";
 		public string job  = "";
-		public string uwscExePath = @"C:\UWSC\UWSC.exe ";
+		private  string execScript = "";
+		public string uwscExePath = ConfigurationManager.AppSettings.Get("uwsc_exe_path") + " ";
+		public string user = Environment.MachineName;
+		private MapleGuiUtil util = new MapleGuiUtil();
+
+		/// <summary>
+		/// default constructor
+		/// </summary>
 		public MapleAssistTool()
 		{
 			InitializeComponent();
@@ -27,53 +27,63 @@ namespace MapleAssistToolPy
 			job = @"Luminous\";
 		}
 
-		MapleGuiUtil util;
-
-
-
+		
+		/// <summary>
+		/// ケーヴロードの通路(上).uws呼び出し
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private async void CaveLoadAisleUp_Click(object sender, EventArgs e)
 		{
-			await execCmd(setCommand("ケーヴロードの通路(上).uws"));
+			await execCmd(setCommand(ScriptNameEnum.CaveloadAisleUp.ObtainScriptName()));
 		}
 
+		/// <summary>
+		/// MapleUnion.uws呼び出し
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private async void MapleUnion_Click(object sender, EventArgs e)
 		{
-			await execCmd(setCommand("MapleUnion.uws"));
+			await execCmd(setCommand(ScriptNameEnum.MapleUnion.ObtainScriptName()));
 		}
 
-		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		// Util群
-		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		/// <summary>
+		/// 押されたボタンのスクリプト名を設定
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private async void CoreCreate_Click(object sender, EventArgs e)
 		{
-			await execCmd(setCommand("CoreCreate.uws"));
+			await execCmd(setCommand(ScriptNameEnum.CoreCreate.ObtainScriptName()));
 		}
 
 		private async void CoreOpen_Click(object sender, EventArgs e)
 		{
-			await execCmd(setCommand("CoreOpen.uws"));
+			await execCmd(setCommand(ScriptNameEnum.CoreOpen.ObtainScriptName()));
 		}
 
 		private async void CoreBreak_Click(object sender, EventArgs e)
 		{
-			await execCmd(setCommand("CoreBreak.uws"));
+			await execCmd(setCommand(ScriptNameEnum.CoreBreak.ObtainScriptName()));
 		}
 
 		private async void BuyFamiliar_Click(object sender, EventArgs e)
 		{
-			await execCmd(setCommand("BuyFamiliar.uws"));
+			await execCmd(setCommand(ScriptNameEnum.BuyFamiliar.ObtainScriptName()));
 		}
 
 		private async void SellEquipment_Click(object sender, EventArgs e)
 		{
-			await execCmd(setCommand("SellEquipment.uws"));
+			await execCmd(setCommand(ScriptNameEnum.SellEquipment.ObtainScriptName()));
 		}
 
 
-		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		// メニューバーの切り替えを行うメソッド群
-		// グローバル変数jobに実行ディレクトリを設定する
-		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	    /// <summary>
+		/// ボタンを押された職業のパスを設定するメソッド群
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void LuminousButton_Click(object sender, EventArgs e)
 		{
 			this.LuminousPanel.Visible = true;
@@ -90,7 +100,6 @@ namespace MapleAssistToolPy
 			job = @"Util\";
 		}
 
-
 		private void KannnaButton_Click(object sender, EventArgs e)
 		{
 			this.LuminousPanel.Visible = false;
@@ -99,37 +108,57 @@ namespace MapleAssistToolPy
 			job = @"Kannna\";
 		}
 
+		/// <summary>
+		/// UWSCスクリプト実行コマンドの引数に設定するパスを設定
+		/// 将来的にはどこか設定画面をつけたい
+		/// </summary>
+		/// <param name="macroName"></param>
+		/// <returns></returns>
 		private string setCommand(string macroName)
 		{
-			return uwscExePath + @"\\KAWAKEN\FileServer\010_マクロ\MapleMacro\" + job + macroName;
+			return uwscExePath + ConfigurationManager.AppSettings.Get("macro_dir_path") + @"\" + job + macroName;
 		}
 
-		//+++++++++++++++++++++++++++++++++++++++++++++++++++++
-		// description : スクリプトを起動する
-		// param       : $2:ScriptName
-		// comment     : executeCommand
-		// return      : None
-		//+++++++++++++++++++++++++++++++++++++++++++++++++++++
-		static async Task execCmd(string cmd)
+		/// <summary>
+		/// スクリプトの呼び出し
+		/// </summary>
+		/// <param name="scriptName"></param>
+		/// <returns></returns>
+		static async Task execCmd(string scriptName)
 		{
-			System.Diagnostics.Process p = new System.Diagnostics.Process();
-			//ComSpec(cmd.exe)のパスを取得して、FileNameプロパティに指定
-			p.StartInfo.FileName = System.Environment.GetEnvironmentVariable("ComSpec");
-			//出力を読み取れるようにする
-			p.StartInfo.UseShellExecute = false;
-			p.StartInfo.RedirectStandardOutput = true;
-			p.StartInfo.RedirectStandardInput = false;
-			p.StartInfo.CreateNoWindow = true;
-			//ウィンドウを表示しないようにする
-			p.StartInfo.CreateNoWindow = true;
-			//コマンドラインを指定（"/c"は実行後閉じるために必要）
-			p.StartInfo.Arguments = @"/c " + cmd;
-			p.EnableRaisingEvents = true;
+			try
+			{
+				System.Diagnostics.Process p = new System.Diagnostics.Process();
+				//ComSpec(cmd.exe)のパスを取得して、FileNameプロパティに指定
+				p.StartInfo.FileName = System.Environment.GetEnvironmentVariable("ComSpec");
+				//出力を読み取れるようにする
+				p.StartInfo.UseShellExecute = false;
+				p.StartInfo.RedirectStandardOutput = true;
+				p.StartInfo.RedirectStandardInput = false;
+				p.StartInfo.CreateNoWindow = true;
+				//ウィンドウを表示しないようにする
+				p.StartInfo.CreateNoWindow = true;
+				//コマンドラインを指定（"/c"は実行後閉じるために必要）
+				p.StartInfo.Arguments = @"/c " + scriptName;
+				p.EnableRaisingEvents = true;
 
-			//起動
-			p.Start();
+				//起動
+				p.Start();
+				return;
+			}
+			catch (Exception e)
+			{
+				//握りつぶす
+			}
+
+
+
 		}
 
-
+		private void SettingButton_Click(object sender, EventArgs e)
+		{
+			SettingView view = new SettingView();
+			view.Show();
+		}
 	}
 }

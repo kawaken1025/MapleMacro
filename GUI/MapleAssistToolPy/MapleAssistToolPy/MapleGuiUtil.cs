@@ -23,14 +23,13 @@ namespace MapleAssistToolPy
 		  string lpFileName);
 		private string userName = Environment.UserName;       // ユーザー名を取得する
 
-		public void execStartUp(bool execMode, string dir ,string macroName)
+		public async Task execStartUp(string macroName)
 		{
-			
+
 			StopButton stopButton = new StopButton(macroName);
 			settingStopButton(stopButton);
 			stopButton.Show();
-
-			execScript(execMode,dir,macroName);
+			return;
 
 		}
 
@@ -40,27 +39,5 @@ namespace MapleAssistToolPy
 			stopButton.Top = 800;
 			stopButton.StartPosition = FormStartPosition.Manual;
 		}
-
-
-
-		public int execScript(bool execMode,string dir,string macroName)
-		{
-			//UWSCボタンが選択されている場合true
-			if (execMode)
-			{
-				//execCmd(dir,macroName);
-			}
-			else
-			{
-				//pythonCmd += " PY";
-
-			}
-
-			return 0;
-		}
-
-
-
-
 	}
 }

@@ -38,6 +38,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -50,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Enumlation\ScriptNameEnum.cs" />
     <Compile Include="MapleAssistTool.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -59,6 +61,12 @@
     <Compile Include="MapleGuiUtil.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SettingView.Designer.cs">
+      <DependentUpon>SettingView.cs</DependentUpon>
+    </Compile>
     <Compile Include="StopButton.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,6 +85,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SettingView.resx">
+      <DependentUpon>SettingView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="StopButton.resx">
       <DependentUpon>StopButton.cs</DependentUpon>
     </EmbeddedResource>
@@ -93,6 +104,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Common\Conf\" />
+    <Folder Include="Conf\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
