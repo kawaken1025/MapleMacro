@@ -1,7 +1,7 @@
 //=========================================
 //
 // comment     : MapleStory Utility
-// param       : None
+// param       : Nonef
 // return      : None
 // 
 // Display Dpl : 1366x768 [only]
@@ -18,7 +18,7 @@ CALL ../MapleManagement/MapleManagement.uws;
 
 public PIC_PATH             = "../picture/";
 public SCREEN_SHOT_SAVE_DIR = "../picture/ScreenShot/";
-public MAPLE_STORY_EXE_DIR  = "C:\Nexon\MapleStory\MapleStory.exe";
+public MAPLE_STORY_EXE_DIR  = "\\KAWAKEN\FileServer\555_マクロ用一時保存DIR\MapleStory - コピー\MapleStory.exe";
 public MAPLE_RESULT_OK      = 0;
 public MAPLE_RESULT_OK_BOOL = true;
 
@@ -384,8 +384,43 @@ procedure parallelProgram()
 
         ifb chkimg("../picture/赤点.bmp",0,0,0,1368,800)
             logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
-            alartSound();
+            alartSound();  
         endif   
+
+        ifb chkimg("../picture/redpoint2.bmp",0,0,0,800,600)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+            alartSound();
+            print "2"  
+        endif   
+
+        ifb chkimg("../picture/緑点.bmp",0,0,0,1368,800)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
+            exitexit;
+        endif
+    wend
+fend
+
+procedure parallelProgramExitMode()
+    while TRUE
+        ifb chkimg("../picture/石化.bmp",0,0,0,1368,800)
+            for i = 1 to 20
+                KBD(VK_LEFT,0,100);
+                KBD(VK_RIGHT,0,100);
+            next
+        endif
+
+        if chkimg("../picture/加護.bmp",0,0,0,1368,800) then KBD(VK_F4,0,1000)
+
+        ifb chkimg("../picture/赤点.bmp",0,0,0,1368,800)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+            killMapleStory();
+            alartSound();
+        endif
+
+        ifb  chkimg("../picture/緑点.bmp",0,0,0,1368,800)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
+            exitexit;
+        endif
     wend
 fend
 
@@ -469,6 +504,37 @@ fend
 //=========================================
 function execMapleStory()
     DOSCMD(MAPLE_STORY_EXE_DIR,TRUE,FALSE)
+    while true
+        ifb chkimg(lib.picPathHelper("play"),0,0,0,2000,1400)
+            BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,500);
+            break;
+        endif
+    wend
+    result = MAPLE_RESULT_OK;
+fend
+
+
+//=========================================
+// comment : メイプルストーリーを終了する
+// param   : None
+// return  : 0
+//=========================================
+function killMapleStory()
+    cmd = "taskkill /F /IM MapleStory.exe";
+    DOSCMD(cmd,TRUE,FALSE);
+    logger.logWriter(LogLevel.LOG_ERROR,Messages.TASK_KILL_MESSAGE);
+    SLEEP(5)
+    execMapleStory(); // 再起動
+    result = MAPLE_RESULT_OK;
+fend
+
+//=========================================
+// comment : ログインする
+// param   : None
+// return  : 0
+//=========================================
+function loginMapleStory()
+    
     result = MAPLE_RESULT_OK;
 fend
 

@@ -1,7 +1,7 @@
 
 CALL ../MapleAPI/MapleAPI.uws
 lib.activeWindow();
-thread lib.parallelProgram();
+thread lib.parallelProgramExitMode();
 
 petTime = GETTIME( 600 / 86400 )
 
@@ -13,7 +13,7 @@ while true
         KBD(VK_A,0,840);
         if chkimg(lib.picPathHelper("yellowPoint"),0,0,0,48,147) then break;
         lib.urgentCheck();
-        lib.checkStartingMapleStory();
+        //lib.checkStartingMapleStory();
         lib.checkGameMaster();
     wend
     KBD(VK_LEFT,2,200);

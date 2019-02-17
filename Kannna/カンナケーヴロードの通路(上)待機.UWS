@@ -22,7 +22,7 @@ While true
         urgentCheck()
         recovery()
         for x = 1 to 15
-            KBD(VK_X,0,200)
+            //KBD(VK_X,0,200)
             ifb chkimg("../picture/ê‘ì_.BMP",0,0,0,1368,800)
                 for beeps = 1 to 20
                     SOUND(" ")

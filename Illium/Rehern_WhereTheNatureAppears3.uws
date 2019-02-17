@@ -29,25 +29,25 @@ lib.activeWindow();
 thread lib.parallelProgram();
 
 while true
-	skillTime = gettime( 180 / 86400 );
+    skillTime = gettime( 180 / 86400 );
     skill.illiumSupportSkill();
     lib.checkFamiliarPower();
     while true
-		util.moveSoulOfCrystalAttack(VK_LEFT);
-		checkYellowPoint2();
-		util.moveSoulOfCrystalAttack(VK_RIGHT);
-		checkYellowPoint2();
-		if gettime() > skillTime then break;
-		util.upTeleport();
-	wend
+        util.moveSoulOfCrystalAttack(VK_LEFT);
+        checkYellowPoint2();
+        util.moveSoulOfCrystalAttack(VK_RIGHT);
+        checkYellowPoint2();
+        if gettime() > skillTime then break;
+        util.upTeleport();
+    wend
 wend
 
 function checkYellowPoint2()
 
-	ifb chkimg(lib.picPathHelper("yellowPoint"),0,25,98,77,130)
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,25,98,77,130)
         KBD(VK_RIGHT,1,500)
         while true
-        	if !chkimg(lib.picPathHelper("yellowPoint"),0,25,98,77,130) then break;
+            if !chkimg(lib.picPathHelper("yellowPoint"),0,25,98,77,130) then break;
         wend
         KBD(VK_RIGHT,2,100)
         util.upTeleport();
@@ -56,34 +56,34 @@ function checkYellowPoint2()
     ifb chkimg(lib.picPathHelper("yellowPoint"),0,100,98,157,130)
         KBD(VK_LEFT,1,500)
         while true
-        	if !chkimg(lib.picPathHelper("yellowPoint"),0,100,98,157,130) then break;
+            if !chkimg(lib.picPathHelper("yellowPoint"),0,100,98,157,130) then break;
         wend
         KBD(VK_LEFT,2,100)
         util.upTeleport();
     endif
 
-	result = 0;
+    result = 0;
 fend
 
 function checkYellowPoint()
 
-	ifb chkimg("../picture/黄点.bmp",0,102,88,154,133)
-		KBD(VK_LEFT,1,100)
-		while TRUE
-			if chkimg("../picture/黄点.bmp",0,86,88,104,133) then break
-		wend
-		KBD(VK_LEFT,2,100)
-		util.upTeleport();
-	endif
+    ifb chkimg("../picture/黄点.bmp",0,102,88,154,133)
+        KBD(VK_LEFT,1,100)
+        while TRUE
+            if chkimg("../picture/黄点.bmp",0,86,88,104,133) then break
+        wend
+        KBD(VK_LEFT,2,100)
+        util.upTeleport();
+    endif
 
-	ifb chkimg("../picture/黄点.bmp",0,0,0,96,130)
-		KBD(VK_RIGHT,1,100)
-		while true
-			if !chkimg("../picture/黄点.bmp",0,0,0,95,130) then break
-		wend
-		KBD(VK_RIGHT,2,100)
-		util.upTeleport();
-	endif
+    ifb chkimg("../picture/黄点.bmp",0,0,0,96,130)
+        KBD(VK_RIGHT,1,100)
+        while true
+            if !chkimg("../picture/黄点.bmp",0,0,0,95,130) then break
+        wend
+        KBD(VK_RIGHT,2,100)
+        util.upTeleport();
+    endif
 
-	result = 0
+    result = 0
 fend

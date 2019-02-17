@@ -37,7 +37,8 @@ function pSkill()
     if chkimg(lib.picPathHelper("PCO"),0,0,0,1368,800) then KBD(pSkillKey.P_COMBAT_ORDER_KEY,0,1000);
     if chkimg(lib.picPathHelper("PSE"),0,0,0,1368,800) then KBD(pSkillKey.P_SHARP_EYES_KEY,0,500);
     if chkimg(lib.picPathHelper("PWB"),0,0,0,1368,800) then KBD(pSkillKey.P_WIND_BOOSTER,0,500);
-        result = 0;
+    if chkimg(lib.picPathHelper("PHB"),0,0,0,1368,800) then KBD(pSkillKey.P_HYPER_BODY_KEY,0,500);
+    result = 0;
 fend
 //============================
 // ルミナス：クールタイムスキル

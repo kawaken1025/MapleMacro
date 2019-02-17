@@ -12,9 +12,9 @@
 // ========================================//
 // Display Dpl : 800x600 or 1366x768
 //=========================================//
-// Copy Right (C) 2018 All Right Reserved. 
+// Copy Right (C) 2019 All Right Reserved. 
 //   @author k.kawabata @kawaken1025
-//     Create Date : 2018/08/15
+//     Create Date : 2019/01/12
 //=========================================//
 
 //MapleAPI : LogWriter.uws , MapleLibrary.uws , UseSkillFiveJob.uws
@@ -39,6 +39,8 @@ while true
         checkYellowPoint();
         if gettime() > skillTime then break;
     wend
+    logger.logWriter(LogLevel.LOG_INFO,Messages.START_COLLECT);
+    init();
 wend
 
 function checkYellowPoint()
@@ -88,6 +90,7 @@ function init()
         KBD(VK_RIGHT,1,300)
         while true
             if chkimg(lib.picPathHelper("yellowPoint"),0,84,101,99,122) then break;
+            if chkimg(lib.picPathHelper("yellowPoint"),0,50,121,75,135) then KBD(VK_B,0,500);
         wend
         KBD(VK_RIGHT,2,100);
         result = 0;

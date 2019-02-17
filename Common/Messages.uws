@@ -32,6 +32,10 @@ CLASS Messages
     const BACK_TOWN_STOP          = "緑点を検出しました。マクロを停止します。";
     const START_SCRIPT_NAME       = REPLACE(GET_UWSC_NAME, ".uws", "") + "スクリプトを開始しました。";
     const START_COLLECT           = "アイテム回収を行います。";
+    const TASK_KILL_MESSAGE       = "タスクキルでメイプルストーリーを終了しました。";
+    const PLAY_CLICKED            = "ランチャーのPLAYボタンをクリックしました。";
+    const LOGIN_SCREEN_REACHING   = "ログイン画面に到達しました。";
+    const DETECTION_RUNE          = "ルーンを発見しました。";
 
 ENDCLASS
 

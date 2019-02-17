@@ -1,4 +1,5 @@
-THREAD ï¿óÒèàóù()
+CALL ../lib/MapleLibrary.uws;
+thread lib.parallelProgram();
 
 //ACW(GETID("MapleStory","MapleStoryClass"),1,1)
 BTN(LEFT,CLICK,450,385,300)
@@ -11,7 +12,7 @@ While true
 	KBD(VK_G,0,1000)
 	SLEEP(2)
 	KBD(VK_U,0,1000)
-	KBD(VK_H,0,1000)
+	KBD(VK_5,0,1000)
 
 	FOR IDOU = 1 TO 15
 		for X = 1 to 20 

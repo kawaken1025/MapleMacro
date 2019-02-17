@@ -1,0 +1,42 @@
+//=========================================//
+// Illium Utility Class
+// comment     : None
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 800x600 or 1366x768
+//=========================================//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/00/00
+//=========================================//
+
+CALL ../lib/MapleLibrary.uws;
+//import Kannna skillKeySetting
+CALL KeySetting.uws;
+
+class util
+
+    function KannnaSkillCheck()
+
+        KBD(VK_U,0,800);
+
+        ifb chkimg("../picture/雪女.bmp",0,585,515,800,600)
+            KBD(VK_9,0,800);
+            sleep(1);
+        endif
+
+        ifb chkimg("../picture/白狐.bmp",0,585,515,800,600)
+            KBD(VK_CTRL,0,500);
+            sleep(2);
+        endif
+
+        ifb chkimg("../picture/LingStone.bmp",0,585,515,800,600)
+            KBD(VK_HOME,0,800);
+            sleep(1);
+        endif
+
+        result = 0;
+    fend
+
+endclass

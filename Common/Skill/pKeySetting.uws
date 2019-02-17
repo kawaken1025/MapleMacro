@@ -17,5 +17,6 @@ CLASS pSkillKey
 	const P_SHARP_EYES_KEY    = VK_9
 	const P_HOLY_SYMBOL       = VK_5
 	const P_WIND_BOOSTER      = VK_8
+	const P_HYPER_BODY_KEY    = VK_R
 
 ENDCLASS
