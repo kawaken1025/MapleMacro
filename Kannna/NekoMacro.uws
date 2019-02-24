@@ -1,0 +1,218 @@
+DEF_DLL peekcolorSetImage(pchar): int:NekoMacro.dll
+DEF_DLL peekcolorEX(int ,int ,int): int:NekoMacro.dll
+DEF_DLL chkimgSetImage(pchar): int:NekoMacro.dll
+DEF_DLL pushSkipColor(int):void:NekoMacro.dll
+DEF_DLL refreshSkipColor():void:NekoMacro.dll
+DEF_DLL chkimgEX_generate(pchar,float,int,int,int,int,int,int[],int[],float[],bool): int:NekoMacro.dll
+DEF_DLL chkimgFX_generate(pchar,int,int,int,int,int,int,int[],int[],bool): int:NekoMacro.dll
+
+DEF_DLL enum_control(pchar,int,pchar,int): void:NekoMacro.dll
+DEF_DLL click_control(pchar,int,pchar,int,int,pwchar,pwchar): void:NekoMacro.dll
+DEF_DLL imgDiff(pchar,pchar,int,int): void:NekoMacro.dll
+DEF_DLL colorExtract(pchar,int,int,int):int:NekoMacro.dll
+DEF_DLL getColorSum(pchar,int):int:NekoMacro.dll
+DEF_DLL rowsColorSum(pchar,int,int):int:NekoMacro.dll
+DEF_DLL colsColorSum(pchar,int,int):int:NekoMacro.dll
+DEF_DLL rowsColorShuffle(pchar,int,int):int:NekoMacro.dll
+DEF_DLL colsColorShuffle(pchar,int,int):int:NekoMacro.dll
+DEF_DLL opencv_resize(pchar,pchar,float,float):int:NekoMacro.dll
+
+
+public G_IMGEX_X
+public G_IMGEX_Y
+public G_IMGEX_SCORE
+public G_IMGEX_NAME
+public ALL_IMGEX_X[1000]
+public ALL_IMGEX_Y[1000]
+public ALL_IMGEX_SCORE[1000]
+
+//指定フォルダのフォルダ以外のファイルの全てを|で連結して返す関数
+Function joinDirImage(dir)
+	//DOSCMD("dir /a-d /b /s " + dir +" >list.txt")
+	fp=FOPEN("list.txt", F_READ)
+	cnt=FGET(fp, F_LINECOUNT)
+	imagelist = ""
+	FOR n=1 TO cnt -1
+		imagelist =  imagelist + FGET(fp,n) + "|"
+	NEXT
+	imagelist = imagelist + FGET(fp,cnt)
+	FCLOSE(fp)
+	
+	result = imagelist
+Fend
+
+//使い方
+//chkimgSetImageで指定した画像ファイルとのテンプレートマッチングを行い近似した箇所を探し出します。
+//引数説明
+//1:画像名
+//2:キャプチャしない:-1　キャプチャする場合はsaveimgの仕様に準ずる
+//3:探索範囲の指定x1
+//4:探索範囲の指定y1
+//5:探索範囲の指定x2
+//6:探索範囲の指定y2
+//7:0の場合->テンプレートマッチングを行い、最も近似度の高い箇所を探し出します。複数ある場合左上とは限りません。他の探索より高速です。
+// :-1の場合->テンプレートマッチングを行い、指定一致率より高い箇所を左上から全て探し出します。複数ある場合遅くなるので一致率を高めにしてください。
+// :1以上の場合->テンプレートマッチングを行い、指定一致率より高い箇所を左上から探し出しますがこの数値以上になったら探索を打ち切ります。
+//8:一致率
+//9:1の場合探索結果をディスプレイ表示します。
+
+function chkimgEX(img,captureId = 0,ratio = 0.95,select_num = 0,rect_ax=0,rect_ay=0,rect_bx=0,rect_by=0,imshow_mode = 0)
+
+	ifb captureId <> -1
+		saveimg("capture",captureId)
+		chkimgSetImage("capture.bmp")
+	endif
+	
+	ARRAY = SPLIT(img,"|")
+	
+	// 変数初期化
+	G_IMGEX_X = -999999
+	G_IMGEX_Y = -999999
+	G_IMGEX_SCORE=0
+	G_IMGEX_NAME = ""
+	SETCLEAR(ALL_IMGEX_X,0)
+	SETCLEAR(ALL_IMGEX_Y,0)
+	SETCLEAR(ALL_IMGEX_SCORE,0)
+	
+	// 結果を受け取る領域を作成
+	dim _img_x[1000]
+	dim _img_y[1000]
+	dim _score[1000]
+	
+	for i = 0 to RESIZE(ARRAY)	
+		
+		//関数呼び出し
+		hit_count=chkimgEX_generate(ARRAY[i],ratio,select_num,rect_ax,rect_ay,rect_bx,rect_by,_img_x,_img_y,_score,imshow_mode)
+		
+		ifb hit_count > 0
+			G_IMGEX_NAME = COPY(ARRAY[i],POS("\",ARRAY[i],-1)+1)
+			break
+		endif
+		
+		ifb hit_count = -1
+			result = -1
+			exit
+		endif
+	next 
+	
+	ifb select_num = -1
+		for i = 0 to hit_count -1
+			ALL_IMGEX_X[i] = _img_x[i]
+			ALL_IMGEX_Y[i] = _img_y[i]
+			ALL_IMGEX_SCORE[i]=_score[i]
+		next
+		ifb hit_count > 0
+			G_IMGEX_X=_img_x[hit_count-1]
+			G_IMGEX_Y=_img_y[hit_count-1]
+		endif
+		result = hit_count
+		exit
+	endif
+	
+	
+	G_IMGEX_SCORE=_score[0]
+	ifb hit_count > 0
+		ifb select_num > 0
+			G_IMGEX_X=_img_x[select_num-1]
+			G_IMGEX_Y=_img_y[select_num-1]
+			ifb select_num = hit_count
+			result = 1
+	        else
+			result = 0
+			endif
+			exit
+		else
+			G_IMGEX_X=_img_x[0]
+			G_IMGEX_Y=_img_y[0]
+			result = 1
+			exit
+		endif
+	endif
+	
+	result = 0
+	
+fend
+
+
+
+//使い方
+//chkimgSetImageで指定した画像ファイルとのテンプレートマッチングを行い近似した箇所を探し出します。
+//引数説明
+//1:画像名
+//2:キャプチャしない:-1　キャプチャする場合はsaveimgの仕様に準ずる
+//3:探索範囲の指定x1
+//4:探索範囲の指定y1
+//5:探索範囲の指定x2
+//6:探索範囲の指定y2
+//7:UWSCの番号指定の仕様に準じます。　
+//8:RGBで色幅に範囲をもたせます。16進数で$101010->全ての色に対し16差までは許容します。
+//9:1の場合探索結果をディスプレイ表示します。
+function chkimgFX(img,captureId=0,rect_ax=0,rect_ay=0,rect_bx=0,rect_by=0,select_num = 0,color_range = 0,imshow_mode = 0)
+	ifb captureId <> -1
+	saveimg("capture",captureId)
+	chkimgSetImage("capture.bmp")
+	endif
+	
+	ARRAY = SPLIT(img,"|")
+	
+	// 変数初期化
+	G_IMGEX_X = -999999
+	G_IMGEX_Y = -999999
+	
+	SETCLEAR(ALL_IMGEX_X,0)
+	SETCLEAR(ALL_IMGEX_Y,0)
+	
+	// 結果を受け取る領域を作成
+	dim _img_x[1000]
+	dim _img_y[1000]
+	
+	
+	for i = 0 to RESIZE(ARRAY)
+		
+		//関数呼び出し
+		hit_count=chkimgFX_generate(ARRAY[i],rect_ax,rect_ay,rect_bx,rect_by,select_num,color_range,_img_x,_img_y,imshow_mode)
+		
+		ifb hit_count > 0
+			G_IMGEX_NAME = COPY(ARRAY[i],POS("\",ARRAY[i],-1)+1)
+			break
+		endif
+		
+		ifb hit_count = -1
+			result = -1
+			exit
+		endif
+	next
+	ifb select_num = -1
+		for i = 0 to hit_count -1
+			ALL_IMGEX_X[i] = _img_x[i]
+			ALL_IMGEX_Y[i] = _img_y[i]
+		next
+		ifb hit_count > 0
+			G_IMGEX_X=_img_x[hit_count-1]
+			G_IMGEX_Y=_img_y[hit_count-1]
+		endif
+		result = hit_count
+		exit
+	endif
+	
+	ifb hit_count > 0
+		ifb select_num > 0
+			G_IMGEX_X=_img_x[select_num-1]
+			G_IMGEX_Y=_img_y[select_num-1]
+			ifb select_num = hit_count
+			result = 1
+	        else
+			result = 0
+			endif
+			exit
+		else
+			G_IMGEX_X=_img_x[0]
+			G_IMGEX_Y=_img_y[0]
+			result = 1
+			exit
+		endif
+	endif
+	
+	result = 0
+	
+fend

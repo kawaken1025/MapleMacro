@@ -23,6 +23,7 @@
 //=========================================//
 
 OPTION OPTFINALLY
+CALL MapleLibrary.uws;
 CALL ChkImgX.uws
 startup_chkimgx()
 
@@ -36,90 +37,93 @@ endtry
 
 function a()
 
-	// ルーン起動
-	KBD(VK_Y,0,500);
-	// 画像判定閾値
-	threshold = 15
+    // ルーン起動
+    KBD(VK_Y,0,500);
+    // 画像判定閾値
+    threshold = 15
 
-	list = CreateOleObj("System.Collections.ArrayList")
+    list = CreateOleObj("System.Collections.ArrayList")
 
-	arrowCountL = CHKIMGX("../picture/arrow/l.png",0,300,150,900,350,-1,threshold,-1)
-	print "======================="
-	//num = "." + G_IMGX_NUM
-	if G_IMGX_NUM < 0 then num = ""
-	arrowCountL = CHKIMGX("../picture/arrow/l.png",0,300,150,900,350,-1,threshold,-1)
-	print "左発見個数=" + arrowCountL
-	for i = 0 to arrowCountL - 1
-		j = 0
-		DIM arrowArray_L[arrowCountL*2 - 1]
-		arrowArray_L[j]   =   ALL_IMGX_X[i]
-		arrowArray_L[j+1] = "LEFT"
-		list.add(ALL_IMGX_X[i])
-		list.add(VK_LEFT)
-		j = j + 2;
-		for x = 0 to length(arrowArray_L) -1
-			print arrowArray_L[x]
-		next
-	next
+    arrowCountL = CHKIMGX("../picture/arrow/l.png",0,300,150,900,350,-1,threshold,-1)
+    print "======================="
+    //num = "." + G_IMGX_NUM
+    if G_IMGX_NUM < 0 then num = ""
+    arrowCountL = CHKIMGX("../picture/arrow/l.png",0,300,150,900,350,-1,threshold,-1)
+    print "左発見個数=" + arrowCountL
+    for i = 0 to arrowCountL - 1
+        j = 0
+        DIM arrowArray_L[arrowCountL*2 - 1]
+        arrowArray_L[j]   =   ALL_IMGX_X[i]
+        arrowArray_L[j+1] = "LEFT"
+        list.add(ALL_IMGX_X[i])
+        list.add(VK_LEFT)
+        j = j + 2;
+        for x = 0 to length(arrowArray_L) -1
+            print arrowArray_L[x]
+        next
+    next
 
-	print "======================="
+    print "======================="
 
-	arrowCountR = CHKIMGX("../picture/arrow/r.png",0,300,150,900,350,-1,threshold,-1)
-	print "右発見個数" + arrowCountR
-	for i = 0 to arrowCountR - 1
-		j = 0
-		DIM arrowArray_R[arrowCountR*2 - 1]
-		arrowArray_R[j]   =   ALL_IMGX_X[i]
-		arrowArray_R[j+1] = "RIGHT"
-		j = j + 2;
-		    list.add(ALL_IMGX_X[i])
-		    list.add(VK_RIGHT)
-		for x = 0 to length(arrowArray_R) -1
-			print arrowArray_R[x]
-		next
-	next
+    arrowCountR = CHKIMGX("../picture/arrow/r.png",0,300,150,900,350,-1,threshold,-1)
+    print "右発見個数" + arrowCountR
+    for i = 0 to arrowCountR - 1
+        j = 0
+        DIM arrowArray_R[arrowCountR*2 - 1]
+        arrowArray_R[j]   =   ALL_IMGX_X[i]
+        arrowArray_R[j+1] = "RIGHT"
+        j = j + 2;
+            list.add(ALL_IMGX_X[i])
+            list.add(VK_RIGHT)
+        for x = 0 to length(arrowArray_R) -1
+            print arrowArray_R[x]
+        next
+    next
 
-	print "======================="
+    print "======================="
 
 
-	arrowCountU = CHKIMGX("../picture/arrow/u.png",0,300,150,900,350,-1,threshold,-1)
-	print "上発見個数" + arrowCountU
-	for i = 0 to arrowCountU - 1
-		j = 0
-		DIM arrowArray_U[arrowCountU*2 - 1]
-		arrowArray_U[j]   =   ALL_IMGX_X[i]
-	    arrowArray_U[j+1] = "UP"
-	    list.add(ALL_IMGX_X[i])
-	    list.add(VK_UP)
-		j = j + 2;
-		for x = 0 to length(arrowArray_U) -1
-			print arrowArray_U[x]
-		next
-	next
+    arrowCountU = CHKIMGX("../picture/arrow/u.png",0,300,150,900,350,-1,threshold,-1)
+    print "上発見個数" + arrowCountU
+    for i = 0 to arrowCountU - 1
+        j = 0
+        DIM arrowArray_U[arrowCountU*2 - 1]
+        arrowArray_U[j]   =   ALL_IMGX_X[i]
+        arrowArray_U[j+1] = "UP"
+        list.add(ALL_IMGX_X[i])
+        list.add(VK_UP)
+        j = j + 2;
+        for x = 0 to length(arrowArray_U) -1
+            print arrowArray_U[x]
+        next
+    next
 
-	print "======================="
+    print "======================="
 
-	arrowCountD = CHKIMGX("../picture/arrow/d.png",0,300,150,900,350,-1,threshold,-1)
-	print "下発見個数" + arrowCountD
-	for i = 0 to arrowCountD - 1
-		j = 0
-		DIM arrowArray_D[arrowCountD*2 - 1]
-		arrowArray_D[j]   =   ALL_IMGX_X[i]
-		arrowArray_D[j+1] = "DOWN"
-		list.add(ALL_IMGX_X[i])
-		list.add(VK_DOWN)
-		j = j + 2;
-		for x = 0 to length(arrowArray_D) -1
-			print arrowArray_D[x]
-		next
-	next
-	print list.count
-	if list.count <> 8 then exit;
+    arrowCountD = CHKIMGX("../picture/arrow/d.png",0,300,150,900,350,-1,threshold,-1)
+    print "下発見個数" + arrowCountD
+    for i = 0 to arrowCountD - 1
+        j = 0
+        DIM arrowArray_D[arrowCountD*2 - 1]
+        arrowArray_D[j]   =   ALL_IMGX_X[i]
+        arrowArray_D[j+1] = "DOWN"
+        list.add(ALL_IMGX_X[i])
+        list.add(VK_DOWN)
+        j = j + 2;
+        for x = 0 to length(arrowArray_D) -1
+            print arrowArray_D[x]
+        next
+    next
+    print list.count
+    ifb list.count <> 8
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンのコマンド解析に失敗しました。");
+        exit;
+    endif
 
     arrowList = CreateOleObj("System.Collections.ArrayList")
 
-	// ここからソート
-	// ヒットした座標の昇順でソートする
+    // ここからソート
+    // ヒットした座標の昇順でソートする
     for i = 1 to 4
         _min = 99999;
         minidx = 0;
@@ -137,101 +141,101 @@ function a()
         list.RemoveAt(minidx);
     next
 
-    print arrowList.item(0) + arrowList.item(1) + arrowList.item(2) + arrowList.item(3) 
     for i = 0 to arrowList.count-1
-    	KBD(arrowList.item(i),0,70)
+        KBD(arrowList.item(i),0,70)
     next
+    logger.logWriter(LogLevel.LOG_INFO,"ルーンへコマンドを入力しました。");
 
-	result =0
+    result =0
 fend
 
 
 function runeAnalyze()
 
-	// ルーン起動
-	KBD(VK_Y,0,500);
-	// 画像判定閾値
-	threshold = 15
+    // ルーン起動
+    KBD(VK_Y,0,500);
+    // 画像判定閾値
+    threshold = 15
 
-	list = CreateOleObj("System.Collections.ArrayList")
+    list = CreateOleObj("System.Collections.ArrayList")
 
-	arrowCountL = CHKIMGX("../picture/arrow/l.png",0,300,150,900,350,-1,threshold,-1)
-	print "======================="
-	//num = "." + G_IMGX_NUM
-	if G_IMGX_NUM < 0 then num = ""
-	arrowCountL = CHKIMGX("../picture/arrow/l.png",0,300,150,900,350,-1,threshold,-1)
-	print "左発見個数=" + arrowCountL
-	for i = 0 to arrowCountL - 1
-		j = 0
-		DIM arrowArray_L[arrowCountL*2 - 1]
-		arrowArray_L[j]   =   ALL_IMGX_X[i]
-		arrowArray_L[j+1] = "LEFT"
-		list.add(ALL_IMGX_X[i])
-		list.add(VK_LEFT)
-		j = j + 2;
-		for x = 0 to length(arrowArray_L) -1
-			print arrowArray_L[x]
-		next
-	next
+    arrowCountL = CHKIMGX("../picture/arrow/l.png",0,300,150,900,350,-1,threshold,-1)
+    print "======================="
+    //num = "." + G_IMGX_NUM
+    if G_IMGX_NUM < 0 then num = ""
+    arrowCountL = CHKIMGX("../picture/arrow/l.png",0,300,150,900,350,-1,threshold,-1)
+    print "左発見個数=" + arrowCountL
+    for i = 0 to arrowCountL - 1
+        j = 0
+        DIM arrowArray_L[arrowCountL*2 - 1]
+        arrowArray_L[j]   =   ALL_IMGX_X[i]
+        arrowArray_L[j+1] = "LEFT"
+        list.add(ALL_IMGX_X[i])
+        list.add(VK_LEFT)
+        j = j + 2;
+        for x = 0 to length(arrowArray_L) -1
+            print arrowArray_L[x]
+        next
+    next
 
-	print "======================="
+    print "======================="
 
-	arrowCountR = CHKIMGX("../picture/arrow/r.png",0,300,150,900,350,-1,threshold,-1)
-	print "右発見個数" + arrowCountR
-	for i = 0 to arrowCountR - 1
-		j = 0
-		DIM arrowArray_R[arrowCountR*2 - 1]
-		arrowArray_R[j]   =   ALL_IMGX_X[i]
-		arrowArray_R[j+1] = "RIGHT"
-		j = j + 2;
-		    list.add(ALL_IMGX_X[i])
-		    list.add(VK_RIGHT)
-		for x = 0 to length(arrowArray_R) -1
-			print arrowArray_R[x]
-		next
-	next
+    arrowCountR = CHKIMGX("../picture/arrow/r.png",0,300,150,900,350,-1,threshold,-1)
+    print "右発見個数" + arrowCountR
+    for i = 0 to arrowCountR - 1
+        j = 0
+        DIM arrowArray_R[arrowCountR*2 - 1]
+        arrowArray_R[j]   =   ALL_IMGX_X[i]
+        arrowArray_R[j+1] = "RIGHT"
+        j = j + 2;
+            list.add(ALL_IMGX_X[i])
+            list.add(VK_RIGHT)
+        for x = 0 to length(arrowArray_R) -1
+            print arrowArray_R[x]
+        next
+    next
 
-	print "======================="
+    print "======================="
 
 
-	arrowCountU = CHKIMGX("../picture/arrow/u.png",0,300,150,900,350,-1,threshold,-1)
-	print "上発見個数" + arrowCountU
-	for i = 0 to arrowCountU - 1
-		j = 0
-		DIM arrowArray_U[arrowCountU*2 - 1]
-		arrowArray_U[j]   =   ALL_IMGX_X[i]
-	    arrowArray_U[j+1] = "UP"
-	    list.add(ALL_IMGX_X[i])
-	    list.add(VK_UP)
-		j = j + 2;
-		for x = 0 to length(arrowArray_U) -1
-			print arrowArray_U[x]
-		next
-	next
+    arrowCountU = CHKIMGX("../picture/arrow/u.png",0,300,150,900,350,-1,threshold,-1)
+    print "上発見個数" + arrowCountU
+    for i = 0 to arrowCountU - 1
+        j = 0
+        DIM arrowArray_U[arrowCountU*2 - 1]
+        arrowArray_U[j]   =   ALL_IMGX_X[i]
+        arrowArray_U[j+1] = "UP"
+        list.add(ALL_IMGX_X[i])
+        list.add(VK_UP)
+        j = j + 2;
+        for x = 0 to length(arrowArray_U) -1
+            print arrowArray_U[x]
+        next
+    next
 
-	print "======================="
+    print "======================="
 
-	arrowCountD = CHKIMGX("../picture/arrow/d.png",0,300,150,900,350,-1,threshold,-1)
-	print "下発見個数" + arrowCountD
-	for i = 0 to arrowCountD - 1
-		j = 0
-		DIM arrowArray_D[arrowCountD*2 - 1]
-		arrowArray_D[j]   =   ALL_IMGX_X[i]
-		arrowArray_D[j+1] = "DOWN"
-		list.add(ALL_IMGX_X[i])
-		list.add(VK_DOWN)
-		j = j + 2;
-		for x = 0 to length(arrowArray_D) -1
-			print arrowArray_D[x]
-		next
-	next
-	print list.count
-	if list.count <> 8 then exit;
+    arrowCountD = CHKIMGX("../picture/arrow/d.png",0,300,150,900,350,-1,threshold,-1)
+    print "下発見個数" + arrowCountD
+    for i = 0 to arrowCountD - 1
+        j = 0
+        DIM arrowArray_D[arrowCountD*2 - 1]
+        arrowArray_D[j]   =   ALL_IMGX_X[i]
+        arrowArray_D[j+1] = "DOWN"
+        list.add(ALL_IMGX_X[i])
+        list.add(VK_DOWN)
+        j = j + 2;
+        for x = 0 to length(arrowArray_D) -1
+            print arrowArray_D[x]
+        next
+    next
+    print list.count
+    if list.count <> 8 then exit;
 
     DIM arrowList[4]
 
-	// ここからソート
-	// ヒットした座標の昇順でソートする
+    // ここからソート
+    // ヒットした座標の昇順でソートする
     for i = 1 to 4
         _min = 99999;
         minidx = 0;
@@ -248,7 +252,7 @@ function runeAnalyze()
     next
     
     for i = 0 to 3
-    	KBD(arrowList[i],0,50)
-	next
-	result =0
+        KBD(arrowList[i],0,50)
+    next
+    result =0
 fend

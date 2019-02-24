@@ -1,0 +1,19 @@
+//=========================================//
+// comment     : 定数定義クラス
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 
+//=========================================//
+// Copy Right (C) 2019 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2019/02/22
+//=========================================//
+
+class constant
+
+    // ルーン
+	const UNDISCOVERED_RUNE = 0; // 未発見
+	const DISCOVERY_RUNE    = 1; // 発見
+
+endclass

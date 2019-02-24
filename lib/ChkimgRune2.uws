@@ -1,0 +1,36 @@
+﻿//=========================================//
+// Map Name    : ルーン解除スクリプト2     //
+//=========================================//
+// Mob Name    : 
+// Mob Level   : 
+// Mob HP      : 
+// Mob Exp     : 
+//=========================================//
+// Mob Name    : 
+// Mob Level   : 
+// Mob HP      : 
+// Mob Exp     : 
+//=========================================//
+// comment     : None
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 1366x768 only
+//=========================================//
+// Copy Right (C) 2019 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2019/02/20
+//=========================================//
+
+call NekoMacro.uws;
+
+imgList = joinDirImage("../picture/arrow")
+while true
+    ret = chkimgFX(imgList,0,0,0,0,0,0,IMG_MSK_BGR4)
+    ifb ret <> -1 AND ret <> 0
+        SELECT G_IMGEX_NAME
+            DEFAULT
+                btn(left,click,G_IMGEX_X,G_IMGEX_Y)
+        SELEND
+    endif
+wend

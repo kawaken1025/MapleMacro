@@ -85,9 +85,18 @@ fend
 // return  : 0
 //
 //=========================================
+public areaBossEncount = 0;
 function urgentCheck()
 
-    //if  chkimg("../picture/エリボス.bmp",0,0,0,2000,2000) then SOUND(" ");
+    ifb  chkimg("../picture/エリボス.bmp",0,0,0,2000,2000)    	
+        ifb areaBossEncount = 0 // 初回のみログを出す
+            areaBossEncount = 1;
+            logger.logWriter(LogLevel.LOG_WARN,"エリアボスを検出しました");
+        else
+            SOUND(" ");
+        endif
+    endif
+    
     ifb  chkimg("../picture/緑点.bmp",0,0,0,1368,800)
         logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
         exitexit;
@@ -586,6 +595,48 @@ function getOutputDirectory()
 fend
 
 //=========================================
+// comment : チャンネル変更
+// param   : None
+// return  : 0
+//=========================================
+function changeChannnel()
+
+	// 初期化
+	BTN(LEFT,CLICK,200,405,500);
+	BTN(LEFT,CLICK,200,405,200);
+	KBD(VK_ESC,0,500);
+	// TODO:ポップアップチェック
+	//SLEEP(1)
+	//ifb chkimg("../picture/MenuPopup.bmp",0,0,0,1368,800);
+    //    BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,1000);
+    //endif
+	KBD(VK_ENTER,0,1000);
+	KBD(VK_LEFT,0,800);
+	KBD(VK_ENTER,0,1000);
+
+    result = 0;
+fend
+
+//=========================================
+// comment : チャンネル変更後待機し
+//           他プレイヤーがいないか確認
+// param   : None
+// return  : 0
+//=========================================
+function checkPlayer()
+
+	// 画面が完全に切り替わるまで待機
+	// 他プレイヤーがいないか確認する
+	
+	// いなければ戻る
+	
+	// いたらもう一度チャンネル変更
+
+    result = 0;
+fend
+
+
+//=========================================
 // comment : ルーンの矢印を解析し入力する
 // param   : None
 // return  : 0
@@ -595,6 +646,23 @@ function OpenRune()
     moveRunePoint();
     CALL ChkimgRune.uws;
     
+    result = 0;
+fend
+
+
+//=========================================
+// comment : ルーンの矢印を解析し入力する
+// param   : None
+// return  : 0
+//=========================================
+function OpenRuneXY(x,y,isDown)
+
+    moveRunePointXY(x,y);
+    ifb isDown
+        CALL ChkimgRuneDownJump.uws;
+    elseif !isDown
+        CALL ChkimgRune.uws;
+    endif
     result = 0;
 fend
 
@@ -639,6 +707,44 @@ function moveRunePoint()
         if chkimg(lib.picPathHelper("yellowPoint"),0, runePointX-5, 0, runePointX+5, 300) then break;  
     wend
     KBD(moveKey,2,50)
+    
+    result = 0;
+fend
+
+//=========================================
+// comment : ルーンの位置まで移動する
+// param   : None
+// return  : 0
+//=========================================
+function moveRunePointXY(x,y)
+
+    // ルーンの位置を取得
+    runePointX = x;
+    runePointY = y;
+
+    // 黄点を取得
+    yellowPointX = 0;
+    yellowPointY = 0;
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,350,350);
+        yellowPointX = G_IMG_X;
+        yellowPointY = G_IMG_Y;
+    else
+        print "黄点の位置が取得できません";
+        result = 2;
+    endif
+        
+    // 移動する方向を決定
+    moveKey = VK_RIGHT
+    ifb yellowPointX > runePointX
+        moveKey = VK_LEFT
+    endif
+    
+    // ルーンの横位置まで移動
+    KBD(moveKey,1,500);
+    while true
+        if chkimg(lib.picPathHelper("yellowPoint"),0, runePointX-5, 0, runePointX+5, 300) then break;  
+    wend
+    KBD(moveKey,2,10)
     
     result = 0;
 fend

@@ -14,12 +14,14 @@ CLASS key
 
 	//SkillKey
 	const DEMON_KEY        = VK_H //鬼神
-	const BRAGGART_KEY     = VK_A     //天狗
-	const SAKURA_KEY       = VK_G     //サクラ
+	const BRAGGART_KEY     = VK_A //天狗
+	const SAKURA_KEY       = VK_G //サクラ
+	const CONTINUOUS_KEY   = VK_F //邪破連撃符
 
 	//SupportSkillKey
 	const SKILL_MACRO1_KEY    = VK_G
 	const ROPE_CONNECT_KEY    = VK_B
+	const TELEPORT_KEY        = VK_SPACE
 
 	//SupportKey
 	const FAM_BOOK_KEY        = VK_F6

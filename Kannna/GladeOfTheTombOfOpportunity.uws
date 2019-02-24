@@ -63,13 +63,16 @@ function oneWayAttack(moveKey,x1,y1,x2,y2)
 
     // ルーンが出現しているか確認します。
     // 出現していた場合は解除します
-    ret = checkRuneStage();
+    ret = checkRuneStage()
     ifb ret <> 0
+    	sleep(0.5);
         lib.OpenRune();
+        sleep(1);
     endif
 
     util.KannnaSkillCheck();
     skill.pSkill();
+    sleep(1.5);
     
     
     result = 0;

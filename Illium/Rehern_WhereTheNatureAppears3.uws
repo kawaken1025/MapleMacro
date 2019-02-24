@@ -40,6 +40,7 @@ while true
         if gettime() > skillTime then break;
         util.upTeleport();
     wend
+    collect();
 wend
 
 function checkYellowPoint2()
@@ -86,4 +87,47 @@ function checkYellowPoint()
     endif
 
     result = 0
+fend
+
+function collect()
+
+    //異常用カウンター
+    failedCounter = GETTIME( 10 / 86400 )
+
+    KBD(VK_LEFT,1,100)
+    while true
+        if chkimg("../picture/黄点.bmp",0,0,0,56,130) then break
+        KBD(VK_SPACE,0,100)
+        if GETTIME() > failedCounter then break
+    wend
+    KBD(VK_LEFT,2,100)
+
+    KBD(VK_B,0,500)
+    SLEEP(1.5)
+
+
+    for x = 1 to 10
+        KBD(VK_X,0,200)
+    next
+
+    KBD(VK_LEFT,1,500)
+    KBD(VK_LEFT,2,2000)
+
+    KBD(VK_RIGHT,1,100)
+    while true
+        if !chkimg("../picture/黄点.bmp",0,0,0,115,130) then break
+        KBD(VK_SPACE,0,100)
+    wend
+    KBD(VK_RIGHT,2,100)
+    KBD(VK_b,0,700)
+
+    KBD(VK_LEFT,1,800)
+    while true
+        if chkimg("../picture/黄点.bmp",0,0,0,96,130) then break
+        KBD(VK_SPACE,0,100)
+    wend
+    KBD(VK_LEFT,2,500)
+    KBD(VK_b,0,700)
+    
+    result = 0;
 fend

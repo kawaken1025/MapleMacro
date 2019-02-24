@@ -1,0 +1,173 @@
+//=========================================//
+// Map Name    : 風化した喜びと怒りの地
+//=========================================//
+
+//=========================================//
+// comment     : None
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 800x600 or 1366x768(Rune)
+//=========================================//
+// Copy Right (C) 2019 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2019/02/19
+//=========================================//
+
+CALL ../MapleAPI/MapleAPI.uws;
+CALL KeySetting.uws;
+CALL KannnaUtil.uws;
+thread lib.parallelProgramExitMode();
+
+while true;
+    //Acquisition of Time : Get the time after 3 minutes
+    reUseSkillTime = GETTIME( 150 / 86400 );
+    util.useSkill();
+    SLEEP(0.5);
+    KBD(VK_T,0,2000)
+
+    while true;
+        util.teleportAttack();
+        // ルーンが出現しているか確認します。
+        // 出現していた場合は解除します
+        ret = checkRuneStage();
+        ifb ret <> 0
+            lib.OpenRune();
+        endif
+
+        //3minutes elapsed?
+        if GETTIME() > reUseSkillTime then break;
+    wend
+wend
+
+
+
+
+//=========================================
+// param   : None 
+// comment : ルーンが出現しているか確認
+//=========================================
+function checkRuneStage()
+
+    // 上段にあるか
+    ifb chkimg(lib.picPathHelper("runePoint"),0,0,90,40,107)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを上段左1で発見しました。");
+        moveStage(1,G_IMG_X,G_IMG_Y);
+        result = 1;
+    elseif chkimg(lib.picPathHelper("runePoint"),0,35,107,88,120)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを上段左2で発見しました。");
+        moveStage(2,G_IMG_X,G_IMG_Y);
+        result = 1;
+    elseif chkimg(lib.picPathHelper("runePoint"),0,86,100,128,110)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを上段右2で発見しました。");
+        moveStage(3,G_IMG_X,G_IMG_Y);
+        result = 1;
+    elseif chkimg(lib.picPathHelper("runePoint"),0,124,110,177,121)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを上段右1で発見しました。");
+        moveStage(4,G_IMG_X,G_IMG_Y);
+        result = 1;
+    elseif chkimg(lib.picPathHelper("runePoint"),0,14,132,58,144)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを下段左で発見しました。");
+        moveStage(5,G_IMG_X,G_IMG_Y);
+        result = 1;
+    elseif chkimg(lib.picPathHelper("runePoint"),0,63,133,114,144)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを下段右で発見しました。");
+        moveStage(6,G_IMG_X,G_IMG_Y);
+        result = 1;
+    elseif chkimg(lib.picPathHelper("runePoint"),0,112,125,148,138)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを中段で発見しました。");
+        moveStage(7,G_IMG_X,G_IMG_Y);
+        result = 1;   
+    elseif chkimg(lib.picPathHelper("runePoint"),0,0,147,200,160)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを最下段で発見しました。");
+        moveStage(8,G_IMG_X,G_IMG_Y);
+        result = 1;
+    endif
+    
+    result = 0;
+fend
+
+
+//=========================================
+// param   : 1 or 2
+// comment : ルーンが出現している段へ移動
+//=========================================
+function moveStage(num,x,y)
+
+    // いったん一番左へいく
+    KBD(VK_LEFT,1,500)
+    while true
+    	ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,104,15,125)
+    		KBD(VK_LEFT,2,500)
+    		KBD(VK_DOWN,1,500)
+    		KBD(key.TELEPORT_KEY,0,250)
+    	    KBD(key.TELEPORT_KEY,0,250)
+    		KBD(VK_DOWN,2,300)
+    	endif
+        if chkimg(lib.picPathHelper("yellowPoint"),0,0,135,15,160) then break;
+        KBD(key.TELEPORT_KEY,0,100)
+    wend
+    KBD(VK_LEFT,2,500)
+    
+    // 最下段にルーンがある場合は左へ行って終了
+    ifb num = 8
+        result = 0;
+    elseif num = 1 or num = 2
+        KBD(VK_UP,1,100)
+        for i = 1 to 3
+            KBD(key.TELEPORT_KEY,0,250);
+            KBD(key.TELEPORT_KEY,0,250);
+        next
+        KBD(VK_UP,2,100)
+
+    elseif num = 3 or num = 4
+    	KBD(VK_RIGHT,1,500)
+	    while true
+	        if chkimg(lib.picPathHelper("yellowPoint"),0,92,150,106,165) then break;
+	    wend
+	    KBD(VK_RIGHT,2,500)
+	    KBD(VK_UP,1,100)
+	    for i = 1 to 4
+			KBD(key.TELEPORT_KEY,0,250);
+	   		KBD(key.TELEPORT_KEY,0,250);
+		next
+		KBD(VK_UP,2,100)
+
+	elseif num = 5
+    	KBD(VK_RIGHT,1,500)
+	    while true
+	        if chkimg(lib.picPathHelper("yellowPoint"),0,27,148,50,160) then break;
+	    wend
+	    KBD(VK_RIGHT,2,200)
+	    KBD(VK_UP,1,100)
+		KBD(key.TELEPORT_KEY,0,250);
+	   	KBD(key.TELEPORT_KEY,0,250);
+		KBD(VK_UP,2,100)
+
+    elseif num = 6
+        KBD(VK_RIGHT,1,500)
+        while true
+            if chkimg(lib.picPathHelper("yellowPoint"),0,74,148,100,160) then break;
+        wend
+        KBD(VK_RIGHT,2,200)
+        KBD(VK_UP,1,100)
+        KBD(key.TELEPORT_KEY,0,250);
+        KBD(key.TELEPORT_KEY,0,250);
+        KBD(VK_UP,2,100)
+
+    elseif num = 7
+        KBD(VK_RIGHT,1,500)
+        while true
+            if chkimg(lib.picPathHelper("yellowPoint"),0,117,145,140,160) then break;
+        wend
+        KBD(VK_RIGHT,2,200)
+        KBD(VK_UP,1,100)
+        KBD(key.TELEPORT_KEY,0,250);
+        KBD(key.TELEPORT_KEY,0,250);
+        KBD(VK_UP,2,100)
+
+    endif
+    lib.OpenRuneXY(x,y,false);
+    
+    result = 0;
+fend
