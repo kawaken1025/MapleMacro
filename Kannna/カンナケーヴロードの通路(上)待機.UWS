@@ -19,6 +19,9 @@ While true
     SLEEP(2)
     KBD(VK_U,0,1000)
     for i = 1 to 6
+        lib.activeWindow();
+        BTN(LEFT,CLICK,400,405,500) 
+        BTN(LEFT,CLICK,400,405,500) 
         urgentCheck()
         recovery()
         for x = 1 to 15

@@ -13,10 +13,13 @@
 CLASS key
 
 	//SkillKey
-	const DEMON_KEY        = VK_H //鬼神
-	const BRAGGART_KEY     = VK_A //天狗
-	const SAKURA_KEY       = VK_G //サクラ
-	const CONTINUOUS_KEY   = VK_F //邪破連撃符
+	const DEMON_KEY        = VK_H      // 鬼神
+	const BRAGGART_KEY     = VK_A      // 天狗
+	const SAKURA_KEY       = VK_G      // サクラ
+	const CONTINUOUS_KEY   = VK_F      // 邪破連撃符
+	const SAND_OVER_KEY    = VK_DELETE // 砂かけ婆
+	const SNOW_WOMEN       = VK_F5     // 雪女召喚
+	const LING_STONE       = VK_HOME   // 霊石
 
 	//SupportSkillKey
 	const SKILL_MACRO1_KEY    = VK_G

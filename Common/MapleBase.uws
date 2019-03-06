@@ -1,0 +1,14 @@
+//=========================================//
+// comment     : Šî’êƒNƒ‰ƒX
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 
+//=========================================//
+// Copy Right (C) 2019 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2019/02/27
+//=========================================//
+
+MAPLE_RESULT_OK = 0;
+MAPLE_RESULT_NG = 1;

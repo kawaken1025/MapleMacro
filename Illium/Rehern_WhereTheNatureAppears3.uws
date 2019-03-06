@@ -105,9 +105,10 @@ function collect()
     KBD(VK_B,0,500)
     SLEEP(1.5)
 
-
+    KBD(VK_SHIFT,0,300)
     for x = 1 to 10
         KBD(VK_X,0,200)
+        KBD(VK_A,0,10)
     next
 
     KBD(VK_LEFT,1,500)
@@ -125,7 +126,7 @@ function collect()
 
     KBD(VK_LEFT,1,800)
     while true
-        if chkimg("../picture/黄点.bmp",0,0,0,96,130) then break
+        if chkimg("../picture/黄点.bmp",0,0,0,113,130) then break
         KBD(VK_SPACE,0,100)
     wend
     KBD(VK_LEFT,2,500)

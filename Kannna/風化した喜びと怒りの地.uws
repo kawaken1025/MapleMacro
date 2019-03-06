@@ -89,13 +89,13 @@ function moveStage(num,x,y)
     // いったん一番左へいく
     KBD(VK_LEFT,1,500)
     while true
-    	ifb chkimg(lib.picPathHelper("yellowPoint"),0,15,104,40,125)
-    		KBD(VK_LEFT,2,500)
-    		KBD(VK_DOWN,1,500)
-    		KBD(key.TELEPORT_KEY,0,250)
-    		KBD(key.TELEPORT_KEY,0,250)
-    		KBD(VK_DOWN,2,300)
-    	endif
+        ifb chkimg(lib.picPathHelper("yellowPoint"),0,15,104,40,125)
+            KBD(VK_LEFT,2,500)
+            KBD(VK_DOWN,1,500)
+            KBD(key.TELEPORT_KEY,0,250)
+            KBD(key.TELEPORT_KEY,0,250)
+            KBD(VK_DOWN,2,300)
+        endif
         if chkimg(lib.picPathHelper("yellowPoint"),0,15,135,35,160) then break;
         KBD(key.TELEPORT_KEY,0,100)
     wend
@@ -106,63 +106,63 @@ function moveStage(num,x,y)
         result = 0;
     
     elseif num = 1
-    	KBD(VK_RIGHT,1,500)
-	    while true
-	        if chkimg(lib.picPathHelper("yellowPoint"),0,103,139,125,160) then break;
-	    wend
-	    KBD(VK_RIGHT,2,100)
+        KBD(VK_RIGHT,1,500)
+        while true
+            if chkimg(lib.picPathHelper("yellowPoint"),0,103,139,125,160) then break;
+        wend
+        KBD(VK_RIGHT,2,100)
 
-	    KBD(VK_UP,1,100)
-	    while true
-	    	if chkimg(lib.picPathHelper("yellowPoint"),0,75,88,170,104) then break;
-		    KBD(key.TELEPORT_KEY,0,150);
-	    	KBD(key.TELEPORT_KEY,0,150);
-		wend
+        KBD(VK_UP,1,100)
+        while true
+            if chkimg(lib.picPathHelper("yellowPoint"),0,75,88,170,104) then break;
+            KBD(key.TELEPORT_KEY,0,150);
+            KBD(key.TELEPORT_KEY,0,150);
+        wend
         KBD(VK_UP,2,100)
 
-	elseif num = 2
-		KBD(VK_UP,1,100)
-		KBD(key.TELEPORT_KEY,0,250);
-	    KBD(key.TELEPORT_KEY,0,250);
-		KBD(VK_UP,2,100)
+    elseif num = 2
+        KBD(VK_UP,1,100)
+        KBD(key.TELEPORT_KEY,0,250);
+        KBD(key.TELEPORT_KEY,0,250);
+        KBD(VK_UP,2,100)
 
     elseif num = 3
-    	KBD(VK_RIGHT,1,500)
-	    while true
-	        if chkimg(lib.picPathHelper("yellowPoint"),0,180,140,192,160) then break;
-	        KBD(key.TELEPORT_KEY,0,100)
-	    wend
-	    KBD(VK_RIGHT,2,500)
-	    KBD(VK_UP,1,100)
-	    for i = 1 to 3
-			KBD(key.TELEPORT_KEY,0,250);
-	   		KBD(key.TELEPORT_KEY,0,250);
-		next
-		KBD(VK_UP,2,100)
+        KBD(VK_RIGHT,1,500)
+        while true
+            if chkimg(lib.picPathHelper("yellowPoint"),0,180,140,192,160) then break;
+            KBD(key.TELEPORT_KEY,0,100)
+        wend
+        KBD(VK_RIGHT,2,500)
+        KBD(VK_UP,1,100)
+        for i = 1 to 3
+            KBD(key.TELEPORT_KEY,0,250);
+            KBD(key.TELEPORT_KEY,0,250);
+        next
+        KBD(VK_UP,2,100)
 
-	elseif num = 4
-    	KBD(VK_RIGHT,1,500)
-	    while true
-	        if chkimg(lib.picPathHelper("yellowPoint"),0,103,139,125,160) then break;
-	    wend
-	    KBD(VK_RIGHT,2,100)
+    elseif num = 4
+        KBD(VK_RIGHT,1,500)
+        while true
+            if chkimg(lib.picPathHelper("yellowPoint"),0,103,139,125,160) then break;
+        wend
+        KBD(VK_RIGHT,2,100)
 
-	    KBD(VK_UP,1,100)
-		KBD(key.TELEPORT_KEY,0,150);
-	    KBD(key.TELEPORT_KEY,0,150);
-		KBD(VK_UP,2,100)
+        KBD(VK_UP,1,100)
+        KBD(key.TELEPORT_KEY,0,150);
+        KBD(key.TELEPORT_KEY,0,150);
+        KBD(VK_UP,2,100)
 
-	elseif num = 5
-    	KBD(VK_RIGHT,1,500)
-	    while true
-	        if chkimg(lib.picPathHelper("yellowPoint"),0,180,140,192,160) then break;
-	        KBD(key.TELEPORT_KEY,0,100)
-	    wend
-	    KBD(VK_RIGHT,2,500)
-	    KBD(VK_UP,1,100)
-		KBD(key.TELEPORT_KEY,0,250);
-	   	KBD(key.TELEPORT_KEY,0,250);
-		KBD(VK_UP,2,100)
+    elseif num = 5
+        KBD(VK_RIGHT,1,500)
+        while true
+            if chkimg(lib.picPathHelper("yellowPoint"),0,180,140,192,160) then break;
+            KBD(key.TELEPORT_KEY,0,100)
+        wend
+        KBD(VK_RIGHT,2,500)
+        KBD(VK_UP,1,100)
+        KBD(key.TELEPORT_KEY,0,250);
+        KBD(key.TELEPORT_KEY,0,250);
+        KBD(VK_UP,2,100)
 
     endif
     lib.OpenRuneXY(x,y,false);

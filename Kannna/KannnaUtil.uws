@@ -27,7 +27,50 @@ class util
         endif
 
         ifb chkimg("../picture/雪女.bmp",0,0,0,1366,768)
-            KBD(VK_9,0,800);
+            KBD(VK_F5,0,800);
+            sleep(1);
+        endif
+
+        ifb chkimg("../picture/白狐.bmp",0,0,0,1366,800)
+            KBD(VK_CTRL,0,500);
+            exit;
+            sleep(2);
+        elseif chkimg("../picture/WhiteFox.bmp",0,0,0,1366,800)
+            KBD(VK_CTRL,0,500);
+            exit;
+            sleep(2);
+        endif
+
+        ifb chkimg("../picture/LingStone.bmp",0,0,0,1366,768)
+            KBD(VK_HOME,0,800);
+            sleep(1);
+        endif
+
+        ifb chkimg("../picture/OneDevil.bmp",0,0,0,1366,800)
+            KBD(VK_F10,0,500);
+            sleep(1);
+            exit;
+        endif
+
+
+        ifb chkimg("../picture/妖怪巻.bmp",0,0,0,1366,768)
+            KBD(VK_SHIFT,0,500);
+            sleep(1);
+            exit;
+        endif
+
+        result = 0;
+    fend
+
+    function KannnaSkillCheck_NotUseRecv()
+
+        ifb chkimg("../picture/BlessingsOfPrincess.bmp",0,0,0,1366,800)
+            KBD(VK_N,0,800);
+            sleep(1);
+        endif
+
+        ifb chkimg("../picture/雪女.bmp",0,0,0,1366,768)
+            KBD(VK_F5,0,800);
             sleep(1);
         endif
 
@@ -76,8 +119,11 @@ class util
         KBD(key.TELEPORT_KEY,0,150);
         KBD(key.CONTINUOUS_KEY,1,500);
         KBD(key.CONTINUOUS_KEY,2,1200);
-        SLEEP(0.2);
+        SLEEP(1);
+        KBD(VK_DELETE,0,500);
+        
     next
+    sleep(0.2);
     util.KannnaSkillCheck();
     skill.pSkill();
     result = 0;

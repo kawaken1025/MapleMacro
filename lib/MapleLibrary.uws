@@ -425,6 +425,13 @@ procedure parallelProgramExitMode()
             killMapleStory();
             alartSound();
         endif
+        
+        ifb chkimg("../picture/redpoint2.bmp",0,0,0,800,600)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+            killMapleStory();
+            alartSound();
+            print "2"  
+        endif 
 
         ifb  chkimg("../picture/緑点.bmp",0,0,0,1368,800)
             logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
