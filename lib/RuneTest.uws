@@ -35,17 +35,12 @@ try
     sleep(1)
     CHKIMGX("../picture/arrow/ArrowDirectionKey.png",0,0,0,700,300,-1,threshold,-1)
     print " X = " + G_IMGX_X + " Y = " + G_IMGX_Y;
-    ifb G_IMGX_X < 0 and G_IMGX_Y < 0
-        x1 = 300
-        x2 = 900
-        y1 = 150
-        y2 = 350
-    else
-        x1 = G_IMGX_X - 100
-        x2 = x1 + 350
-        y1 = G_IMGX_Y + 30
-        y2 = y1 + 90
-    endif
+    x1 = G_IMGX_X - 100
+    x2 = x1 + 350
+    y1 = G_IMGX_Y + 30
+    y2 = y1 + 90
+    GETTIME() 
+    start = G_TIME_NN2 + "分" + G_TIME_SS2 + "秒" + G_TIME_ZZ2 + "ミリ秒"
 
     list = CreateOleObj("System.Collections.ArrayList")
 
@@ -150,6 +145,12 @@ try
         KBD(arrowList.item(i),0,70)
     next
     logger.logWriter(LogLevel.LOG_INFO,"ルーンへコマンドを入力しました。");
+    GETTIME() 
+    end = G_TIME_NN2 + "分" + G_TIME_SS2 + "秒" + G_TIME_ZZ2 + "ミリ秒"
+    startp= "開始："+start
+    endp="終了："+end
+    logger.logWriter(LogLevel.LOG_INFO,startp);
+    logger.logWriter(LogLevel.LOG_INFO,endp);
 
 finally
   shutdown_chkimgx()

@@ -1,2 +1,1 @@
-﻿CALL MapleLibrary.uws
-lib.parallelProgram;
+﻿CALL RuneTest.uws;

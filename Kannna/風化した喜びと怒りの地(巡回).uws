@@ -1,5 +1,5 @@
 //=========================================//
-// Map Name    : 風化した喜びと怒りの地
+// Map Name    : 風化した喜びと怒りの地(巡回モード)
 //=========================================//
 
 //=========================================//
@@ -11,7 +11,7 @@
 //=========================================//
 // Copy Right (C) 2019 All Right Reserved. 
 //   @author k.kawabata @kawaken1025
-//     Create Date : 2019/02/19
+//     Create Date : 2019/03/06
 //=========================================//
 
 CALL ../MapleAPI/MapleAPI.uws;
@@ -49,20 +49,28 @@ wend
 
 function moveAttack(x,y)
 
-    ifb 0 < x and x < 95 and 106 < y and y < 119
+    // 左中段
+    ifb      0 < x and x <  95 and 106 < y and y < 119
         rightAttack();
-    elseif 92 < x and x < 140 and 120 < y and y < 134
+    // 真ん中
+    elseif  92 < x and x < 140 and 120 < y and y < 134
         upAttack();
-    elseif 75 < x and x < 167 and 89 < y and y < 104
+    // 最上段
+    elseif  75 < x and x < 167 and  89 < y and y < 104
         rightAttack();
+    // ポータル上段
     elseif 148 < x and x < 196 and 109 < y and y < 123
         downAttack();
+    // ポータル下段
     elseif 141 < x and x < 196 and 130 < y and y < 142
         downAttack();
-    elseif 50 < x and x < 193 and 140 < y and y < 158
+    // 最下段
+    elseif  50 < x and x < 193 and 140 < y and y < 158
         leftAttack();
-    elseif 0 < x and x < 62 and 140 < y and y < 158
+    // 最下段左
+    elseif   0 < x and x <  62 and 140 < y and y < 158
         upAttack();
+    // それ以外はひとまず左へいく
     else 
         leftAttack();
     endif
