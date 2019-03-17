@@ -1,6 +1,6 @@
-THREAD ï¿óÒèàóù()
+//THREAD ï¿óÒèàóù()
 
-MOUSEORG(GETID("MapleStory","MapleStoryClass"),2)
+//MOUSEORG(GETID("MapleStory","MapleStoryClass"),2)
 id = GETID("MapleStory","MapleStoryClass")
 
 PET = 0
@@ -8,45 +8,14 @@ PET = 0
 SLEEP(2)
 
 While true
-	//KBD(VK_G,0,1000)
-	//SLEEP(2)
-	//KBD(VK_U,0,1000)
-	//KBD(VK_H,0,1000)
+	SCKEY(id,VK_5)
+	SLEEP(2)
 	SCKEY(id,VK_G)
 	SLEEP(2)
-	SCKEY(id,VK_U)
-	SLEEP(1)
 	SCKEY(id,VK_H)
-	SLEEP(1)
-
-	FOR IDOU = 1 TO 15
-		for X = 1 to 20 
-			SCKEY(id,VK_X)
-			SLEEP(0.1)
-		next
-		SCKEY(id,VK_SPACE)
-		SLEEP(0.5)
-		//IF CHKIMG("../picture/óŒì_.BMP",0,0,0,800,600) THEN EXITEXIT
-		SCKEY(id,VK_DELETE)
-		//IF CHKIMG("../picture/PHS.bmp",0,585,515,800,600) THEN KBD(VK_5,0,1000)
-		recovery(id)
-
-		ifb chkimg("../picture/ê‘ì_.BMP",0,0,0,800,600)
-			for beeps = 1 to 20
-				SOUND(" ")
-				sleep(0.2)
-			next
-			SLEEP(10)
-		endif
-
-	NEXT
-	
-	PET = PET + 1
-	
-	IFB PET > 2
-		SCKEY(id,VK_T)
-		PET = 0
-	ENDIF
+	SLEEP(80)
+	actID = GETID(GET_ACTIVE_WIN)
+	ACW(actID,STATUS(actID,ST_X),STATUS(actID,ST_Y))
 wend
 
 PROCEDURE ï¿óÒèàóù()

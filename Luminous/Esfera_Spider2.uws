@@ -1,10 +1,15 @@
 //=========================================//
-// Map Name    : Esfera / 銀色に染まった海2
+// Map Name    : アルカナ ケーヴロードの通路(上)   //
 //=========================================//
-// Mob Name    : アラーニア
-// Mob Level   : 244
-// Mob HP      : 431,142,000
-// Mob Exp     : 509,964
+// Mob Name    : 悲嘆の精霊
+// Mob Level   : 239
+// Mob HP      : 312,451,200
+// Mob Exp     : 462,670
+//=========================================//
+// Mob Name    : 不調和の精霊
+// Mob Level   : 240
+// Mob HP      : 318,873,600
+// Mob Exp     : 470,824
 //=========================================//
 // comment     : None
 // param       : None
@@ -14,7 +19,7 @@
 //=========================================//
 // Copy Right (C) 2018 All Right Reserved. 
 //   @author k.kawabata @kawaken1025
-//     Create Date : 2019/02/13
+//     Create Date : 2018/04/01
 //=========================================//
 
 //=========================================
@@ -41,8 +46,8 @@ while true;
     lib.checkFamiliarPower();
     lib.useMaprage();
     while true;
-        oneWayAttack(VK_LEFT,30,100,65,115);
-        oneWayAttack(VK_RIGHT,140,100,190,115);
+        oneWayAttack(VK_LEFT,50,265,150,288);
+        oneWayAttack(VK_RIGHT,213,265,313,288);
         // ルーンが出現しているか確認します。
         // 出現していた場合は解除します
         ret = checkRuneStage();
@@ -67,7 +72,7 @@ function oneWayAttack(moveKey,x1,y1,x2,y2)
     KBD(moveKey,1,100);
     while true
         lib.urgentCheck();
-        ifb chkimg(lib.picPathHelper("yellowPoint"),0,82,98,140,123);
+        ifb chkimg(lib.picPathHelper("yellowPoint"),0,142,245,226,266);
             skill.luminous_skillCheck();
             ifb isEqulibrium
                 KBD(key.MEMORIZE_KEY,0,500);
@@ -78,8 +83,12 @@ function oneWayAttack(moveKey,x1,y1,x2,y2)
         useSkill.reflection(key.REFLECTION_KEY);
         useSkill.teleport(key.TELEPORT_KEY);
 
-        if chkimg(lib.picPathHelper("yellowPoint"),0,x1,y1,x2,y2)     then break;
-        if chkimg(lib.picPathHelper("yellowPoint"),0,163,123,180,143) then KBD(key.ROPE_CONNECT_KEY,0,800);
+        ifb chkimg(lib.picPathHelper("yellowPoint"),0,x1,y1,x2,y2)
+            KBD(key.ROPE_CONNECT_KEY,0,800);
+            useSkill.reflection(key.REFLECTION_KEY);
+            break;
+        endif
+        //if chkimg(lib.picPathHelper("yellowPoint"),0,163,123,180,143) then KBD(key.ROPE_CONNECT_KEY,0,800);
         lib.checkStartingMapleStory();
         lib.checkGameMaster();
     wend

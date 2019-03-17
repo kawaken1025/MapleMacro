@@ -39,9 +39,88 @@ while true
         checkYellowPoint2();
         if gettime() > skillTime then break;
         util.upTeleport();
+        // ルーンが出現しているか確認します。
+        // 出現していた場合は解除します
+        ret = checkRuneStage();
+        ifb ret <> 0
+            lib.OpenRune();
+        endif
     wend
     collect();
 wend
+
+//=========================================
+// param   : None 
+// comment : ルーンが出現しているか確認
+//=========================================
+function checkRuneStage()
+    ret = 0;
+    // 上段にあるか
+    ifb chkimg(lib.picPathHelper("runePoint"),0,118,92,160,105)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを上段で発見しました。");
+        moveStage(1);
+        ret = 1;
+    elseif chkimg(lib.picPathHelper("runePoint"),0,74,107,137,118)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを中段で発見しました。");
+        moveStage(2);
+        ret = 1;
+    elseif chkimg(lib.picPathHelper("runePoint"),0,21,95,64,107)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを右建物で発見しました。");
+        moveStage(3);
+        ret = 1;
+    elseif chkimg(lib.picPathHelper("runePoint"),0,21,120,155,130)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを最下段で発見しました。");
+        moveStage(4);
+        ret = 1;
+    elseif chkimg(lib.picPathHelper("runePoint"),0,57,109,72,116)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを最下段で発見しました。");
+        moveStage(5);
+        ret = 1;
+    endif
+    
+    result = ret;
+fend
+
+//=========================================
+// param   : 1 or 2
+// comment : ルーンが出現している段へ移動
+//=========================================
+function moveStage(num)
+    // 中段だったらそのまま
+    ifb num = 2
+        exit;
+    endif
+
+    // いったん一番→へいく
+    KBD(VK_RIGHT,1,500)
+    while true
+        if chkimg(lib.picPathHelper("yellowPoint"),0,141,114,156,130) then break;
+        KBD(key.TELEPORT_KEY,0,100)
+    wend
+    KBD(VK_RIGHT,2,500)
+    
+    // 最下段にルーンがある場合は右へ行って終了
+    ifb num = 4
+        exit;
+    // 中段へ
+    // 上段にある場合は上へいくためローププコネクト
+    elseif num = 1
+        KBD(VK_B,0,1000)
+        exit;
+    elseif num = 5
+        KBD(VK_LEFT,1,500)
+        while true
+            if chkimg(lib.picPathHelper("yellowPoint"),0,22,116,65,130) then break;
+            KBD(key.TELEPORT_KEY,0,100)
+        wend
+        KBD(VK_LEFT,2,500);
+        KBD(VK_B,0,1000);
+        SLEEP(2);
+        exit;
+    endif
+
+    result = 0;
+fend
 
 function checkYellowPoint2()
 
@@ -112,7 +191,7 @@ function collect()
     next
 
     KBD(VK_LEFT,1,500)
-    KBD(VK_LEFT,2,2000)
+    KBD(VK_LEFT,2,3000)
 
     KBD(VK_RIGHT,1,100)
     while true

@@ -27,8 +27,10 @@ CALL ../Util/MapleUtil.uws;
 thread lib.parallelProgramExitMode();
 // MessageWindow init
 CALL KannnaUtil.uws;
+CALL ../Util/MapleUtil.uws;
 
 while true;
+    mutil.useBlackUnionEventItem();
     //Acquisition of Time : Get the time after 3 minutes
     reUseSkillTime = GETTIME( 150 / 86400 );
     useSkill();
@@ -55,9 +57,13 @@ function oneWayAttack(moveKey,x1,y1,x2,y2)
     KBD(moveKey,1,1000);
     while true
         if chkimg(lib.picPathHelper("yellowPoint"),0,x1,y1,x2,y2)     then break;
-        //lib.checkStartingMapleStory();
+        ifb chkimg(lib.picPathHelper("SandHag"),0,800,700,1366,800)
+            KBD(VK_F,2,500)
+            KBD(VK_DELETE,0,1000)
+            KBD(VK_F,1,1000)
+        endif
     wend
-    lib.checkGameMaster();
+    //lib.checkGameMaster();
     KBD(moveKey,2,200);
     KBD(VK_F,2,500);
 
@@ -89,9 +95,9 @@ function checkRuneStage()
     ifb chkimg(lib.picPathHelper("runePoint"),0,0,0,200,150)
         ret = 1;
         logger.logWriter(LogLevel.LOG_INFO,Messages.DETECTION_RUNE);
-    elseif chkimg(lib.picPathHelper("runePoint"),0,0,127,180,145)
-        ret = 1;
-        logger.logWriter(LogLevel.LOG_INFO,Messages.DETECTION_RUNE);
+    //elseif chkimg(lib.picPathHelper("runePoint"),0,0,127,180,145)
+    //    ret = 1;
+    //    logger.logWriter(LogLevel.LOG_INFO,Messages.DETECTION_RUNE);
     endif
     result = ret;
 fend

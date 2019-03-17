@@ -64,6 +64,9 @@ function moveAttack(x,y)
     // ポータル下段
     elseif 141 < x and x < 196 and 130 < y and y < 142
         downAttack();
+        for i = 1 to 10
+            KBD(VK_X,0,200)
+        next
     // 最下段
     elseif  50 < x and x < 193 and 140 < y and y < 158
         leftAttack();

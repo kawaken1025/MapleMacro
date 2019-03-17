@@ -1,0 +1,126 @@
+﻿//=========================================//
+// Map Name    : ルーン解除スクリプト      //
+//=========================================//
+// Mob Name    : 
+// Mob Level   : 
+// Mob HP      : 
+// Mob Exp     : 
+//=========================================//
+// Mob Name    : 
+// Mob Level   : 
+// Mob HP      : 
+// Mob Exp     : 
+//=========================================//
+// comment     : None
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 1366x768 only
+//=========================================//
+// Copy Right (C) 2019 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2019/01/06
+//=========================================//
+
+OPTION OPTFINALLY
+CALL MapleLibrary.uws;
+CALL ChkImgX.uws;
+startup_chkimgx();
+
+try
+    // ルーン起動
+    KBD(VK_Y,0,500);
+    // 画像判定閾値
+    public threshold = 15;
+    public x1 = 0;
+    public x2 = 0;
+    public y1 = 0;
+    public y2 = 0;
+    sleep(1);
+    CHKIMGX("../picture/arrow/ArrowDirectionKey.png",0,0,0,700,300,-1,threshold,-1)
+    
+    print " X = " + G_IMGX_X + " Y = " + G_IMGX_Y;
+    ifb G_IMGX_X < 0 and G_IMGX_Y < 0
+        x1 = 300;
+        x2 = 900;
+        y1 = 150;
+        y2 = 350;
+    else
+        x1 = G_IMGX_X - 100;
+        x2 = x1 + 350;
+        y1 = G_IMGX_Y + 30;
+        y2 = y1 + 90;
+    endif
+
+    public list = CreateOleObj("System.Collections.ArrayList")
+    analyzeRune(VK_LEFT);
+    analyzeRune(VK_RIGHT);
+    analyzeRune(VK_UP);
+    analyzeRune(VK_DOWN);
+    
+    ifb list.count = 0 
+        print "矢印が1つも見つかりませんでした";
+        exit;
+    endif
+    print "検知した矢印の数:" + list.count/2
+    for i = 1 to list.count - 1 
+        print "見つかったx座標:" + list.item(i-1);
+        print "見つかった方向:" + list.item(i);
+    next
+
+    ifb list.count <> 8
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンのコマンド解析に失敗しました。");
+        exit;
+    endif
+
+    arrowList = CreateOleObj("System.Collections.ArrayList")
+
+    // ここからソート
+    // ヒットした座標の昇順でソートする
+    for i = 1 to 4
+        _min = 99999;
+        minidx = 0;
+        j = 0;
+
+        for check = 1 to list.count/2;
+            ifb _min > list.item(j)
+                minidx = j;
+                _min = list.item(j);
+            endif
+            j = j + 2;
+        next
+        arrowList.add(list.item(minidx + 1));
+        list.RemoveAt(minidx);
+        list.RemoveAt(minidx);
+    next
+
+    for i = 0 to arrowList.count-1
+        KBD(arrowList.item(i),0,70)
+    next
+    logger.logWriter(LogLevel.LOG_INFO,"ルーンへコマンドを入力しました。");
+
+finally
+  shutdown_chkimgx()
+endtry
+
+function analyzeRune(direction)
+
+	picName = "";
+	ifb    direction = VK_LEFT
+		picName = "l";
+	elseif direction = VK_RIGHT
+		picName = "r";
+	elseif direction = VK_UP
+		picName = "u";
+	elseif direction = VK_DOWN
+		picName = "d";
+    endif
+
+
+    arrowList = CHKIMGX("../picture/arrow/" + picName +".png",0,x1,y1,x2,y2,-1,threshold,-1)
+    for i = 0 to arrowList - 1
+        list.add(ALL_IMGX_X[i]);
+        list.add(direction);
+    next
+    result = 0;
+fend

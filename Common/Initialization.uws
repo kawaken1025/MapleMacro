@@ -28,5 +28,5 @@ ifb isBitGoddess = "ON"
 endif
 
 
-//mutil.useBlackUnionEventItem();
+mutil.useBlackUnionEventItem();
 

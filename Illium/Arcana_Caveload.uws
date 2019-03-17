@@ -26,10 +26,10 @@ CALL IlliumUtil.uws;
 //Move Window initSetting x = 1 , y = 1
 lib.activeWindow();
 //multiThread checkRedPoint and checkMineralization
-thread lib.parallelProgram();
+thread lib.parallelProgramWaitMode();
 
 while true
-    skillTime = gettime( 180 / 86400 );
+    skillTime = gettime( 120 / 86400 );
     skill.illiumSupportSkill();
     lib.checkFamiliarPower();
     while true
@@ -40,7 +40,7 @@ while true
         if gettime() > skillTime then break;
     wend
     logger.logWriter(LogLevel.LOG_INFO,Messages.START_COLLECT);
-    init();
+    collect();
 wend
 
 function checkYellowPoint()
@@ -91,6 +91,39 @@ function init()
         while true
             if chkimg(lib.picPathHelper("yellowPoint"),0,84,101,99,122) then break;
             if chkimg(lib.picPathHelper("yellowPoint"),0,50,121,75,135) then KBD(VK_B,0,500);
+        wend
+        KBD(VK_RIGHT,2,100);
+        result = 0;
+fend
+
+
+function collect()
+        KBD(VK_RIGHT,1,500);
+        while true
+            if chkimg(lib.picPathHelper("yellowPoint"),0,130,120,150,140) then break;
+            ifb chkimg(lib.picPathHelper("yellowPoint"),0,50,121,75,135) 
+                KBD(VK_RIGHT,2,100);
+                KBD(VK_B,0,500);
+            endif
+        wend
+        KBD(VK_RIGHT,2,100);
+        KBD(VK_B,0,500);
+        SLEEP(3.2);
+        KBD(VK_LEFT,1,300)
+        while true
+            if chkimg(lib.picPathHelper("yellowPoint"),0,45,120,60,140) then break;
+            if chkimg(lib.picPathHelper("yellowPoint"),0,0,0,33,160) then break;
+        wend
+        KBD(VK_LEFT,2,100);
+        KBD(VK_B,0,500);
+        SLEEP(3.2)
+        KBD(VK_RIGHT,1,300)
+        while true
+            if chkimg(lib.picPathHelper("yellowPoint"),0,84,101,99,122) then break;
+            ifb chkimg(lib.picPathHelper("yellowPoint"),0,50,121,75,135) 
+                KBD(VK_RIGHT,2,100);
+                KBD(VK_B,0,500);
+            endif
         wend
         KBD(VK_RIGHT,2,100);
         result = 0;

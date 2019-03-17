@@ -1,40 +1,49 @@
 ﻿THREAD 並列処理()
 
 //ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+id = activeWindow();
 
 SLEEP(2)
 
 While true
 
-FOR X = 1 TO 10
+	FOR X = 1 TO 10
 
-	KBD(VK_H,CLICK,1000)
-	SLEEP(70)
-	SLEEP(5)
-	KBD(VK_G,0,1000)
-	SLEEP(5)
-	
-NEXT
+		KBD(VK_H,CLICK,1000)
+		SLEEP(70)
+		SLEEP(5)
+		KBD(VK_G,0,1000)
+		SLEEP(5)
+		getStatus()
+	NEXT
 
-KBD(VK_LEFT,1,100)
-KBD(VK_LEFT,2,50)
-
-
-FOR X = 1 TO 10
-	KBD(VK_H,CLICK,1000)
-	SLEEP(70)
-	SLEEP(5)
-	KBD(VK_G,0,1000)
-	SLEEP(5)
-	
-NEXT
+	KBD(VK_LEFT,1,100)
+	KBD(VK_LEFT,2,50)
 
 
-KBD(VK_RIGHT,1,100)
-KBD(VK_RIGHT,2,50)
+	FOR X = 1 TO 10
+		KBD(VK_H,CLICK,1000)
+		SLEEP(70)
+		SLEEP(5)
+		KBD(VK_G,0,1000)
+		SLEEP(5)
+		getStatus();
+	NEXT
 
 
+	KBD(VK_RIGHT,1,100)
+	KBD(VK_RIGHT,2,50)
 WEND
+
+function getStatus(windowID)
+	ifb STATUS(windowID,ST_BUSY)
+	   print "isBusy"
+	   //cmd = "taskkill /F /IM MapleStory.exe";
+	   //DOSCMD(cmd,TRUE,FALSE);
+	elseif
+		print "active"
+	endif
+fend
 
 PROCEDURE 並列処理()
 WHILE TRUE
@@ -52,3 +61,23 @@ WEND
 
 FEND
 
+function activeWindow()
+
+    
+    mapleWindowID = GETID("MapleStory","MapleStoryClass");
+    x = STATUS(mapleWindowID,ST_CLWIDTH) + 50;
+    y = STATUS(mapleWindowID,ST_CLHEIGHT) + 50;
+    //ウィンドウが左上(1,1)にあるなら移動させない
+    ifb STATUS(mapleWindowID,ST_X) <> 1 AND STATUS(mapleWindowID,ST_Y) <> 1
+        ACW(mapleWindowID,1,1);
+        for i = 1 to 2
+            BTN(LEFT,CLICK,x,y,500); 
+            BTN(LEFT,CLICK,200,405,500);
+            BTN(LEFT,CLICK,200,405,200);
+        next
+    else
+        BTN(LEFT,CLICK,200,405,500);
+    endif
+    result = mapleWindowID;
+
+fend

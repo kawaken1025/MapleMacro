@@ -24,8 +24,8 @@
 
 OPTION OPTFINALLY
 CALL MapleLibrary.uws;
-CALL ChkImgX.uws;
-startup_chkimgx();
+CALL ChkImgX.uws
+startup_chkimgx()
 
 try
     // ルーン起動
@@ -47,10 +47,17 @@ try
         y2 = y1 + 90;
     endif
 
+    GETTIME() 
+    start = G_TIME_NN2 + "分" + G_TIME_SS2 + "秒" + G_TIME_ZZ2 + "ミリ秒"
+
     list = CreateOleObj("System.Collections.ArrayList")
 
     arrowCountL = CHKIMGX("../picture/arrow/l.png",0,x1,y1,x2,y2,-1,threshold,-1)
+    print "======================="
+    //num = "." + G_IMGX_NUM
+    if G_IMGX_NUM < 0 then num = ""
     arrowCountL = CHKIMGX("../picture/arrow/l.png",0,x1,y1,x2,y2,-1,threshold,-1)
+    print "左発見個数=" + arrowCountL
     for i = 0 to arrowCountL - 1
         j = 0
         DIM arrowArray_L[arrowCountL*2 - 1]
@@ -59,20 +66,33 @@ try
         list.add(ALL_IMGX_X[i])
         list.add(VK_LEFT)
         j = j + 2;
+        for x = 0 to length(arrowArray_L) -1
+            print arrowArray_L[x]
+        next
     next
 
+    print "======================="
+
     arrowCountR = CHKIMGX("../picture/arrow/r.png",0,x1,y1,x2,y2,-1,threshold,-1)
+    print "右発見個数" + arrowCountR
     for i = 0 to arrowCountR - 1
         j = 0
         DIM arrowArray_R[arrowCountR*2 - 1]
         arrowArray_R[j]   =   ALL_IMGX_X[i]
         arrowArray_R[j+1] = "RIGHT"
         j = j + 2;
-        list.add(ALL_IMGX_X[i])
-        list.add(VK_RIGHT)
+            list.add(ALL_IMGX_X[i])
+            list.add(VK_RIGHT)
+        for x = 0 to length(arrowArray_R) -1
+            print arrowArray_R[x]
+        next
     next
 
+    print "======================="
+
+
     arrowCountU = CHKIMGX("../picture/arrow/u.png",0,x1,y1,x2,y2,-1,threshold,-1)
+    print "上発見個数" + arrowCountU
     for i = 0 to arrowCountU - 1
         j = 0
         DIM arrowArray_U[arrowCountU*2 - 1]
@@ -81,9 +101,15 @@ try
         list.add(ALL_IMGX_X[i])
         list.add(VK_UP)
         j = j + 2;
+        for x = 0 to length(arrowArray_U) -1
+            print arrowArray_U[x]
+        next
     next
 
+    print "======================="
+
     arrowCountD = CHKIMGX("../picture/arrow/d.png",0,x1,y1,x2,y2,-1,threshold,-1)
+    print "下発見個数" + arrowCountD
     for i = 0 to arrowCountD - 1
         j = 0
         DIM arrowArray_D[arrowCountD*2 - 1]
@@ -92,17 +118,11 @@ try
         list.add(ALL_IMGX_X[i])
         list.add(VK_DOWN)
         j = j + 2;
+        for x = 0 to length(arrowArray_D) -1
+            print arrowArray_D[x]
+        next
     next
-    ifb list.count = 0 
-        print "矢印が1つも見つかりませんでした";
-        exit;
-    endif
-    print "検知した矢印の数:" + list.count
-    for i = 1 to list.count - 1 
-        print "見つかったx座標:" + list.item(i-1);
-        print "見つかった方向:" + list.item(i);
-    next
-
+    print list.count
     ifb list.count <> 8
         logger.logWriter(LogLevel.LOG_INFO,"ルーンのコマンド解析に失敗しました。");
         exit;
@@ -133,6 +153,12 @@ try
         KBD(arrowList.item(i),0,70)
     next
     logger.logWriter(LogLevel.LOG_INFO,"ルーンへコマンドを入力しました。");
+    GETTIME() 
+    end = G_TIME_NN2 + "分" + G_TIME_SS2 + "秒" + G_TIME_ZZ2 + "ミリ秒"
+    startp= "開始："+start
+    endp="終了："+end
+    logger.logWriter(LogLevel.LOG_INFO,startp);
+    logger.logWriter(LogLevel.LOG_INFO,endp);
 
 finally
   shutdown_chkimgx()

@@ -1,0 +1,55 @@
+﻿CALL ../MapleAPI/MapleAPI.uws;
+THREAD lib.parallelProgramWaitMode()
+
+SLEEP(2)
+
+While true
+
+	KBD(VK_T,0,500)
+	FOR X = 1 TO 10
+
+		KBD(VK_H,CLICK,1000)
+		SLEEP(5)
+		KBD(VK_G,0,1000)
+		SLEEP(5)
+		skill()
+		KBD(VK_LEFT,1,100)
+		KBD(VK_LEFT,2,200)
+	NEXT
+
+	KBD(VK_LEFT,1,100)
+	KBD(VK_LEFT,2,250)	
+
+
+	FOR X = 1 TO 70
+		KBD(VK_H,CLICK,1000)
+		SLEEP(5)
+		KBD(VK_G,0,1000)
+		SLEEP(5)
+		skill()
+		KBD(VK_LEFT,1,100)
+		KBD(VK_LEFT,2,200)
+	NEXT
+
+
+WEND
+
+PROCEDURE 並列処理()
+	WHILE TRUE
+		IFB CHKIMG("../picture/石化.BMP",0,0,0,800,600)
+			FOR X = 1 TO 20
+				KBD(VK_LEFT,0,100)
+				KBD(VK_RIGHT,0,100)
+			NEXT
+		ENDIF
+	WEND
+FEND
+
+function skill()
+
+	for i = 1 to 2
+		KBD(VK_5,0,1000)
+		KBD(VK_HOME,0,1000)
+	next
+	result = 0;
+fend
