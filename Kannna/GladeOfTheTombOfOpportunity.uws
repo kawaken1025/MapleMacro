@@ -30,7 +30,10 @@ CALL KannnaUtil.uws;
 CALL ../Util/MapleUtil.uws;
 
 while true;
+    lib.checkFamiliarPower();
+    SLEEP(1)
     mutil.useBlackUnionEventItem();
+
     //Acquisition of Time : Get the time after 3 minutes
     reUseSkillTime = GETTIME( 150 / 86400 );
     useSkill();
@@ -40,7 +43,7 @@ while true;
     //lib.useMaprage();
     while true;
         oneWayAttack(VK_LEFT,0,0,40,120);
-        oneWayAttack(VK_RIGHT,135,100,190,120);
+        oneWayAttack(VK_RIGHT,135,80,190,120);
         //3minutes elapsed?
         if GETTIME() > reUseSkillTime then break;
     wend

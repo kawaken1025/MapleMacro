@@ -14,7 +14,7 @@ While true
 		SLEEP(5)
 		skill()
 		KBD(VK_LEFT,1,100)
-		KBD(VK_LEFT,2,200)
+		KBD(VK_LEFT,2,350)
 	NEXT
 
 	KBD(VK_LEFT,1,100)
@@ -28,7 +28,7 @@ While true
 		SLEEP(5)
 		skill()
 		KBD(VK_LEFT,1,100)
-		KBD(VK_LEFT,2,200)
+		KBD(VK_LEFT,2,350)
 	NEXT
 
 

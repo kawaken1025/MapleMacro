@@ -25,6 +25,7 @@ while true;
     util.useSkill();
     SLEEP(0.5);
     KBD(VK_T,0,2000)
+    lib.checkFamiliarPower();
 
     while true;
         for i = 1 to 2

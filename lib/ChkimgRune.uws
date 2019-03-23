@@ -32,99 +32,79 @@ try
     KBD(VK_Y,0,500);
     // 画像判定閾値
     threshold = 15
+    MaxAnalyzeCount = 3 // 失敗時のリトライ回数
     sleep(1)
-    CHKIMGX("../picture/arrow/ArrowDirectionKey.png",0,0,0,700,300,-1,threshold,-1)
-    print " X = " + G_IMGX_X + " Y = " + G_IMGX_Y;
-    ifb G_IMGX_X < 0 and G_IMGX_Y < 0
-        x1 = 300;
-        x2 = 900;
-        y1 = 150;
-        y2 = 350;
-    else
-        x1 = G_IMGX_X - 100;
-        x2 = x1 + 350;
-        y1 = G_IMGX_Y + 30;
-        y2 = y1 + 90;
-    endif
+    isRange = false;
 
     GETTIME() 
     start = G_TIME_NN2 + "分" + G_TIME_SS2 + "秒" + G_TIME_ZZ2 + "ミリ秒"
 
-    list = CreateOleObj("System.Collections.ArrayList")
+    for i = 1 to MaxAnalyzeCount
+        ifb !isRange
+            // 範囲チェック5回まで実施
+            for ii = 1 to 5
+                ifb CHKIMGX("../picture/arrow/ArrowDirectionKey.png",0,0,0,700,300,-1,threshold,-1)
+                    break;
+                endif
+            next
+            print " X = " + G_IMGX_X + " Y = " + G_IMGX_Y;
+            ifb G_IMGX_X < 0 and G_IMGX_Y < 0
+                x1 = 300;
+                x2 = 900;
+                y1 = 150;
+                y2 = 350;
+            else
+                x1 = G_IMGX_X - 100;
+                x2 = x1 + 350;
+                y1 = G_IMGX_Y + 30;
+                y2 = y1 + 90;
+                isRange = true;
+            endif
+        endif
 
-    arrowCountL = CHKIMGX("../picture/arrow/l.png",0,x1,y1,x2,y2,-1,threshold,-1)
-    print "======================="
-    //num = "." + G_IMGX_NUM
-    if G_IMGX_NUM < 0 then num = ""
-    arrowCountL = CHKIMGX("../picture/arrow/l.png",0,x1,y1,x2,y2,-1,threshold,-1)
-    print "左発見個数=" + arrowCountL
-    for i = 0 to arrowCountL - 1
-        j = 0
-        DIM arrowArray_L[arrowCountL*2 - 1]
-        arrowArray_L[j]   =   ALL_IMGX_X[i]
-        arrowArray_L[j+1] = "LEFT"
-        list.add(ALL_IMGX_X[i])
-        list.add(VK_LEFT)
-        j = j + 2;
-        for x = 0 to length(arrowArray_L) -1
-            print arrowArray_L[x]
+        list = CreateOleObj("System.Collections.ArrayList")
+
+        arrowCountL = CHKIMGX("../picture/arrow/l.png",0,x1,y1,x2,y2,-1,threshold,-1)
+        print "左発見個数:" + arrowCountL
+        for i = 0 to arrowCountL - 1
+            list.add(ALL_IMGX_X[i])
+            list.add(VK_LEFT)
         next
-    next
 
-    print "======================="
-
-    arrowCountR = CHKIMGX("../picture/arrow/r.png",0,x1,y1,x2,y2,-1,threshold,-1)
-    print "右発見個数" + arrowCountR
-    for i = 0 to arrowCountR - 1
-        j = 0
-        DIM arrowArray_R[arrowCountR*2 - 1]
-        arrowArray_R[j]   =   ALL_IMGX_X[i]
-        arrowArray_R[j+1] = "RIGHT"
-        j = j + 2;
+        arrowCountR = CHKIMGX("../picture/arrow/r.png",0,x1,y1,x2,y2,-1,threshold,-1)
+        print "右発見個数:" + arrowCountR
+        for i = 0 to arrowCountR - 1
             list.add(ALL_IMGX_X[i])
             list.add(VK_RIGHT)
-        for x = 0 to length(arrowArray_R) -1
-            print arrowArray_R[x]
         next
+
+        arrowCountU = CHKIMGX("../picture/arrow/u.png",0,x1,y1,x2,y2,-1,threshold,-1)
+        print "上発見個数:" + arrowCountU
+        for i = 0 to arrowCountU - 1
+            list.add(ALL_IMGX_X[i])
+            list.add(VK_UP)
+        next
+
+        arrowCountD = CHKIMGX("../picture/arrow/d.png",0,x1,y1,x2,y2,-1,threshold,-1)
+        print "下発見個数:" + arrowCountD
+        for i = 0 to arrowCountD - 1
+            list.add(ALL_IMGX_X[i])
+            list.add(VK_DOWN)
+        next
+
+        print "合計検出数:" + list.count
+        ifb list.count <> 8
+            list.clear();
+            logger.logWriter(LogLevel.LOG_INFO,"ルーンのコマンド解析に失敗しました。");
+            logger.logWriter(LogLevel.LOG_INFO,"ルーンの再解析を行います");
+        elseif list.count = 8
+            break;
+        endif
+
     next
 
-    print "======================="
-
-
-    arrowCountU = CHKIMGX("../picture/arrow/u.png",0,x1,y1,x2,y2,-1,threshold,-1)
-    print "上発見個数" + arrowCountU
-    for i = 0 to arrowCountU - 1
-        j = 0
-        DIM arrowArray_U[arrowCountU*2 - 1]
-        arrowArray_U[j]   =   ALL_IMGX_X[i]
-        arrowArray_U[j+1] = "UP"
-        list.add(ALL_IMGX_X[i])
-        list.add(VK_UP)
-        j = j + 2;
-        for x = 0 to length(arrowArray_U) -1
-            print arrowArray_U[x]
-        next
-    next
-
-    print "======================="
-
-    arrowCountD = CHKIMGX("../picture/arrow/d.png",0,x1,y1,x2,y2,-1,threshold,-1)
-    print "下発見個数" + arrowCountD
-    for i = 0 to arrowCountD - 1
-        j = 0
-        DIM arrowArray_D[arrowCountD*2 - 1]
-        arrowArray_D[j]   =   ALL_IMGX_X[i]
-        arrowArray_D[j+1] = "DOWN"
-        list.add(ALL_IMGX_X[i])
-        list.add(VK_DOWN)
-        j = j + 2;
-        for x = 0 to length(arrowArray_D) -1
-            print arrowArray_D[x]
-        next
-    next
-    print list.count
     ifb list.count <> 8
-        logger.logWriter(LogLevel.LOG_INFO,"ルーンのコマンド解析に失敗しました。");
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンの解析回数が最大リトライ回数"　+ MaxAnalyzeCount + "回に達しました");
         exit;
     endif
 
@@ -153,12 +133,14 @@ try
         KBD(arrowList.item(i),0,70)
     next
     logger.logWriter(LogLevel.LOG_INFO,"ルーンへコマンドを入力しました。");
-    GETTIME() 
-    end = G_TIME_NN2 + "分" + G_TIME_SS2 + "秒" + G_TIME_ZZ2 + "ミリ秒"
-    startp= "開始："+start
-    endp="終了："+end
-    logger.logWriter(LogLevel.LOG_INFO,startp);
-    logger.logWriter(LogLevel.LOG_INFO,endp);
+    
+    // 解析所要時刻の出力
+    GETTIME();
+    end    = G_TIME_NN2 + "分" + G_TIME_SS2 + "秒" + G_TIME_ZZ2 + "ミリ秒";
+    startp = "ルーン解析開始時間：" + start;
+    endp   = "ルーン解析終了時間：" + end;
+    logger.logWriter(LogLevel.LOG_INFO, startp);
+    logger.logWriter(LogLevel.LOG_INFO, endp);
 
 finally
   shutdown_chkimgx()

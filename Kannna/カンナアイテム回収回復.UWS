@@ -1,4 +1,6 @@
 CALL ../lib/MapleLibrary.uws;
+CALL KannnaUtil.uws;
+
 thread lib.parallelProgram();
 
 //ACW(GETID("MapleStory","MapleStoryClass"),1,1)
@@ -15,8 +17,9 @@ While true
 	KBD(VK_5,0,1000)
 
 	FOR IDOU = 1 TO 15
-		for X = 1 to 20 
-			KBD(VK_X,0,100)
+		
+		for i = 1 to 10
+			KBD(VK_X,0,150)
 		next
 		KBD(VK_H,0,1000)
 		KBD(VK_SPACE,0,800)
@@ -25,9 +28,8 @@ While true
 		SLEEP(0.5)
 		IF CHKIMG("../picture/óŒì_.BMP",0,0,0,800,600) THEN EXITEXIT
 		KBD(VK_DELETE,0,100)
-		KBD(VK_R,0,1000)
-		IF CHKIMG("../picture/PHS.bmp",0,585,515,800,600) THEN KBD(VK_5,0,1000)
-		recovery()
+		KBD(VK_5,0,1300)
+		recovery();
 
 		ifb chkimg("../picture/ê‘ì_.BMP",0,0,0,800,600)
 			for beeps = 1 to 20
@@ -67,13 +69,10 @@ FEND
 
 PROCEDURE recovery()
 
-		IFB CHKIMG("../picture/ê·èó.bmp",0,585,515,800,600)
-			KBD(VK_U,0,500)
-			KBD(VK_9,0,800)
-			EXIT
-		ENDIF
-
 		KBD(VK_HOME,0,500)
-		KBD(VK_R,0,500)
+		KBD(VK_5,0,500)
+		KBD(VK_F5,0,500)
+		KBD(VK_L,0,500)
+
 
 FEND

@@ -46,7 +46,7 @@ while true
             lib.OpenRune();
         endif
     wend
-    collect();
+    //collect();
 wend
 
 //=========================================

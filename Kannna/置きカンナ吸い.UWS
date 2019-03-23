@@ -50,6 +50,7 @@ function skill()
 	for i = 1 to 2
 		KBD(VK_5,0,1000)
 		KBD(VK_HOME,0,1000)
+		KBD(VK_V,0,1000)
 	next
 	result = 0;
 fend

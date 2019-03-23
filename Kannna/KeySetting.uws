@@ -19,12 +19,14 @@ CLASS key
 	const CONTINUOUS_KEY   = VK_F      // 邪破連撃符
 	const SAND_OVER_KEY    = VK_DELETE // 砂かけ婆
 	const SNOW_WOMEN       = VK_F5     // 雪女召喚
-	const LING_STONE       = VK_HOME   // 霊石
+	const LING_STONE       = VK_HOME   // 霊石召喚
+	const SENGOKU_ALLIANCE = VK_L      // 戦国同盟
+	const BLESSING         = VK_N      // 姫の加護
 
 	//SupportSkillKey
-	const SKILL_MACRO1_KEY    = VK_G
-	const ROPE_CONNECT_KEY    = VK_B
-	const TELEPORT_KEY        = VK_SPACE
+	const SKILL_MACRO1_KEY    = VK_G     // 補助スキルマクロ
+	const ROPE_CONNECT_KEY    = VK_B     // ロープコネクト
+	const TELEPORT_KEY        = VK_SPACE // テレポート
 
 	//SupportKey
 	const FAM_BOOK_KEY        = VK_F6

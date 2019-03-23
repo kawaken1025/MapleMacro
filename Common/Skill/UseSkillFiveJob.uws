@@ -33,11 +33,11 @@ fend
 // Common : パサーブルスキル
 //===========================
 function pSkill()
-    if chkimg(lib.picPathHelper("PHS"),0,0,0,1368,800) then KBD(pSkillKey.P_HOLY_SYMBOL,0,1000);
-    if chkimg(lib.picPathHelper("PCO"),0,0,0,1368,800) then KBD(pSkillKey.P_COMBAT_ORDER_KEY,0,1000);
-    if chkimg(lib.picPathHelper("PSE"),0,0,0,1368,800) then KBD(pSkillKey.P_SHARP_EYES_KEY,0,500);
-    if chkimg(lib.picPathHelper("PWB"),0,0,0,1368,800) then KBD(pSkillKey.P_WIND_BOOSTER,0,500);
-    if chkimg(lib.picPathHelper("PHB"),0,0,0,1368,800) then KBD(pSkillKey.P_HYPER_BODY_KEY,0,500);
+    if chkimg("../picture/PHS.bmp",0,0,0,1368,800) then KBD(pSkillKey.P_HOLY_SYMBOL,0,1000);
+    if chkimg("../picture/PCO.bmp",0,0,0,1368,800) then KBD(pSkillKey.P_COMBAT_ORDER_KEY,0,1000);
+    if chkimg("../picture/PSE.bmp",0,0,0,1368,800) then KBD(pSkillKey.P_SHARP_EYES_KEY,0,500);
+    if chkimg("../picture/PWB.bmp",0,0,0,1368,800) then KBD(pSkillKey.P_WIND_BOOSTER,0,500);
+    if chkimg("../picture/PHB.bmp",0,0,0,1368,800) then KBD(pSkillKey.P_HYPER_BODY_KEY,0,500);
     result = 0;
 fend
 //============================

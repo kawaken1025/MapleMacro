@@ -19,7 +19,10 @@ elseif size = "1366x768"
 endif
 
 while true
-	BTN(RIGHT,CLICK,x,y,50);
-	BTN(RIGHT,CLICK,x,y,50);
+    for i = 1 to 50
+	    BTN(RIGHT,CLICK,x,y,50);
+	    BTN(RIGHT,CLICK,x,y,50);
+    next
+    if chkimg("../picture/equipmentEmpty.bmp",0,0,0,1024,768) then exitexit;
 	if GetKeyState(VK_ESC) then break;
 wend

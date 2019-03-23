@@ -1,0 +1,225 @@
+//=========================================//
+// Map Name    : レヘルン　本性が現れる場所2
+//=========================================//
+
+//=========================================//
+// comment     : カンナは下で狩る
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 800x600 or 1366x768
+//=========================================//
+// Copy Right (C) 2019 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2019/02/09
+//=========================================//
+
+//=========================================
+// init
+//=========================================
+// MapleAPI : LogWriter.uws , MapleLibrary.uws , UseSkillFiveJob.uws
+CALL ../MapleAPI/MapleAPI.uws;
+// import Luminous skillKeySetting
+CALL KeySetting.uws;
+// Util - sugarTime exec
+CALL ../Util/MapleUtil.uws;
+// multiThread checkRedPoint and checkMineralization
+thread lib.parallelProgramExitMode();
+// MessageWindow init
+CALL KannnaUtil.uws;
+CALL ../Util/MapleUtil.uws;
+
+while true;
+    mutil.useBlackUnionEventItem();
+    //Acquisition of Time : Get the time after 3 minutes
+    reUseSkillTime = GETTIME( 150 / 86400 );
+    useSkill();
+    KBD(VK_T,0,500);
+    lib.checkFamiliarPower();
+    lib.useMaprage();
+    while true;
+        oneWayAttack(VK_LEFT,0,0,32,135);
+        KBD(VK_B,0,700);
+        SLEEP(1.5)
+        oneWayAttack(VK_RIGHT,140,117,156,135);
+        KannnaSkillCheck();
+        skill.pSkill();
+        SLEEP(1)
+        //3minutes elapsed?
+        if GETTIME() > reUseSkillTime then break;
+    wend
+wend
+//=========================================
+// param   : $1:移動方向キー
+//           $2:chkimg準拠
+// comment : 左右往復
+//=========================================
+function oneWayAttack(moveKey,x1,y1,x2,y2)
+
+    //execute moveHunting
+    KBD(VK_F,1,1000)
+    KBD(moveKey,1,300);
+    while true
+        if chkimg("../picture/黄点.bmp",0,x1,y1,x2,y2) then break;
+        // 砂かけ婆のCTがなくなっていたら発動する
+        //ifb chkimg("../picture/SandHag.bmp",0,800,700,1366,800)
+        //    KBD(VK_F,2,100)
+        //    for i = 1 to 5
+        //        KBD(VK_DELETE,0,70)
+        //    next
+        //    KBD(VK_F,1,200)
+        //endif
+    wend
+    //lib.checkGameMaster();
+    KBD(moveKey,2,200);
+    KBD(VK_F,2,500);
+
+    // ルーンが出現しているか確認します。
+    // 出現していた場合は解除します
+    ret = checkRuneStage()
+    ifb ret <> 0
+    	sleep(0.5);
+        lib.OpenRune();
+        sleep(1);
+    endif
+
+    
+    result = 0;
+fend
+
+//=========================================
+// param   : None 
+// comment : ルーンが出現しているか確認
+//=========================================
+function checkRuneStage()
+
+	ret = 0;
+    // 下段にあるか
+    ifb chkimg("../picture/runePoint.bmp",0,25,121,160,135)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを下段で発見しました");
+        ret = 1;
+    // 上段左にあるか
+    elseif chkimg("../picture/runePoint.bmp",0,20,90,110,107)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを上段左で発見しました");
+        moveStage(1,G_IMG_X,G_IMG_Y);
+        ret = 1;
+    // 上段右にあるか
+    elseif chkimg("../picture/runePoint.bmp",0,117,90,150,107)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを上段右で発見しました");
+        moveStage(2,G_IMG_X,G_IMG_Y);
+        ret = 1;
+    // 左建物上にあるか
+    elseif chkimg("../picture/runePoint.bmp",0,20,107,55,117)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを左建物で発見しました");
+        moveStage(3,G_IMG_X,G_IMG_Y);
+        ret = 1;
+    endif
+    result = ret;
+fend
+
+function moveStage(num,x,y)
+
+
+    ifb num = 1
+        // 一番左へいく
+        KBD(VK_LEFT,1,500)
+        while true
+            KBD(key.TELEPORT_KEY,0,250)
+            KBD(key.TELEPORT_KEY,0,250)
+            if chkimg("../picture/yellowPoint.bmp",0,0,0,35,135) then break;
+        wend
+        KBD(VK_LEFT,2,500)
+        KBD(VK_B,0,700)
+        SLEEP(2)
+    elseif num = 2
+        // 一番右へいく
+        KBD(VK_RIGHT,1,500)
+        while true
+            KBD(key.TELEPORT_KEY,0,250)
+            KBD(key.TELEPORT_KEY,0,250)
+            if chkimg("../picture/yellowPoint.bmp",0,145,120,160,135) then break;
+        wend
+        KBD(VK_RiGHT,2,500)
+        // 少し左へ
+        KBD(VK_LEFT,1,500)
+        while true
+            if chkimg("../picture/yellowPoint.bmp",0,123,120,140,135) then break;
+        wend
+        KBD(VK_LEFT,2,50)
+        KBD(VK_B,0,700)
+        SLEEP(2)
+    elseif num = 3
+        // 一番左へいく
+        KBD(VK_LEFT,1,500)
+        while true
+            KBD(key.TELEPORT_KEY,0,250)
+            KBD(key.TELEPORT_KEY,0,250)
+            if chkimg("../picture/yellowPoint.bmp",0,20,120,35,135) then break;
+        wend
+        KBD(VK_LEFT,2,500)
+        KBD(VK_B,0,700)
+        SLEEP(2)
+    endif
+    result = 0;
+fend
+
+function useSkill()
+
+	KBD(VK_G,0,1000);
+	KBD(VK_H,0,1000);
+    KBD(VK_H,0,200);
+	result = 0;
+
+fend
+
+    function KannnaSkillCheck()
+        x1 = 800;
+        y1 = 600;
+        x2 = 1366;
+        y2 = 800;
+
+        KBD(VK_U,0,y2);
+
+        ifb chkimg("../picture/SengokuAlliance.bmp",0,x1,y1,x2,y2)
+            KBD(VK_L,0,500);
+        endif
+
+        ifb chkimg("../picture/BlessingsOfPrincess.bmp",0,x1,y1,x2,y2)
+            KBD(VK_N,0,500);
+            //sleep(1);
+        endif
+
+        ifb chkimg("../picture/雪女.bmp",0,x1,y1,x2,y2)
+            KBD(VK_F5,0,500);
+        endif
+
+        ifb chkimg("../picture/LingStone.bmp",0,x1,y1,x2,y2)
+            KBD(VK_HOME,0,500);
+        endif
+
+        ifb chkimg("../picture/白狐.bmp",0,x1,y1,x2,y2)
+            KBD(VK_CTRL,0,100);
+            exit;
+            sleep(2);
+        elseif chkimg("../picture/WhiteFox.bmp",0,x1,y1,x2,y2)
+            KBD(VK_CTRL,0,100);
+            exit;
+            sleep(2);
+        endif
+
+        //ifb chkimg("../picture/OneDevil.bmp",0,x1,y1,x2,y2)
+        //    KBD(VK_F10,0,100);
+        //    sleep(1);
+        //    exit;
+        //endif
+
+        //ifb chkimg("../picture/妖怪巻.bmp",0,x1,y1,x2,y2)
+        //    KBD(VK_SHIFT,0,100);
+        //    sleep(1);
+        //    exit;
+        //endif
+
+
+
+        result = 0;
+    fend

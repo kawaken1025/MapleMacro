@@ -4,7 +4,7 @@
 // param       : None
 // return      : None
 // ========================================//
-// Display Dpl : 800x600 or 1366x768
+// Display Dpl : y2x600 or x2xy2
 //=========================================//
 // Copy Right (C) 2018 All Right Reserved. 
 //   @author k.kawabata @kawaken1025
@@ -17,89 +17,116 @@ CALL KeySetting.uws;
 
 class util
 
+
     function KannnaSkillCheck()
+        x1 = 800;
+        y1 = 600;
+        x2 = 1366;
+        y2 = 800;
 
-        KBD(VK_U,0,800);
+        KBD(VK_U,0,y2);
 
-        ifb chkimg("../picture/BlessingsOfPrincess.bmp",0,0,0,1366,800)
-            KBD(VK_N,0,800);
+        ifb chkimg("../picture/SengokuAlliance.bmp",0,x1,y1,x2,y2)
+            KBD(key.SENGOKU_ALLIANCE,0,100);
             sleep(1);
         endif
 
-        ifb chkimg("../picture/雪女.bmp",0,0,0,1366,768)
-            KBD(VK_F5,0,800);
+        ifb chkimg("../picture/BlessingsOfPrincess.bmp",0,x1,y1,x2,y2)
+            KBD(key.BLESSING,0,100);
             sleep(1);
         endif
 
-        ifb chkimg("../picture/白狐.bmp",0,0,0,1366,800)
-            KBD(VK_CTRL,0,500);
+        ifb chkimg("../picture/雪女.bmp",0,x1,y1,x2,y2)
+            KBD(VK_F5,0,100);
+            sleep(1);
+        endif
+
+        ifb chkimg("../picture/白狐.bmp",0,x1,y1,x2,y2)
+            KBD(VK_CTRL,0,100);
             exit;
             sleep(2);
-        elseif chkimg("../picture/WhiteFox.bmp",0,0,0,1366,800)
-            KBD(VK_CTRL,0,500);
+        elseif chkimg("../picture/WhiteFox.bmp",0,x1,y1,x2,y2)
+            KBD(VK_CTRL,0,100);
             exit;
             sleep(2);
         endif
 
-        ifb chkimg("../picture/LingStone.bmp",0,0,0,1366,768)
-            KBD(VK_HOME,0,800);
+        ifb chkimg("../picture/LingStone.bmp",0,x1,y1,x2,y2)
+            KBD(VK_HOME,0,100);
             sleep(1);
         endif
 
-        ifb chkimg("../picture/OneDevil.bmp",0,0,0,1366,800)
-            KBD(VK_F10,0,500);
+        ifb chkimg("../picture/OneDevil.bmp",0,x1,y1,x2,y2)
+            KBD(VK_F10,0,100);
             sleep(1);
             exit;
         endif
 
-
-        ifb chkimg("../picture/妖怪巻.bmp",0,0,0,1366,768)
-            KBD(VK_SHIFT,0,500);
+        ifb chkimg("../picture/妖怪巻.bmp",0,x1,y1,x2,y2)
+            KBD(VK_SHIFT,0,100);
             sleep(1);
             exit;
+        endif
+
+        ifb chkimg("../picture/SengokuAlliance.bmp",0,x1,y1,x2,y2)
+            KBD(VK_L,0,100);
+            sleep(1);
         endif
 
         result = 0;
     fend
 
     function KannnaSkillCheck_NotUseRecv()
+        x1 = 800;
+        y1 = 700;
+        x2 = 1100;
+        y2 = 800;
 
-        ifb chkimg("../picture/BlessingsOfPrincess.bmp",0,0,0,1366,800)
-            KBD(VK_N,0,800);
+        ifb chkimg("../picture/SengokuAlliance.bmp",0,x1,y1,x2,y2)
+            KBD(VK_L,0,100);
             sleep(1);
         endif
 
-        ifb chkimg("../picture/雪女.bmp",0,0,0,1366,768)
-            KBD(VK_F5,0,800);
+        ifb chkimg("../picture/BlessingsOfPrincess.bmp",0,x1,y1,x2,y2)
+            KBD(VK_N,0,100);
             sleep(1);
         endif
 
-        ifb chkimg("../picture/白狐.bmp",0,0,0,1366,800)
-            KBD(VK_CTRL,0,500);
+        ifb chkimg("../picture/雪女.bmp",0,x1,y1,x2,y2)
+            KBD(VK_F5,0,100);
+            sleep(1);
+        endif
+
+        ifb chkimg("../picture/白狐.bmp",0,x1,y1,x2,y2)
+            KBD(VK_CTRL,0,100);
             exit;
             sleep(2);
-        elseif chkimg("../picture/WhiteFox.bmp",0,0,0,1366,800)
-            KBD(VK_CTRL,0,500);
+        elseif chkimg("../picture/WhiteFox.bmp",0,x1,y1,x2,y2)
+            KBD(VK_CTRL,0,100);
             exit;
             sleep(2);
         endif
 
-        ifb chkimg("../picture/LingStone.bmp",0,0,0,1366,768)
-            KBD(VK_HOME,0,800);
+        ifb chkimg("../picture/LingStone.bmp",0,x1,y1,x2,y2)
+            KBD(VK_HOME,0,100);
             sleep(1);
         endif
 
-        ifb chkimg("../picture/OneDevil.bmp",0,0,0,1366,800)
-            KBD(VK_F10,0,500);
+        ifb chkimg("../picture/OneDevil.bmp",0,x1,y1,x2,y2)
+            KBD(VK_F10,0,100);
             sleep(1);
             exit;
         endif
 
-
-        ifb chkimg("../picture/妖怪巻.bmp",0,0,0,1366,768)
-            KBD(VK_SHIFT,0,500);
+        ifb chkimg("../picture/妖怪巻.bmp",0,x1,y1,x2,y2)
+            KBD(VK_SHIFT,0,100);
             sleep(1);
             exit;
+        endif
+
+        ifb chkimg("../picture/SengokuAlliance.bmp",0,x1,y1,x2,y2)
+            KBD(VK_L,0,100);
+            sleep(1);
         endif
 
         result = 0;

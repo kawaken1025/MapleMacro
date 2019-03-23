@@ -84,11 +84,16 @@ function goLeft()
     while true
         urgentCheck()
 
-        ifb chkimg("../picture/赤点.BMP",0,0,0,1368,800)
+        ifb chkimg("../picture/redpoint2.BMP",0,0,0,400,400) or chkimg("../picture/赤点.BMP",0,0,0,400,400)
+            KBD(VK_LEFT,2,200)
             for beeps = 1 to 20
                 SOUND(" ")
             next
-            EXITEXIT
+            while true
+                SLEEP(10)
+                if !chkimg("../picture/redpoint2.BMP",0,0,0,400,400) or !chkimg("../picture/赤点.BMP",0,0,0,400,400) then break;
+            wend
+            KBD(VK_LEFT,1,200)
         endif   
         
         //KBD(VK_SPACE,0,1500)
@@ -110,12 +115,16 @@ function goRight()
     while true
         urgentCheck()
 
-        ifb chkimg("../picture/赤点.BMP",0,0,0,1368,800)
+        ifb chkimg("../picture/redpoint2.BMP",0,0,0,400,400) or chkimg("../picture/赤点.BMP",0,0,0,400,400)
+            KBD(VK_RIGHT,2,100)
             for beeps = 1 to 20
                 SOUND(" ")
             next
-            sleep(10)
-            EXITEXIT
+            while true
+                SLEEP(10)
+                if !chkimg("../picture/redpoint2.BMP",0,0,0,400,400) or !chkimg("../picture/赤点.BMP",0,0,0,400,400) then break;
+            wend
+            KBD(VK_RIGHT,1,200)
         endif   
         
         //KBD(VK_SPACE,0,1500)

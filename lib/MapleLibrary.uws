@@ -426,13 +426,13 @@ procedure parallelProgramExitMode()
             killMapleStory();
             alartSound();
         endif
-        
+
         ifb chkimg("../picture/redpoint2.bmp",0,0,0,800,600)
             logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
             screenShot();
             killMapleStory();
             alartSound();
-            print "2"  
+            print "2"
         endif 
 
         ifb  chkimg("../picture/緑点.bmp",0,0,0,1368,800)
@@ -463,7 +463,7 @@ procedure parallelProgramWaitMode()
         ifb chkimg("../picture/redpoint2.bmp",0,0,0,800,600)
             logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
             //alartSound();
-            exitexit; 
+            exitexit;
         endif 
 
         ifb  chkimg("../picture/緑点.bmp",0,0,0,1368,800)
@@ -474,9 +474,25 @@ procedure parallelProgramWaitMode()
 fend
 
 //=========================================
+// comment : 赤点があるかどうかをチェックする
+// param   : None
+// return  : true or false
+// 備考    : None
+//=========================================
+function isRedPoint()
+
+        isEncount = false;
+        //ifb chkimg("../picture/赤点.bmp",0,0,0,1368,800) || ifb chkimg("../picture/redpoint2.bmp",0,0,0,800,600)
+        //    isEncou//nt = true;
+        //endif
+
+        result = isEncount;
+fend
+
+//=========================================
 // comment : 画像認識用パスヘルパー
 // param   : ファイル名
-// return  : 0 
+// return  : 0
 // 備考    : ../picture/fileName.bmp を返却
 //=========================================
 function picPathHelper(fileName)
@@ -486,7 +502,7 @@ fend
 //=========================================
 // comment : メイプルが起動されていなければ終了
 // param   : None
-// return  : 0 
+// return  : 0
 // 備考    : windowIDが -1 であれば起動されてない
 //=========================================
 function checkStartingMapleStory()
@@ -496,13 +512,30 @@ function checkStartingMapleStory()
         logger.logWriter(LogLevel.LOG_ERROR,Messages.STOP_MAPLE_MESSAGE);
         exitexit;
     endif
-    result = MAPLE_RESULT_OK; 
+    result = MAPLE_RESULT_OK;
+fend
+
+//=========================================
+// comment : メイプルが起動されていなければ
+//           1回のみログを出力
+// param   : None
+// return  : 0
+// 備考    : windowIDが -1 であれば起動されてない
+//=========================================
+public startingLogCount = 0;
+function checkStartingMapleStoryOutputLog()
+    windowID = GETID("MapleStory","MapleStoryClass")
+    ifb windowID < 0  and startingLogCount = 0;
+        startingLogCount = 1;
+        logger.logWriter(LogLevel.LOG_ERROR,Messages.STOP_MAPLE_MESSAGE);
+    endif
+    result = MAPLE_RESULT_OK;
 fend
 
 //=========================================
 // comment : 警告時のサウンド通知
 // param   : None
-// return  : 0 
+// return  : 0
 //=========================================
 function alartSound()
     for i = 1 to 20
@@ -515,7 +548,7 @@ fend
 //=========================================
 // comment : メモリ解放
 // param   : None
-// return  : 0 
+// return  : 0
 //=========================================
 function memoryRelease()
     memoryReleaseCommand = "empty.exe *"; 
@@ -583,7 +616,10 @@ fend
 // return  : 0
 //=========================================
 function loginMapleStory()
-    
+    // activeWindow();
+    // loginEntry();
+    // channnelSelect();
+    // entry2ndPassword();
     result = MAPLE_RESULT_OK;
 fend
 
@@ -667,10 +703,11 @@ function checkPlayer()
 
 	// 画面が完全に切り替わるまで待機
 	// 他プレイヤーがいないか確認する
-	
-	// いなければ戻る
-	
-	// いたらもう一度チャンネル変更
+	while true
+	    // いなければ戻る
+       //if chkimg() break;
+	    // いたらもう一度チャンネル変更
+    wend    
 
     result = 0;
 fend

@@ -1,0 +1,137 @@
+//=========================================//
+// Map Name    : 安息の洞窟(下)     //
+//=========================================//
+// Mob Name    : 
+// Mob Level   : 
+// Mob HP      : 
+// Mob Exp     : 
+//=========================================//
+// comment     : None
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 800x600 or 1366x768
+//=========================================//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/08/06
+//=========================================//
+
+//MapleAPI : LogWriter.uws , MapleLibrary.uws , UseSkillFiveJob.uws
+CALL ../MapleAPI/MapleAPI.uws;
+//import Luminous skillKeySetting
+CALL KeySetting.uws;
+CALL IlliumUtil.uws;
+//Move Window initSetting x = 1 , y = 1
+lib.activeWindow();
+//multiThread checkRedPoint and checkMineralization
+thread lib.parallelProgram();
+
+//=========================================
+//  Main Script Start
+//=========================================
+
+//時刻の取得     : 3分経過していたらスキルをかかけなおす
+public reUseSkillTime = GETTIME( 180 / 86400 );
+public leaveTime = GETTIME( 480 / 86400 );
+
+skill.illiumSupportSkill();
+   
+while true
+    skillTime = gettime( 180 / 86400 );
+    skill.illiumSupportSkill();
+    lib.checkFamiliarPower();
+    while true
+        util.moveSoulOfCrystalAttack(VK_LEFT);
+        checkYellowPoint();
+        util.moveSoulOfCrystalAttack(VK_RIGHT);
+        checkYellowPoint();
+        if gettime() > skillTime then break;
+    wend
+    collect();
+wend
+
+
+function checkYellowPoint()
+
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,46,105)
+        KBD(VK_RIGHT,1,500);
+        while true
+            if !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,46,105) then break;
+        wend
+        KBD(VK_RIGHT,2,100);
+    endif
+
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,80,95,110,105)
+        KBD(VK_LEFT,1,500);
+        while true
+            if !chkimg(lib.picPathHelper("yellowPoint"),0,75,95,110,105) then break;
+        wend
+        KBD(VK_LEFT,2,500);
+    endif
+
+    chkimg(lib.picPathHelper("yellowPoint"),0,0,0,160,135)
+    ifb G_IMG_Y > 110
+        KBD(VK_LEFT,1,100);
+        while true
+            if chkimg(lib.picPathHelper("yellowPoint"),0,0,0,100,135) then break;
+        wend
+        KBD(VK_LEFT,2,500)
+        KBD(VK_B,0,700);
+    endif
+
+    result = 0;
+fend
+
+function roundTripTeleportAttack(execKBD_Move, x1, y1, x2, y2 );
+    KBD(execKBD_Move,1,500);    
+    while true;
+        useSkill.moveCrystal(key.CRYSTAL_KEY);
+        useSkill.javelin(key.JAVELIN_KEY);
+        useSkill.orb(key.ORB_KEY);
+        for i = 1 to 2
+            useSkill.teleport(key.TELEPORT_KEY);
+        next
+        illiumSkillCheck();
+        lib.checkGameMaster();
+        if chkimg("../picture/黄点.bmp",0,x1,y1,x2,y2) then break;
+        ifb chkimg("../picture/緑点.bmp",0,0,0,400,400)
+            exitexit
+        endif
+    wend
+    KBD(execKBD_Move,2,500);
+    skill.pSkill();
+
+    result = 0;
+fend
+
+//============================
+// イリウム：安息用クールタイムスキル
+//============================
+function illiumSkillCheck()
+    if chkimg(lib.picPathHelper("deus"),0,0,0,1366,800)          then KBD(key.DEUS_KEY,0,700);
+    if chkimg(lib.picPathHelper("FastCharge"),0,0,0,1366,800)    then KBD(key.FAST_CHARGE_KEY,0,700);
+    if chkimg(lib.picPathHelper("RaceOfGod"),0,0,0,1366,800)     then KBD(key.RACE_OF_GOD_KEY,0,700);
+    if chkimg(lib.picPathHelper("GramHolder"),0,0,0,1366,800)    then KBD(key.GRAM_HOLDER_KEY,0,700);
+    if chkimg(lib.picPathHelper("Longinus"),0,0,0,1366,800)      then KBD(key.LONGINUS_KEY,0,700);
+    result = 0;
+fend
+
+function collect()
+
+    KBD(VK_LEFT,1,500);
+    while true
+        if chkimg(lib.picPathHelper("yellowPoint"),0,0,0,35,105) then break;
+    wend
+    KBD(VK_LEFT,2,500);
+
+    KBD(VK_RIGHT,1,500);
+    while true
+        if !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,90,105) then break;
+    wend
+    KBD(VK_RIGHT,2,100);
+    KBD(VK_LEFT,1,200);
+    KBD(VK_LEFT,2,3500);
+    result = 0;
+
+fend

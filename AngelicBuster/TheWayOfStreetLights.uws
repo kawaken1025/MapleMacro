@@ -1,10 +1,10 @@
-
+﻿
 CALL ../MapleAPI/MapleAPI.uws;
 CALL KeySetting.uws;
 
 
 lib.activeWindow();
-thread lib.parallelProgram();
+thread lib.parallelProgramExitMode();
 
 petTime = GETTIME( 300 / 86400 )
 
@@ -27,7 +27,7 @@ while true
     KBD(VK_RIGHT,1,500)
     while true
         KBD(VK_V,0,300);
-        if chkimg(lib.picPathHelper("yellowPoint"),0,139,119,158,139) then break;
+        if chkimg(lib.picPathHelper("yellowPoint"),0,139,119,200,150) then break;
         lib.urgentCheck();
        // RedPointStop();
     wend
