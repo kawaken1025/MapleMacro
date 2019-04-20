@@ -9,49 +9,60 @@ thread lib.parallelProgramExitMode();
 petTime = GETTIME( 300 / 86400 )
 
 while true
-	KBD(key.NORMAL_ATTACK_KEY,1,500);
     KBD(VK_LEFT,1,500);
     while true
+        KBD(VK_V,0,700);
+        KBD(VK_V,0,300);
+        KBD(VK_A,0,840);
         if chkimg(lib.picPathHelper("yellowPoint"),0,0,0,48,147) then break;
         lib.urgentCheck();
-        lib.checkStartingMapleStory();
+        //lib.checkStartingMapleStory();
         //RedPointStop();
     wend
 
-    KBD(key.NORMAL_ATTACK_KEY,2,200);
+    //KBD(key.NORMAL_ATTACK_KEY,2,200);
     KBD(VK_LEFT,2,200);
-    lib.checkGameMaster();
+    //lib.checkGameMaster();
     upStage();
 
-    KBD(key.NORMAL_ATTACK_KEY,1,500);
+    //KBD(key.NORMAL_ATTACK_KEY,1,500);
     KBD(VK_RIGHT,1,500)
     while true
+        KBD(VK_V,0,700);
         KBD(VK_V,0,300);
-        if chkimg(lib.picPathHelper("yellowPoint"),0,139,119,200,150) then break;
+        KBD(VK_A,0,840);
+        if !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,135,130) then break;
         lib.urgentCheck();
        // RedPointStop();
     wend
-    KBD(key.NORMAL_ATTACK_KEY,2,200);
+    //KBD(key.NORMAL_ATTACK_KEY,2,200);
     KBD(VK_RIGHT,2,200);
     lib.checkGameMaster();
 
     ifb petTime < GETTIME()
         KBD(VK_T,0,1000)
         logger.logWriter(LogLevel.LOG_INFO,"ペットの餌を使用しました。");
-        petTime = GETTIME( 600 / 86400 )
+        petTime = GETTIME( 1200 / 86400 )
     endif
 
 wend
 
 function upStage()
 
-    KBD(VK_RIGHT,1,1000)
-    KBD(VK_UP,1,200)
+    KBD(VK_RIGHT,1,500)
     while true
-        if chkimg(lib.picPathHelper("yellowPoint"),0,48,103,62,112) then break;
+        ifb !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,55,130)
+            break;
+        endif
     wend
-    KBD(VK_UP,2,1000)
-    KBD(VK_RIGHT,2,100)   
+    KBD(VK_RIGHT,2,500)
+    KBD(VK_B,0,500)
+    // KBD(VK_UP,1,200)
+    // while true
+    //     if chkimg(lib.picPathHelper("yellowPoint"),0,48,103,62,112) then break;
+    // wend
+    // KBD(VK_UP,2,1000)
+    // KBD(VK_RIGHT,2,100)   
     result = 0;
 fend
 

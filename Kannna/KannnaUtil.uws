@@ -152,7 +152,7 @@ class util
     next
     sleep(0.2);
     util.KannnaSkillCheck();
-    skill.pSkill();
+    //skill.pSkill();
     result = 0;
 fend
 

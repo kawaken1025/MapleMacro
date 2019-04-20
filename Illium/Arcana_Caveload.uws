@@ -38,6 +38,9 @@ while true
         util.moveSoulOfCrystalAttack(VK_RIGHT);
         checkYellowPoint();
         if gettime() > skillTime then break;
+        for i = 1 to 5
+            KBD(VK_F1,0,100)
+        next
     wend
     logger.logWriter(LogLevel.LOG_INFO,Messages.START_COLLECT);
     collect();
@@ -123,6 +126,8 @@ function collect()
             ifb chkimg(lib.picPathHelper("yellowPoint"),0,50,121,75,135) 
                 KBD(VK_RIGHT,2,100);
                 KBD(VK_B,0,500);
+                SLEEP(3.2);
+                KBD(VK_RIGHT,1,500);
             endif
         wend
         KBD(VK_RIGHT,2,100);

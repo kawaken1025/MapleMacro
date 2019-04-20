@@ -29,6 +29,7 @@ thread lib.parallelProgramExitMode();
 CALL KannnaUtil.uws;
 CALL ../Util/MapleUtil.uws;
 
+propUseTime = GETTIME( 7350 / 86400 ); // 財物
 while true;
     mutil.useBlackUnionEventItem();
     //Acquisition of Time : Get the time after 3 minutes
@@ -47,6 +48,10 @@ while true;
         SLEEP(1)
         //3minutes elapsed?
         if GETTIME() > reUseSkillTime then break;
+        ifb GETTIME() > propUseTime
+            KBD(VK_F12,0,1000);
+            propUseTime = GETTIME( 7350 / 86400 );
+        endif
     wend
 wend
 //=========================================
@@ -57,17 +62,18 @@ wend
 function oneWayAttack(moveKey,x1,y1,x2,y2)
 
     //execute moveHunting
-    KBD(VK_F,1,1000)
+    KBD(VK_F,1,1000);
     KBD(moveKey,1,300);
     while true
         if chkimg("../picture/黄点.bmp",0,x1,y1,x2,y2) then break;
+        KBD(VK_F,1,1000);
         // 砂かけ婆のCTがなくなっていたら発動する
         //ifb chkimg("../picture/SandHag.bmp",0,800,700,1366,800)
         //    KBD(VK_F,2,100)
         //    for i = 1 to 5
         //        KBD(VK_DELETE,0,70)
         //    next
-        //    KBD(VK_F,1,200)
+        //    KBD(VK_F,1,500)
         //endif
     wend
     //lib.checkGameMaster();
@@ -82,6 +88,10 @@ function oneWayAttack(moveKey,x1,y1,x2,y2)
         lib.OpenRune();
         sleep(1);
     endif
+    // スーパーピグ農場イベ
+    KBD(VK_F1,0,1000);
+    sleep(0.3)
+    lib.urgentCheck();
 
     
     result = 0;
@@ -154,7 +164,7 @@ function moveStage(num,x,y)
         while true
             KBD(key.TELEPORT_KEY,0,250)
             KBD(key.TELEPORT_KEY,0,250)
-            if chkimg("../picture/yellowPoint.bmp",0,20,120,35,135) then break;
+            if chkimg("../picture/yellowPoint.bmp",0,0,0,35,135) then break;
         wend
         KBD(VK_LEFT,2,500)
         KBD(VK_B,0,700)
@@ -165,9 +175,12 @@ fend
 
 function useSkill()
 
-	KBD(VK_G,0,1000);
-	KBD(VK_H,0,1000);
-    KBD(VK_H,0,200);
+	KBD(VK_H,0,500);
+    for i = 1 to 5
+        KBD(VK_H,0,200)
+    next
+    KBD(VK_G,0,1000);
+    sleep(2);
 	result = 0;
 
 fend
@@ -178,7 +191,7 @@ fend
         x2 = 1366;
         y2 = 800;
 
-        KBD(VK_U,0,y2);
+        KBD(VK_U,0,300);
 
         ifb chkimg("../picture/SengokuAlliance.bmp",0,x1,y1,x2,y2)
             KBD(VK_L,0,500);
@@ -213,11 +226,11 @@ fend
         //    exit;
         //endif
 
-        //ifb chkimg("../picture/妖怪巻.bmp",0,x1,y1,x2,y2)
-        //    KBD(VK_SHIFT,0,100);
-        //    sleep(1);
-        //    exit;
-        //endif
+        ifb chkimg("../picture/妖怪巻.bmp",0,x1,y1,x2,y2)
+            KBD(VK_SHIFT,0,100);
+            sleep(1);
+            exit;
+        endif
 
 
 

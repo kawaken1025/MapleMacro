@@ -24,8 +24,8 @@ While true
         BTN(LEFT,CLICK,400,405,500) 
         urgentCheck()
         recovery()
-        for x = 1 to 15
-            //KBD(VK_X,0,200)
+        for x = 1 to 5
+            KBD(VK_X,0,200)
             ifb chkimg("../picture/赤点.BMP",0,0,0,1368,800)
                 for beeps = 1 to 20
                     SOUND(" ")
@@ -33,6 +33,7 @@ While true
                 next
             endif
         next
+        KBD(VK_F1,0,200)
         KBD(VK_LEFT,1,300)
         KBD(VK_LEFT,2,150)
         KBD(VK_H,0,1000)
@@ -99,7 +100,7 @@ function goLeft()
         //KBD(VK_SPACE,0,1500)
 
         //if chkimg("../picture/黄点.bmp",0,30,100,70,143) THEN break
-        if chkimg("../picture/黄点.bmp",0,0,0,70,143) THEN break
+        if chkimg("../picture/黄点.bmp",0,0,0,70,115) THEN break
     wend
     KBD(VK_LEFT,2,200)
     sleep(2)
@@ -128,12 +129,12 @@ function goRight()
         endif   
         
         //KBD(VK_SPACE,0,1500)
-        ifb chkimg("../picture/黄点.bmp",0,140,100,190,115)
+        ifb chkimg("../picture/黄点.bmp",0,160,100,190,115)
             KBD(VK_DOWN,1,500)
             KBD(VK_C,0,500)
             KBD(VK_C,0,250)
             KBD(VK_C,0,500)
-            KBD(VK_DOWN,2,5000)
+            KBD(VK_DOWN,2,6000)
         endif
 
         if chkimg("../picture/黄点.bmp",0,170,100,180,143) THEN break

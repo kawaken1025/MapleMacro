@@ -57,13 +57,13 @@ function oneWayAttack(moveKey,x1,y1,x2,y2)
     while true
         if chkimg("../picture/黄点.bmp",0,x1,y1,x2,y2) then break;
         // 砂かけ婆のCTがなくなっていたら発動する
-        //ifb chkimg("../picture/SandHag.bmp",0,800,700,1366,800)
-        //    KBD(VK_F,2,100)
-        //    for i = 1 to 5
-        //        KBD(VK_DELETE,0,70)
-        //    next
-        //    KBD(VK_F,1,200)
-        //endif
+        ifb chkimg("../picture/SandHag.bmp",0,800,700,1366,800)
+            KBD(VK_F,2,100)
+            for i = 1 to 5
+                KBD(VK_DELETE,0,70)
+            next
+            KBD(VK_F,1,500)
+        endif
     wend
     //lib.checkGameMaster();
     KBD(moveKey,2,200);
@@ -175,6 +175,8 @@ function useSkill()
 	KBD(VK_G,0,1000);
 	KBD(VK_H,0,1200);
     KBD(VK_H,0,200);
+    KBD(VK_H,0,200);
+    KBD(VK_H,0,200);
 	result = 0;
 
 fend
@@ -189,42 +191,46 @@ fend
 
         ifb chkimg("../picture/SengokuAlliance.bmp",0,x1,y1,x2,y2)
             KBD(VK_L,0,500);
+            sleep(1);
         endif
 
         ifb chkimg("../picture/BlessingsOfPrincess.bmp",0,x1,y1,x2,y2)
             KBD(VK_N,0,500);
-            //sleep(1);
+            sleep(1);
         endif
 
         ifb chkimg("../picture/雪女.bmp",0,x1,y1,x2,y2)
             KBD(VK_F5,0,500);
-        endif
-
-        ifb chkimg("../picture/白狐.bmp",0,x1,y1,x2,y2)
-            KBD(VK_CTRL,0,100);
-            exit;
-            sleep(2);
-        elseif chkimg("../picture/WhiteFox.bmp",0,x1,y1,x2,y2)
-            KBD(VK_CTRL,0,100);
-            exit;
-            sleep(2);
+            sleep(1);
         endif
 
         ifb chkimg("../picture/LingStone.bmp",0,x1,y1,x2,y2)
             KBD(VK_HOME,0,500);
+            sleep(1);
+        endif
+
+
+        ifb chkimg("../picture/白狐.bmp",0,x1,y1,x2,y2)
+            KBD(VK_CTRL,0,100);
+            sleep(3);
+            exit;
+        elseif chkimg("../picture/WhiteFox.bmp",0,x1,y1,x2,y2)
+            KBD(VK_CTRL,0,100);
+            sleep(3);
+            exit;
         endif
 
         //ifb chkimg("../picture/OneDevil.bmp",0,x1,y1,x2,y2)
-        //    KBD(VK_F10,0,100);
-        //    sleep(1);
+        //    KBD(VK_F10,0,500);
+        //    sleep(2);
         //    exit;
         //endif
 
-        //ifb chkimg("../picture/妖怪巻.bmp",0,x1,y1,x2,y2)
-        //    KBD(VK_SHIFT,0,100);
-        //    sleep(1);
-        //    exit;
-        //endif
+        ifb chkimg("../picture/妖怪巻.bmp",0,x1,y1,x2,y2)
+            KBD(VK_SHIFT,0,100);
+            sleep(2.3);
+            exit;
+        endif
 
 
 

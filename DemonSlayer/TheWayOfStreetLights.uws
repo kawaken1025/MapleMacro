@@ -23,7 +23,7 @@ while true
     KBD(VK_RIGHT,1,500)
     while true
         KBD(VK_V,0,300);
-        if chkimg(lib.picPathHelper("yellowPoint"),0,139,119,158,139) then break;
+        if !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,135,130) then break;
         lib.urgentCheck();
         lib.checkGameMaster();
     wend
@@ -42,6 +42,7 @@ function upStage()
     KBD(VK_UP,1,200)
     while true
         if chkimg(lib.picPathHelper("yellowPoint"),0,48,103,62,112) then break;
+        if chkimg(lib.picPathHelper("yellowPoint"),0,136,110,170,130) then break;
     wend
     KBD(VK_UP,2,1000)
     KBD(VK_RIGHT,2,100)   

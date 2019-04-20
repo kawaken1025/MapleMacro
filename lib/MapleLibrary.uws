@@ -456,13 +456,13 @@ procedure parallelProgramWaitMode()
 
         ifb chkimg("../picture/赤点.bmp",0,0,0,1368,800)
             logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
-            //alartSound();
+            thread alartSound();
             exitexit;
         endif
         
         ifb chkimg("../picture/redpoint2.bmp",0,0,0,800,600)
             logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
-            //alartSound();
+            thread alartSound();
             exitexit;
         endif 
 
@@ -483,7 +483,7 @@ function isRedPoint()
 
         isEncount = false;
         //ifb chkimg("../picture/赤点.bmp",0,0,0,1368,800) || ifb chkimg("../picture/redpoint2.bmp",0,0,0,800,600)
-        //    isEncou//nt = true;
+        //    isEncount = true;
         //endif
 
         result = isEncount;
@@ -616,6 +616,7 @@ fend
 // return  : 0
 //=========================================
 function loginMapleStory()
+    // 
     // activeWindow();
     // loginEntry();
     // channnelSelect();
@@ -656,7 +657,7 @@ function getOutputDirectory()
     currentDirectory = GET_CUR_DIR
     outputDirectory = ""
 
-    re=CreateOleObj("VBScript.RegExp")
+    re = CreateOleObj("VBScript.RegExp")
     re.pattern = "([^\\]+?)?$" //正規表現パターン。1と5の間の文字を取り出す。
     re.Global = True //文字列全体を検索。trueでする(規定)、falseでしない(マッチしたらそこで終了)。
     re.IgnoreCase = True //大文字・小文字を区別。trueでしない(規定)、falseでする。

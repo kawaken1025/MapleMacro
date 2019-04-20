@@ -14,7 +14,7 @@ While true
 		SLEEP(5)
 		KBD(VK_G,0,1000)
 		SLEEP(5)
-		getStatus()
+
 	NEXT
 
 	KBD(VK_LEFT,1,100)
@@ -27,7 +27,6 @@ While true
 		SLEEP(5)
 		KBD(VK_G,0,1000)
 		SLEEP(5)
-		getStatus();
 	NEXT
 
 
@@ -35,15 +34,7 @@ While true
 	KBD(VK_RIGHT,2,50)
 WEND
 
-function getStatus(windowID)
-	ifb STATUS(windowID,ST_BUSY)
-	   print "isBusy"
-	   //cmd = "taskkill /F /IM MapleStory.exe";
-	   //DOSCMD(cmd,TRUE,FALSE);
-	elseif
-		print "active"
-	endif
-fend
+
 
 PROCEDURE 並列処理()
 WHILE TRUE

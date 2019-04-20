@@ -15,6 +15,13 @@ CLASS key
     //スキル
     const NORMAL_ATTACK_KEY   = VK_X
     const DAY_DREAM_KEY       = VK_8
+    const PRIMAL_LOWER        = VK_A
+    const PINK_SCUD           = VK_V
+
+    // HYPER
+    const SUPER_NOVA     = VK_SHIFT
+    const SOUL_EXULTS    = VK_HOME
+    const FINAL_CONTRACT = VK_END
 
     //スキル以外 
     const FAM_BOOK_KEY        = VK_F6  //ファミリアブックキー

@@ -1,0 +1,11 @@
+
+class KannnaCT
+
+    const SENGOKU_ALLIANCE_CT =   0
+    const SNOW_WOMEN_CT       =  78
+    const LING_STONE_CT       = 200
+    const WHILE_FOX_CT        = 325
+    const MYSTIC_ROLL_CT      =  20
+    const BLESSING_CT         = 120
+
+endclass

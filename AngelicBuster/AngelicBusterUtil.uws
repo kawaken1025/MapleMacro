@@ -1,0 +1,39 @@
+//=========================================//
+// AngelicBuster Utility Class
+// comment     : None
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : y2x600 or x2xy2
+//=========================================//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2019/04/20
+//=========================================//
+
+CALL ../lib/MapleLibrary.uws;
+CALL KeySetting.uws;
+
+class AButil
+
+    function ABskillCheck()
+        x1 = 800;
+        y1 = 600;
+        x2 = 1366;
+        y2 = 800;
+
+        ifb chkimg("../picture/SuperNova.bmp",0,x1,y1,x2,y2)
+            KBD(key.SUPER_NOVA,0,100);
+            sleep(1);
+        endif
+
+        ifb chkimg("../picture/SoulExults.bmp",0,x1,y1,x2,y2)
+            KBD(key.SOUL_EXULTS,0,100);
+            sleep(1);
+        endif
+
+        result = 0;
+    fend
+fend
+
+endclass
