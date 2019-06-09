@@ -26,10 +26,10 @@ class util
 
         KBD(VK_U,0,y2);
 
-        ifb chkimg("../picture/SengokuAlliance.bmp",0,x1,y1,x2,y2)
-            KBD(key.SENGOKU_ALLIANCE,0,100);
-            sleep(1);
-        endif
+        // ifb chkimg("../picture/SengokuAlliance.bmp",0,x1,y1,x2,y2)
+        //     KBD(key.SENGOKU_ALLIANCE,0,100);
+        //     sleep(1);
+        // endif
 
         ifb chkimg("../picture/BlessingsOfPrincess.bmp",0,x1,y1,x2,y2)
             KBD(key.BLESSING,0,100);
@@ -38,6 +38,11 @@ class util
 
         ifb chkimg("../picture/雪女.bmp",0,x1,y1,x2,y2)
             KBD(VK_F5,0,100);
+            sleep(1);
+        endif
+
+        ifb chkimg("../picture/LingStone.bmp",0,x1,y1,x2,y2)
+            KBD(VK_HOME,0,100);
             sleep(1);
         endif
 
@@ -51,27 +56,24 @@ class util
             sleep(2);
         endif
 
-        ifb chkimg("../picture/LingStone.bmp",0,x1,y1,x2,y2)
-            KBD(VK_HOME,0,100);
-            sleep(1);
-        endif
 
-        ifb chkimg("../picture/OneDevil.bmp",0,x1,y1,x2,y2)
-            KBD(VK_F10,0,100);
-            sleep(1);
-            exit;
-        endif
 
-        ifb chkimg("../picture/妖怪巻.bmp",0,x1,y1,x2,y2)
-            KBD(VK_SHIFT,0,100);
-            sleep(1);
-            exit;
-        endif
+        // ifb chkimg("../picture/OneDevil.bmp",0,x1,y1,x2,y2)
+        //     KBD(VK_F10,0,100);
+        //     sleep(1);
+        //     exit;
+        // endif
 
-        ifb chkimg("../picture/SengokuAlliance.bmp",0,x1,y1,x2,y2)
-            KBD(VK_L,0,100);
-            sleep(1);
-        endif
+        // ifb chkimg("../picture/妖怪巻.bmp",0,x1,y1,x2,y2)
+        //     KBD(VK_SHIFT,0,100);
+        //     sleep(1);
+        //     exit;
+        // endif
+
+        // ifb chkimg("../picture/SengokuAlliance.bmp",0,x1,y1,x2,y2)
+        //     KBD(VK_L,0,100);
+        //     sleep(1);
+        // endif
 
         result = 0;
     fend
@@ -133,7 +135,7 @@ class util
     fend
 
     function useSkill()
-
+        KBD(VK_2,0,1000);
         KBD(VK_G,0,1000);
         KBD(VK_H,0,3000);
         result = 0;
@@ -141,19 +143,28 @@ class util
     fend
 
     function teleportAttack()
-    for i = 1 to 3
-        KBD(key.TELEPORT_KEY,0,250);
-        KBD(key.TELEPORT_KEY,0,150);
-        KBD(key.CONTINUOUS_KEY,1,500);
-        KBD(key.CONTINUOUS_KEY,2,1200);
-        SLEEP(1);
-        KBD(VK_DELETE,0,500);
-        
-    next
-    sleep(0.2);
-    util.KannnaSkillCheck();
-    //skill.pSkill();
-    result = 0;
-fend
+        for i = 1 to 3
+            KBD(key.TELEPORT_KEY,0,250);
+            KBD(key.TELEPORT_KEY,0,150);
+            KBD(key.CONTINUOUS_KEY,1,500);
+            KBD(key.CONTINUOUS_KEY,2,1200);
+            SLEEP(1);
+            KBD(VK_DELETE,0,500);
+            
+        next
+        sleep(0.2);
+        util.KannnaSkillCheck();
+        //skill.pSkill();
+        result = 0;
+    fend
+
+    function TenguAttack()
+        for i = 1 to 2
+            KBD(key.BRAGGART_KEY,0,300)
+            KBD(key.BRAGGART_KEY,0,300)
+            KBD(key.BRAGGART_KEY,0,300)
+        next
+        result = 0;
+    fend
 
 endclass

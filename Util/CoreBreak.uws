@@ -8,10 +8,11 @@ while true
 
 	BTN(LEFT,CLICK,900,520,500)
 	BTN(LEFT,CLICK,731,468,700)
-	sleep(3)
+	sleep(5)
 
 	KBD(VK_ENTER,0,300)
 	if GetKeyState(VK_ESC) then break;
+    sleep(10)
 wend
 
 function coreBreak(x,y,rangeNum,plusX,plusY)
@@ -25,7 +26,7 @@ function coreBreak(x,y,rangeNum,plusX,plusY)
 
 	for i = 1 to rangeNum
 		for RowClick = 1 to rangeNum
-			BTN(LEFT,CLICK,clickX,clickY,500)
+			BTN(LEFT,CLICK,clickX,clickY,200)
 			clickX = clickX + plusX
 		next
 		clickX = x

@@ -18,8 +18,10 @@ CALL ../MapleManagement/MapleManagement.uws;
 
 public PIC_PATH             = "../picture/";
 public SCREEN_SHOT_SAVE_DIR = "../picture/ScreenShot/";
-public MAPLE_STORY_EXE_DIR  = "C:\Nexon\MapleStory\MapleStory.exe";
+public MAPLE_STORY_EXE_DIR  = "C:\Nexon\MapleStory - コピー\MapleStory.exe";
+public LOGIN_INFO_INI_PATH  = "C:\Users\sisyo\Documents\LoginInfo.ini";
 public MAPLE_RESULT_OK      = 0;
+public MAPLE_RESULT_NG      = 1;
 public MAPLE_RESULT_OK_BOOL = true;
 
 CLASS lib
@@ -79,11 +81,9 @@ function roundTripTeleportAttack( execKBD_Attack, execKBD_Move, yellowX_S, yello
 fend
 
 //=========================================
-//
 // comment : 異常の確認
 // param   : None
 // return  : 0
-//
 //=========================================
 public areaBossEncount = 0;
 function urgentCheck()
@@ -109,6 +109,52 @@ function urgentCheck()
     if chkimg("../picture/talkEnd.bmp",0,0,0,1368,800) then BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,500);
 
     result = MAPLE_RESULT_OK; 
+fend
+
+//=========================================
+// comment : 異常の確認 & エリボ出現時CC
+// param   : None
+// return  : 0
+//=========================================
+function UrgentCheckCCmode()
+
+    ifb chkimg("../picture/runeNotice.bmp",0,0,0,1368,800)
+        logger.logWriter(LogLevel.LOG_WARN, Messages.DETECTION_RUNE_NOTICE);
+        ChannelChange(true);
+    endif
+
+    ifb  chkimg("../picture/エリボス.bmp",0,0,0,2000,2000)    	
+        ifb areaBossEncount = 0 // 初回のみログを出す
+            areaBossEncount = 1;
+            logger.logWriter(LogLevel.LOG_WARN, Messages.DETECTION_AREA_BOSS);
+            ChannelChange(true);
+        else
+            SOUND(" ");
+            ChannelChange(true);
+        endif
+    endif
+    
+    ifb  chkimg("../picture/緑点.bmp",0,0,0,1368,800)
+        logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
+        exitexit;
+    endif
+    ifb chkimg("../picture/突発.bmp",0,0,0,1368,800);
+        for i = 1 to 3
+            BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,200);
+        next
+    endif
+    if chkimg("../picture/talkEnd.bmp",0,0,0,1368,800) then BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,500);
+
+    result = MAPLE_RESULT_OK; 
+fend
+
+function DeadCheck()
+    // ifb chkimg("../picture/Grave.bmp",0,0,0,1368,800);
+    //     for i = 1 to 3
+    //         BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,200);
+    //     next
+    // endif
+    result = 0;
 fend
 
 //=========================================
@@ -382,7 +428,7 @@ fend
 //=========================================
 procedure parallelProgram()
     while TRUE
-        ifb chkimg("../picture/石化.bmp",0,0,0,1368,800)
+        ifb chkimg("../picture/石化2.bmp",0,0,0,1368,800)
             for i = 1 to 20
                 KBD(VK_LEFT,0,100);
                 KBD(VK_RIGHT,0,100);
@@ -410,8 +456,9 @@ procedure parallelProgram()
 fend
 
 procedure parallelProgramExitMode()
+    thread lib.RegularOnClick();
     while TRUE
-        ifb chkimg("../picture/石化.bmp",0,0,0,1368,800)
+        ifb chkimg("../picture/石化2.bmp",0,0,0,1368,800)
             for i = 1 to 20
                 KBD(VK_LEFT,0,100);
                 KBD(VK_RIGHT,0,100);
@@ -424,15 +471,16 @@ procedure parallelProgramExitMode()
             logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
             screenShot();
             killMapleStory();
-            alartSound();
+            loginMapleStory();
+            //alartSound();
         endif
 
         ifb chkimg("../picture/redpoint2.bmp",0,0,0,800,600)
             logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
             screenShot();
             killMapleStory();
-            alartSound();
-            print "2"
+            loginMapleStory();
+            //alartSound();
         endif 
 
         ifb  chkimg("../picture/緑点.bmp",0,0,0,1368,800)
@@ -445,7 +493,7 @@ fend
 
 procedure parallelProgramWaitMode()
     while TRUE
-        ifb chkimg("../picture/石化.bmp",0,0,0,1368,800)
+        ifb chkimg("../picture/石化2.bmp",0,0,0,1368,800)
             for i = 1 to 20
                 KBD(VK_LEFT,0,100);
                 KBD(VK_RIGHT,0,100);
@@ -585,15 +633,18 @@ fend
 // return  : 0
 //=========================================
 function execMapleStory()
+    logger.logWriter(LogLevel.LOG_INFO, "MapleStoryを起動します");
     DOSCMD(MAPLE_STORY_EXE_DIR,TRUE,FALSE)
+    sleep(10);
+    id = GETID("MapleStory","StartUpDlgClass");
     while true
-        ifb chkimg(lib.picPathHelper("play"),0,0,0,2000,1400)
-            BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,500);
-            break;
-        endif
+        CLKITEM(id,"Play!");
+        sleep(1);
+        if GETID("MapleStory","StartUpDlgClass") = -1 then break;
     wend
     result = MAPLE_RESULT_OK;
 fend
+
 
 
 //=========================================
@@ -610,18 +661,105 @@ function killMapleStory()
     result = MAPLE_RESULT_OK;
 fend
 
+function IsLoginDisp()
+    result = chkimg(lib.picPathHelper("StartButton"),0,0,0,1366,768)
+fend
+
+//=========================================
+// comment : Microsoft Edgeを終了する
+//           ※スレッドで実施用※
+// param   : None
+// return  : 0
+//=========================================
+function KillMicrosoftEdge()
+    logger.logWriter(LogLevel.LOG_INFO, "Microsoft Edge kill thread.");
+    while true
+        cmd = "taskkill /F /IM MicrosoftEdge.exe";
+        DOSCMD(cmd,TRUE,FALSE);
+        //logger.logWriter(LogLevel.LOG_ERROR, "Microsoft Edgeを終了しました");
+        //SLEEP(5)
+        //execMapleStory(); // 再起動
+        sleep(30);
+    wend
+    result = MAPLE_RESULT_OK;
+fend
+
 //=========================================
 // comment : ログインする
 // param   : None
 // return  : 0
 //=========================================
 function loginMapleStory()
-    // 
-    // activeWindow();
-    // loginEntry();
-    // channnelSelect();
-    // entry2ndPassword();
+    while true
+        sleep(1);
+        if IsLoginDisp() then break;
+    wend
+    lib.activeWindow();
+    sleep(3);
+    lib.LoginEntry();
     result = MAPLE_RESULT_OK;
+fend
+
+function LoginEntry()
+
+    // 1次パス取得
+    firstPassword = READINI("Password","PW",LOGIN_INFO_INI_PATH);
+    print "fp:"+firstPassword;
+    SENDSTR(0, firstPassword);
+    // 入力文字の削除
+    for i = 1 to 20
+        KBD(VK_RIGHT,0,200)
+    next
+    for i = 1 to 15
+        KBD(VK_BACK,0,200)
+    next
+    // パス貼り付け
+    KBD(VK_CTRL,1,1000);
+    KBD(VK_V,0,1000);
+    KBD(VK_CTRL,2,100);
+    // ログイン
+    KBD(VK_ENTER,0,1000);
+    sleep(10);
+    KBD(VK_ENTER,0,1000);
+    ChannelSelect();
+    // キャラクター選択
+    print "char click"
+    KBD(VK_ENTER,0,2000)
+    KBD(VK_ENTER,0,2000)
+    // 2次パス取得
+    secondPassword = READINI("SecondPassword","PW",LOGIN_INFO_INI_PATH);
+    print secondPassword;
+    dim passArray[5];
+    for i = 1 to 6
+        passArray[i-1] = COPY(secondPassword,i,1);
+    next
+    // 2次パス画像クリック
+    for i = 1 to 6
+        ifb chkimg("../picture/2ndPasskey/" + passArray[i-1] + ".bmp",0,0,0,1366,768)
+             BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,800);
+             BTN(LEFT,CLICK,0,0,500);
+        endif
+        ifb chkimg(lib.picPathHelper("2ndPWOK"),0,0,0,1366,768)
+            for i = 1 to 2
+                BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,300);
+            next
+        endif
+    next
+
+    result = 0;
+fend
+
+function ChannelSelect()
+    logger.logWriter(LogLevel.LOG_INFO, "チャンネルを選択します");
+    ch = RANDOM(16)
+    for i = 0 to ch
+        KBD(VK_RIGHT,0,150);
+    next
+    KBD(VK_ENTER,0,1000);
+    mes = (ch + 2) + "chにログインします" ;
+    logger.logWriter(LogLevel.LOG_INFO, mes);
+    sleep(5);
+    result = 0;
 fend
 
 //=========================================
@@ -673,25 +811,62 @@ fend
 
 //=========================================
 // comment : チャンネル変更
+// param   : $1 : ルーンのチェックを行うか
+// return  : 0
+//=========================================
+function ChannelChange(isRuneCheck)
+
+    while true
+        ret = CCexec();
+        ifb ret = 0 and isRuneCheck
+            sleep(3);
+            ifb chkimg(lib.picPathHelper("runePoint"),0,0,0,250,300) _
+              or _
+            chkimg(lib.picPathHelper("RuneNotice"),0,0,0,1366,768)
+                logger.logWriter(LogLevel.LOG_WARN,Messages.CHANNEL_CHANGE_DET_RUNE);
+            else
+                break;
+            endif
+        else
+            break;
+        endif
+    wend
+
+    result = 0;
+
+fend
+
+//=========================================
+// comment : チャンネル変更内部処理
 // param   : None
 // return  : 0
 //=========================================
-function changeChannnel()
+function CCexec()
 
+    ret = MAPLE_RESULT_OK;
 	// 初期化
 	BTN(LEFT,CLICK,200,405,500);
 	BTN(LEFT,CLICK,200,405,200);
 	KBD(VK_ESC,0,500);
-	// TODO:ポップアップチェック
-	//SLEEP(1)
-	//ifb chkimg("../picture/MenuPopup.bmp",0,0,0,1368,800);
-    //    BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,1000);
-    //endif
+	// ポップアップチェック
+	SLEEP(0.5)
+	ifb chkimg("../picture/ConfirmButton.bmp",0,0,0,1368,800);
+        BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,1000);
+    endif
 	KBD(VK_ENTER,0,1000);
 	KBD(VK_LEFT,0,800);
-	KBD(VK_ENTER,0,1000);
+	KBD(VK_ENTER,0,2500);
+    // 今はできませんチェック
+	SLEEP(1)
+	ifb chkimg("../picture/ConfirmButton.bmp",0,0,0,1368,800);
+        logger.logWriter(LogLevel.LOG_WARN,Messages.CHANNEL_CHANGE_FAIL);
+        BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,1000);
+        ret = MAPLE_RESULT_NG;
+    else
+        logger.logWriter(LogLevel.LOG_WARN,Messages.CHANNEL_CHANGE_SUCCESS);
+    endif
 
-    result = 0;
+    result = ret;
 fend
 
 //=========================================
@@ -827,7 +1002,19 @@ function moveRunePointXY(x,y)
     result = 0;
 fend
 
-
+//=========================================
+// comment : 定期的に画面をクリックする
+//           ※必ずスレッドで呼び出すこと※
+// param   : None
+// return  : 0
+//=========================================
+function RegularOnClick()
+    while true
+        BTN(LEFT,CLICK,200,405,500);
+        sleep(30);
+    wend
+    result = 0;
+fend
 
 ENDCLASS
 

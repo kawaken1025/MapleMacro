@@ -26,7 +26,6 @@ CALL ../Util/MapleUtil.uws;
 // multiThread checkRedPoint and checkMineralization
 thread lib.parallelProgramExitMode();
 thread lib.RegularOnClick();
-thread lib.KillMicrosoftEdge();
 // MessageWindow init
 CALL KannnaUtil.uws;
 CALL ../Util/MapleUtil.uws;
@@ -36,148 +35,79 @@ while true;
     mutil.useBlackUnionEventItem();
     //Acquisition of Time : Get the time after 3 minutes
     reUseSkillTime = GETTIME( 150 / 86400 );
-    collectTime = GETTIME( 110 / 86400 );
-    oyabunTime = GETTIME( 30 / 86400 )
     useSkill();
     KBD(VK_T,0,500);
     lib.checkFamiliarPower();
     lib.useMaprage();
     while true;
-        cYp();
-        util.TenguAttack();
-        // ルーンが出現しているか確認します。
-        // 出現していた場合は解除します
-        ret = checkRuneStage()
-        ifb ret <> 0
-            sleep(0.5);
-            lib.OpenRune();
-            sleep(1);
-        endif
-        KBD(VK_B,0,800);
+        oneWayAttack(VK_LEFT,0,0,32,135);
+        KBD(VK_B,0,700);
+        SLEEP(1.5)
         lib.UrgentCheckCCmode();
-        sleep(1.7);
-        cYp();
-        util.TenguAttack();
-        RemoveCatchRope();
-        // ルーンが出現しているか確認します。
-        // 出現していた場合は解除します
-        ret = checkRuneStage()
-        ifb ret <> 0
-            lib.OpenRune();
-            sleep(1);
-        endif
-        DownJump();
+        oneWayAttack(VK_RIGHT,140,117,156,135);
         lib.UrgentCheckCCmode();
         KannnaSkillCheck();
         skill.pSkill();
-        RemoveCatchRope();
-        //SLEEP(1)
+        SLEEP(1)
         //3minutes elapsed?
-        time = GETTIME()
-        ifb time > oyabunTime
-            KBD(VK_W,0,500)
-            oyabunTime = GETTIME(30 /86400)
-        endif
-        ifb time > collectTime
-            collect();
-            collectTime = GETTIME( 110 / 86400);
-        endif
-        if time > reUseSkillTime then break;
+        if GETTIME() > reUseSkillTime then break;
         ifb GETTIME() > propUseTime
             KBD(VK_F12,0,1000);
             propUseTime = GETTIME( 7350 / 86400 );
         endif
     wend
 wend
+//=========================================
+// param   : $1:移動方向キー
+//           $2:chkimg準拠
+// comment : 左右往復
+//=========================================
+function oneWayAttack(moveKey,x1,y1,x2,y2)
 
-function cYp()
+    //execute moveHunting
+    while true
+        KBD(VK_F,1,100);
+        KBD(moveKey,1,100);
+        if chkimg("../picture/黄点.bmp",0,x1,y1,x2,y2) then break;
+        // 砂かけ婆のCTがなくなっていたら発動する
+        //ifb chkimg("../picture/SandHag.bmp",0,800,700,1366,800)
+        //    KBD(VK_F,2,100)
+        //    for i = 1 to 5
+        //        KBD(VK_DELETE,0,70)
+        //    next
+        //    KBD(VK_F,1,500)
+        //endif
+        ifb lib.IsLoginDisp()
+            KBD(VK_F,2,100);
+            KBD(moveKey,2,100);
+            sleep(1);
+            for i = 1 to 20
+                KBD(VK_BACK,0,700)
+            next
+            lib.loginMapleStory();
+        endif
+        
+    wend
+    //lib.checkGameMaster();
+    KBD(moveKey,2,200);
+    KBD(VK_F,2,500);
 
-    ifb chkimg("../picture/yellowPoint.bmp",0,0,0,50,135)
-        KBD(VK_RIGHT,1,200)
-        KBD(VK_SPACE,0,600)
-        while true
-            ifb chkimg("../picture/yellowPoint.bmp",0,65,110,170,135)
-                KBD(VK_RIGHT,2,100);
-                break;
-            endif
-        wend
-        exit
+    // ルーンが出現しているか確認します。
+    // 出現していた場合は解除します
+    ret = checkRuneStage()
+    ifb ret <> 0
+    	sleep(0.5);
+        lib.OpenRune();
+        sleep(1);
     endif
-    ifb chkimg("../picture/yellowPoint.bmp",0,90,90,160,135)
-        KBD(VK_LEFT,1,200)
-        KBD(VK_SPACE,0,600)
-        while true
-            ifb chkimg("../picture/yellowPoint.bmp",0,0,0,100,135)
-                KBD(VK_LEFT,2,100);
-                break;
-            endif
-        wend
-        exit
-    endif
-    result = 0;
-fend
-
-function collect()
-
-
-    RemoveCatchRope();
-    print "アイテム回収を行います"
-    while true
-        KBD(VK_LEFT,1);
-        KBD(VK_SPACE,0,800);
-        if chkimg("../picture/yellowPoint.bmp",0,0,0,35,135) then break;
-    wend
-    KBD(VK_LEFT,2,200);
-    KBD(VK_B,0,1000);
-    SLEEP(1.5);
-    while true
-        KBD(VK_RIGHT,1);
-        KBD(VK_SPACE,0,800);
-        if chkimg("../picture/yellowPoint.bmp",0,140,110,170,135) then break;
-    wend
-    KBD(VK_RIGHT,2,200);
-    while true
-        KBD(VK_LEFT,1);
-        KBD(VK_SPACE,0,800);
-        if chkimg("../picture/yellowPoint.bmp",0,0,110,100,135) then break;
-    wend
-    KBD(VK_LEFT,2,200);
+    // スーパーピグ農場イベ
+    //KBD(VK_F1,0,1000);
+    //sleep(0.3)
+    
 
     
     result = 0;
 fend
-
-function DownJump()
-
-    KBD(VK_DOWN,1,500)
-    for i = 1 to 3
-        KBD(VK_C,0,100)
-        KBD(VK_SPACE,0,100)
-    next
-    KBD(VK_DOWN,2,100)
-    for i = 1 to 3
-        KBD(VK_U,0,100)
-    next
-    result = 0;
-fend
-
-function RemoveCatchRope()
-
-    ifb chkimg("../picture/yellowPoint.bmp",0,0,0,300,300)
-        ifb 100 < G_IMG_Y and G_IMG_Y < 120
-            print "rope";
-            KBD(VK_DOWN,1,100);
-            KBD(VK_DOWN,2,3500);
-            KBD(VK_RIGHT,1,100);
-            for i = 1 to 2
-                KBD(VK_SPACE,0,200);
-            next
-            KBD(VK_RIGHT,2,1000);
-        endif
-    endif
-    result = 0;
-fend
-
 
 //=========================================
 // param   : None 
@@ -211,12 +141,7 @@ fend
 
 function moveStage(num,x,y)
 
-    while true
-        KBD(VK_RIGHT,1);
-        KBD(VK_SPACE,0,800);
-        if chkimg("../picture/yellowPoint.bmp",0,140,110,160,135) then break;
-    wend
-    KBD(VK_RIGHT,2,100)
+
     ifb num = 1
         // 一番左へいく
         KBD(VK_LEFT,1,500)
@@ -268,9 +193,6 @@ function useSkill()
     next
     KBD(VK_G,0,1000);
     sleep(2);
-    KBD(VK_2,0,500);
-    KBD(VK_W,0,800);
-
 	result = 0;
 
 fend
@@ -282,6 +204,10 @@ fend
         y2 = 800;
 
         KBD(VK_U,0,300);
+
+        ifb chkimg("../picture/SengokuAlliance.bmp",0,x1,y1,x2,y2)
+            KBD(VK_L,0,500);
+        endif
 
         ifb chkimg("../picture/BlessingsOfPrincess.bmp",0,x1,y1,x2,y2)
             KBD(VK_N,0,500);
@@ -304,6 +230,18 @@ fend
             KBD(VK_CTRL,0,100);
             exit;
             sleep(2);
+        endif
+
+        //ifb chkimg("../picture/OneDevil.bmp",0,x1,y1,x2,y2)
+        //    KBD(VK_F10,0,100);
+        //    sleep(1);
+        //    exit;
+        //endif
+
+        ifb chkimg("../picture/妖怪巻.bmp",0,x1,y1,x2,y2)
+            KBD(VK_SHIFT,0,100);
+            sleep(1);
+            exit;
         endif
 
 

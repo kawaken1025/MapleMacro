@@ -74,10 +74,23 @@ fend
 //============================
 function illiumSkillCheck(deusKey,fastChargeKey,longinusZoneKey,raceOfGodKey,gramHolderKey)
     if chkimg(lib.picPathHelper("deus"),0,0,0,1366,800)          then KBD(deusKey,0,700);
-    if chkimg(lib.picPathHelper("FastCharge"),0,0,0,1366,800)    then KBD(fastChargeKey,0,700);
+    if chkimg(lib.picPathHelper("FastCharge"),0,0,0,1366,800)    then FastChargerAttack(fastChargeKey);
     if chkimg(lib.picPathHelper("LonginusZone"),0,0,0,1366,800)  then KBD(longinusZoneKey,0,700);
     if chkimg(lib.picPathHelper("RaceOfGod"),0,0,0,1366,800)     then KBD(raceOfGodKey,0,700);
     if chkimg(lib.picPathHelper("GramHolder"),0,0,0,1366,800)    then KBD(gramHolderKey,0,700);
+    result = 0;
+fend
+
+function FastChargerAttack(FastChargeKey)
+    for i = 1 to 2
+        KBD(VK_SHIFT,0,200);
+    next
+    KBD(FastChargeKey,0,700);
+    time = GETTIME( 10 / 86400);
+    while GETTIME() < time
+        KBD(VK_X,0,150);
+        KBD(VK_A,0,10);
+    wend
     result = 0;
 fend
 

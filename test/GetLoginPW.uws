@@ -1,0 +1,3 @@
+call ../lib/MapleLibrary.uws
+
+lib.LoginEntry();

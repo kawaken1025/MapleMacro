@@ -14,36 +14,39 @@
 //=========================================//
 // Copy Right (C) 2019 All Right Reserved. 
 //   @author k.kawabata @kawaken1025
-//     Create Date : 2019/01/12
+//     Create Date : 2019/05/06
 //=========================================//
 
 //MapleAPI : LogWriter.uws , MapleLibrary.uws , UseSkillFiveJob.uws
 CALL ../MapleAPI/MapleAPI.uws;
-//import Luminous skillKeySetting
-CALL KeySetting.uws;
-//Illium Utility Class
-CALL IlliumUtil.uws;
 //Move Window initSetting x = 1 , y = 1
 lib.activeWindow();
 //multiThread checkRedPoint and checkMineralization
-thread lib.parallelProgramWaitMode();
+thread lib.parallelProgram();
 
 while true
-    skillTime = gettime( 120 / 86400 );
-    skill.illiumSupportSkill();
-    lib.checkFamiliarPower();
+    skillTime = gettime( 20 / 86400 );
+    KBD(VK_G,0,1000)
+    for i = 1 to 3
+        KBD(VK_H,0,1000)
+    next
     while true
-        util.moveSoulOfCrystalAttack(VK_LEFT);
-        checkYellowPoint();
-        util.moveSoulOfCrystalAttack(VK_RIGHT);
         checkYellowPoint();
         if gettime() > skillTime then break;
-        // for i = 1 to 5
-        //     KBD(VK_F1,0,100)
-        // next
-        // ifb chkimg(lib.picPathHelper("runePoint"),0,0,0,300,300)
-        //     SOUND("")
-        // endif
+        ifb chkimg("../picture/LingStone.bmp",0,800,600,1366,800)
+            KBD(VK_HOME,0,2000);
+            sleep(1);
+            KBD(VK_U,0,1000)
+            KBD(VK_F5,0,1000)
+            KBD(VK_F,1,2000)
+            for i = 1 to 5
+                for j = 1 to 5
+                    sleep(0.9);
+                next
+                KBD(VK_U,0,300)
+            next
+            KBD(VK_F,2,3000)
+        endif
     wend
     logger.logWriter(LogLevel.LOG_INFO,Messages.START_COLLECT);
     collect();
@@ -51,34 +54,34 @@ wend
 
 function checkYellowPoint()
 
-    ifb chkimg(lib.picPathHelper("yellowPoint"),0,40,120,86,142)
+    ifb chkimg("../picture/yellowPoint.bmp",0,40,120,86,142)
         KBD(VK_B,0,500);
         SLEEP(1.2);
         KBD(VK_RIGHT,1,500);
         while true
-            if chkimg(lib.picPathHelper("yellowPoint"),0,84,101,99,122) then break;
-            ifb chkimg(lib.picPathHelper("yellowPoint"),0,40,120,86,142)
+            if chkimg("../picture/yellowPoint.bmp",0,84,101,99,122) then break;
+            ifb chkimg("../picture/yellowPoint.bmp",0,40,120,86,142)
                 KBD(VK_B,0,1000)
             endif
         wend
         KBD(VK_RIGHT,2,100);
     endif
 
-    ifb chkimg(lib.picPathHelper("yellowPoint"),0,100,0,160,142)
+    ifb chkimg("../picture/yellowPoint.bmp",0,100,0,160,142)
         KBD(VK_B,0,500);
         SLEEP(1.2);
         KBD(VK_LEFT,1,500);
         while true
-            ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,33,160)
+            ifb chkimg("../picture/yellowPoint.bmp",0,0,0,33,160)
                 KBD(VK_LEFT,2,300);
                 init();
             endif
-            if chkimg(lib.picPathHelper("yellowPoint"),0,84,101,99,122) then break;
+            if chkimg("../picture/yellowPoint.bmp",0,84,101,99,122) then break;
         wend
         KBD(VK_LEFT,2,100);
     endif
 
-    ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,33,133)
+    ifb chkimg("../picture/yellowPoint.bmp",0,0,0,33,133)
         init()
     endif
 
@@ -88,15 +91,15 @@ fend
 function init()
         KBD(VK_RIGHT,1,500);
         while true
-            if chkimg(lib.picPathHelper("yellowPoint"),0,50,121,75,135) then break;
+            if chkimg("../picture/yellowPoint.bmp",0,50,121,75,135) then break;
         wend
         KBD(VK_RIGHT,2,100);
         KBD(VK_B,0,500);
         SLEEP(1);
         KBD(VK_RIGHT,1,300)
         while true
-            if chkimg(lib.picPathHelper("yellowPoint"),0,84,101,99,122) then break;
-            if chkimg(lib.picPathHelper("yellowPoint"),0,50,121,75,135) then KBD(VK_B,0,500);
+            if chkimg("../picture/yellowPoint.bmp",0,84,101,99,122) then break;
+            if chkimg("../picture/yellowPoint.bmp",0,50,121,75,135) then KBD(VK_B,0,500);
         wend
         KBD(VK_RIGHT,2,100);
         result = 0;
@@ -106,8 +109,8 @@ fend
 function collect()
         while true
             KBD(VK_RIGHT,1,500);
-            if chkimg(lib.picPathHelper("yellowPoint"),0,130,120,150,140) then break;
-            ifb chkimg(lib.picPathHelper("yellowPoint"),0,50,121,75,135) 
+            if chkimg("../picture/yellowPoint.bmp",0,130,120,150,140) then break;
+            ifb chkimg("../picture/yellowPoint.bmp",0,50,121,75,135) 
                 KBD(VK_RIGHT,2,100);
                 KBD(VK_B,0,500);
             endif
@@ -117,16 +120,16 @@ function collect()
         SLEEP(3.2);
         KBD(VK_LEFT,1,300)
         while true
-            if chkimg(lib.picPathHelper("yellowPoint"),0,45,120,60,140) then break;
-            if chkimg(lib.picPathHelper("yellowPoint"),0,0,0,33,160) then break;
+            if chkimg("../picture/yellowPoint.bmp",0,45,120,60,140) then break;
+            if chkimg("../picture/yellowPoint.bmp",0,0,0,33,160) then break;
         wend
         KBD(VK_LEFT,2,100);
         KBD(VK_B,0,500);
         SLEEP(3.2)
         KBD(VK_RIGHT,1,300)
         while true
-            if chkimg(lib.picPathHelper("yellowPoint"),0,84,101,99,122) then break;
-            ifb chkimg(lib.picPathHelper("yellowPoint"),0,50,121,75,135) 
+            if chkimg("../picture/yellowPoint.bmp",0,84,101,99,122) then break;
+            ifb chkimg("../picture/yellowPoint.bmp",0,50,121,75,135) 
                 KBD(VK_RIGHT,2,100);
                 KBD(VK_B,0,500);
                 SLEEP(3.2);

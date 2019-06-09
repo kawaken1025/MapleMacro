@@ -20,10 +20,11 @@ While true
     KBD(VK_U,0,1000)
     for i = 1 to 6
         lib.activeWindow();
-        BTN(LEFT,CLICK,400,405,500) 
-        BTN(LEFT,CLICK,400,405,500) 
-        urgentCheck()
-        recovery()
+        BTN(LEFT,CLICK,400,405,500);
+        BTN(LEFT,CLICK,400,405,500); 
+        urgentCheck();
+        recovery();
+        KBD(VK_R,0,1000);
         for x = 1 to 5
             KBD(VK_X,0,200)
             ifb chkimg("../picture/ê‘ì_.BMP",0,0,0,1368,800)
@@ -126,6 +127,7 @@ function goRight()
                 if !chkimg("../picture/redpoint2.BMP",0,0,0,400,400) or !chkimg("../picture/ê‘ì_.BMP",0,0,0,400,400) then break;
             wend
             KBD(VK_RIGHT,1,200)
+            KBD(VK_SPACE,0,500)
         endif   
         
         //KBD(VK_SPACE,0,1500)

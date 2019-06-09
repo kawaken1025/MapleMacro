@@ -6,23 +6,24 @@ thread lib.parallelProgramExitMode();
 petTime = GETTIME( 600 / 86400 )
 
 while true
-    KBD(VK_LEFT,1,500);
     while true
-        KBD(VK_V,0,700);
-        KBD(VK_V,0,300);
-        KBD(VK_CTRL,0,840);
+        KBD(VK_LEFT,1,10);
+        KBD(VK_V,0,100);
+        KBD(VK_V,0,100);
         if chkimg(lib.picPathHelper("yellowPoint"),0,0,0,48,147) then break;
         lib.urgentCheck();
         //lib.checkStartingMapleStory();
-        lib.checkGameMaster();
+        //lib.checkGameMaster();
     wend
     KBD(VK_LEFT,2,200);
+    KBD(VK_SHIFT,0,500)
     upStage();
 
 
-    KBD(VK_RIGHT,1,500)
+    
     while true
-        KBD(VK_V,0,300);
+        KBD(VK_RIGHT,1,10);
+        KBD(VK_V,0,100);
         if !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,135,130) then break;
         lib.urgentCheck();
         lib.checkGameMaster();

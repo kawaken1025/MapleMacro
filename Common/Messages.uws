@@ -17,6 +17,7 @@ CLASS Messages
     const SCRIPT_END              = "異常を検知したためスクリプトが終了しました。";
     const DISCOVERY_GREEN_POINT   = "緑点を発見しました。スクリプトを終了します。";
     const STOP_MAPLE_MESSAGE      = "メイプルストーリーが起動していません。";
+    const START_MAPLE_STORY       = "メイプルストーリーを起動します。";
     const ENCOUNT_GAME_MASTER     = "ゲームマスターを検知しました。";
     const REPLY_REQUEST           = "「ご返答」を検出しました。";
     const HEART_SPEAKER           = "ハート拡声器を検出しました。";
@@ -29,6 +30,7 @@ CLASS Messages
     const UNDER_THE_CAVE          = "洞窟の通路(下)スクリプトを開始しました。";
     const SLEEP_START             = "秒待機します。";
     const USE_PET_FEED            = "ペットの餌を使用しました。";
+    const USE_PROP_MEDICINE       = "財物獲得秘薬を使用しました。";
     const BACK_TOWN_STOP          = "緑点を検出しました。マクロを停止します。";
     const START_SCRIPT_NAME       = REPLACE(GET_UWSC_NAME, ".uws", "") + "スクリプトを開始しました。";
     const START_COLLECT           = "アイテム回収を行います。";
@@ -36,6 +38,10 @@ CLASS Messages
     const PLAY_CLICKED            = "ランチャーのPLAYボタンをクリックしました。";
     const LOGIN_SCREEN_REACHING   = "ログイン画面に到達しました。";
     const DETECTION_RUNE          = "ルーンを発見しました。";
+    const DETECTION_RUNE_NOTICE   = "呪いのルーン通知ポップアップを発見しました。";
+    const CHANNEL_CHANGE_SUCCESS  = "チャンネル変更を行いました。";
+    const CHANNEL_CHANGE_FAIL     = "チャンネル変更に失敗しました。";
+    const CHANNEL_CHANGE_DET_RUNE = "チャンネル変更時にルーンを発見しました。";
 
 ENDCLASS
 

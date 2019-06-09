@@ -46,12 +46,10 @@ function moveCrystalAttack(moveKey)
         sleep(0.5);
         useSkill.javelin(key.JAVELIN_KEY);
         useSkill.orb(key.ORB_KEY);
-        KBD(key.LONGINUS_KEY,0,250);
-        KBD(key.LONGINUS_KEY,0,250);
-        //f chkimg(lib.picPathHelper("Longinus"),0,0,0,1366,800) then KBD(key.LONGINUS_KEY,0,700);
+        if chkimg(lib.picPathHelper("Longinus"),0,800,600,1366,800) then KBD(key.LONGINUS_KEY,0,700);
         skill.illiumSkillCheck(key.DEUS_KEY,key.FAST_CHARGE_KEY,key.LONGINUS_ZONE_KEY,key.RACE_OF_GOD_KEY,key.GRAM_HOLDER_KEY);
         skill.pSkill();
-        if chkimg(lib.picPathHelper("CrystalIgnition"),0,0,0,1366,800) then useSkill.crystalIgnition(key.IGNITION_KEY,key.CRYSTAL_KEY);
+        if chkimg(lib.picPathHelper("CrystalIgnition"),0,800,600,1366,800) then useSkill.crystalIgnition(key.IGNITION_KEY,key.CRYSTAL_KEY);
     next
     KBD(key.SOUL_OF_CRYSTAL_KEY,0,750);
     lib.urgentCheck();
@@ -70,15 +68,22 @@ function moveSoulOfCrystalAttack(moveKey)
     useSkill.moveCrystal(key.CRYSTAL_KEY)
     KBD(moveKey,1,100)
     KBD(moveKey,2,50)
-    KBD(key.SOUL_OF_CRYSTAL_KEY,0,800);
+    for i = 1 to 3
+        KBD(key.SOUL_OF_CRYSTAL_KEY,0,150);
+    next
     for i = 1 to 2
         sleep(0.5);
         useSkill.javelin(key.JAVELIN_KEY);
         useSkill.orb(key.ORB_KEY);
-        KBD(key.LONGINUS_KEY,0,500);
+        ifb chkimg(lib.picPathHelper("Longinus"),0,800,600,1366,800)
+            for i = 1 to 7
+                KBD(key.LONGINUS_KEY,0,150);
+            next
+        endif
         skill.illiumSkillCheck(key.DEUS_KEY,key.FAST_CHARGE_KEY,key.LONGINUS_ZONE_KEY,key.RACE_OF_GOD_KEY,key.GRAM_HOLDER_KEY);
         skill.pSkill();
-        if chkimg(lib.picPathHelper("CrystalIgnition"),0,0,0,1366,800) then useSkill.crystalIgnition(key.IGNITION_KEY,key.CRYSTAL_KEY);
+        if chkimg(lib.picPathHelper("GloryWing"),0,800,600,1366,800) then useSkill.GloryWingAttack(key.JAVELIN_KEY, VK_HOME, VK_F7);
+        if chkimg(lib.picPathHelper("CrystalIgnition"),0,800,600,1366,800) then useSkill.crystalIgnition(key.IGNITION_KEY,key.CRYSTAL_KEY);
     next
     lib.urgentCheck();
     lib.checkGameMaster();

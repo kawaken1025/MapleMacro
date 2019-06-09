@@ -1,19 +1,16 @@
 //=========================================//
-// comment     : íËêîíËã`ÉNÉâÉX
+// comment     : „Ç≠„ÉºË®≠ÂÆö(„Éë„Çπ„Éï„Ç°„Ç§„É≥„ÉÄ„Éº)
 // param       : None
 // return      : None
 // ========================================//
-// Display Dpl : 
+// Display Dpl : 800x600 or 1366x768
 //=========================================//
-// Copy Right (C) 2019 All Right Reserved. 
+// Copy Right (C) 2018 All Right Reserved.
 //   @author k.kawabata @kawaken1025
-//     Create Date : 2019/02/22
+//     Create Date : 2019/05/10
 //=========================================//
 
-class constant
+class key
 
-    // ???
-	const UNDISCOVERED_RUNE = 0; // ??????
-	const DISCOVERY_RUNE    = 1; // ?????
 
 endclass

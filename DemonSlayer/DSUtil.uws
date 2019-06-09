@@ -1,0 +1,71 @@
+//=========================================//
+// DS Utility Class
+// comment     : None
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : y2x600 or x2xy2
+//=========================================//
+// Copy Right (C) 2019 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2019/04/28
+//=========================================//
+
+CALL ../lib/MapleLibrary.uws;
+//import Kannna skillKeySetting
+
+class util
+
+
+    function DS_SkillCheck()
+        x1 = 800;
+        y1 = 600;
+        x2 = 1366;
+        y2 = 800;
+
+        KBD(VK_U,0,y2);
+
+        ifb chkimg("../picture/BlueBlood.bmp",0,x1,y1,x2,y2)
+            KBD(VK_SHIFT,0,1000);
+            sleep(0.5);
+        endif
+
+        ifb chkimg("../picture/MetamorPhosis.bmp",0,x1,y1,x2,y2)
+            KBD(VK_H,0,1000);
+            sleep(1);
+        endif
+
+        ifb chkimg("../picture/Demonic.bmp",0,x1,y1,x2,y2)
+            KBD(VK_N,0,1000);
+            sleep(0.5);
+        endif
+
+        ifb chkimg("../picture/InfinityForce.bmp",0,x1,y1,x2,y2)
+            KBD(VK_J,0,1000);
+            sleep(0.5);
+        endif
+
+        value = 0;
+        ifb chkimg("../picture/DemonAwaking.bmp",0,x1,y1,x2,y2)
+            KBD(VK_F1,0,1000);
+            sleep(0.5);
+            value = 1;
+        endif
+
+        ifb chkimg("../picture/Jormungand.bmp",0,x1,y1,x2,y2)
+            KBD(VK_F2,0,1000);
+            sleep(0.5);
+            exit;
+        endif
+
+        ifb chkimg("../picture/Orthros.bmp",0,x1,y1,x2,y2)
+            KBD(VK_F3,0,1000);
+            sleep(0.5);
+        endif
+
+
+        result = value;
+    fend
+
+
+endclass

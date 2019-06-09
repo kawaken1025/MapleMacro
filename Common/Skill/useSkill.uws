@@ -102,6 +102,47 @@ function crystalIgnition(ignitionKey,crystalKey)
         result = 0;
 fend
 
+//=========================================
+// comment     : イリウム：グローリーウィングアタック
+// param       : None
+// return      : None
+////=========================================
+function GloryWingAttack(JavelinKey, GloryWingKey ,WingBeatKey)
+
+        // グローリーウィング持続時間
+        GloryWingTime = gettime( 21 / 86400 );
+        // グローリーウィング発動
+        for i = 1 to 3
+            KBD(GloryWingKey,0,150);
+        next
+        // 少し下へ移動
+        KBD(VK_DOWN,1,200)
+        KBD(VK_DOWN,2,100)
+        // ウィングビート攻撃
+        for i = 1 to 3
+            KBD(WingBeatKey,0,150)
+        next
+        // 持続時間中はジャベリン攻撃
+        while true
+            for i = 1 to 15
+                KBD(javelinKey,0,100)
+            next
+            if GloryWingTime < GETTIME() then break;
+            KBD(VK_LEFT,1)
+            KBD(VK_LEFT,2,40)
+            for i = 1 to 15
+                KBD(javelinKey,0,100)
+            next            
+            if GloryWingTime < GETTIME() then break;
+            KBD(VK_RIGHT,1)
+            KBD(VK_RIGHT,2,40)
+            if GloryWingTime < GETTIME() then break;
+        wend
+        
+
+        result = 0;
+fend
+
 
 //魔法使い共通
 

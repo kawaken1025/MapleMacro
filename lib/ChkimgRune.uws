@@ -94,9 +94,16 @@ try
 
         print "合計検出数:" + list.count
         ifb list.count <> 8
-            list.clear();
-            logger.logWriter(LogLevel.LOG_INFO,"ルーンのコマンド解析に失敗しました。");
-            logger.logWriter(LogLevel.LOG_INFO,"ルーンの再解析を行います");
+            ifb isRange
+                list.clear();
+                logger.logWriter(LogLevel.LOG_INFO, "ルーンのコマンド解析に失敗しました");
+                logger.logWriter(LogLevel.LOG_INFO, "ルーンの再解析を行います");
+            else
+                logger.logWriter(LogLevel.LOG_INFO, "ルーンのコマンド解析に失敗しました");
+                logger.logWriter(LogLevel.LOG_INFO, "範囲が検出できていないためルーン解析を終了します");
+                exit;
+            endif
+
         elseif list.count = 8
             break;
         endif

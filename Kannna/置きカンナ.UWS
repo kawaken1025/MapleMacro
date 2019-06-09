@@ -7,10 +7,9 @@ SLEEP(2)
 
 While true
 
-	FOR X = 1 TO 10
+	FOR X = 1 TO 1
 
 		KBD(VK_H,CLICK,1000)
-		SLEEP(70)
 		SLEEP(5)
 		KBD(VK_G,0,1000)
 		SLEEP(5)
@@ -18,12 +17,11 @@ While true
 	NEXT
 
 	KBD(VK_LEFT,1,100)
-	KBD(VK_LEFT,2,50)
+	KBD(VK_LEFT,2,100)
 
 
-	FOR X = 1 TO 10
+	FOR X = 1 TO 1
 		KBD(VK_H,CLICK,1000)
-		SLEEP(70)
 		SLEEP(5)
 		KBD(VK_G,0,1000)
 		SLEEP(5)
@@ -31,7 +29,7 @@ While true
 
 
 	KBD(VK_RIGHT,1,100)
-	KBD(VK_RIGHT,2,50)
+	KBD(VK_RIGHT,2,100)
 WEND
 
 

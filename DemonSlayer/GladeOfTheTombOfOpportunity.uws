@@ -1,0 +1,143 @@
+//=========================================//
+// Map Name    : ヘイヴン　　　　　　　　　　   //
+//=========================================//
+
+//=========================================//
+// comment     : None
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 800x600 or 1366x768
+//=========================================//
+// Copy Right (C) 2019 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2019/02/09
+//=========================================//
+
+//=========================================
+// init
+//=========================================
+// MapleAPI : LogWriter.uws , MapleLibrary.uws , UseSkillFiveJob.uws
+CALL ../MapleAPI/MapleAPI.uws;
+// Util - sugarTime exec
+CALL ../Util/MapleUtil.uws;
+// multiThread checkRedPoint and checkMineralization
+thread lib.parallelProgramExitMode();
+// MessageWindow init
+CALL DSUtil.uws;
+
+while true;
+    lib.checkFamiliarPower();
+    SLEEP(1)
+    //mutil.useBlackUnionEventItem();
+
+    //Acquisition of Time : Get the time after 3 minutes
+    reUseSkillTime = GETTIME( 150 / 86400 );
+    useSkill();
+    SLEEP(0.5);
+    KBD(VK_T,0,2000)
+    //lib.checkFamiliarPower();
+    //lib.useMaprage();
+    while true;
+        oneWayAttack(VK_LEFT,0,0,40,120);
+        oneWayAttack(VK_RIGHT,135,80,190,120);
+        //3minutes elapsed?
+        if GETTIME() > reUseSkillTime then break;
+    wend
+wend
+//=========================================
+// param   : $1:移動方向キー
+//           $2:chkimg準拠
+// comment : 左右往復
+//=========================================
+public isAwaking = false;
+public awakingTime = 0;
+function oneWayAttack(moveKey,x1,y1,x2,y2)
+
+    //execute moveHunting
+    KBD(moveKey,1,200);
+    while true
+        for i = 1 to 3
+            KBD(VK_V,0,200)
+        next
+        if chkimg(lib.picPathHelper("yellowPoint"),0,x1,y1,x2,y2)     then break;
+        Attack();
+        ret = util.DS_SkillCheck();
+        ifb ret <> 0
+            isAwaking = true;
+            awakingTime = GETTIME( 35 / 86400 )
+        endif
+        ifb awakingTime < GETTIME()
+            isAwaking = false;
+        endif
+    wend
+    //lib.checkGameMaster();
+    KBD(moveKey,2,100);
+
+    // ルーンが出現しているか確認します。
+    // 出現していた場合は解除します
+    ret = checkRuneStage()
+    ifb ret <> 0
+    	sleep(0.5);
+        lib.OpenRune();
+        sleep(1);
+    endif
+
+    
+    //skill.pSkill();
+    sleep(1.5);
+    
+    
+    result = 0;
+fend
+
+//=========================================
+// param   : None 
+// comment : ルーンが出現しているか確認
+//=========================================
+function checkRuneStage()
+
+	ret = 0;
+    // 上段にあるか
+    ifb chkimg(lib.picPathHelper("runePoint"),0,0,0,200,150)
+        ret = 1;
+        logger.logWriter(LogLevel.LOG_INFO,Messages.DETECTION_RUNE);
+    //elseif chkimg(lib.picPathHelper("runePoint"),0,0,127,180,145)
+    //    ret = 1;
+    //    logger.logWriter(LogLevel.LOG_INFO,Messages.DETECTION_RUNE);
+    endif
+    result = ret;
+fend
+
+function useSkill()
+
+	KBD(VK_G,0,1000);
+	KBD(VK_H,0,3000);
+	result = 0;
+
+fend
+
+function Attack()
+
+    ifb isAwaking
+        print "awaking mode"
+        for i = 1 to 10
+            KBD(VK_X,0,300)
+        next
+    else
+        ifb chkimg(lib.picPathHelper("ker2"),0,0,0,1368,800)
+            sleep(0.3)
+            KBD(VK_D,0,350)
+            KBD(VK_D,0,350)
+            for i = 1 to 8
+                KBD(VK_A,0,300)
+            next
+        else
+            for i = 1 to 8
+                KBD(VK_A,0,300)
+            next
+        endif
+    endif
+
+    result = 0;
+fend

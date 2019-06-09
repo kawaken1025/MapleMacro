@@ -1,0 +1,8 @@
+CALL ../lib/MapleLibrary.uws
+
+while true
+    ret = lib.ChannelChange(true);
+    ifb ret = 0
+        break;
+    endif
+wend

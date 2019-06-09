@@ -1,0 +1,49 @@
+//CALL ../MapleAPI/MapleAPI.uws;
+thread parallelProgram();
+
+while true
+	ifb chkimg("../picture/yellowPoint.bmp",0,0,0,1368,800)
+		ifb G_IMG_X < 60
+			KBD(VK_RIGHT,1,300)
+			KBD(VK_RIGHT,2,2000)
+		endif
+		ifb G_IMG_X > 150
+			KBD(VK_LEFT,1,300)
+			KBD(VK_LEFT,2,2000)
+		endif
+	endif
+
+	for i = 1 to 300
+		KBD(VK_A,0,50)
+	next
+	KBD(VK_SHIFT,0,1000)
+	KBD(VK_LEFT,1,200)
+	KBD(VK_LEFT,2,100)
+
+	ifb chkimg("../picture/yellowPoint.bmp",0,0,0,1368,800)
+		ifb G_IMG_X < 60
+			KBD(VK_RIGHT,1,300)
+			KBD(VK_RIGHT,2,2000)
+		endif
+		ifb G_IMG_X > 150
+			KBD(VK_LEFT,1,300)
+			KBD(VK_LEFT,2,2000)
+		endif
+	endif
+
+	for i = 1 to 300
+		KBD(VK_A,0,50)
+	next
+	KBD(VK_SHIFT,0,1000)
+	KBD(VK_RIGHT,1,200)
+	KBD(VK_RIGHT,2,100)
+wend
+
+procedure parallelProgram()
+    while TRUE
+        ifb chkimg("../picture/緑点.bmp",0,0,0,1368,800)
+            //logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
+            exitexit;
+        endif
+    wend
+fend
