@@ -57,9 +57,9 @@ fend
 ////=========================================
 function javorb(javelinKey,orbKey)
         KBD(javelinKey,0,150)
-        KBD(orbKey,0,50);
-        KBD(orbKey,0,25);
-        KBD(javelinKey,0,150)
+        KBD(orbKey,0,75);
+        KBD(orbKey,0,75);
+        //KBD(javelinKey,0,150)
         result = 0
 fend
 

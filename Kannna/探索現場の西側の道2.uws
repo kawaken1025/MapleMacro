@@ -1,18 +1,19 @@
 //ACW(GETID("MapleStory","MapleStoryClass"),1,1)
 
 CALL ../MapleAPI/MapleAPI.uws;
-thread lib.parallelProgram();
+thread lib.parallelProgramExitMode();
+CALL KannnaUtil.uws;
 //変数処理
 PET = 0
 KISHIN = 0
 
 KBD(VK_G,0,1000)
-
-WHILE TRUE //左端へ
+public oyabunTime = GETTIME( 30 / 86400 );
+WHILE TRUE
 	IFB PET > 5
 		SLEEP(1.2)
 		KBD(VK_T,0,1000)
-		KBD(VK_J,0,800)
+		KBD(VK_2,0,800)
 		PET = 0
 	ENDIF
 
@@ -22,7 +23,7 @@ WHILE TRUE //左端へ
 
 		FOR ATTACK = 1 TO 2
 			checkRuneStage();
-			IFB KISHIN > 2
+			IFB KISHIN > 4
 				KBD(VK_H,0,1000)
 			KISHIN = 0
 			ENDIF
@@ -31,19 +32,21 @@ WHILE TRUE //左端へ
 			IF CHKIMG("../picture/エリボス.BMP",0,0,0,2000,2000) THEN SOUND("BEEP")
 
 			黄点チェック()
-			霊力回復()
 			for i = 1 to 5
 				KBD(VK_A,0,500)
 			next
 			upStage();
 
 			黄点チェック()
-			霊力回復()
 			for i = 1 to 5
 				KBD(VK_A,0,500)
 			next
 			downStage();
-
+			util.KannnaSkillCheck();
+			ifb oyabunTime < GETTIME()
+				KBD(VK_W,0,800);
+				oyabunTime = GETTIME( 30 / 86400 );
+			endif
 		NEXT
 	PET = PET + 1
 	KISHIN = KISHIN + 1
@@ -61,25 +64,20 @@ PROCEDURE 並列処理()
 	WEND
 FEND
 
-PROCEDURE 霊力回復()
 
-	KBD(VK_U,0,800)
-	//KBD(VK_DELETE,0,700)
-	//KBD(VK_SHIFT,0,700)
-	KBD(VK_9,0,1000)
-	KBD(VK_HOME,0,1000)
-FEND
 
 PROCEDURE 黄点チェック()
 
 	IFB CHKIMG("../picture/黄点.BMP",0,0,0,90,150)
 	KBD(VK_RIGHT,1,500)
-	KBD(VK_RIGHT,2,1000)
+	KBD(VK_SPACE,0,500);
+	KBD(VK_RIGHT,2,500)
 	ENDIF
 
 	IFB CHKIMG("../picture/黄点.BMP",0,118,87,170,150)
 	KBD(VK_LEFT,1,500)
-	KBD(VK_LEFT,2,1000)
+	KBD(VK_SPACE,0,500);
+	KBD(VK_LEFT,2,500)
 	ENDIF
 
 FEND

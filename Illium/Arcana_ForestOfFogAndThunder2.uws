@@ -26,10 +26,10 @@ CALL IlliumUtil.uws;
 //Move Window initSetting x = 1 , y = 1
 lib.activeWindow();
 //multiThread checkRedPoint and checkMineralization
-thread lib.parallelProgram();
+thread lib.parallelProgramExitMode();
 
 while true
-    skillTime = gettime( 180 / 86400 );
+    skillTime = gettime( 90 / 86400 );
     skill.illiumSupportSkill();
     lib.checkFamiliarPower();
     while true
@@ -47,6 +47,12 @@ while true
 wend
 
 function checkYellowPoint()
+
+    ret = checkRuneStage();
+    ifb ret <> 0
+        lib.OpenRune();
+    endif
+    lib.UrgentCheckCCmode();
 
     ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,117,125)
         KBD(VK_RIGHT,1,500);
@@ -116,5 +122,61 @@ function upStage()
     KBD(VK_LEFT,1,1000);
     KBD(VK_SPACE,0,1000);
     KBD(VK_LEFT,2,1000);
+    result = 0;
+fend
+
+//=========================================
+// param   : None 
+// comment : ルーンが出現しているか確認
+//=========================================
+function checkRuneStage()
+
+    // 上段にあるか
+    ifb chkimg(lib.picPathHelper("runePoint"),0,0,0,230,140)
+        ifb 9 < G_IMG_X and G_IMG_X < 81 and 87 < G_IMG_Y and G_IMG_Y < 120
+            logger.logWriter(LogLevel.LOG_INFO,"ルーンを左で発見しました。");
+            moveStage(1);
+            result = constant.DISCOVERY_RUNE;
+        elseif 82 < G_IMG_X and G_IMG_X < 179 and 107 < G_IMG_Y and G_IMG_Y < 120
+            logger.logWriter(LogLevel.LOG_INFO,"ルーンを下段で発見しました。");
+            moveStage(2);
+            result = constant.DISCOVERY_RUNE;
+        elseif 82 < G_IMG_X and G_IMG_X < 179 and 87 < G_IMG_Y and G_IMG_Y < 106
+            logger.logWriter(LogLevel.LOG_INFO,"ルーンを上段で発見しました。");
+            moveStage(3);
+            result = constant.DISCOVERY_RUNE;
+        elseif 180 < G_IMG_X and G_IMG_X < 220 and 87 < G_IMG_Y and G_IMG_Y < 108
+            logger.logWriter(LogLevel.LOG_INFO,"ルーンを右で発見しました。");
+            moveStage(4);
+            result = constant.DISCOVERY_RUNE;
+        endif
+    endif
+    
+    result = constant.UNDISCOVERED_RUNE;
+fend
+
+//=========================================
+// param   : 1 - 4
+// comment : ルーンが出現している段へ移動
+//=========================================
+function moveStage(num)
+    // いったん一番→へいく
+    KBD(VK_RIGHT,1,500)
+    while true
+        if chkimg(lib.picPathHelper("yellowPoint"),0,150,90,250,120) then break;
+    wend
+    KBD(VK_RIGHT,2,500)
+    
+    // 下段にルーンがある場合は右へ行って終了
+    ifb num = 1 or num = 2
+        result = 0;
+    // 上段にある場合は上へ登る
+    elseif num = 3 or num = 4
+        KBD(VK_B,0,500);
+        sleep(1);
+        result = 0;
+    endif
+    lib.OpenRune();
+    
     result = 0;
 fend

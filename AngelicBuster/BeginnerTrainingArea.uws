@@ -54,10 +54,12 @@ function oneWayAttack(moveKey,x1,y1,x2,y2)
         if chkimg(lib.picPathHelper("yellowPoint"),0,x1,y1,x2,y2)     then break;
         KBD(VK_V,0,900);
         KBD(VK_A,0,800);
+        for i = 1 to 4
+            KBD(VK_R,0,300)
+        next
     wend
     //lib.checkGameMaster();
     KBD(moveKey,2,200);
-    KBD(VK_F1,0,900);
     // ルーンが出現しているか確認します。
     // 出現していた場合は解除します
     ret = checkRuneStage()

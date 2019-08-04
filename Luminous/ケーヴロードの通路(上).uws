@@ -32,7 +32,7 @@ CALL KeySetting.uws;
 // Util - sugarTime exec
 CALL ../Util/MapleUtil.uws;
 // multiThread checkRedPoint and checkMineralization
-thread lib.parallelProgram();
+thread lib.parallelProgram_Gmember();
 // Main Script Start
 public _IsEqulibrium = false;
 public _IsUseDoor = false;
@@ -42,6 +42,7 @@ LOGPRINT(true,10,800,500,100)
 while true;
     //Acquisition of Time : Get the time after 3 minutes
     reUseSkillTime = GETTIME( 180 / 86400 );
+    collectTime = GETTIME( 120 / 86400 );
     skill.luminous_useSkill();
     SLEEP(0.5);
     lib.checkFamiliarPower();
@@ -57,6 +58,10 @@ while true;
         ifb ret <> 0
             lib.OpenRune();
         endif
+        ifb GETTIME() > collectTime
+            collect();
+            collectTime = GETTIME( 120 / 86400 );
+        endif
         //3minutes elapsed?
         if GETTIME() > reUseSkillTime then break;
     wend
@@ -68,8 +73,8 @@ wend
 //=========================================
 function oneWayAttack(moveKey,x1,y1,x2,y2)
     //execute moveHunting
-    KBD(moveKey,1,100);
     while true
+        KBD(moveKey,1,100);
         // Equlibrium check
         if chkimg(lib.picPathHelper("mode"),0,0,0,1368,800)     _
             or                                                  _
@@ -88,7 +93,13 @@ function oneWayAttack(moveKey,x1,y1,x2,y2)
         if chkimg(lib.picPathHelper("yellowPoint"),0,x1,y1,x2,y2)     then break;
         if chkimg(lib.picPathHelper("yellowPoint"),0,163,123,180,143) then KBD(key.ROPE_CONNECT_KEY,0,800);
         lib.checkStartingMapleStory();
-        lib.checkGameMaster();
+        //lib.checkGameMaster();
+        ifb chkimg(lib.picPathHelper("guild_member"),0,0,0,250,200);
+            responseToGuildMember(random(3));
+            mGuildMemberCount = 1;
+        else
+            mGuildMemberCount = 0;
+        endif
     wend
     useSkill.Reflection(key.REFLECTION_KEY);
     KBD(moveKey,2,200);
@@ -149,4 +160,52 @@ function moveStage(num)
     lib.OpenRune();
     
     result = 0;
+fend
+
+function collect()
+    // いったん一番→へいく
+    KBD(VK_RIGHT,1,500)
+    while true
+        if chkimg(lib.picPathHelper("yellowPoint"),0,170,0,180,143) then break;
+        KBD(key.TELEPORT_KEY,0,100)
+    wend
+    KBD(VK_RIGHT,2,500)
+
+    // 右へ行って下ジャンプ
+    KBD(VK_DOWN,1,500)
+    for i = 1 to 10
+        KBD(VK_C,0,100)
+    next
+    KBD(VK_DOWN,2,100)
+    KBD(VK_LEFT,1,200)
+    for i = 1 to 15
+        KBD(VK_SPACE,0,300)
+    next
+    KBD(key.ROPE_CONNECT_KEY,0,800);
+    result = 0;
+fend
+
+public mGuildMemberCount = 0;
+function responseToGuildMember(msgNum)
+
+    if mGuildMemberCount <> 0 then exit;
+    responseStr = ""
+    ifb msgNum = 0
+        responseStr = "MessageID[0] -> 中身はいないかもしれません" 
+    elseif msgNum = 1
+        responseStr = "MessageID[1] -> GCP VisionAPI SendRequest" 
+    else
+        responseStr = "MessageID[null] -> レスポンスメッセージを取得できませんでした。" 
+    endif
+    GETTIME();
+    msg = "[Auto-Response] " + G_TIME_HH2 + ":" + G_TIME_NN2  + " >> " + responseStr
+    KBD(VK_1,0,1000);
+    SendStr(0,msg,1,True);
+    KBD(VK_CTRL,1,1500);
+    KBD(VK_V,0,1500);
+    KBD(VK_CTRL,2,1000);
+    KBD(VK_ENTER,0,1000);
+    BTN(LEFT,CLICK,400,350,600);
+    BTN(LEFT,CLICK,400,350,600);
+    result = MAPLE_RESULT_OK; 
 fend

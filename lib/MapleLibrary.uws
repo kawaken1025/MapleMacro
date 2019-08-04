@@ -18,19 +18,34 @@ CALL ../MapleManagement/MapleManagement.uws;
 
 public PIC_PATH             = "../picture/";
 public SCREEN_SHOT_SAVE_DIR = "../picture/ScreenShot/";
-public MAPLE_STORY_EXE_DIR  = "C:\Nexon\MapleStory - コピー\MapleStory.exe";
+public MAPLE_STORY_EXE_DIR  = "\\192.168.10.107\MapleStory - コピー\MapleStory.exe";
 public LOGIN_INFO_INI_PATH  = "C:\Users\sisyo\Documents\LoginInfo.ini";
+public LOGIN_INFO_CSV_PATH  = "C:\LoginInfo.csv"
 public MAPLE_RESULT_OK      = 0;
 public MAPLE_RESULT_NG      = 1;
 public MAPLE_RESULT_OK_BOOL = true;
+public MAPLE_LOGIN_PW = "";
+public SECOND_PW = "";
 
 CLASS lib
+
+function lib()
+    try
+        GetLoginInfo();
+        ifb MAPLE_LOGIN_PW = "" and SECOND_PW = ""
+            print "ログイン情報を取得できませんでした。"
+        endif
+    except
+        print "ログイン情報を取得できませんでした。"
+    endtry
+    result = 0;
+fend
+
 //==========================================
 // comment : ファミリアの気力が500以下であれば回復
 // param   : None
 // return  : 0 
 //==========================================
-
 function checkFamiliarPower()
     
     KBD(comKey.FAM_BOOK_KEY,0,300);
@@ -455,7 +470,68 @@ procedure parallelProgram()
     wend
 fend
 
+procedure parallelProgram_Gmember()
+    while TRUE
+        ifb chkimg("../picture/石化2.bmp",0,0,0,1368,800)
+            for i = 1 to 20
+                KBD(VK_LEFT,0,100);
+                KBD(VK_RIGHT,0,100);
+            next
+        endif
+
+        if chkimg("../picture/加護.bmp",0,0,0,1368,800) then KBD(VK_F4,0,1000)
+
+        ifb chkimg("../picture/赤点.bmp",0,0,0,300,300)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+            alartSound();  
+        endif   
+
+        ifb chkimg("../picture/redpoint2.bmp",0,0,0,300,300)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+            alartSound();
+        endif   
+
+        ifb chkimg("../picture/緑点.bmp",0,0,0,300,300)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
+            exitexit;
+        endif
+
+        ifb chkimg("../picture/guild_member.bmp",0,0,0,300,300)
+            logger.logWriter(LogLevel.LOG_WARN, "ギルドメンバーを検知しました。");
+            alartSound();
+        endif 
+    wend
+fend
+
 procedure parallelProgramExitMode()
+    thread lib.RegularOnClick();
+    while TRUE
+        if chkimg("../picture/加護.bmp",0,0,0,1368,800) then KBD(VK_F4,0,1000)
+
+        ifb chkimg("../picture/赤点.bmp",0,0,0,300,300)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+            screenShot();
+            killMapleStory();
+            loginMapleStory();
+            //alartSound();
+        endif
+
+        ifb chkimg("../picture/redpoint2.bmp",0,0,0,300,300)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+            screenShot();
+            killMapleStory();
+            loginMapleStory();
+            //alartSound();
+        endif 
+
+        ifb  chkimg("../picture/緑点.bmp",0,0,0,300,300)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
+            exitexit;
+        endif
+    wend
+fend
+
+procedure parallelProgramExitMode_Gmember()
     thread lib.RegularOnClick();
     while TRUE
         ifb chkimg("../picture/石化2.bmp",0,0,0,1368,800)
@@ -467,7 +543,7 @@ procedure parallelProgramExitMode()
 
         if chkimg("../picture/加護.bmp",0,0,0,1368,800) then KBD(VK_F4,0,1000)
 
-        ifb chkimg("../picture/赤点.bmp",0,0,0,1368,800)
+        ifb chkimg("../picture/赤点.bmp",0,0,0,300,300)
             logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
             screenShot();
             killMapleStory();
@@ -475,7 +551,7 @@ procedure parallelProgramExitMode()
             //alartSound();
         endif
 
-        ifb chkimg("../picture/redpoint2.bmp",0,0,0,800,600)
+        ifb chkimg("../picture/redpoint2.bmp",0,0,0,300,300)
             logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
             screenShot();
             killMapleStory();
@@ -483,7 +559,15 @@ procedure parallelProgramExitMode()
             //alartSound();
         endif 
 
-        ifb  chkimg("../picture/緑点.bmp",0,0,0,1368,800)
+        ifb chkimg("../picture/guild_member.bmp",0,0,0,300,300)
+            logger.logWriter(LogLevel.LOG_WARN, "ギルドメンバーを検知しました。");
+            screenShot();
+            killMapleStory();
+            loginMapleStory();
+            //alartSound();
+        endif 
+
+        ifb  chkimg("../picture/緑点.bmp",0,0,0,300,300)
             logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
             exitexit;
         endif
@@ -623,7 +707,7 @@ fend
 function getNowDateTime()
     GETTIME();
     result = G_TIME_YY4 + G_TIME_MM2 + G_TIME_DD2 + _ //YYYYMMDD
-             G_TIME_HH2 + G_TIME_NN2 + G_TIME_SS2 + _ //HHNNSS
+             G_TIME_HH2 + "_" + G_TIME_NN2 + "_" + G_TIME_SS2 + "_" + _ //HHNNSS
              G_TIME_ZZ2;                              //ZZ
 fend
 
@@ -703,7 +787,8 @@ fend
 function LoginEntry()
 
     // 1次パス取得
-    firstPassword = READINI("Password","PW",LOGIN_INFO_INI_PATH);
+    //firstPassword = READINI("Password","PW",LOGIN_INFO_INI_PATH);
+    firstPassword = MAPLE_LOGIN_PW;
     print "fp:"+firstPassword;
     SENDSTR(0, firstPassword);
     // 入力文字の削除
@@ -727,24 +812,25 @@ function LoginEntry()
     KBD(VK_ENTER,0,2000)
     KBD(VK_ENTER,0,2000)
     // 2次パス取得
-    secondPassword = READINI("SecondPassword","PW",LOGIN_INFO_INI_PATH);
+    //secondPassword = READINI("SecondPassword","PW",LOGIN_INFO_INI_PATH);
+    secondPassword = SECOND_PW
     print secondPassword;
-    dim passArray[5];
-    for i = 1 to 6
+    dim passArray[6];
+    for i = 1 to 7
         passArray[i-1] = COPY(secondPassword,i,1);
     next
     // 2次パス画像クリック
-    for i = 1 to 6
+    for i = 1 to 7
         ifb chkimg("../picture/2ndPasskey/" + passArray[i-1] + ".bmp",0,0,0,1366,768)
-             BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,800);
-             BTN(LEFT,CLICK,0,0,500);
-        endif
-        ifb chkimg(lib.picPathHelper("2ndPWOK"),0,0,0,1366,768)
-            for i = 1 to 2
-                BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,300);
-            next
+             BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,500);
+             BTN(LEFT,CLICK,100,30,500);
         endif
     next
+    ifb chkimg(lib.picPathHelper("2ndPWOK"),0,0,0,1366,768)
+        for i = 1 to 2
+            BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,300);
+        next
+    endif
 
     result = 0;
 fend
@@ -819,11 +905,16 @@ function ChannelChange(isRuneCheck)
     while true
         ret = CCexec();
         ifb ret = 0 and isRuneCheck
-            sleep(3);
+            while true
+                if chkimg(lib.picPathHelper("yellowPoint"),0,0,0,250,300) then break;
+            wend
             ifb chkimg(lib.picPathHelper("runePoint"),0,0,0,250,300) _
               or _
             chkimg(lib.picPathHelper("RuneNotice"),0,0,0,1366,768)
                 logger.logWriter(LogLevel.LOG_WARN,Messages.CHANNEL_CHANGE_DET_RUNE);
+            elseif chkimg(lib.picPathHelper("guild_member"),0,0,0,250,300)
+                logger.logWriter(LogLevel.LOG_WARN, "ギルドメンバーを検知しました。");
+                continue;
             else
                 break;
             endif
@@ -1010,12 +1101,20 @@ fend
 //=========================================
 function RegularOnClick()
     while true
-        BTN(LEFT,CLICK,200,405,500);
+        BTN(LEFT,CLICK,740,340,500);
         sleep(30);
     wend
     result = 0;
 fend
 
+
+function GetLoginInfo()
+    fid = FOPEN(LOGIN_INFO_CSV_PATH , F_READ)
+    MAPLE_STORY_EXE_DIR = FGET( fid, 1, 1 )
+    MAPLE_LOGIN_PW      = FGET( fid, 1, 2 )
+    SECOND_PW           = FGET( fid, 1, 3 )
+   result = 0;
+fend
+
+
 ENDCLASS
-
-

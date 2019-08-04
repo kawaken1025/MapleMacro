@@ -305,8 +305,7 @@ fend
             exit;
             sleep(2);
         endif
-
-
-
+        if chkimg(lib.picPathHelper("SpiderInMirror"),0,0,0,1368,800) then KBD(VK_DELETE,0,500);
+        
         result = 0;
     fend

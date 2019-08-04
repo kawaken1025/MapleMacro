@@ -34,6 +34,7 @@ CALL ../Util/MapleUtil.uws;
 // multiThread checkRedPoint and checkMineralization
 thread lib.parallelProgramExitMode();
 thread lib.KillMicrosoftEdge();
+thread lib.RegularOnClick();
 // Main Script Start
 public _IsEqulibrium = false;
 public _IsUseDoor = false;
@@ -182,7 +183,7 @@ function collect()
     next
     KBD(VK_DOWN,2,100)
     KBD(VK_LEFT,1,200)
-    for i = 1 to 10
+    for i = 1 to 15
         KBD(VK_SPACE,0,300)
     next
     result = 0;

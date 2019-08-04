@@ -44,8 +44,9 @@ function moveCrystalAttack(moveKey)
     useSkill.moveCrystal(key.CRYSTAL_KEY)
     for i = 1 to 2
         sleep(0.5);
-        useSkill.javelin(key.JAVELIN_KEY);
-        useSkill.orb(key.ORB_KEY);
+        useSkill.javorb(key.JAVELIN_KEY,key.ORB_KEY)
+        //useSkill.javelin(key.JAVELIN_KEY);
+        //useSkill.orb(key.ORB_KEY);
         if chkimg(lib.picPathHelper("Longinus"),0,800,600,1366,800) then KBD(key.LONGINUS_KEY,0,700);
         skill.illiumSkillCheck(key.DEUS_KEY,key.FAST_CHARGE_KEY,key.LONGINUS_ZONE_KEY,key.RACE_OF_GOD_KEY,key.GRAM_HOLDER_KEY);
         skill.pSkill();
@@ -53,7 +54,7 @@ function moveCrystalAttack(moveKey)
     next
     KBD(key.SOUL_OF_CRYSTAL_KEY,0,750);
     lib.urgentCheck();
-    lib.checkGameMaster();
+    //lib.checkGameMaster();
     KBD(moveKey,1,100)
     KBD(moveKey,2,50)
     
@@ -73,17 +74,20 @@ function moveSoulOfCrystalAttack(moveKey)
     next
     for i = 1 to 2
         sleep(0.5);
-        useSkill.javelin(key.JAVELIN_KEY);
-        useSkill.orb(key.ORB_KEY);
-        ifb chkimg(lib.picPathHelper("Longinus"),0,800,600,1366,800)
-            for i = 1 to 7
-                KBD(key.LONGINUS_KEY,0,150);
-            next
-        endif
+        //useSkill.javorb(key.JAVELIN_KEY,key.ORB_KEY)
+        for i = 1 to 4
+            useSkill.javelin(key.JAVELIN_KEY);
+        next
+        //useSkill.orb(key.ORB_KEY);
+        // ifb chkimg(lib.picPathHelper("Longinus"),0,800,600,1366,800)
+        //     for i = 1 to 7
+        //         KBD(key.LONGINUS_KEY,0,150);
+        //     next
+        // endif
         skill.illiumSkillCheck(key.DEUS_KEY,key.FAST_CHARGE_KEY,key.LONGINUS_ZONE_KEY,key.RACE_OF_GOD_KEY,key.GRAM_HOLDER_KEY);
         skill.pSkill();
-        if chkimg(lib.picPathHelper("GloryWing"),0,800,600,1366,800) then useSkill.GloryWingAttack(key.JAVELIN_KEY, VK_HOME, VK_F7);
-        if chkimg(lib.picPathHelper("CrystalIgnition"),0,800,600,1366,800) then useSkill.crystalIgnition(key.IGNITION_KEY,key.CRYSTAL_KEY);
+        //if chkimg(lib.picPathHelper("GloryWing"),0,800,600,1366,800) then useSkill.GloryWingAttack(key.JAVELIN_KEY, VK_HOME, VK_F7);
+        //if chkimg(lib.picPathHelper("CrystalIgnition"),0,800,600,1366,800) then useSkill.crystalIgnition(key.IGNITION_KEY,key.CRYSTAL_KEY);
     next
     lib.urgentCheck();
     lib.checkGameMaster();

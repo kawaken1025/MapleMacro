@@ -1,7 +1,7 @@
 ﻿
 CALL ../MapleAPI/MapleAPI.uws;
 CALL KeySetting.uws;
-
+CALL AngelicBusterUtil.uws;
 
 lib.activeWindow();
 thread lib.parallelProgramExitMode();
@@ -11,9 +11,8 @@ petTime = GETTIME( 300 / 86400 )
 while true
     while true
         KBD(VK_LEFT,1,100);
-        KBD(VK_V,0,700);
-        KBD(VK_V,0,300);
-        KBD(VK_A,0,840);
+        Attack();
+        ABUtil.ABskillCheck();
         if chkimg(lib.picPathHelper("yellowPoint"),0,0,0,48,147) then break;
         lib.urgentCheck();
     wend
@@ -23,9 +22,7 @@ while true
 
     while true
         KBD(VK_RIGHT,1,100)
-        KBD(VK_V,0,700);
-        KBD(VK_V,0,300);
-        KBD(VK_A,0,840);
+        Attack();
         if !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,135,130) then break;
         lib.urgentCheck();
        // RedPointStop();
@@ -41,6 +38,17 @@ while true
     endif
 
 wend
+
+function Attack()
+    KBD(VK_V,0,700);
+    KBD(VK_V,0,300);
+    KBD(VK_A,0,840);
+    for i = 1 to 6
+        KBD(VK_R,0,250);
+    next
+    ABUtil.ABskillCheck();
+    result = 0;
+fend
 
 function upStage()
 

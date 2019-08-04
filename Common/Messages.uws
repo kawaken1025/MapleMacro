@@ -42,6 +42,7 @@ CLASS Messages
     const CHANNEL_CHANGE_SUCCESS  = "チャンネル変更を行いました。";
     const CHANNEL_CHANGE_FAIL     = "チャンネル変更に失敗しました。";
     const CHANNEL_CHANGE_DET_RUNE = "チャンネル変更時にルーンを発見しました。";
+    const ENCOUNT_GUILD_MEM_RES   = "<<Auto-Response>>  {0} : {1}";
 
 ENDCLASS
 

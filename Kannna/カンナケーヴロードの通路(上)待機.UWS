@@ -23,10 +23,10 @@ While true
         BTN(LEFT,CLICK,400,405,500);
         BTN(LEFT,CLICK,400,405,500); 
         urgentCheck();
-        recovery();
+        //recovery();
         KBD(VK_R,0,1000);
         for x = 1 to 5
-            KBD(VK_X,0,200)
+            //KBD(VK_X,0,200)
             ifb chkimg("../picture/ê‘ì_.BMP",0,0,0,1368,800)
                 for beeps = 1 to 20
                     SOUND(" ")

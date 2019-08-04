@@ -1,3 +1,5 @@
-call ../lib/MapleLibrary.uws
+CALL ../lib/MapleLibrary.uws;
+lib.GetLoginInfo()
 
-lib.LoginEntry();
+print MAPLE_LOGIN_PW
+print SECOND_PW

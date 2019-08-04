@@ -1,0 +1,56 @@
+CALL KeySetting.uws;
+
+class util
+
+    public x1 = 800;
+    public y1 = 600;
+    public x2 = 1366;
+    public y2 = 800;
+    function PathFinderSkillCheck()
+
+        ifb chkimg("../picture/EdgeOfResonance.bmp",0,x1,y1,x2,y2)
+            for i = 1 to 2
+                KBD(key.EDGE_OF_RESONANCE,0,100);
+            next
+            exit;
+        endif
+        ifb chkimg("../picture/ComboAsultBlast.bmp",0,x1,y1,x2,y2)
+            KBD(key.COMBO_ASULT,0,300);
+            exit;
+        elseif chkimg("../picture/ComboAsult.bmp",0,x1,y1,x2,y2)
+            KBD(key.COMBO_ASULT,0,300);
+            exit;
+        endif
+        ifb chkimg("../picture/RelicEvolution.bmp",0,x1,y1,x2,y2)
+            KBD(key.RELIC_EVOLUTION,0,300);
+        endif
+        
+        
+        result = 0;
+    fend
+
+    function PathFinder5thJobSkillCheck()
+        ifb chkimg("../picture/RavenTempest.bmp",0,x1,y1,x2,y2)
+            for i = 1 to 5
+                KBD(key.RAVEN_TEMPEST,0,200);
+            next
+        endif
+        ifb chkimg("../picture/UltimateBlast.bmp",0,x1,y1,x2,y2)
+            for i = 1 to 3
+                KBD(key.ULTIMATE_BLAST,0,200);
+            next
+        endif
+        result = 0;
+    fend
+
+    function JumpAttack()
+        for i = 1 to 7
+            KBD(VK_C,0,100)
+        next
+        for i = 1 to 4
+            KBD(key.BLAST_AND_DISCHARGE,0,150)
+        next
+        result = 0;
+    fend
+
+endclass

@@ -29,7 +29,7 @@ lib.activeWindow();
 thread lib.parallelProgramWaitMode();
 
 while true
-    skillTime = gettime( 120 / 86400 );
+    skillTime = gettime( 80 / 86400 );
     skill.illiumSupportSkill();
     lib.checkFamiliarPower();
     while true
@@ -81,7 +81,6 @@ function checkYellowPoint()
     ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,33,133)
         init()
     endif
-
     result = 0;
 fend
 
