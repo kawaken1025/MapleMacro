@@ -1,0 +1,121 @@
+﻿
+CALL ../MapleAPI/MapleAPI.uws;
+CALL PathFinderUtil.uws;
+CALL KeySetting.uws;
+
+lib.activeWindow();
+thread lib.parallelProgram();
+
+petTime = GETTIME( 300 / 86400 )
+skillTime = GETTIME( 120 / 86400 )
+skill();
+while true
+    Attack();
+    util.PathFinderSkillCheck();
+    CheckYellowPoint()
+    KBD(VK_LEFT,1,100);
+    KBD(VK_LEFT,2,50);
+
+    ret = checkRuneStage();
+    ifb ret <> 0
+        lib.OpenRune();
+    endif
+
+    Attack();
+    util.PathFinderSkillCheck();
+    CheckYellowPoint()
+    KBD(VK_RIGHT,1,100);
+    KBD(VK_RIGHT,2,50);
+    
+    ret = checkRuneStage();
+    ifb ret <> 0
+        lib.OpenRune();
+    endif
+
+    ifb petTime < GETTIME()
+        KBD(VK_T,0,1000)
+        logger.logWriter(LogLevel.LOG_INFO,"ペットの餌を使用しました。");
+        petTime = GETTIME( 1200 / 86400 )
+    endif
+
+    ifb skillTime < GETTIME()
+        skill();
+        skillTime = GETTIME( 120 / 86400 )
+    endif
+
+wend
+
+function CheckYellowPoint()
+    chkimg("../picture/黄点.bmp",0,0,0,300,300)
+    ifb G_IMG_X < 90
+        KBD(VK_RIGHT,1)
+        while true
+            ifb chkimg("../picture/黄点.bmp",0,91,0,109,140)
+                KBD(VK_RIGHT,2,200);
+                KBD(VK_SHIFT,0,100);
+                break;
+            endif
+        wend
+    elseif 110 < G_IMG_X 
+        KBD(VK_LEFT,1);
+        while true
+            ifb chkimg("../picture/黄点.bmp",0,91,0,109,140)
+                KBD(VK_LEFT,2,200);
+                KBD(VK_SHIFT,0,100);
+                break;
+            endif
+        wend
+    endif
+
+    result = 0;
+fend
+
+function Attack()
+    for i = 1 to 8
+        KBD(VK_X,1,100)
+        KBD(VK_X,2,350)
+    next
+    KBD(VK_END,0,100)
+    result = 0;
+fend
+
+function skill()
+    KBD(VK_G,0,1000)
+    KBD(VK_H,0,3000)
+    result = 0;
+fend
+
+function urgentCheck()
+    
+    ifb  chkimg("../picture/緑点.bmp",0,0,135,1368,800)
+        logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
+        exitexit;
+    endif
+    ifb chkimg("../picture/突発.bmp",0,0,0,1368,800);
+        for i = 1 to 3
+            BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,200);
+        next
+    endif
+    if chkimg("../picture/talkEnd.bmp",0,0,0,1368,800) then BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,500);
+
+    result = MAPLE_RESULT_OK; 
+fend
+
+//=========================================
+// param   : None 
+// comment : ルーンが出現しているか確認
+//=========================================
+function checkRuneStage()
+
+    // 上段にあるか
+    v = constant.UNDISCOVERED_RUNE
+    ifb chkimg(lib.picPathHelper("runePoint"),0,0,0,300,300)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを発見しました。");
+        v = constant.DISCOVERY_RUNE;
+    elseif chkimg(lib.picPathHelper("runePoint"),0,0,127,180,145)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを下段で発見しました。");
+        v = constant.DISCOVERY_RUNE;
+    endif
+    
+    result = v;
+fend

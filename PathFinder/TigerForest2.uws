@@ -1,0 +1,90 @@
+﻿
+CALL ../MapleAPI/MapleAPI.uws;
+CALL PathFinderUtil.uws;
+CALL KeySetting.uws;
+
+lib.activeWindow();
+//thread lib.parallelProgram();
+
+petTime = GETTIME( 300 / 86400 )
+skillTime = GETTIME( 120 / 86400 )
+skill();
+while true
+    KBD(VK_LEFT,1,100);
+    KBD(VK_V,0,500)
+    while true
+        KBD(VK_LEFT,1,100);
+        Attack();
+        if chkimg(lib.picPathHelper("yellowPoint"),0,0,0,90,160) then break;
+        urgentCheck();
+        util.PathFinderSkillCheck();
+    wend
+    KBD(VK_LEFT,2,200);
+    //upStage();
+    KBD(VK_RIGHT,1,100)
+    KBD(VK_V,0,500)
+    while true
+        KBD(VK_RIGHT,1,100)
+        Attack();
+        if !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,120,160) then break;
+        urgentCheck();
+        util.PathFinderSkillCheck();
+    wend
+    KBD(VK_RIGHT,2,200);
+    
+
+    ifb petTime < GETTIME()
+        KBD(VK_T,0,1000)
+        logger.logWriter(LogLevel.LOG_INFO,"ペットの餌を使用しました。");
+        petTime = GETTIME( 1200 / 86400 )
+    endif
+
+    ifb skillTime < GETTIME()
+        skill();
+        skillTime = GETTIME( 120 / 86400 )
+    endif
+
+wend
+
+function Attack()
+    KBD(VK_X,1,100)
+    KBD(VK_X,2,500)
+    KBD(VK_END,0,100)
+    result = 0;
+fend
+
+function upStage()
+
+    KBD(VK_RIGHT,1,500)
+    while true
+        ifb !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,55,130)
+            break;
+        endif
+    wend
+    KBD(VK_RIGHT,2,500)
+    KBD(VK_B,0,500)
+    result = 0;
+fend
+
+
+function skill()
+    KBD(VK_G,0,1000)
+    KBD(VK_H,0,3000)
+    result = 0;
+fend
+
+function urgentCheck()
+    
+    ifb  chkimg("../picture/緑点.bmp",0,0,135,1368,800)
+        logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
+        exitexit;
+    endif
+    ifb chkimg("../picture/突発.bmp",0,0,0,1368,800);
+        for i = 1 to 3
+            BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,200);
+        next
+    endif
+    if chkimg("../picture/talkEnd.bmp",0,0,0,1368,800) then BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,500);
+
+    result = MAPLE_RESULT_OK; 
+fend

@@ -1,0 +1,144 @@
+//=========================================//
+// Map Name    : ヘイヴン　　　　　　　　　　   //
+//=========================================//
+
+//=========================================//
+// comment     : None
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 800x600 or 1366x768
+//=========================================//
+// Copy Right (C) 2019 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2019/08/03
+//=========================================//
+
+//=========================================
+// init
+//=========================================
+// MapleAPI : LogWriter.uws , MapleLibrary.uws , UseSkillFiveJob.uws
+CALL ../MapleAPI/MapleAPI.uws;
+// import Luminous skillKeySetting
+CALL KeySetting.uws;
+// Util - sugarTime exec
+CALL ../Util/MapleUtil.uws;
+// multiThread checkRedPoint and checkMineralization
+thread parallelProgram();
+// MessageWindow init
+CALL PathFinderUtil.uws;
+CALL ../Util/MapleUtil.uws;
+
+while true;
+    lib.checkFamiliarPower();
+
+    //Acquisition of Time : Get the time after 3 minutes
+    reUseSkillTime = GETTIME( 210 / 86400 );
+    useSkill();
+    SLEEP(0.5);
+    KBD(VK_T,0,2000)
+    //lib.checkFamiliarPower();
+    //lib.useMaprage();
+    while true;
+        oneWayAttack(VK_LEFT,0,0,70,140);
+        oneWayAttack(VK_RIGHT,200,110,250,140);
+        //3minutes elapsed?
+        if GETTIME() > reUseSkillTime then break;
+    wend
+wend
+//=========================================
+// param   : $1:移動方向キー
+//           $2:chkimg準拠
+// comment : 左右往復
+//=========================================
+function oneWayAttack(moveKey,x1,y1,x2,y2)
+
+    //execute moveHunting
+    KBD(moveKey,1,200);
+    KBD(key.TRANSITION,0,500);
+    ifb moveKey = VK_RIGHT
+        util.PathFinder5thJobSkillCheck()
+    endif
+    while true
+        KBD(moveKey,1);
+        if chkimg(lib.picPathHelper("yellowPoint"),0,x1,y1,x2,y2)     then break;
+        util.JumpAttack();
+        util.PathFinderSkillCheck();
+    wend
+    //lib.checkGameMaster();
+    KBD(moveKey,2,200);
+    // 上段へ行って攻撃する
+    ifb 40 < G_IMG_X and G_IMG_X < 70
+        KBD(VK_UP,1,100)
+        KBD(key.TRANSITION,0,500)
+        KBD(VK_UP,2,500)
+        // for i = 1 to 3
+        //     KBD(key.TRANSITION,0,100)
+        // next
+        for i = 1 to 3
+            KBD(key.BLAST_AND_DISCHARGE,0,275);
+        next
+    endif
+
+    // ルーンが出現しているか確認します。
+    // 出現していた場合は解除します
+    ret = checkRuneStage()
+    ifb ret <> 0
+    	sleep(0.5);
+        lib.OpenRune();
+        sleep(1);
+    endif
+    
+    //skill.pSkill();
+    //sleep(1.5);
+    result = 0;
+fend
+
+function UpStageAttack()
+
+    result = 0;
+fend
+
+//=========================================
+// param   : None 
+// comment : ルーンが出現しているか確認
+//=========================================
+function checkRuneStage()
+
+	ret = 0;
+    // 上段にあるか
+    ifb chkimg(lib.picPathHelper("runePoint"),0,0,0,200,150)
+        ret = 1;
+        logger.logWriter(LogLevel.LOG_INFO,Messages.DETECTION_RUNE);
+    //elseif chkimg(lib.picPathHelper("runePoint"),0,0,127,180,145)
+    //    ret = 1;
+    //    logger.logWriter(LogLevel.LOG_INFO,Messages.DETECTION_RUNE);
+    endif
+    result = ret;
+fend
+
+function useSkill()
+
+	KBD(VK_G,0,1000);
+	KBD(VK_H,0,3000);
+	result = 0;
+
+fend
+
+procedure parallelProgram()
+    while TRUE
+        ifb chkimg("../picture/石化2.bmp",0,0,0,1368,800)
+            for i = 1 to 20
+                KBD(VK_LEFT,0,100);
+                KBD(VK_RIGHT,0,100);
+            next
+        endif
+
+        if chkimg("../picture/加護.bmp",0,0,0,1368,800) then KBD(VK_F4,0,1000)
+ 
+        ifb chkimg("../picture/緑点.bmp",0,0,0,1368,800)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
+            exitexit;
+        endif
+    wend
+fend
