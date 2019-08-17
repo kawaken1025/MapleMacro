@@ -17,10 +17,11 @@ class key
     const BLAST_AND_DISCHARGE = VK_X
     const TRANSITION          = VK_V
     const RELIC_EVOLUTION     = VK_U
-    const ANTIENT_ASTRA       = VK_F
+    const ANCIENT_ASTRA       = VK_F
     const EPIC_ADVENTURE      = VK_N
     const ULTIMATE_BLAST      = VK_D
     const RAVEN_TEMPEST       = VK_J
     const OBSIDIAN_BARRIER    = VK_W
+    const CRITICAL_REINFORCE  = VK_T
 
 endclass

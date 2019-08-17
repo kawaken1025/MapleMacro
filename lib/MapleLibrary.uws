@@ -818,6 +818,7 @@ function LoginEntry()
     dim passArray[6];
     for i = 1 to 7
         passArray[i-1] = COPY(secondPassword,i,1);
+        print passArray[i-1];
     next
     // 2次パス画像クリック
     for i = 1 to 7

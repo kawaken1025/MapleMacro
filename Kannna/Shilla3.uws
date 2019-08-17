@@ -58,8 +58,8 @@ function oneWayAttack(moveKey,x1,y1,x2,y2)
         KBD(moveKey,1,100);
         if chkimg(lib.picPathHelper("yellowPoint"),0,x1,y1,x2,y2)     then break;
         KBD(VK_SPACE,0,700);
-        for i = 1 to 4
-           KBD(VK_A,0,400);
+        for i = 1 to 2
+           KBD(VK_A,0,1000);
         next
     wend
     //lib.checkGameMaster();

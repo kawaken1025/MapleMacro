@@ -6,14 +6,26 @@ class util
     public y1 = 600;
     public x2 = 1366;
     public y2 = 800;
-    function PathFinderSkillCheck()
+    public mUltimateBlastUsingTime = GETTIME(30/86400);
 
+    function PathFinderSkillCheck()
+        // Hyper:エンシェントアストラ(ブラスト)
+        ifb mUltimateBlastUsingTime < GETTIME();
+            ifb chkimg("../picture/AncientAstra_Blast.bmp",0,x1,y1,x2,y2)
+                KBD(key.ANCIENT_ASTRA,1,300);
+                KBD(key.ANCIENT_ASTRA,2,10000);
+            endif
+        endif
+
+        // 4th:エッジオブレゾナンス
         ifb chkimg("../picture/EdgeOfResonance.bmp",0,x1,y1,x2,y2)
             for i = 1 to 2
                 KBD(key.EDGE_OF_RESONANCE,0,100);
             next
             exit;
         endif
+
+        // 4th:コンボアサルト
         ifb chkimg("../picture/ComboAsultBlast.bmp",0,x1,y1,x2,y2)
             KBD(key.COMBO_ASULT,0,300);
             exit;
@@ -21,24 +33,39 @@ class util
             KBD(key.COMBO_ASULT,0,300);
             exit;
         endif
+
+        // Hyper:レリックエボリューション
         ifb chkimg("../picture/RelicEvolution.bmp",0,x1,y1,x2,y2)
             KBD(key.RELIC_EVOLUTION,0,300);
         endif
-        
-        
+
+        // Hyper:エピックアドベンチャー
+        ifb chkimg("../picture/EpicAdventure.bmp",0,x1,y1,x2,y2)
+            KBD(key.EPIC_ADVENTURE,0,300);
+        endif
+
         result = 0;
     fend
 
     function PathFinder5thJobSkillCheck()
+        // 5th:レイヴンテンペスト
         ifb chkimg("../picture/RavenTempest.bmp",0,x1,y1,x2,y2)
-            for i = 1 to 5
-                KBD(key.RAVEN_TEMPEST,0,200);
+            for i = 1 to 2
+                KBD(key.RAVEN_TEMPEST,0,300);
             next
         endif
+
+        // 5th:アルティメットブラスト
         ifb chkimg("../picture/UltimateBlast.bmp",0,x1,y1,x2,y2)
-            for i = 1 to 3
-                KBD(key.ULTIMATE_BLAST,0,200);
+            for i = 1 to 2
+                KBD(key.ULTIMATE_BLAST,0,300);
             next
+            mUltimateBlastUsingTime = GETTIME(30/86400);
+        endif
+        
+        // 5th:クリティカルリインフォース
+        ifb chkimg("../picture/CriticalReinforce.bmp",0,x1,y1,x2,y2)
+            KBD(key.CRITICAL_REINFORCE,0,300);
         endif
         result = 0;
     fend

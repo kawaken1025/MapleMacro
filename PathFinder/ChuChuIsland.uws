@@ -1,5 +1,5 @@
 //=========================================//
-// Map Name    : ヘイヴン　　　　　　　　　　   //
+// Map Name    : チューチューアイランド奥　　 //
 //=========================================//
 
 //=========================================//
@@ -40,54 +40,48 @@ while true;
     //lib.checkFamiliarPower();
     //lib.useMaprage();
     while true;
-        oneWayAttack(VK_LEFT,0,0,70,140);
-        oneWayAttack(VK_RIGHT,200,110,250,140);
+        Attack()
         //3minutes elapsed?
         if GETTIME() > reUseSkillTime then break;
     wend
 wend
 //=========================================
-// param   : $1:移動方向キー
-//           $2:chkimg準拠
-// comment : 左右往復
+// param   : None
+// comment : None
 //=========================================
-function oneWayAttack(moveKey,x1,y1,x2,y2)
+function Attack()
 
+    yp();
     //execute moveHunting
-    KBD(moveKey,1,200);
-    KBD(key.TRANSITION,0,500);
-    ifb moveKey = VK_RIGHT
-        util.PathFinder5thJobSkillCheck()
-    endif
-    while true
-        KBD(moveKey,1);
-        if chkimg(lib.picPathHelper("yellowPoint"),0,x1,y1,x2,y2)     then break;
-        util.JumpAttack();
-        util.PathFinderSkillCheck();
-    wend
-    //lib.checkGameMaster();
-    KBD(moveKey,2,200);
-    // 上段へ行って攻撃する
-    ifb 40 < G_IMG_X and G_IMG_X < 70
-        KBD(VK_UP,1,100)
-        KBD(key.TRANSITION,0,500)
-        KBD(VK_UP,2,500)
-        // for i = 1 to 3
-        //     KBD(key.TRANSITION,0,100)
-        // next
+    util.PathFinder5thJobSkillCheck();
+    util.PathFinderSkillCheck();
+    pSkill();
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,45,130,160,160)
+        KBD(VK_UP,1,200);
+        KBD(key.TRANSITION,0,500);
+        KBD(VK_UP,2,200);
         for i = 1 to 3
-            KBD(key.BLAST_AND_DISCHARGE,0,275);
+            KBD(key.BLAST_AND_DISCHARGE,0,350)
+        next
+    else
+        KBD(VK_DOWN,1,200)
+        for i = 1 to 3
+            KBD(VK_C,0,100)
+        next
+        KBD(VK_DOWN,2,200)
+        for i = 1 to 5
+            KBD(key.BLAST_AND_DISCHARGE,0,350)
         next
     endif
 
     // ルーンが出現しているか確認します。
     // 出現していた場合は解除します
-    ret = checkRuneStage()
-    ifb ret <> 0
-    	sleep(0.5);
-        lib.OpenRune();
-        sleep(1);
-    endif
+    // ret = checkRuneStage()
+    // ifb ret <> 0
+    // 	sleep(0.5);
+    //     lib.OpenRune();
+    //     sleep(1);
+    // endif
     
     //skill.pSkill();
     //sleep(1.5);
@@ -96,6 +90,30 @@ fend
 
 function UpStageAttack()
 
+    result = 0;
+fend
+
+function yp()
+
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,110,160)
+        while true
+            KBD(VK_RIGHT,1,100)
+            ifb chkimg(lib.picPathHelper("yellowPoint"),0,120,80,105,160)
+                KBD(VK_RIGHT,2,100)
+                KBD(VK_LEFT,1,200)
+                KBD(VK_LEFT,2,200)
+                break;
+            endif
+        wend
+    elseif chkimg(lib.picPathHelper("yellowPoint"),0,130,80,160,160)
+        while true
+            KBD(VK_LEFT,1,100)
+            ifb chkimg(lib.picPathHelper("yellowPoint"),0,110,80,120,160)
+                KBD(VK_LEFT,2,100)
+                break;
+            endif 
+        wend
+    endif
     result = 0;
 fend
 
@@ -123,6 +141,15 @@ function useSkill()
 	KBD(VK_H,0,3000);
 	result = 0;
 
+fend
+
+function pSkill()
+    if chkimg("../picture/PHS.bmp",0,800,600,1368,800) then KBD(pSkillKey.P_HOLY_SYMBOL,0,1000);
+    //if chkimg("../picture/PCO.bmp",0,0,0,1368,800) then KBD(pSkillKey.P_COMBAT_ORDER_KEY,0,1000);
+    //if chkimg("../picture/PSE.bmp",0,0,0,1368,800) then KBD(pSkillKey.P_SHARP_EYES_KEY,0,500);
+    //if chkimg("../picture/PWB.bmp",0,0,0,1368,800) then KBD(pSkillKey.P_WIND_BOOSTER,0,500);
+    //if chkimg("../picture/PHB.bmp",0,0,0,1368,800) then KBD(pSkillKey.P_HYPER_BODY_KEY,0,500);
+    result = 0;
 fend
 
 procedure parallelProgram()
