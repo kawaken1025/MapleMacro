@@ -24,6 +24,7 @@ CALL KeySetting.uws;
 // Util - sugarTime exec
 CALL ../Util/MapleUtil.uws;
 // multiThread checkRedPoint and checkMineralization
+thread CheckPlayer();
 thread lib.parallelProgramWaitMode();
 thread lib.RegularOnClick();
 thread lib.KillMicrosoftEdge();
@@ -250,38 +251,58 @@ function useSkill()
 
 fend
 
-    function KannnaSkillCheck()
-        x1 = 800;
-        y1 = 600;
-        x2 = 1366;
-        y2 = 800;
+function KannnaSkillCheck()
+    x1 = 800;
+    y1 = 600;
+    x2 = 1366;
+    y2 = 800;
 
-        KBD(VK_U,0,300);
+    KBD(VK_U,0,300);
 
-        ifb chkimg("../picture/BlessingsOfPrincess.bmp",0,x1,y1,x2,y2)
-            KBD(VK_N,0,500);
-            //sleep(1);
+    ifb chkimg("../picture/BlessingsOfPrincess.bmp",0,x1,y1,x2,y2)
+        KBD(VK_N,0,500);
+        //sleep(1);
+    endif
+
+    ifb chkimg("../picture/雪女.bmp",0,x1,y1,x2,y2)
+        KBD(VK_F5,0,500);
+    endif
+
+    ifb chkimg("../picture/LingStone.bmp",0,x1,y1,x2,y2)
+        KBD(VK_HOME,0,500);
+    endif
+
+    ifb chkimg("../picture/白狐.bmp",0,x1,y1,x2,y2)
+        KBD(VK_CTRL,0,100);
+        KBD(VK_A,0,200)
+        KBD(VK_A,0,200)
+    elseif chkimg("../picture/WhiteFox.bmp",0,x1,y1,x2,y2)
+        KBD(VK_CTRL,0,100);
+        KBD(VK_A,0,200)
+        KBD(VK_A,0,200)
+        sleep(2);
+    endif
+
+    if chkimg(lib.picPathHelper("SpiderInMirror"),0,0,0,1368,800) then KBD(VK_DELETE,0,500);
+    result = 0;
+fend
+
+function CheckPlayer()
+    path = "../MapleManagement/status/Kannna/status";
+    manager.WritePlayerNotEncoutStatus(path);
+    isEncount = false;
+    while true
+        ifb chkimg(lib.picPathHelper("redpoint2"),0,0,0,300,300)
+            manager.WritePlayerEncoutStatus(path)
+            isEncount = true;
+            sleep(1);
+        else
+            ifb isEncount = true
+                manager.WritePlayerNotEncoutStatus(path);
+                isEncount = false;
+            endif
         endif
-
-        ifb chkimg("../picture/雪女.bmp",0,x1,y1,x2,y2)
-            KBD(VK_F5,0,500);
-        endif
-
-        ifb chkimg("../picture/LingStone.bmp",0,x1,y1,x2,y2)
-            KBD(VK_HOME,0,500);
-        endif
-
-        ifb chkimg("../picture/白狐.bmp",0,x1,y1,x2,y2)
-            KBD(VK_CTRL,0,100);
-            KBD(VK_A,0,200)
-            KBD(VK_A,0,200)
-        elseif chkimg("../picture/WhiteFox.bmp",0,x1,y1,x2,y2)
-            KBD(VK_CTRL,0,100);
-            KBD(VK_A,0,200)
-            KBD(VK_A,0,200)
-            sleep(2);
-        endif
-
-        if chkimg(lib.picPathHelper("SpiderInMirror"),0,0,0,1368,800) then KBD(VK_DELETE,0,500);
-        result = 0;
-    fend
+        sleep(0.3);
+    wend
+    result = 0;
+fend

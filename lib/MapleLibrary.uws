@@ -813,15 +813,16 @@ function LoginEntry()
     KBD(VK_ENTER,0,2000)
     // 2次パス取得
     //secondPassword = READINI("SecondPassword","PW",LOGIN_INFO_INI_PATH);
-    secondPassword = SECOND_PW
+    secondPassword = SECOND_PW;
+    spLength = length(secondPassword);
     print secondPassword;
-    dim passArray[6];
-    for i = 1 to 7
+    dim passArray[spLength-1];
+    for i = 1 to spLength
         passArray[i-1] = COPY(secondPassword,i,1);
         print passArray[i-1];
     next
     // 2次パス画像クリック
-    for i = 1 to 7
+    for i = 1 to spLength
         ifb chkimg("../picture/2ndPasskey/" + passArray[i-1] + ".bmp",0,0,0,1366,768)
              BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,500);
              BTN(LEFT,CLICK,100,30,500);

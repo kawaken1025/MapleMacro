@@ -33,6 +33,7 @@ CALL KeySetting.uws;
 CALL ../Util/MapleUtil.uws;
 // multiThread checkRedPoint and checkMineralization
 thread lib.parallelProgram_Gmember();
+thread manager.CheckEncountStatus("../MapleManagement/status/Kannna/status");
 // Main Script Start
 public _IsEqulibrium = false;
 public _IsUseDoor = false;
