@@ -2,70 +2,332 @@ CALL KeySetting.uws;
 
 class util
 
+    // スキル画像探索初期設定
     public x1 = 800;
     public y1 = 600;
     public x2 = 1366;
     public y2 = 800;
+    // アルティメットブラストクールタイム
     public mUltimateBlastUsingTime = GETTIME(30/86400);
-
+    // エンシェントアストラ座標情報
+    public mEnCAx1 = 0;
+    public mEnCAx2 = 0;
+    public mEnCAy1 = 0;
+    public mEnCAy2 = 0;
+    // エッジオブレゾナンス座標情報
+    public mEORx1 = 0;
+    public mEORx2 = 0;
+    public mEORy1 = 0;
+    public mEORy2 = 0;
+    // コンボアサルト座標情報
+    public mCAx1 = 0;
+    public mCAx2 = 0;
+    public mCAy1 = 0;
+    public mCAy2 = 0;
+    // レリックエボリューション座標情報
+    public mREx1 = 0;
+    public mREx2 = 0;
+    public mREy1 = 0;
+    public mREy2 = 0;
+    // エピックアドベンチャー座標情報
+    public mEAx1 = 0;
+    public mEAx2 = 0;
+    public mEAy1 = 0;
+    public mEAy2 = 0;
+    
     function PathFinderSkillCheck()
         // Hyper:エンシェントアストラ(ブラスト)
         ifb mUltimateBlastUsingTime < GETTIME();
-            ifb chkimg("../picture/AncientAstra_Blast.bmp",0,x1,y1,x2,y2)
-                KBD(key.ANCIENT_ASTRA,1,300);
-                KBD(key.ANCIENT_ASTRA,2,10000);
+            ifb mEnCAx1 = 0
+                ifb chkimg("../picture/AncientAstra_Blast.bmp",0,x1,y1,x2,y2)
+                    mEnCAx1 = G_IMG_X - 1;
+                    mEnCAx2 = G_IMG_X + 30;
+                    mEnCAy1 = G_IMG_Y;
+                    mEnCAy2 = G_IMG_Y + 5;
+                    KBD(key.ANCIENT_ASTRA,1,300);
+                    KBD(key.ANCIENT_ASTRA,2,10000);
+                endif
+            else
+                ifb chkimg("../picture/AncientAstra_Blast.bmp", 0, mEnCAx1, mEnCAy1 ,mEnCAx2 ,mEnCAy2)
+                    KBD(key.ANCIENT_ASTRA,1,300);
+                    KBD(key.ANCIENT_ASTRA,2,10000);
+                endif                
             endif
         endif
 
         // 4th:エッジオブレゾナンス
-        ifb chkimg("../picture/EdgeOfResonance.bmp",0,x1,y1,x2,y2)
-            for i = 1 to 2
-                KBD(key.EDGE_OF_RESONANCE,0,100);
-            next
-            exit;
+        ifb mEORx1 = 0
+            ifb chkimg("../picture/EdgeOfResonance.bmp",0,x1,y1,x2,y2)
+                // 座標情報を設定
+                mEORx1 = G_IMG_X - 1;
+                mEORx2 = G_IMG_X + 30;
+                mEORy1 = G_IMG_Y;
+                mEORy2 = G_IMG_Y + 5;
+                for i = 1 to 2
+                    KBD(key.EDGE_OF_RESONANCE,0,100);
+                next
+                exit;
+            endif
+        else
+            ifb chkimg("../picture/EdgeOfResonance.bmp", 0, mEORx1, mEORy1, mEORx2, mEORy2)
+                for i = 1 to 2
+                    KBD(key.EDGE_OF_RESONANCE,0,100);
+                next
+                exit;
+            endif
         endif
 
         // 4th:コンボアサルト
-        ifb chkimg("../picture/ComboAsultBlast.bmp",0,x1,y1,x2,y2)
-            KBD(key.COMBO_ASULT,0,300);
-            exit;
-        elseif chkimg("../picture/ComboAsult.bmp",0,x1,y1,x2,y2)
-            KBD(key.COMBO_ASULT,0,300);
-            exit;
+        ifb mCAx1 = 0
+            ifb chkimg("../picture/ComboAsultBlast.bmp",0,x1,y1,x2,y2)
+                    // 座標情報を設定
+                    mCAx1 = G_IMG_X - 1;
+                    mCAx2 = G_IMG_X + 30;
+                    mCAy1 = G_IMG_Y - 1;
+                    mCAy2 = G_IMG_Y + 5;
+                KBD(key.COMBO_ASULT,0,300);
+                exit;
+            elseif chkimg("../picture/ComboAsult.bmp",0,x1,y1,x2,y2)
+                    // 座標情報を設定
+                    mCAx1 = G_IMG_X - 1;
+                    mCAx2 = G_IMG_X + 30;
+                    mCAy1 = G_IMG_Y - 1;
+                    mCAy2 = G_IMG_Y + 5;
+                KBD(key.COMBO_ASULT,0,300);
+                exit;
+            endif
+        else
+            ifb chkimg("../picture/ComboAsultBlast.bmp", 0, mCAx1 , mCAy1 ,mCAx2 ,mCAx2)
+                KBD(key.COMBO_ASULT,0,300);
+                exit;
+            elseif chkimg("../picture/ComboAsult.bmp", 0, mCAx1 , mCAy1 ,mCAx2 ,mCAx2)
+                KBD(key.COMBO_ASULT,0,300);
+                exit;
+            endif    
         endif
 
         // Hyper:レリックエボリューション
-        ifb chkimg("../picture/RelicEvolution.bmp",0,x1,y1,x2,y2)
-            KBD(key.RELIC_EVOLUTION,0,300);
+        ifb mREx1 = 0
+            ifb chkimg("../picture/RelicEvolution.bmp",0,x1,y1,x2,y2)
+                // 座標情報を設定
+                mREx1 = G_IMG_X - 1;
+                mREx2 = G_IMG_X + 30;
+                mREy1 = G_IMG_Y - 1;
+                mREy2 = G_IMG_Y + 5;
+                KBD(key.RELIC_EVOLUTION,0,300);
+            endif
+        else
+            ifb chkimg("../picture/RelicEvolution.bmp", 0, mREx1, mREy1, mREx2 ,mREy2)
+                KBD(key.RELIC_EVOLUTION,0,300);
+            endif            
         endif
 
         // Hyper:エピックアドベンチャー
-        ifb chkimg("../picture/EpicAdventure.bmp",0,x1,y1,x2,y2)
-            KBD(key.EPIC_ADVENTURE,0,300);
+        ifb mEAx1 = 0
+            ifb chkimg("../picture/EpicAdventure.bmp",0,x1,y1,x2,y2)
+                // 座標情報を設定
+                mEAx1 = G_IMG_X - 1;
+                mEAx2 = G_IMG_X + 30;
+                mEAy1 = G_IMG_Y - 1;
+                mEAy2 = G_IMG_Y + 5;
+                KBD(key.EPIC_ADVENTURE,0,300);
+            endif
+        else
+            ifb chkimg("../picture/EpicAdventure.bmp", 0, mEAx1, mEAy1, ,mEAx2 ,mEAy2)
+                // 座標情報を設定
+                mEAx1 = G_IMG_X - 1;
+                mEAx2 = G_IMG_X + 30;
+                mEAy1 = G_IMG_Y - 1;
+                mEAy2 = G_IMG_Y + 5;
+                KBD(key.EPIC_ADVENTURE,0,300);
+            endif            
         endif
 
         result = 0;
     fend
 
+    function PathFinderSkillCheckSelect(isAstra)
+        ifb isAstra
+            // Hyper:エンシェントアストラ(ブラスト)
+            ifb mUltimateBlastUsingTime < GETTIME();
+                ifb mEnCAx1 = 0
+                    ifb chkimg("../picture/AncientAstra_Blast.bmp",0,x1,y1,x2,y2)
+                        mEnCAx1 = G_IMG_X - 1;
+                        mEnCAx2 = G_IMG_X + 30;
+                        mEnCAy1 = G_IMG_Y;
+                        mEnCAy2 = G_IMG_Y + 5;
+                        KBD(key.ANCIENT_ASTRA,1,300);
+                        KBD(key.ANCIENT_ASTRA,2,10000);
+                    endif
+                else
+                    ifb chkimg("../picture/AncientAstra_Blast.bmp", 0, mEnCAx1, mEnCAy1 ,mEnCAx2 ,mEnCAy2)
+                        KBD(key.ANCIENT_ASTRA,1,300);
+                        KBD(key.ANCIENT_ASTRA,2,10000);
+                    endif                
+                endif
+            endif
+        endif
+
+        // 4th:エッジオブレゾナンス
+        ifb mEORx1 = 0
+            ifb chkimg("../picture/EdgeOfResonance.bmp",0,x1,y1,x2,y2)
+                // 座標情報を設定
+                mEORx1 = G_IMG_X - 1;
+                mEORx2 = G_IMG_X + 30;
+                mEORy1 = G_IMG_Y;
+                mEORy2 = G_IMG_Y + 5;
+                for i = 1 to 2
+                    KBD(key.EDGE_OF_RESONANCE,0,100);
+                next
+                exit;
+            endif
+        else
+            ifb chkimg("../picture/EdgeOfResonance.bmp", 0, mEORx1, mEORy1, mEORx2, mEORy2)
+                for i = 1 to 2
+                    KBD(key.EDGE_OF_RESONANCE,0,100);
+                next
+                exit;
+            endif
+        endif
+
+        // 4th:コンボアサルト
+        ifb mCAx1 = 0
+            ifb chkimg("../picture/ComboAsultBlast.bmp",0,x1,y1,x2,y2)
+                    // 座標情報を設定
+                    mCAx1 = G_IMG_X - 1;
+                    mCAx2 = G_IMG_X + 30;
+                    mCAy1 = G_IMG_Y - 1;
+                    mCAy2 = G_IMG_Y + 5;
+                KBD(key.COMBO_ASULT,0,300);
+                exit;
+            elseif chkimg("../picture/ComboAsult.bmp",0,x1,y1,x2,y2)
+                    // 座標情報を設定
+                    mCAx1 = G_IMG_X - 1;
+                    mCAx2 = G_IMG_X + 30;
+                    mCAy1 = G_IMG_Y - 1;
+                    mCAy2 = G_IMG_Y + 5;
+                KBD(key.COMBO_ASULT,0,300);
+                exit;
+            endif
+        else
+            ifb chkimg("../picture/ComboAsultBlast.bmp", 0, mCAx1 , mCAy1 ,mCAx2 ,mCAx2)
+                KBD(key.COMBO_ASULT,0,300);
+                exit;
+            elseif chkimg("../picture/ComboAsult.bmp", 0, mCAx1 , mCAy1 ,mCAx2 ,mCAx2)
+                KBD(key.COMBO_ASULT,0,300);
+                exit;
+            endif    
+        endif
+
+        // Hyper:レリックエボリューション
+        ifb mREx1 = 0
+            ifb chkimg("../picture/RelicEvolution.bmp",0,x1,y1,x2,y2)
+                // 座標情報を設定
+                mREx1 = G_IMG_X - 1;
+                mREx2 = G_IMG_X + 30;
+                mREy1 = G_IMG_Y - 1;
+                mREy2 = G_IMG_Y + 5;
+                KBD(key.RELIC_EVOLUTION,0,300);
+            endif
+        else
+            ifb chkimg("../picture/RelicEvolution.bmp", 0, mREx1, mREy1, mREx2 ,mREy2)
+                KBD(key.RELIC_EVOLUTION,0,300);
+            endif            
+        endif
+
+        // Hyper:エピックアドベンチャー
+        ifb mEAx1 = 0
+            ifb chkimg("../picture/EpicAdventure.bmp",0,x1,y1,x2,y2)
+                // 座標情報を設定
+                mEAx1 = G_IMG_X - 1;
+                mEAx2 = G_IMG_X + 30;
+                mEAy1 = G_IMG_Y - 1;
+                mEAy2 = G_IMG_Y + 5;
+                KBD(key.EPIC_ADVENTURE,0,300);
+            endif
+        else
+            ifb chkimg("../picture/EpicAdventure.bmp", 0, mEAx1, mEAy1, ,mEAx2 ,mEAy2)
+                // 座標情報を設定
+                mEAx1 = G_IMG_X - 1;
+                mEAx2 = G_IMG_X + 30;
+                mEAy1 = G_IMG_Y - 1;
+                mEAy2 = G_IMG_Y + 5;
+                KBD(key.EPIC_ADVENTURE,0,300);
+            endif            
+        endif
+        result = 0;
+    fend
+
+    // レイヴンテンペスト座標情報
+    public mRaTx1 = 0;
+    public mRaTx2 = 0;
+    public mRaTy1 = 0;
+    public mRaTy2 = 0;
+    // アルティメットブラスト座標情報
+    public mABx1 = 0;
+    public mABx2 = 0;
+    public mABy1 = 0;
+    public mABy2 = 0;
+    // クリティカルリインフォース座標情報
+    public mCRx1 = 0;
+    public mCRy1 = 0;
+    public mCRx2 = 0;
+    public mCRy2 = 0;
+
     function PathFinder5thJobSkillCheck()
         // 5th:レイヴンテンペスト
-        ifb chkimg("../picture/RavenTempest.bmp",0,x1,y1,x2,y2)
-            for i = 1 to 2
-                KBD(key.RAVEN_TEMPEST,0,300);
-            next
+        ifb mRaTx1 = 0
+            ifb chkimg("../picture/RavenTempest.bmp",0,x1,y1,x2,y2)
+                mRaTx1 = G_IMG_X - 1;
+                mRaTx2 = G_IMG_X + 30;
+                mRaTy1 = G_IMG_Y - 1;
+                mRaTy2 = G_IMG_Y + 5;
+                for i = 1 to 2
+                    KBD(key.RAVEN_TEMPEST,0,300);
+                next
+            endif
+        else
+            ifb chkimg("../picture/RavenTempest.bmp",0,mRaTx1,mRaTy1,mRaTx2,mRaTy2)
+                for i = 1 to 2
+                    KBD(key.RAVEN_TEMPEST,0,300);
+                next
+            endif
         endif
 
         // 5th:アルティメットブラスト
-        ifb chkimg("../picture/UltimateBlast.bmp",0,x1,y1,x2,y2)
-            for i = 1 to 2
-                KBD(key.ULTIMATE_BLAST,0,300);
-            next
-            mUltimateBlastUsingTime = GETTIME(30/86400);
+        ifb mABx1 = 0
+            ifb chkimg("../picture/UltimateBlast.bmp",0,x1,y1,x2,y2)
+                mABx1 = G_IMG_X - 1;
+                mABx2 = G_IMG_X + 30;
+                mABy1 = G_IMG_Y - 1;
+                mABy2 = G_IMG_Y + 5;
+                for i = 1 to 2
+                    KBD(key.ULTIMATE_BLAST,0,300);
+                next
+                mUltimateBlastUsingTime = GETTIME(30/86400);
+            endif
+        else
+            ifb chkimg("../picture/UltimateBlast.bmp",0,mABx1,mABy1,mABx2,mABy2)
+                for i = 1 to 2
+                    KBD(key.ULTIMATE_BLAST,0,300);
+                next
+                mUltimateBlastUsingTime = GETTIME(30/86400);
+            endif
         endif
         
         // 5th:クリティカルリインフォース
-        ifb chkimg("../picture/CriticalReinforce.bmp",0,x1,y1,x2,y2)
-            KBD(key.CRITICAL_REINFORCE,0,300);
+        ifb mCRx1 = 0
+            ifb chkimg("../picture/CriticalReinforce.bmp",0,x1,y1,x2,y2)
+                mCRx1 = G_IMG_X - 1;
+                mCRx2 = G_IMG_X + 30;
+                mCRy1 = G_IMG_Y - 1;
+                mCRy2 = G_IMG_Y + 5;
+                KBD(key.CRITICAL_REINFORCE,0,300);
+            endif
+        else
+            ifb chkimg("../picture/CriticalReinforce.bmp",0,mCRx1,mCRy1,mCRx2,mCRy2)
+                KBD(key.CRITICAL_REINFORCE,0,300);
+            endif
         endif
         result = 0;
     fend

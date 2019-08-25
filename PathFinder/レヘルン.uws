@@ -29,7 +29,6 @@ thread lib.parallelProgram();
 CALL PathFinderUtil.uws;
 CALL ../Util/MapleUtil.uws;
 
-public collectTime = GETTIME( 120 / 86400 );
 while true;
     lib.checkFamiliarPower();
 
@@ -41,57 +40,35 @@ while true;
     //lib.checkFamiliarPower();
     //lib.useMaprage();
     while true;
-        Attack()
+        Attack(VK_LEFT,0,0,60,140)
+        Attack(VK_RIGHT,120,80,160,140)
         //3minutes elapsed?
-        if GETTIME() > reUseSkillTime
-            break;
-        endif
+        if GETTIME() > reUseSkillTime then break;
     wend
 wend
 //=========================================
 // param   : None
 // comment : None
 //=========================================
-function Attack()
+function Attack(moveKey,x1,y1,x2,y2)
 
-    yp();
+    //yp();
     //execute moveHunting
     util.PathFinder5thJobSkillCheck();
-    util.PathFinderSkillCheck();
     pSkill();
-    ifb chkimg(lib.picPathHelper("yellowPoint"),0,45,130,160,160)
-        KBD(VK_UP,1,200);
-        KBD(key.TRANSITION,0,500);
-        KBD(VK_UP,2,200);
-        for i = 1 to 3
-            KBD(key.BLAST_AND_DISCHARGE,0,350)
-        next
-    else
-        KBD(VK_DOWN,1,200)
+    while true
+        KBD(moveKey,1);
         for i = 1 to 3
             KBD(VK_C,0,100)
         next
-        KBD(VK_DOWN,2,200)
-        for i = 1 to 5
-            KBD(key.BLAST_AND_DISCHARGE,0,350)
-        next
-    endif
-
-    ifb collectTime < GETTIME()
-        collect();
-        collectTime = GETTIME( 120 / 86400);
-    endif
-    // ルーンが出現しているか確認します。
-    // 出現していた場合は解除します
-    // ret = checkRuneStage()
-    // ifb ret <> 0
-    // 	sleep(0.5);
-    //     lib.OpenRune();
-    //     sleep(1);
-    // endif
-    
-    //skill.pSkill();
-    //sleep(1.5);
+        util.PathFinderSkillCheckSelect(false);
+        KBD(key.BLAST_AND_DISCHARGE,0,350)
+        KBD(key.BLAST_AND_DISCHARGE,0,350)
+        ifb chkimg(lib.picPathHelper("yellowPoint"),0,x1,y1,x2,y2)
+            KBD(moveKey,2,100);
+            break;
+        endif
+    wend
     result = 0;
 fend
 
@@ -102,28 +79,20 @@ fend
 
 function yp()
 
-    ifb chkimg(lib.picPathHelper("yellowPoint"),0,105,120,115,130)
-        KBD(VK_UP,1)
-        KBD(VK_UP,2,1000)
-        KBD(VK_RIGHT,1,100);
-        KBD(VK_RIGHT,2,1000);
-        KBD(VK_LEFT,1,200)
-        KBD(VK_LEFT,2,200)
-    endif
-    ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,110,160)
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,90,140)
         while true
             KBD(VK_RIGHT,1,100)
-            ifb chkimg(lib.picPathHelper("yellowPoint"),0,120,80,105,160)
+            ifb chkimg(lib.picPathHelper("yellowPoint"),0,120,80,140,160)
                 KBD(VK_RIGHT,2,100)
                 KBD(VK_LEFT,1,200)
                 KBD(VK_LEFT,2,200)
                 break;
             endif
         wend
-    elseif chkimg(lib.picPathHelper("yellowPoint"),0,130,80,160,160)
+    elseif chkimg(lib.picPathHelper("yellowPoint"),0,120,80,160,160)
         while true
             KBD(VK_LEFT,1,100)
-            ifb chkimg(lib.picPathHelper("yellowPoint"),0,110,80,120,160)
+            ifb chkimg(lib.picPathHelper("yellowPoint"),0,100,80,115,160)
                 KBD(VK_LEFT,2,100)
                 break;
             endif 
@@ -183,65 +152,4 @@ procedure parallelProgram()
             exitexit;
         endif
     wend
-fend
-
-function collect()
-    print "アイテム回収を行います"
-    ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,160,160)
-        ifb 122 < G_IMG_X
-            while true
-                KBD(VK_LEFT,1)
-                ifb chkimg(lib.picPathHelper("yellowPoint"),0,105,113,122,160)
-                    KBD(VK_LEFT,2)
-                    break;
-                endif
-            wend
-        endif
-    endif
-
-    num = 0;
-    ifb chkimg(lib.picPathHelper("yellowPoint"),0,105,110,122,125)
-        KBD(VK_SHIFT,0,350);
-        sleep(1);
-    elseif chkimg(lib.picPathHelper("yellowPoint"),0,110,125,122,140)
-        num = 2;
-    endif
-
-    for i = 1 to num
-        KBD(VK_UP,1,200);
-        KBD(key.TRANSITION,0,1000);
-        KBD(VK_UP,2,200);
-    next
-
-    while true
-        KBD(VK_LEFT,1)
-        ifb chkimg(lib.picPathHelper("yellowPoint"),0,40,110,85,160)
-            KBD(VK_LEFT,2,50)
-            break;
-        endif
-    wend
-    KBD(VK_RIGHT,1)
-    KBD(VK_RIGHT,2,1200)
-    sleep(2)
-    for c = 1 to 2
-        KBD(VK_DOWN,1,100)
-        for i = 1 to 3
-            KBD(VK_C,0,100)
-        next
-        ifb c = 1
-            sleep(2.75)
-        endif
-    next
-    KBD(VK_DOWN,2,1000)
-    while true
-        KBD(VK_RIGHT,1)
-        ifb chkimg(lib.picPathHelper("yellowPoint"),0,105,130,158,160)
-            KBD(VK_RIGHT,2,50)
-            break;
-        endif
-    wend
-    KBD(VK_LEFT,1,50)
-    KBD(VK_LEFT,2,100)
-
-    result = 0;
 fend

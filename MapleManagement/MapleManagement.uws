@@ -16,50 +16,50 @@ public isBitGoddess = READINI("BIT_GODDESS","IS_BIT_GODDESS","../MapleManagement
 public isBitGoddess = READINI("BLACK_MAGE_EVENT","BLACK_MAGE_EVENT","../MapleManagement/MapleManagement.ini");
 class manager
 
-	public windowSize_X_MAX = 0;
-	public windowSize_Y_MAX = 0;
-	const PLAYER_NOT_ENCOUNT_STATUS = 0;
-	const PLAYER_ENCOUNT_STATUS = 999;
+    public windowSize_X_MAX = 0;
+    public windowSize_Y_MAX = 0;
+    const PLAYER_NOT_ENCOUNT_STATUS = 0;
+    const PLAYER_ENCOUNT_STATUS = 999;
 
-	function getMapleStoryExePath()
-		result = READINI("MAPLESTORY_EXE_PATH","PATH","../MapleManagement/MapleManagement.ini");
-	fend
+    function getMapleStoryExePath()
+        result = READINI("MAPLESTORY_EXE_PATH","PATH","../MapleManagement/MapleManagement.ini");
+    fend
 
-	function CheckEncountStatus(path)
+    function CheckEncountStatus(path)
        while true
-		   v = ReadPlayerEncountStatus(path);
-		   ifb v = PLAYER_ENCOUNT_STATUS
-		      thread lib.alartSound();
-		   endif
-		   sleep(1);
-	   wend
-	   result = 0;
-	fend
+           v = ReadPlayerEncountStatus(path);
+           ifb v = PLAYER_ENCOUNT_STATUS
+              thread lib.alartSound();
+           endif
+           sleep(1);
+       wend
+       result = 0;
+    fend
 
-	function WritePlayerEncoutStatus(path)
+    function WritePlayerEncoutStatus(path)
         ID = FOPEN(path, F_READ or F_WRITE);
-		FPUT(ID, PLAYER_ENCOUNT_STATUS, F_ALLTEXT);
+        FPUT(ID, PLAYER_ENCOUNT_STATUS, F_ALLTEXT);
         FCLOSE(ID);
-	    result = 0;
-	fend
+        result = 0;
+    fend
 
-	function WritePlayerNotEncoutStatus(path)
+    function WritePlayerNotEncoutStatus(path)
         ID = FOPEN(path, F_READ or F_WRITE);
-		FPUT(ID, PLAYER_NOT_ENCOUNT_STATUS, F_ALLTEXT);
+        FPUT(ID, PLAYER_NOT_ENCOUNT_STATUS, F_ALLTEXT);
         FCLOSE(ID);
-	    result = 0;
-	fend
+        result = 0;
+    fend
 
-	function ReadPlayerEncountStatus(path)
+    function ReadPlayerEncountStatus(path)
         ID = FOPEN(path, F_READ);
-		v = PLAYER_NOT_ENCOUNT_STATUS;
-		state = FGET(ID, 1);
+        v = PLAYER_NOT_ENCOUNT_STATUS;
+        state = FGET(ID, 1);
         FCLOSE(ID);	    
-		ifb state = PLAYER_ENCOUNT_STATUS
-		    v = PLAYER_ENCOUNT_STATUS
-		endif
+        ifb state = PLAYER_ENCOUNT_STATUS
+            v = PLAYER_ENCOUNT_STATUS
+        endif
         result = v;
-	fend
+    fend
 
 endclass
 
