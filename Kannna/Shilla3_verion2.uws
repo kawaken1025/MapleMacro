@@ -11,7 +11,7 @@
 //=========================================//
 // Copy Right (C) 2019 All Right Reserved. 
 //   @author k.kawabata @kawaken1025
-//     Create Date : 2019/02/09
+//     Create Date : 2019/07/20
 //=========================================//
 
 //=========================================
@@ -21,11 +21,12 @@
 CALL ../MapleAPI/MapleAPI.uws;
 // Util - sugarTime exec
 CALL ../Util/MapleUtil.uws;
+CALL KannnaUtil.uws;
 // multiThread checkRedPoint and checkMineralization
 thread parallelProgramExitMode();
-// MessageWindow init
-CALL ../Util/MapleUtil.uws;
 
+public oyabunTime = GETTIME( 30 / 86400 );
+public sal = GETTIME( 125 / 86400 );
 while true;
     //Acquisition of Time : Get the time after 3 minutes
     reUseSkillTime = GETTIME( 150 / 86400 );
@@ -35,8 +36,8 @@ while true;
     //lib.checkFamiliarPower();
     //lib.useMaprage();
     while true;
-        oneWayAttack(VK_LEFT,0,0,50,140);
-        oneWayAttack(VK_RIGHT,130,110,175,140);
+        oneWayAttack(VK_LEFT,0,0,30,140);
+        oneWayAttack(VK_RIGHT,215,120,240,140);
         //3minutes elapsed?
         if GETTIME() > reUseSkillTime then break;
     wend
@@ -49,25 +50,22 @@ wend
 function oneWayAttack(moveKey,x1,y1,x2,y2)
 
     //execute moveHunting
-    KBD(moveKey,1,1000);
+    KBD(moveKey,1,100);
     while true
-        if chkimg(lib.picPathHelper("yellowPoint"),0,x1,y1,x2,y2)     then break;
-        KBD(VK_V,0,900);
-        KBD(VK_A,0,800);
-        // for i = 1 to 4
-        //     KBD(VK_R,0,300)
-        // next
+        KBD(moveKey,1,100);
+        if chkimg(lib.picPathHelper("yellowPoint"),0,x1,y1,x2,y2) then break;
+        ifb oyabunTime < GETTIME()
+            KBD(VK_W,0,800);
+            oyabunTime = GETTIME( 30 / 86400 );
+        endif
+        KannnaSkillCheck();
+
+        KBD(VK_SPACE,0,700);
+
     wend
     //lib.checkGameMaster();
     KBD(moveKey,2,200);
-    // ルーンが出現しているか確認します。
-    // 出現していた場合は解除します
-    ret = checkRuneStage()
-    ifb ret <> 0
-    	sleep(0.5);
-        lib.OpenRune();
-        sleep(1);
-    endif    
+
     result = 0;
 fend
 
@@ -89,8 +87,10 @@ fend
 
 function useSkill()
 
-	KBD(VK_G,0,1000);
-	KBD(VK_H,0,3000);
+	KBD(VK_G,0,600);
+    KBD(VK_2,0,800);
+	KBD(VK_H,0,1800);
+    KBD(VK_H,0,300);
 	result = 0;
 
 fend
@@ -127,3 +127,27 @@ procedure parallelProgramExitMode()
         endif
     wend
 fend
+
+
+    function KannnaSkillCheck()
+        x1 = 800;
+        y1 = 700;
+        x2 = 1100;
+        y2 = 800;
+        
+
+        ifb sal < GETTIME()
+            KBD(VK_L,0,500);
+            sal = GETTIME( 125 / 86400 );
+        endif
+
+        ifb chkimg("../picture/雪女.bmp",0,x1,y1,x2,y2)
+            KBD(VK_F5,0,500);
+        endif
+
+        ifb chkimg("../picture/LingStone.bmp",0,x1,y1,x2,y2)
+            KBD(VK_HOME,0,500);
+        endif
+
+        result = 0;
+    fend

@@ -23,5 +23,7 @@ class key
     const RAVEN_TEMPEST       = VK_J
     const OBSIDIAN_BARRIER    = VK_W
     const CRITICAL_REINFORCE  = VK_T
+    const EVOLVE              = VK_R
+    const GUIDED_ARROW        = VK_L
 
 endclass

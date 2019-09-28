@@ -40,8 +40,8 @@ while true;
     //lib.checkFamiliarPower();
     //lib.useMaprage();
     while true;
-        Attack(VK_LEFT,0,0,60,140)
-        Attack(VK_RIGHT,120,80,160,140)
+        Attack(VK_LEFT,0,0,90,125)
+        Attack(VK_RIGHT,170,85,220,125)
         //3minutes elapsed?
         if GETTIME() > reUseSkillTime then break;
     wend
@@ -54,16 +54,16 @@ function Attack(moveKey,x1,y1,x2,y2)
 
     //yp();
     //execute moveHunting
-    util.PathFinder5thJobSkillCheck();
     pSkill();
     while true
         KBD(moveKey,1);
-        for i = 1 to 3
+        util.PathFinder5thJobSkillCheck();
+        for i = 1 to 4
             KBD(VK_C,0,100)
         next
+        KBD(key.BLAST_AND_DISCHARGE,0,300)
+        KBD(key.BLAST_AND_DISCHARGE,0,300)
         util.PathFinderSkillCheckSelect(false);
-        KBD(key.BLAST_AND_DISCHARGE,0,350)
-        KBD(key.BLAST_AND_DISCHARGE,0,350)
         ifb chkimg(lib.picPathHelper("yellowPoint"),0,x1,y1,x2,y2)
             KBD(moveKey,2,100);
             break;

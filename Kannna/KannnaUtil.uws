@@ -18,47 +18,130 @@ CALL KeySetting.uws;
 class util
 
     public mOyabunTime = GETTIME( 30 / 86400 );
+    // 加護座標情報
+    public mBx1 = 0;
+    public mBy1 = 0;
+    public mBx2 = 0;
+    public mBy2 = 0;
+    // 雪女座標情報
+    public mYOx1 = 0;
+    public mYOy1 = 0;
+    public mYOx2 = 0;
+    public mYOy2 = 0;
+    // 霊石召喚座標情報
+    public mLSx1 = 0;
+    public mLSy1 = 0;
+    public mLSx2 = 0;
+    public mLSy2 = 0;
+    // 白狐座標情報
+    public mWFx1 = 0;
+    public mWFy1 = 0;
+    public mWFx2 = 0;
+    public mWFy2 = 0;
+    // スパイダーインミラー座標情報
+    public mSiMx1 = 0;
+    public mSiMy1 = 0;
+    public mSiMx2 = 0;
+    public mSiMy2 = 0;
+    // 暁の陣
+    public mSaLx1 = 0;
+    public mSaLy1 = 0;
+    public mSaLx2 = 0;
+    public mSaLy2 = 0;
+
     function KannnaSkillCheck()
         x1 = 800;
         y1 = 600;
         x2 = 1366;
         y2 = 800;
 
-        //KBD(VK_U,0,y2);
+        KBD(VK_U,0,300);
 
-        // ifb chkimg("../picture/SengokuAlliance.bmp",0,x1,y1,x2,y2)
-        //     KBD(key.SENGOKU_ALLIANCE,0,100);
-        //     sleep(1);
-        // endif
-
-        ifb chkimg("../picture/BlessingsOfPrincess.bmp",0,x1,y1,x2,y2)
-            KBD(key.BLESSING,0,100);
-            sleep(1);
+        ifb mSaLx1 = 0
+            ifb chkimg("../picture/SengokuAlliance.bmp",0,x1,y1,x2,y2)
+                KBD(key.SENGOKU_ALLIANCE,0,300);
+                lib.SetCoordinate(mSaLx1, mSaLy1, mSaLx2, mSaLy2);
+            endif
+        else
+            ifb chkimg("../picture/SengokuAlliance.bmp",0,mSaLx1, mSaLy1, mSaLx2, mSaLy2)
+                KBD(key.SENGOKU_ALLIANCE,0,300);
+            endif
         endif
 
-        ifb chkimg("../picture/雪女.bmp",0,x1,y1,x2,y2)
-            KBD(VK_F5,0,100);
-            sleep(1);
+
+        ifb mBx1 = 0
+            ifb chkimg("../picture/BlessingsOfPrincess.bmp",0,x1,y1,x2,y2)
+                KBD(key.BLESSING,0,100);
+                sleep(0.2);
+                lib.SetCoordinate(mBx1, mBy1, mBx2, mBy2);
+            endif
+        else
+            ifb chkimg("../picture/BlessingsOfPrincess.bmp",0,mBx1,mBy1,mBx2,mBy2)
+                KBD(key.BLESSING,0,100);
+                sleep(0.2);
+            endif            
         endif
 
-        ifb chkimg("../picture/LingStone.bmp",0,x1,y1,x2,y2)
-            KBD(VK_HOME,0,100);
-            sleep(1);
+        ifb mYOx1 = 0
+            ifb chkimg("../picture/雪女.bmp",0,x1,y1,x2,y2)
+                KBD(VK_F5,0,100);
+                sleep(0.2);
+                lib.SetCoordinate(mYOx1, mYOy1, mYOx2, mYOy2);
+            endif
+        else
+            ifb chkimg("../picture/雪女.bmp",0,mYOx1, mYOy1, mYOx2, mYOy2)
+                KBD(VK_F5,0,100);
+                sleep(0.3);
+            endif
         endif
 
-        ifb chkimg("../picture/白狐.bmp",0,x1,y1,x2,y2)
-            KBD(VK_CTRL,0,100);
-            exit;
-            sleep(2);
-        elseif chkimg("../picture/WhiteFox.bmp",0,x1,y1,x2,y2)
-            KBD(VK_CTRL,0,100);
-            exit;
-            sleep(2);
+        ifb mLSx1 = 0
+            ifb chkimg("../picture/LingStone.bmp",0,x1,y1,x2,y2)
+                KBD(VK_HOME,0,100);
+                sleep(0.3);
+                lib.SetCoordinate(mLSx1, mLSy1, mLSx2, mLSy2);
+            endif
+        else
+            ifb chkimg("../picture/LingStone.bmp",0,mLSx1, mLSy1, mLSx2, mLSy2)
+                KBD(VK_HOME,0,100);
+                sleep(0.3);
+            endif            
+        endif
+
+        ifb mWFx1 = 0
+            ifb chkimg("../picture/白狐.bmp",0,x1,y1,x2,y2)
+                KBD(VK_CTRL,0,100);
+                lib.SetCoordinate(mWFx1, mWFy1, mWFx2, mWFy2);
+                exit;
+            elseif chkimg("../picture/WhiteFox.bmp",0,x1,y1,x2,y2)
+                KBD(VK_CTRL,0,100);
+                lib.SetCoordinate(mWFx1, mWFy1, mWFx2, mWFy2);
+                exit;
+            endif
+        else
+            ifb chkimg("../picture/白狐.bmp",0,mWFx1, mWFy1, mWFx2, mWFy2)
+                KBD(VK_CTRL,0,100);
+                exit;
+            elseif chkimg("../picture/WhiteFox.bmp",0,mWFx1, mWFy1, mWFx2, mWFy2)
+                KBD(VK_CTRL,0,100);
+                exit;
+            endif
         endif
 
         ifb mOyabunTime < GETTIME()
             KBD(VK_W,0,800);
             mOyabunTime = GETTIME( 30 / 86400 );
+        endif
+
+        ifb mSiMx1 = 0
+            ifb chkimg(lib.picPathHelper("SpiderInMirror"),0,x1,y1,x2,y2)
+                KBD(VK_DELETE,0,500);
+                lib.SetCoordinate(mSiMx1, mSiMy1, mSiMx2, mSiMy2);
+            endif
+        else
+            ifb chkimg(lib.picPathHelper("SpiderInMirror"),0,mSiMx1, mSiMy1, mSiMx2, mSiMy2)
+                KBD(VK_DELETE,0,500);
+            endif            
         endif
 
         // ifb chkimg("../picture/OneDevil.bmp",0,x1,y1,x2,y2)

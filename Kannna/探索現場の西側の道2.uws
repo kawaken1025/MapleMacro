@@ -68,7 +68,7 @@ FEND
 
 PROCEDURE 黄点チェック()
 
-	IFB CHKIMG("../picture/黄点.BMP",0,0,0,90,150)
+	IFB CHKIMG("../picture/黄点.BMP",0,0,0,98,150)
 	KBD(VK_RIGHT,1,500)
 	KBD(VK_SPACE,0,500);
 	KBD(VK_RIGHT,2,500)

@@ -167,7 +167,7 @@ function collect()
     // いったん一番→へいく
     KBD(VK_RIGHT,1,500)
     while true
-        if chkimg(lib.picPathHelper("yellowPoint"),0,170,0,180,143) then break;
+        if chkimg(lib.picPathHelper("yellowPoint"),0,170,0,200,143) then break;
         KBD(key.TELEPORT_KEY,0,100)
     wend
     KBD(VK_RIGHT,2,500)

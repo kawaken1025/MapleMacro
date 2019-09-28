@@ -1,5 +1,5 @@
 //=========================================//
-// Map Name    : チューチューアイランド奥　　 //
+// Map Name    : 洞窟の通路下　　　　　 　　 //
 //=========================================//
 
 //=========================================//
@@ -11,7 +11,7 @@
 //=========================================//
 // Copy Right (C) 2019 All Right Reserved. 
 //   @author k.kawabata @kawaken1025
-//     Create Date : 2019/08/03
+//     Create Date : 2019/09/08
 //=========================================//
 
 //=========================================
@@ -24,7 +24,7 @@ CALL KeySetting.uws;
 // Util - sugarTime exec
 CALL ../Util/MapleUtil.uws;
 // multiThread checkRedPoint and checkMineralization
-thread lib.parallelProgram();
+thread parallelProgram();
 // MessageWindow init
 CALL PathFinderUtil.uws;
 CALL ../Util/MapleUtil.uws;
@@ -41,7 +41,16 @@ while true;
     //lib.checkFamiliarPower();
     //lib.useMaprage();
     while true;
-        Attack()
+        KBD(VK_LEFT,1)
+        KBD(VK_LEFT,2,150)
+        for i = 1 to 2
+            Attack()
+        next
+        KBD(VK_RIGHT,1)
+        KBD(VK_RIGHT,2,150)
+        for i = 1 to 2
+            Attack()
+        next
         //3minutes elapsed?
         if GETTIME() > reUseSkillTime
             break;
@@ -55,32 +64,14 @@ wend
 function Attack()
 
     yp();
-    //execute moveHunting
+    // execute moveHunting
     util.PathFinder5thJobSkillCheck();
-    util.PathFinderSkillCheckSelect(false);
+    util.PathFinderSkillCheckSelect(true);
     pSkill();
-    ifb chkimg(lib.picPathHelper("yellowPoint"),0,45,130,160,160)
-        KBD(VK_UP,1,200);
-        KBD(key.TRANSITION,0,500);
-        KBD(VK_UP,2,200);
-        for i = 1 to 3
-            KBD(key.BLAST_AND_DISCHARGE,0,350)
-        next
-    else
-        KBD(VK_DOWN,1,200)
-        for i = 1 to 3
-            KBD(VK_C,0,100)
-        next
-        KBD(VK_DOWN,2,200)
-        for i = 1 to 5
-            KBD(key.BLAST_AND_DISCHARGE,0,350)
-        next
-    endif
-
-    ifb collectTime < GETTIME()
-        collect();
-        collectTime = GETTIME( 120 / 86400);
-    endif
+    for i = 1 to 4
+        // 探知機に引っかからないsec:350
+        KBD(key.BLAST_AND_DISCHARGE,0,270)
+    next    
     // ルーンが出現しているか確認します。
     // 出現していた場合は解除します
     // ret = checkRuneStage()
@@ -102,33 +93,30 @@ fend
 
 function yp()
 
-    ifb chkimg(lib.picPathHelper("yellowPoint"),0,105,120,115,130)
-        KBD(VK_UP,1)
-        KBD(VK_UP,2,1000)
-        KBD(VK_RIGHT,1,100);
-        KBD(VK_RIGHT,2,1000);
-        KBD(VK_LEFT,1,200)
-        KBD(VK_LEFT,2,200)
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,160,165)
+        ifb 45 < G_IMG_X and 130 < G_IMG_Y
+           KBD(VK_UP,1,200);
+           KBD(key.TRANSITION,0,500);
+           KBD(VK_UP,2,200);            
+        endif
+
+        ifb G_IMG_X <= 50
+            KBD(VK_RIGHT,1)
+            KBD(VK_RIGHT,2,1500)
+        elseif 80 < G_IMG_X
+            KBD(VK_LEFT,1)
+            KBD(VK_LEFT,2,1500)
+        elseif 125 < G_IMG_X
+            while true
+                KBD(VK_LEFT,1)
+                ifb chkimg(lib.picPathHelper("yellowPoint"),0,45,100,85,165)
+                    break;
+                endif
+            wend
+            KBD(VK_LEFT,2,1500)
+        endif
     endif
-    ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,110,160)
-        while true
-            KBD(VK_RIGHT,1,100)
-            ifb chkimg(lib.picPathHelper("yellowPoint"),0,120,80,105,160)
-                KBD(VK_RIGHT,2,100)
-                KBD(VK_LEFT,1,200)
-                KBD(VK_LEFT,2,200)
-                break;
-            endif
-        wend
-    elseif chkimg(lib.picPathHelper("yellowPoint"),0,130,80,160,160)
-        while true
-            KBD(VK_LEFT,1,100)
-            ifb chkimg(lib.picPathHelper("yellowPoint"),0,110,80,120,160)
-                KBD(VK_LEFT,2,100)
-                break;
-            endif 
-        wend
-    endif
+
     result = 0;
 fend
 
@@ -152,8 +140,9 @@ fend
 
 function useSkill()
 
-	KBD(VK_G,0,1000);
-	KBD(VK_H,0,3000);
+    KBD(VK_H,0,1000);
+	KBD(VK_G,0,1500);
+    sleep(2);
 	result = 0;
 
 fend
@@ -167,23 +156,6 @@ function pSkill()
     result = 0;
 fend
 
-procedure parallelProgram()
-    while TRUE
-        ifb chkimg("../picture/石化2.bmp",0,0,0,1368,800)
-            for i = 1 to 20
-                KBD(VK_LEFT,0,100);
-                KBD(VK_RIGHT,0,100);
-            next
-        endif
-
-        if chkimg("../picture/加護.bmp",0,0,0,1368,800) then KBD(VK_F4,0,1000)
- 
-        ifb chkimg("../picture/緑点.bmp",0,0,0,1368,800)
-            logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
-            exitexit;
-        endif
-    wend
-fend
 
 function collect()
     print "アイテム回収を行います"
@@ -244,4 +216,37 @@ function collect()
     KBD(VK_LEFT,2,100)
 
     result = 0;
+fend
+
+//=========================================
+//
+// comment : 石化チェック・赤点チェック・加護チェック
+// param   : None
+// return  : 0 
+//
+//=========================================
+procedure parallelProgram()
+    while TRUE
+        ifb chkimg("../picture/石化2.bmp",0,0,0,1368,800)
+            for i = 1 to 20
+                KBD(VK_LEFT,0,100);
+                KBD(VK_RIGHT,0,100);
+            next
+        endif
+
+        ifb chkimg("../picture/赤点.bmp",0,0,0,200,200)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+            lib.alartSound();  
+        endif   
+
+        ifb chkimg("../picture/redpoint2.bmp",0,0,0,200,200)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+            lib.alartSound();
+        endif   
+
+        ifb chkimg("../picture/緑点.bmp",0,0,115,169,160)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
+            exitexit;
+        endif
+    wend
 fend

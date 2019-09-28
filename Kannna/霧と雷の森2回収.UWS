@@ -25,10 +25,10 @@ wend
 
 function recovery()
 
-    KBD(VK_U,0,500)
-    IFB CHKIMG("../picture/ê·èó.bmp",0,585,515,800,600)
-        KBD(VK_9,0,800)
-    ENDIF
+    //KBD(VK_U,0,500)
+    // IFB CHKIMG("../picture/ê·èó.bmp",0,585,515,800,600)
+    //     KBD(VK_9,0,800)
+    // ENDIF
 
     KBD(VK_HOME,0,1000)
     KBD(VK_R,0,1000)

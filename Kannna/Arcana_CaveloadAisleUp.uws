@@ -25,7 +25,7 @@ CALL KeySetting.uws;
 CALL ../Util/MapleUtil.uws;
 // multiThread checkRedPoint and checkMineralization
 thread CheckPlayer();
-thread lib.parallelProgramWaitMode();
+thread parallelProgramWaitMode();
 thread lib.RegularOnClick();
 thread lib.KillMicrosoftEdge();
 // MessageWindow init
@@ -67,7 +67,7 @@ while true;
         endif
         DownJump();
         lib.UrgentCheckCCmode();
-        KannnaSkillCheck();
+        util.KannnaSkillCheck();
         skill.pSkill();
         RemoveCatchRope();
         //SLEEP(1)
@@ -136,6 +136,20 @@ function collect()
     for i = 1 to 3
         KBD(VK_C,0,300);
     next
+    sleep(1);
+    while true
+        ifb chkimg("../picture/yellowPoint.bmp",0,0,0,300,300)
+            ifb 129 < G_IMG_Y 
+                break;
+            else
+                sleep(1);
+                for i = 1 to 3
+                    KBD(VK_C,0,300);
+                next   
+            endif
+        endif 
+    wend
+
     KBD(VK_DOWN,2,100);
     while true
         KBD(VK_LEFT,1);
@@ -168,7 +182,7 @@ fend
 function RemoveCatchRope()
 
     ifb chkimg("../picture/yellowPoint.bmp",0,0,0,300,300)
-        ifb 110 < G_IMG_Y and G_IMG_Y < 125
+        ifb 105 < G_IMG_Y and G_IMG_Y < 125
             print "rope";
             KBD(VK_DOWN,1,100);
             KBD(VK_DOWN,2,3500);
@@ -288,21 +302,53 @@ function KannnaSkillCheck()
 fend
 
 function CheckPlayer()
+
+    result = 0;
+fend
+
+
+procedure parallelProgramWaitMode()
+
     path = "../MapleManagement/status/Kannna/status";
     manager.WritePlayerNotEncoutStatus(path);
     isEncount = false;
-    while true
+
+    while TRUE
+        ifb chkimg("../picture/石化2.bmp",0,0,0,1368,800)
+            for i = 1 to 20
+                KBD(VK_LEFT,0,100);
+                KBD(VK_RIGHT,0,100);
+            next
+        endif
+
+        if chkimg("../picture/加護.bmp",0,0,0,1368,800) then KBD(VK_F4,0,1000)
+
+        ifb chkimg("../picture/赤点.bmp",0,0,0,1368,800)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+            exitexit;
+        endif
+        
+        // ifb chkimg("../picture/redpoint2.bmp",0,0,0,800,600)
+        //     logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+        //     thread alartSound();
+        //     exitexit;
+        // endif
+
         ifb chkimg(lib.picPathHelper("redpoint2"),0,0,0,300,300)
             manager.WritePlayerEncoutStatus(path)
             isEncount = true;
             sleep(1);
+            exitexit;
         else
             ifb isEncount = true
                 manager.WritePlayerNotEncoutStatus(path);
                 isEncount = false;
             endif
         endif
-        sleep(0.3);
+
+        ifb  chkimg("../picture/緑点.bmp",0,0,0,1368,800)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
+            exitexit;
+        endif
     wend
-    result = 0;
 fend
