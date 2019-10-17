@@ -28,11 +28,13 @@ thread parallelProgram();
 // MessageWindow init
 CALL PathFinderUtil.uws;
 CALL ../Util/MapleUtil.uws;
-
+public IsEventSkill = true;
 public collectTime = GETTIME( 120 / 86400 );
+util.mIsRavenTempestSwitch = true;
+
 while true;
     lib.checkFamiliarPower();
-
+    mutil.CheckMagicBuff(VK_8);
     //Acquisition of Time : Get the time after 3 minutes
     reUseSkillTime = GETTIME( 210 / 86400 );
     useSkill();
@@ -51,6 +53,9 @@ while true;
         for i = 1 to 2
             Attack()
         next
+        ifb IsEventSkill
+            KBD(VK_F1,0,800)
+        endif
         //3minutes elapsed?
         if GETTIME() > reUseSkillTime
             break;

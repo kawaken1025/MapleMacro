@@ -71,6 +71,12 @@ try
             list.add(VK_LEFT)
         next
 
+        ifb 8 < list.count
+            logger.logWriter(LogLevel.LOG_WARN, "検出数が8個を超過しました。解析を終了します。");
+            exit;
+        endif
+
+
         arrowCountR = CHKIMGX("../picture/arrow/r.png",0,x1,y1,x2,y2,-1,threshold,-1)
         print "右発見個数:" + arrowCountR
         for i = 0 to arrowCountR - 1
@@ -78,12 +84,22 @@ try
             list.add(VK_RIGHT)
         next
 
+        ifb 8 < list.count
+            logger.logWriter(LogLevel.LOG_WARN, "検出数が8個を超過しました。解析を終了します。");
+            exit;
+        endif
+
         arrowCountU = CHKIMGX("../picture/arrow/u.png",0,x1,y1,x2,y2,-1,threshold,-1)
         print "上発見個数:" + arrowCountU
         for i = 0 to arrowCountU - 1
             list.add(ALL_IMGX_X[i])
             list.add(VK_UP)
         next
+
+        ifb 8 < list.count
+            logger.logWriter(LogLevel.LOG_WARN, "検出数が8個を超過しました。解析を終了します。");
+            exit;
+        endif
 
         arrowCountD = CHKIMGX("../picture/arrow/d.png",0,x1,y1,x2,y2,-1,threshold,-1)
         print "下発見個数:" + arrowCountD

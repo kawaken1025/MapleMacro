@@ -39,6 +39,8 @@ class util
     public mEvlvy1 = 0;
     public mEvlvx2 = 0;
     public mEvlvy2 = 0;
+
+    public mIsRavenTempestSwitch = false;
     
     function PathFinderSkillCheck()
         
@@ -205,15 +207,29 @@ class util
                 mRaTx2 = G_IMG_X + 30;
                 mRaTy1 = G_IMG_Y - 1;
                 mRaTy2 = G_IMG_Y + 5;
-                for i = 1 to 2
-                    KBD(key.RAVEN_TEMPEST,0,300);
-                next
+                ifb mIsRavenTempestSwitch
+                    for i = 1 to 2
+                        KBD(key.RAVEN_TEMPEST,0,300);
+                    next
+                    thread SwitchingRavenTempest();
+                else
+                    for i = 1 to 2
+                        KBD(key.RAVEN_TEMPEST,0,300);
+                    next
+                endif
             endif
         else
             ifb chkimg("../picture/RavenTempest.bmp",0,mRaTx1,mRaTy1,mRaTx2,mRaTy2)
-                for i = 1 to 2
-                    KBD(key.RAVEN_TEMPEST,0,300);
-                next
+                ifb mIsRavenTempestSwitch
+                    for i = 1 to 2
+                        KBD(key.RAVEN_TEMPEST,0,300);
+                    next
+                    thread SwitchingRavenTempest();
+                else
+                    for i = 1 to 2
+                        KBD(key.RAVEN_TEMPEST,0,300);
+                    next
+                endif
             endif
         endif
 
@@ -252,6 +268,13 @@ class util
                 KBD(key.CRITICAL_REINFORCE,0,300);
             endif
         endif
+        result = 0;
+    fend
+
+    function SwitchingRavenTempest()
+        for i = 1 to 8
+            KBD(key.RAVEN_TEMPEST,0,3000);
+        next
         result = 0;
     fend
 

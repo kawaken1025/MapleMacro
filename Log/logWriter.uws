@@ -13,6 +13,7 @@ Option LogPath = "C:\log.log"
 Option LogFile = 2 // 1:ログ出力しない, 2:日付（時分秒）付けない, 3:日付（時分秒）を付ける
 
 public isDebugMode = false;
+public _MQList;
 MAPLE_RESULT_OK = 0;
 
 function logger( outputLog )
@@ -55,6 +56,11 @@ CLASS logger
         jobPath = lib.getOutputDirectory(); // 実行中職業ディレクトリの取得
         checkDirectory(jobPath);            // ディレクトリ存在チェック
         mLogPath = getOutputPath(jobPath);  // 出力先パス設定
+        result = MAPLE_RESULT_OK;
+    fend
+
+    function AddMQ(outputLog)
+        
         result = MAPLE_RESULT_OK;
     fend
 

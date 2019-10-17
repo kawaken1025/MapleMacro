@@ -1,0 +1,5 @@
+print GETTIME()
+ifb chkimg("../picture/yellowPoint.bmp",0,0,0,300,300)
+    print GETTIME()
+endif
+

@@ -16,8 +16,7 @@ while true
 
     KBD(VK_LEFT,1,500);
     while true
-        KBD(key.PINK_SCUD,0,900);
-        KBD(key.PRIMAL_LOWER,0,800);
+        attack();
         if chkimg(lib.picPathHelper("yellowPoint"),0,0,0,50,120) then break;
         lib.urgentCheck();
         //lib.checkStartingMapleStory();
@@ -28,8 +27,7 @@ while true
 
     KBD(VK_RIGHT,1,500)
     while true
-        KBD(key.PINK_SCUD,0,900);
-        KBD(key.PRIMAL_LOWER,0,800);
+        attack();
         if chkimg(lib.picPathHelper("yellowPoint"),0,130,90,167,130) then break;
         lib.urgentCheck();
         //lib.checkGameMaster();
@@ -52,6 +50,13 @@ while true
 
 wend
 
+function attack()
+    KBD(key.PINK_SCUD,0,900);
+    KBD(key.PRIMAL_LOWER,0,800);
+    KBD(VK_R,0,1000);
+    result = 0;
+fend
+
 function upStage()
 
     KBD(VK_RIGHT,1,1000)
@@ -69,7 +74,7 @@ function downStage()
     KBD(VK_C,0,100)
     KBD(VK_C,0,100)
     KBD(VK_C,0,100)
-    KBD(VK_DOWN,2,100)
+    KBD(VK_DOWN,2,1500)
       
     result = 0;
 fend

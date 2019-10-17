@@ -72,7 +72,7 @@ wend
 function moveStage()
 
     IFB CHKIMG("../picture/黄点.BMP",0,0,0,124,128)
-        KBD(VK_DOWN,1,500);
+        KBD(VK_DOWN,1,100);
         useSkill.teleport(key.TELEPORT_KEY);
         KBD(VK_DOWN,2);
         exit

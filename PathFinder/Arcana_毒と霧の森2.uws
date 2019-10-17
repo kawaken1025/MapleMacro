@@ -33,7 +33,8 @@ while true;
     lib.checkFamiliarPower();
 
     //Acquisition of Time : Get the time after 3 minutes
-    reUseSkillTime = GETTIME( 210 / 86400 );
+    reUseSkillTime = GETTIME(210 / 86400);
+    mutil.CheckMagicBuff(VK_8);
     useSkill();
     SLEEP(0.5);
     KBD(VK_T,0,2000)

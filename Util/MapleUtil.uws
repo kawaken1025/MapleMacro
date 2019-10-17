@@ -22,6 +22,11 @@ CALL ../lib/MapleLibrary.uws;
 
 class mutil
 
+function mutil()
+    takoyakiTime = GETTIME(300 / 86400)
+    result = 0;
+fend
+
 function graveConfirm()
 
     //if chkimg(lib.picPathHelper("graveOK"),0,0,0,1366,800) then KBD(G_IMG_X,G_IMG_Y,1000); 
@@ -53,9 +58,20 @@ fend
 // return : 0
 //**************************************
 function magicBuff(buffKey)
-    KBD(buffKey,0,500)
-    BTN(LEFT,CLICK,446,382,1000);
+    KBD(buffKey,0,500);
+    KBD(VK_ENTER,0,500);
+    BTN(LEFT,CLICK,446,382,300);
     result = MAPLE_RESULT_OK;
+fend
+
+public takoyakiTime;
+function CheckMagicBuff(key)
+    ifb takoyakiTime < GETTIME()
+        magicBuff(key);
+        takoyakiTime = GETTIME(300 / 86400)
+    endif
+
+    result = 0;
 fend
 
 function getBitGoddess()

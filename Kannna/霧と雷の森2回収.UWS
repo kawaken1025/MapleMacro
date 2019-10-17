@@ -1,5 +1,6 @@
 
 CALL ../MapleAPI/MapleAPI.uws;
+CALL ../Util/MapleUtil.uws;
 lib.activeWindow();
 thread lib.parallelProgram();
 

@@ -28,9 +28,11 @@ thread CheckPlayer();
 thread parallelProgramWaitMode();
 thread lib.RegularOnClick();
 thread lib.KillMicrosoftEdge();
+public IsEventSkill = true;
 // MessageWindow init
 CALL KannnaUtil.uws;
 CALL ../Util/MapleUtil.uws;
+
 
 propUseTime = GETTIME( 7350 / 86400 ); // 財物
 while true;
@@ -52,7 +54,12 @@ while true;
         // ルーンが出現しているか確認します。
         // 出現していた場合は解除します
         //ret = checkRuneStage()
-        KBD(VK_B,0,800);
+        ifb IsEventSkill
+            KBD(VK_F1,0,800)
+            KBD(VK_B,0,1000);
+        else
+            KBD(VK_B,0,800);
+        endif
         lib.UrgentCheckCCmode();
         sleep(1.7);
         cYp();

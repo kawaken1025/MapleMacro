@@ -1,0 +1,60 @@
+﻿
+CALL ../MapleAPI/MapleAPI.uws;
+CALL KeySetting.uws;
+
+lib.activeWindow();
+thread lib.parallelProgramExitMode();
+
+petTime = GETTIME( 300 / 86400 )
+
+while true
+    while true
+        KBD(VK_LEFT,1,100);
+        Attack();
+        if chkimg(lib.picPathHelper("yellowPoint"),0,0,0,48,147) then break;
+        lib.urgentCheck();
+    wend
+
+    KBD(VK_LEFT,2,200);
+    upStage();
+
+    while true
+        KBD(VK_RIGHT,1,100)
+        Attack();
+        if !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,135,130) then break;
+        lib.urgentCheck();
+    wend
+    //KBD(key.NORMAL_ATTACK_KEY,2,200);
+    KBD(VK_RIGHT,2,200);
+
+
+    ifb petTime < GETTIME()
+        KBD(VK_T,0,1000)
+        logger.logWriter(LogLevel.LOG_INFO,"ペットの餌を使用しました。");
+        petTime = GETTIME( 1200 / 86400 )
+    endif
+
+wend
+
+function Attack()
+    KBD(VK_SPACE,0,150);
+    KBD(VK_SPACE,0,150);
+    KBD(VK_X,0,300);
+    result = 0;
+fend
+
+function upStage()
+
+    KBD(VK_RIGHT,1,500)
+    while true
+        ifb !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,55,130)
+            break;
+        endif
+    wend
+    KBD(VK_RIGHT,2,500)
+    KBD(VK_UP,1,500)
+    KBD(VK_SPACE,0,500)
+    KBD(VK_UP,2,100)
+    
+    result = 0;
+fend
