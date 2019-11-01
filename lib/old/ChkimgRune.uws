@@ -1,0 +1,172 @@
+﻿//=========================================//
+// Map Name    : ルーン解除スクリプト      //
+//=========================================//
+// Mob Name    : 
+// Mob Level   : 
+// Mob HP      : 
+// Mob Exp     : 
+//=========================================//
+// Mob Name    : 
+// Mob Level   : 
+// Mob HP      : 
+// Mob Exp     : 
+//=========================================//
+// comment     : None
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 1366x768 only
+//=========================================//
+// Copy Right (C) 2019 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2019/01/06
+//=========================================//
+
+OPTION OPTFINALLY
+CALL MapleLibrary.uws;
+CALL ChkImgX.uws
+startup_chkimgx()
+
+try
+    // ルーン起動
+    KBD(VK_Y,0,500);
+    // 画像判定閾値
+    threshold = 15
+    MaxAnalyzeCount = 3 // 失敗時のリトライ回数
+    sleep(1)
+    isRange = false;
+
+    GETTIME() 
+    start = G_TIME_NN2 + "分" + G_TIME_SS2 + "秒" + G_TIME_ZZ2 + "ミリ秒"
+
+    for i = 1 to MaxAnalyzeCount
+        ifb !isRange
+            // 範囲チェック5回まで実施
+            for ii = 1 to 5
+                ifb CHKIMGX("../picture/arrow/ArrowDirectionKey.png",0,0,0,700,300,-1,threshold,-1)
+                    break;
+                endif
+            next
+            print " X = " + G_IMGX_X + " Y = " + G_IMGX_Y;
+            ifb G_IMGX_X < 0 and G_IMGX_Y < 0
+                x1 = 300;
+                x2 = 900;
+                y1 = 150;
+                y2 = 350;
+            else
+                x1 = G_IMGX_X - 100;
+                x2 = x1 + 350;
+                y1 = G_IMGX_Y + 30;
+                y2 = y1 + 90;
+                isRange = true;
+            endif
+        endif
+
+        list = CreateOleObj("System.Collections.ArrayList")
+
+        arrowCountL = CHKIMGX("../picture/arrow/l.png",0,x1,y1,x2,y2,-1,threshold,-1)
+        print "左発見個数:" + arrowCountL
+        for i = 0 to arrowCountL - 1
+            list.add(ALL_IMGX_X[i])
+            list.add(VK_LEFT)
+        next
+
+        ifb 8 < list.count
+            logger.logWriter(LogLevel.LOG_WARN, "検出数が8個を超過しました。解析を終了します。");
+            exit;
+        endif
+
+
+        arrowCountR = CHKIMGX("../picture/arrow/r.png",0,x1,y1,x2,y2,-1,threshold,-1)
+        print "右発見個数:" + arrowCountR
+        for i = 0 to arrowCountR - 1
+            list.add(ALL_IMGX_X[i])
+            list.add(VK_RIGHT)
+        next
+
+        ifb 8 < list.count
+            logger.logWriter(LogLevel.LOG_WARN, "検出数が8個を超過しました。解析を終了します。");
+            exit;
+        endif
+
+        arrowCountU = CHKIMGX("../picture/arrow/u.png",0,x1,y1,x2,y2,-1,threshold,-1)
+        print "上発見個数:" + arrowCountU
+        for i = 0 to arrowCountU - 1
+            list.add(ALL_IMGX_X[i])
+            list.add(VK_UP)
+        next
+
+        ifb 8 < list.count
+            logger.logWriter(LogLevel.LOG_WARN, "検出数が8個を超過しました。解析を終了します。");
+            exit;
+        endif
+
+        arrowCountD = CHKIMGX("../picture/arrow/d.png",0,x1,y1,x2,y2,-1,threshold,-1)
+        print "下発見個数:" + arrowCountD
+        for i = 0 to arrowCountD - 1
+            list.add(ALL_IMGX_X[i])
+            list.add(VK_DOWN)
+        next
+
+        print "合計検出数:" + list.count
+        ifb list.count <> 8
+            ifb isRange
+                list.clear();
+                logger.logWriter(LogLevel.LOG_INFO, "ルーンのコマンド解析に失敗しました");
+                logger.logWriter(LogLevel.LOG_INFO, "ルーンの再解析を行います");
+            else
+                logger.logWriter(LogLevel.LOG_INFO, "ルーンのコマンド解析に失敗しました");
+                logger.logWriter(LogLevel.LOG_INFO, "範囲が検出できていないためルーン解析を終了します");
+                exit;
+            endif
+
+        elseif list.count = 8
+            break;
+        endif
+
+    next
+
+    ifb list.count <> 8
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンの解析回数が最大リトライ回数"　+ MaxAnalyzeCount + "回に達しました");
+        exit;
+    endif
+
+    arrowList = CreateOleObj("System.Collections.ArrayList")
+
+    // ここからソート
+    // ヒットした座標の昇順でソートする
+    for i = 1 to 4
+        _min = 99999;
+        minidx = 0;
+        j = 0;
+
+        for check = 1 to list.count/2;
+            ifb _min > list.item(j)
+                minidx = j;
+                _min = list.item(j);
+            endif
+            j = j + 2;
+        next
+        arrowList.add(list.item(minidx + 1));
+        list.RemoveAt(minidx);
+        list.RemoveAt(minidx);
+    next
+
+    for i = 0 to arrowList.count-1
+        KBD(arrowList.item(i),0,70)
+    next
+    logger.logWriter(LogLevel.LOG_INFO,"ルーンへコマンドを入力しました。");
+    
+    // 解析所要時刻の出力
+    GETTIME();
+    end    = G_TIME_NN2 + "分" + G_TIME_SS2 + "秒" + G_TIME_ZZ2 + "ミリ秒";
+    startp = "ルーン解析開始時間：" + start;
+    endp   = "ルーン解析終了時間：" + end;
+    logger.logWriter(LogLevel.LOG_INFO, startp);
+    logger.logWriter(LogLevel.LOG_INFO, endp);
+
+finally
+  shutdown_chkimgx()
+endtry
+
+

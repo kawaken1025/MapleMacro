@@ -39,6 +39,11 @@ class util
     public mEvlvy1 = 0;
     public mEvlvx2 = 0;
     public mEvlvy2 = 0;
+    // スパイダーインミラー座標情報
+    public mSiMx1 = 0;
+    public mSiMy1 = 0;
+    public mSiMx2 = 0;
+    public mSiMy2 = 0;
 
     public mIsRavenTempestSwitch = false;
     
@@ -268,6 +273,19 @@ class util
                 KBD(key.CRITICAL_REINFORCE,0,300);
             endif
         endif
+
+        // 5th:スパイダーインミラー
+        ifb mSiMx1 = 0
+            ifb chkimg(lib.picPathHelper("SpiderInMirror"),0,x1,y1,x2,y2)
+                KBD(VK_DELETE,0,500);
+                lib.SetCoordinate(mSiMx1, mSiMy1, mSiMx2, mSiMy2);
+            endif
+        else
+            ifb chkimg(lib.picPathHelper("SpiderInMirror"),0,mSiMx1, mSiMy1, mSiMx2, mSiMy2)
+                KBD(VK_DELETE,0,500);
+            endif            
+        endif
+
         result = 0;
     fend
 

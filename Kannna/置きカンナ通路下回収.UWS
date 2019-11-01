@@ -55,7 +55,7 @@ function collect()
 	    KBD(VK_SPACE,0,150)
 	next
 	while true
-		ifb chkimg("../picture/yellowPoint.bmp",0,100,130,125,145)
+		ifb chkimg("../picture/yellowPoint.bmp",0,100,95,125,145)
             break;
 		endif
 	wend

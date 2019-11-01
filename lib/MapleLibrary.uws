@@ -93,6 +93,8 @@ function roundTripTeleportAttack( execKBD_Attack, execKBD_Move, yellowX_S, yello
     KBD(execKBD_Move,2,500);
 
     result = MAPLE_RESULT_OK;
+
+    
 fend
 
 //=========================================
@@ -106,20 +108,21 @@ function urgentCheck()
     ifb  chkimg("../picture/エリボス.bmp",0,0,0,2000,2000)    	
         ifb areaBossEncount = 0 // 初回のみログを出す
             areaBossEncount = 1;
-            logger.logWriter(LogLevel.LOG_WARN,"エリアボスを検出しました");
+            logger.logWriter(LogLevel.LOG_WARN, Messages.DETECTION_AREA_BOSS);
         else
             SOUND(" ");
         endif
     endif
     
     ifb  chkimg("../picture/緑点.bmp",0,0,0,1368,800)
-        logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
+        logger.logWriter(LogLevel.LOG_WARN, Messages.DISCOVERY_GREEN_POINT);
         exitexit;
     endif
     ifb chkimg("../picture/突発.bmp",0,0,0,1368,800);
         for i = 1 to 3
             BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,200);
         next
+        logger.logWriter(LogLevel.LOG_INFO, Messages.GET_SUDEDN_MISSION);
     endif
     if chkimg("../picture/talkEnd.bmp",0,0,0,1368,800) then BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,500);
 
@@ -1048,7 +1051,7 @@ function moveRunePoint()
     endif
     
     // ルーンの横位置まで移動
-    KBD(moveKey,1,500);
+    KBD(moveKey,1,100);
     while true
         if chkimg(lib.picPathHelper("yellowPoint"),0, runePointX-5, 0, runePointX+5, 300) then break;  
     wend
@@ -1086,7 +1089,7 @@ function moveRunePointXY(x,y)
     endif
     
     // ルーンの横位置まで移動
-    KBD(moveKey,1,500);
+    KBD(moveKey,1,100);
     while true
         if chkimg(lib.picPathHelper("yellowPoint"),0, runePointX-5, 0, runePointX+5, 300) then break;  
     wend

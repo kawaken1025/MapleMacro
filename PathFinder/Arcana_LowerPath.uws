@@ -28,7 +28,7 @@ thread parallelProgram();
 // MessageWindow init
 CALL PathFinderUtil.uws;
 CALL ../Util/MapleUtil.uws;
-public IsEventSkill = true;
+public IsEventSkill = false;
 public collectTime = GETTIME( 120 / 86400 );
 util.mIsRavenTempestSwitch = true;
 
@@ -44,12 +44,12 @@ while true;
     //lib.useMaprage();
     while true;
         KBD(VK_LEFT,1)
-        KBD(VK_LEFT,2,150)
+        KBD(VK_LEFT,2,200)
         for i = 1 to 2
             Attack()
         next
         KBD(VK_RIGHT,1)
-        KBD(VK_RIGHT,2,150)
+        KBD(VK_RIGHT,2,200)
         for i = 1 to 2
             Attack()
         next
@@ -73,21 +73,13 @@ function Attack()
     util.PathFinder5thJobSkillCheck();
     util.PathFinderSkillCheckSelect(true);
     pSkill();
-    for i = 1 to 4
+    for i = 1 to 20
         // 探知機に引っかからないsec:350
-        KBD(key.BLAST_AND_DISCHARGE,0,270)
+        KBD(key.BLAST_AND_DISCHARGE,0,100)
     next    
     // ルーンが出現しているか確認します。
     // 出現していた場合は解除します
-    // ret = checkRuneStage()
-    // ifb ret <> 0
-    // 	sleep(0.5);
-    //     lib.OpenRune();
-    //     sleep(1);
-    // endif
-    
-    //skill.pSkill();
-    //sleep(1.5);
+    checkRuneStage();
     result = 0;
 fend
 
@@ -99,15 +91,23 @@ fend
 function yp()
 
     ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,160,165)
+        ifb G_IMG_Y < 112
+           KBD(VK_DOWN,1,200);
+           for i = 1 to 3
+               KBD(VK_C,0,200)
+           next
+           KBD(VK_DOWN,2,200);            
+        endif
+
         ifb 45 < G_IMG_X and 130 < G_IMG_Y
            KBD(VK_UP,1,200);
            KBD(key.TRANSITION,0,500);
            KBD(VK_UP,2,200);            
         endif
 
-        ifb G_IMG_X <= 50
+        ifb G_IMG_X <= 60
             KBD(VK_RIGHT,1)
-            KBD(VK_RIGHT,2,1500)
+            KBD(VK_RIGHT,2,1000)
         elseif 80 < G_IMG_X
             KBD(VK_LEFT,1)
             KBD(VK_LEFT,2,1500)
@@ -132,16 +132,79 @@ fend
 function checkRuneStage()
 
 	ret = 0;
-    // 上段にあるか
-    ifb chkimg(lib.picPathHelper("runePoint"),0,0,0,200,150)
-        ret = 1;
-        logger.logWriter(LogLevel.LOG_INFO,Messages.DETECTION_RUNE);
-    //elseif chkimg(lib.picPathHelper("runePoint"),0,0,127,180,145)
-    //    ret = 1;
-    //    logger.logWriter(LogLevel.LOG_INFO,Messages.DETECTION_RUNE);
+    runeX = 0;
+    runeY = 0;
+    ifb chkimg(lib.picPathHelper("runePoint"),0,0,0,140,140)
+        ifb 45 < G_IMG_Y and G_IMG_Y < 110
+            logger.logWriter(LogLevel.LOG_INFO, "ルーンを上段で発見しました");
+            ret = 1; // 上段
+            runeX = G_IMG_X;
+            runeY = G_IMG_Y;
+        elseif 115 < G_IMG_Y and G_IMG_Y < 125
+            logger.logWriter(LogLevel.LOG_INFO, "ルーンを中段で発見しました");
+            ret = 2; // 中段
+            runeX = G_IMG_X;
+            runeY = G_IMG_Y;
+        elseif 128 < G_IMG_Y and G_IMG_Y < 140
+            logger.logWriter(LogLevel.LOG_INFO, "ルーンを下段で発見しました");
+            ret = 3;
+            runeX = G_IMG_X;
+            runeY = G_IMG_Y;
+        endif
+        moveStage(ret, runeX, runeY);
     endif
     result = ret;
 fend
+
+//=========================================
+// param   : 1 or 2 or 3
+// comment : ルーンが出現している段へ移動
+//=========================================
+function moveStage(num, runeX, runeY)
+    sleep(1)
+    yellowPointX = 0;
+    yellowPointY = 0;
+    b = IsSameStage(runeY);
+    lib.OpenRuneXY(runeX, runeY, false);
+    result = 0;
+fend
+
+function IsSameStage(runeY)
+    b = false;
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,140,140)
+        yellowPointY = G_IMG_Y;
+        ifb runeY-7 < yellowPointY and yellowPointY < runeY+7
+            b = true;
+        endif
+    endif
+    checkStage(b, runeY, YellowPointY)
+    result = b;
+fend
+
+function checkStage(b, runeY, YellowPointY)
+    
+    //print "rune:" + runeY + " yp:" + YellowPointY
+    ifb b
+        result = 0;
+    elseif runeY > yellowPointY
+        //print "自分の位置より下にルーンを発見"
+        KBD(VK_DOWN,1,100)
+        for i = 1 to 3
+            KBD(VK_C,0,100)
+        next
+        KBD(VK_DOWN,2,10)
+    elseif runeY < yellowPointY
+        //print "自分の位置より上にルーンを発見"
+        KBD(VK_UP,1,100)
+        for i = 1 to 2
+            KBD(VK_V,0,250);
+        next
+        KBD(VK_UP,2,10)        
+    endif
+
+    result = 0;
+fend
+
 
 function useSkill()
 

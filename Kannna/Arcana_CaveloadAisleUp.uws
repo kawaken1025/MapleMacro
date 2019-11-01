@@ -124,7 +124,7 @@ function cYp()
 fend
 
 function collect()
-
+    logger.logWriter(LogLevel.LOG_INFO, Messages.START_COLLECT);
     RemoveCatchRope();
     while true
         KBD(VK_LEFT,1);

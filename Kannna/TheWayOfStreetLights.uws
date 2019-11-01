@@ -4,10 +4,15 @@ CALL KeySetting.uws;
 
 lib.activeWindow();
 thread lib.parallelProgramExitMode();
+thread para();
 
 petTime = GETTIME( 300 / 86400 )
 
 while true
+    KBD(VK_LEFT,1,100);
+    for i = 1 to 3
+        KBD(VK_W,0,200);
+    next
     while true
         KBD(VK_LEFT,1,100);
         Attack();
@@ -26,7 +31,9 @@ while true
     wend
     //KBD(key.NORMAL_ATTACK_KEY,2,200);
     KBD(VK_RIGHT,2,200);
-
+    for i = 1 to 3
+        KBD(VK_H,0,200);
+    next
 
     ifb petTime < GETTIME()
         KBD(VK_T,0,1000)
@@ -37,11 +44,27 @@ while true
 wend
 
 function Attack()
-    KBD(VK_SPACE,0,150);
-    KBD(VK_SPACE,0,150);
-    KBD(VK_X,0,300);
+    for i = 1 to 4
+        KBD(VK_C,0,80);
+    next
+    for i = 1 to 4
+        KBD(VK_X,0,100);
+    next
     result = 0;
 fend
+
+function para()
+    while true
+        KBD(VK_SPACE,0,300);
+        KBD(VK_SPACE,0,300);
+        sleep(1)
+        KBD(VK_A,0,150);
+        KBD(VK_A,0,150);
+        sleep(1.5)
+    wend
+    result = 0;
+fend
+
 
 function upStage()
 
@@ -52,6 +75,10 @@ function upStage()
         endif
     wend
     KBD(VK_RIGHT,2,500)
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,120,90,175,140)
+        print "not up"
+        exit;
+    endif
     KBD(VK_UP,1,500)
     KBD(VK_SPACE,0,500)
     KBD(VK_UP,2,100)

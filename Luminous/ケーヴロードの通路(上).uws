@@ -37,7 +37,7 @@ thread manager.CheckEncountStatus("../MapleManagement/status/Kannna/status");
 // Main Script Start
 public _IsEqulibrium = false;
 public _IsUseDoor = false;
-public _IsEventSkill = true;
+public _IsEventSkill = false;
 // MessageWindow init
 LOGPRINT(true,10,800,500,100)
 
@@ -104,7 +104,7 @@ function oneWayAttack(moveKey,x1,y1,x2,y2)
         endif
     wend
     useSkill.Reflection(key.REFLECTION_KEY);
-    KBD(moveKey,2,200);
+    KBD(moveKey,2);
     
     // なんかイベントスキル
     ifb _IsEventSkill
@@ -199,7 +199,7 @@ function responseToGuildMember(msgNum)
     ifb msgNum = 0
         responseStr = "MessageID[0] : 中身はいないかもしれません" 
     elseif msgNum = 1
-        responseStr = "MessageID[1] : GCP VisionAPI SendRequest" 
+        responseStr = "MessageID[1] : 0x0F30D9" 
     else
         responseStr = "MessageID[null] : Failed to get message." 
     endif
