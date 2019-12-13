@@ -1,0 +1,258 @@
+////////////////////////////////////////////////////////////////////////////////////
+// CHKIMGX 画像認識 created by Nekorabbit
+////////////////////////////////////////////////////////////////////////////////////
+
+// DLL初期化・終了処理
+// STARTUP_CHKIMGX()
+// SHUTDOWN_CHKIMGX()
+// 必ず呼び出すこと。
+// shutdown_chkimgxを呼び出さないとどうなるか？
+// -> 分からん。UWSC再起動すれば全部チャラだからそんなに気にしなくてもいいかもしれない
+procedure startup_chkimgx()
+	CHKIMGX_MODULE.startup_neko()
+	CHKIMGX_MODULE.startup_chkimgx()
+fend
+
+procedure shutdown_chkimgx()
+	CHKIMGX_MODULE.shutdown_chkimgx()
+	CHKIMGX_MODULE.shutdown_neko()
+fend
+
+public G_IMGX_X
+public G_IMGX_Y
+public G_IMGX_SCORE
+public G_IMGX_NUM
+public ALL_IMGX_X
+public ALL_IMGX_Y
+public ALL_IMGX_SCORE
+public ALL_IMGX_NUM
+
+// テンプレートマッチングによる画像認識
+// 戻値 = CHKIMGX( 画像名, [ID, x1, y1, x2, y2, 番号, 判定閾値, 着目する色] )
+// 引数
+//   画像名: 画像ファイル名（BMP, PNG, JPEG, 形式は拡張子から判断）
+//           以下のファイル名規則に沿ったファイルを置くことで複数のテンプレート画像とマッチング判定させることが可能
+//           規則: "test.png"と指定した場合 "test.png" と "test.n.png" (nは任意の自然数）の全てのファイルをパターン画像として用いる
+//                 マッチした画像の番号は G_IMGX_NUM に格納。例えば "test.2.png"にマッチした場合は 2, "test.png"の場合は -1 が格納される
+//           ※CHKIMGと違ってクリップボートからはサポートしていない
+//           ※画像はキャッシュされるのでスクリプト中でファイルを上書きしても反映されないことがあるので注意
+//   ID: Windowを識別するID （0 であればスクリーン全体）
+//           ※MOUSEORGの設定は取得できないのでIDを明示的に指定してください
+//             0の場合MORG_FORE, Window IDを指定した場合MORD_BACKと同じように動きます
+//   x1,　y1,　x2,　y2： サーチ範囲（指定ウィンドウの左上が原点。クライアント領域基準ではない）
+//   番号： マッチした箇所が複数ある場合に順番を指定 （左上から）
+//　　　　　-1：　-1が指定された場合はヒットした数を戻値として返し、座標,スコア,画像番号の情報は
+//                一致率の高い順で ALL_IMGX_X[], ALL_IMGX_Y[], ALL_IMGX_SCORE[], ALL_IMGX_NUM[] に格納
+//　　　　　　　 （G_IMGX_X、 G_IMGX_Y, G_IMGX_SCORE, G_IMGX_NUM には最も一致率の高い箇所の情報が入る）
+//   判定閾値: [0-100](%) マッチしたと判定する閾値（0は完全一致のみ）マッチした場合のスコアは G_IMGX_SCORE に格納
+//            値が小さいほど厳しくなる。1～20程度が実用範囲と思われる
+//   着目する色: 指定した色とどれだけ近いかでグレースケール化した画像を使ってマッチングの計算を行う
+//              文字の色などを指定することで背景の変化に強いマッチング判定を行うことが可能
+//              -1: -1は色指定なし
+// 戻値
+//　 有ればTRUE、無ければFALSE
+//　 TRUE の場合は見つかった座標、スコアをグローバル変数　G_IMGX_X、 G_IMGX_Y、G_IMGX_SCORE に格納
+//　 番号にて -1指定時はヒットした数を返し、座標,スコア,画像番号は配列変数 ALL_IMG_X[], ALL_IMG_Y[] 
+//   ALL_IMGX_SCORE[], ALL_IMGX_NUM[] に格納（配列はゼロから）
+// ※内部処理の制限で最大200個までしか検出しない。番号に201以上を指定すると常にFALSEが返る
+//
+function chkimgx(filename, window_id = 0, x1 = 0, y1 = 0, x2 = 0, y2 = 0, number = -1, threshold = 15, color = -1)
+
+	// デフォルト引数処理
+	if window_id = 0 then
+		h_wnd = 0
+		// スクリーン座標の左上は0,0ではないので注意
+		dim dx1, dy1, dx2, dy2
+		CHKIMGX_MODULE.get_screen_rect(dx1, dy1, dx2, dy2)
+		if x1 = 0 then x1 = dx1
+		if x2 = 0 then x2 = dx2
+		if y1 = 0 then y1 = dy1
+		if y2 = 0 then y2 = dy2
+	else
+		h_wnd = IdToHnd(window_id)
+		if x2 = 0 then x2 = status(window_id, st_width)
+		if y2 = 0 then y2 = status(window_id, st_height)
+	endif
+	if number = 0 then number = 1
+	
+	dim order = 0
+	if number > 0 then
+		order = 1 // 位置順
+	endif
+	
+	// 変数初期化
+	G_IMGX_X = -999999
+	G_IMGX_Y = -999999
+	G_IMGX_NUM = -999999
+	G_IMGX_SCORE = 1000.0
+	ALL_IMGX_X = CHKIMGX_MODULE.EMPTY_ARRAY
+	ALL_IMGX_Y = CHKIMGX_MODULE.EMPTY_ARRAY
+	ALL_IMGX_NUM = CHKIMGX_MODULE.EMPTY_ARRAY
+	ALL_IMGX_SCORE = CHKIMGX_MODULE.EMPTY_ARRAY
+	
+	// 結果を受け取る領域を作成
+	// 配列の長さは定数で記述しないと配列として渡せないので注意
+	// マイクロベンチマークの結果 dll関数の呼び出しコストに配列4つを渡した場合
+	// １回の呼び出しコストは 要素長400相当だったので128程度なら問題ない
+	dim _img_x[200-1]
+	dim _img_y[200-1]
+	dim _img_nums[200-1]
+	dim _img_scores[200-1]
+
+	while true
+		try
+			// 制限時間4000ms。これを超えたらマッチング計算を打ち切る
+			// 制限時間を変更したい場合はこれを変更する
+			time = 4000
+
+			// テンプレートマッチングを実行
+			img_num_points = CHKIMGX_MODULE.chkimgx_generic(h_wnd, filename, x1, y1, x2, y2, _
+					1.0, 1.0, color, threshold, _img_x, _img_y, _img_nums, _img_scores, 200, order, time)
+			break
+		except
+			CHKIMGX_MODULE.retrieve_messages()
+			print "chkimgxでエラーが発生しました。やり直します!"
+			sleep(30)
+			continue
+		endtry
+	wend
+			
+	// 結果を格納する
+	if number = -1 then
+		if img_num_points > 0 then
+			// グローバル変数へコピー
+			ALL_IMGX_X = slice(_img_x, 0, img_num_points-1)
+			ALL_IMGX_Y = slice(_img_y, 0, img_num_points-1)
+			ALL_IMGX_NUM = slice(_img_nums, 0, img_num_points-1)
+			ALL_IMGX_SCORE = slice(_img_scores, 0, img_num_points-1)
+			G_IMGX_X = ALL_IMGX_X[0]
+			G_IMGX_Y = ALL_IMGX_Y[0]
+			G_IMGX_NUM = ALL_IMGX_NUM[0]
+			G_IMGX_SCORE = ALL_IMGX_SCORE[0]
+		endif
+		result = img_num_points
+	else
+		// 番号指定あり
+		if img_num_points >= number then
+			result = TRUE
+			idx = number - 1
+		else
+			result = FALSE
+			idx = img_num_points - 1
+		endif
+		if img_num_points > 0 then
+			G_IMGX_X = _img_x[idx]
+			G_IMGX_Y = _img_y[idx]
+			G_IMGX_NUM = _img_nums[idx]
+			G_IMGX_SCORE = _img_scores[idx]
+		endif
+	endif
+fend
+
+// 指定した画像のサイズを取得
+// IMAGESIZE( 画像名, x, y )
+// 引数
+//    画像名: 画像ファイル名（読み込めるファイルやファイル名仕様はchkimgxと同じ）
+//    x, y : 画像サイズが返る
+def_dll imagesize(string, {int, int}): void: ChkImgX.dll
+
+// （デバッグ用）マッチングに使用した画像をファイル出力するかを設定する
+// CHKIMGX_OPTION( 画像出力フラグ, ウィンドウキャプチャモード )
+// 引数
+//   画像出力フラグ: FALSE: 以降ファイル出力しない, TRUE: 以降ファイル出力する
+//     出力されるファイルは以下の通り
+//       capture.png: キャプチャした画像
+//       capture-bin.png: 色指定した場合の前処理後のキャプチャ画像
+//       tmpl-n.png（nは整数）: 色指定した場合の前処理後のテンプレート画像
+//       chkimgxを呼び出すたびに上書きされていく
+//   ウィンドウキャプチャモード
+//      FALSE: キャプチャできるウィンドウは多いが、たまに（特に高負荷時に）黒い画像になることがある
+//      TRUE: キャプチャできないウィンドウもあるが、キャプチャできれば安定して高速に動く
+def_dll chkimgx_option(int, int): void: ChkImgX.dll
+
+// ユーザに画面をクリックしてもらってその座標を取得
+// int get_mouse_click(
+//  const char* message,	[in] 画面に表示する文字列	
+//  POINT* pt)				[out] ユーザがクリックした座標
+//							[戻り値] 正しく取得できた場合は true, 
+//							ユーザがキャンセルした場合（ESC, Backspace, Deleteキーのいずれかを押した場合）はfalse
+def_dll get_mouse_click(string, {long, long}): bool: ChkImgX.dll
+
+module CHKIMGX_MODULE
+	public EMPTY_ARRAY = SAFEARRAY(0,-1)
+	 
+	def_dll startup_chkimgx(): void: ChkImgX.dll
+	def_dll shutdown_chkimgx(): void: ChkImgX.dll
+
+	// テンプレートマッチング
+	// 指定画像と似ている部分を探す。似ている部分が複数あればそれらをすべて探しだすことも可能
+	// int chkimgx_generic(
+	//	HWND h_wnd,					[in] 対象ウィンドウ（0の場合はデスクトップ全体）
+	//	const char* filename,	[in] テンプレート画像へのパス
+	//								テンプレート画像は複数枚指定可能。複数枚指定する場合のファイル名規則は次の通り
+	//								"test.png"と指定した場合 "test.png" と "test.n.png" (nは任意の自然数）
+	//								の全てをパターン画像として用いる
+	//	RECT* rect,					[in] 探索範囲
+	//	double window_scale,		[in] ウィンドウの拡大率（テンプレート画像基準）
+	//	double matching_scale,		[in] マッチングを計算する画像サイズ（1.0より小さくすると画像を縮小してマッチングを計算する）
+	//	int color,					[in] 指定した色とどれだけ近いかでグレースケール化した画像を使ってマッチングの計算を行う
+	//									文字の色などを指定することで背景の変化に強いマッチング判定を行うことが可能
+	//									 0～$FFFFFF以外: 有効な色でない場合は色指定なし
+	//	double diff_limit,			[in] [0-100](%) マッチしたとみなす画像差の最大値（0で完全一致）resultScoreはこの値
+	//	int* x,						[out] マッチした位置の配列（スコア順）
+	//	int* y,						[out] マッチした位置の配列（スコア順）
+	//	int* match_number,			[out] 各位置にマッチしたテンプレート画像の番号
+	//								上の例で "test.png"の場合は-1, "test.x.png"の場合はxが入る
+	//	double* score,				[out] マッチした各位置のスコア（差の大きさなので小さいほうがいい）
+	//  int max_points,				[in] 
+	//  int order,					[in] 出力順 0:スコア順 1:位置順
+	//	int* limit)					[in,out] 探索を打ち切るまでの時間（ミリ秒）関数が返ると探索にかかった時間（ミリ秒）
+	//								[戻り値] マッチした位置の数
+	def_dll chkimgx_generic(hwnd, string, {long,long,long,long},_
+		 double, double, int, double, int[], int[], int[], double[], int, int, var int): int: ChkImgX.dll
+
+	// 引数指定簡易版（色指定なし）
+	// int tmatch(
+	//	HWND h_wnd,				[in] 対象ウィンドウ（0の場合はデスクトップ全体）
+	//	const char* filename,	[in] テンプレート画像へのパス
+	//	RECT* rect,				[in] 探索範囲
+	//	POINT* point,			[out] マッチした位置の配列（スコア順）
+	//	double* score)			[out] マッチした各位置のスコア（差の大きさなので小さいほうがいい）
+	//							[戻り値] マッチした位置の数
+	// （必要ないので無効化している）
+	//def_dll tmatch(hwnd, string, {long, long, long, long}, {long, long}, var double): int: ChkImgX.dll
+
+	// 引数指定簡易版（色指定あり）
+	// int tmatch2(
+	//	HWND h_wnd,				[in] 対象ウィンドウ（0の場合はデスクトップ全体）
+	//	const char* filename,	[in] テンプレート画像へのパス
+	//	RECT* rect,				[in] 探索範囲
+	//	int color,				[in] 色指定
+	//	POINT* point,			[out] マッチした位置の配列（スコア順）
+	//	double* score)			[out] マッチした各位置のスコア（差の大きさなので小さいほうがいい）
+	//							[戻り値] マッチした位置の数
+	// （必要ないので無効化している）
+	//def_dll tmatch2(hwnd, string, {long, long, long, long}, int, {long, long}, var double): int: ChkImgX.dll
+
+	// スクリーンのサイズを取得
+	// int get_screen_rect(RECT* rect)
+	def_dll get_screen_rect({long, long, long, long}): int: ChkImgX.dll
+	
+	def_dll startup_neko(): void: NekoAddon.dll
+	def_dll shutdown_neko(): void: NekoAddon.dll
+
+	// エラーメッセージなどを取得
+	def_dll get_message(var string, int): int: NekoAddon.dll
+
+	procedure retrieve_messages()
+		// 長さ300くらいの文字列領域を用意する
+		err="                                                                                                    "
+		err=err+err+err
+		while get_message(err, length(err))
+			print err
+			err="                                                                                                    "
+			err=err+err+err
+		wend 
+	fend
+
+endmodule

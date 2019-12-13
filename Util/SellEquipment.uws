@@ -3,19 +3,35 @@ size = lib.getWindowSize();
 
 x = 0;
 y = 0;
-// ウィンドウサイズによってクリック位置設定
-ifb size = "800x600"
-	x = 500;
-	y = 220;
-elseif size = "1024x768"
-    x = 600;
-    y = 300;
-elseif size = "1280x720"
-    x = 700;
-    y = 300;
-elseif size = "1366x768"
-    x = 800;
-    y = 300;
+// // ウィンドウサイズによってクリック位置設定
+// ifb size = "800x600"
+// 	x = 500;
+// 	y = 220;
+// elseif size = "1024x768"
+//     x = 600;
+//     y = 300;
+// elseif size = "1280x720"
+//     x = 700;
+//     y = 300;
+// elseif size = "1366x768"
+//     x = 800;
+//     y = 300;
+// endif
+
+// 右クリックで装備売却をチェック
+ifb chkimg("../picture/selected_buy_rightclick.bmp",0,0,0,1024,768)
+    BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y)
+else
+    print  "rightclick enabled or failed"
+endif
+
+
+ifb chkimg("../picture/selected_equipment.bmp",0,0,0,1024,768)
+    x = G_IMG_X
+    y = G_IMG_Y + 30
+else
+    print "装備タブの座標取得に失敗しました"
+    exitexit
 endif
 
 while true

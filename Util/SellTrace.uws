@@ -1,0 +1,75 @@
+CALL ../MapleAPI/MapleAPI.uws;
+
+ItemWindowX1 = 70
+ItemWindowX2 = 665
+ItemWindowY1 = 150
+ItemWindowY2 = 370
+
+SellCountEntryX = 765
+SellCountEntryY = 285
+SellValueEntryX = 920
+SellValueEntryY = 285
+public SellValue
+SellValue = input("売却値を入力してください",1800)
+SENDSTR(0,SellValue)
+
+while true
+
+    ifb chkimg("../picture/auction/etc/trace_9000.bmp",0,ItemWindowX1,ItemWindowY1,ItemWindowX2,ItemWindowY2)
+        btn(left,click,g_img_x,g_img_y,100)
+    endif
+    sleep(0.2)
+    btn(left,click,SellCountEntryX,SellCountEntryY,100)
+    for i = 1 to 3
+        btn(left,click,SellCountEntryX,SellCountEntryY,100)
+    next
+    countEntry();
+    for i = 1 to 3
+        btn(left,click,SellValueEntryX ,SellValueEntryY ,100)
+    next
+    sellEntry()
+    btn(left,click,950,350,300)
+    kbd(vk_ENTER,0,500)
+    kbd(vk_ENTER,0,500)
+
+wend
+
+function countEntry()
+    kbd(vk_9,0,200)
+    kbd(vk_0,0,50)
+    kbd(vk_0,0,50)
+    kbd(vk_0,0,50)
+    result =0;
+fend
+
+function sellEntry()
+    
+    for i = 1 to length(SellValue)
+        v = copy(SellValue, i, 1)
+        select v
+            case "0"
+                KBD(VK_0,0,50)
+            case "1"
+                KBD(VK_1,0,50)
+            case "2"
+                KBD(VK_2,0,50)
+            case "3"
+                KBD(VK_3,0,50)
+            case "4"
+                KBD(VK_4,0,50)
+            case "5"
+                KBD(VK_5,0,50)
+            case "6"
+                KBD(VK_6,0,50)
+            case "7"
+                KBD(VK_7,0,50)
+            case "8"
+                KBD(VK_8,0,50)
+            case "9"
+                KBD(VK_9,0,50)
+            default
+                print "error!"
+        selend
+    next
+    result = 0;
+fend

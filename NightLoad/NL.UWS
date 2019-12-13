@@ -1,0 +1,185 @@
+CALL ../MapleAPI/MapleAPI.uws
+
+
+THREAD 並列処理()
+
+ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+
+SKILL=GETTIME(180/86400)
+
+KBD(VK_F12,0,800)
+
+
+
+WHILE TRUE
+    //-------------------------狩り処理
+    KBD(VK_6,0,100)
+    SLEEP(0.5)
+    KBD(VK_F11,0,300)
+    SLEEP(0.3)
+
+    //-------------------------左移動
+
+    KBD(VK_LEFT,1,500)
+
+
+    FOR X = 1 TO 5
+        KBD(VK_C,0,100)
+        KBD(VK_C,0,100)
+        KBD(VK_C,0,80)
+        KBD(VK_SHIFT,0,50)
+
+        IF CHKIMG("../picture/黄点.BMP",0,0,0,65,160) THEN BREAK
+        SLEEP(0.9)
+    NEXT
+    KBD(VK_LEFT,2,500)
+    SLEEP(0.5)
+
+    //-------------------------
+    KBD(VK_PRIOR,0,300)
+    //----------------------右移動
+
+    KBD(VK_RIGHT,1,500)
+
+    FOR X = 1 TO 15
+        KBD(VK_C,0,100)
+        KBD(VK_C,0,100)
+        KBD(VK_C,0,80)
+        KBD(VK_SHIFT,0,50)
+
+        ret = checkRuneStage();
+        ifb ret <> 0
+            lib.OpenRune();
+        endif
+
+        IF !CHKIMG("../picture/黄点.BMP",0,0,0,145,170) THEN BREAK
+        SLEEP(0.9)
+    NEXT
+    KBD(VK_RIGHT,2,500)
+
+    KBD(VK_DOWN,1,300)
+    KBD(VK_C,0,100)
+    KBD(VK_DOWN,2,300)
+
+    //-------------------------ここまで
+    IFB GETTIME()>SKILL
+    KBD(VK_F12,0,800)
+    SLEEP(0.5)
+    SKILL=GETTIME(180/86400)
+    ENDIF
+
+WEND
+
+
+PROCEDURE　並列処理()
+WHILE TRUE
+
+
+//------------------------------
+IFB CHKIMG("../picture/フォーシーズン.bmp")
+KBD(VK_HOME,0,100)
+KBD(VK_HOME,0,100)
+KBD(VK_HOME,0,100)
+ENDIF
+//-----------------------------
+IFB CHKIMG("../picture/風魔手裏剣.bmp")
+KBD(VK_DELETE,0,100)
+KBD(VK_DELETE,0,100)
+KBD(VK_DELETE,0,100)
+ENDIF
+
+//-----------------------------
+IFB CHKIMG("../picture/ダークロードの秘伝書.bmp")
+KBD(VK_S,0,100)
+KBD(VK_S,0,100)
+KBD(VK_S,0,100)
+ENDIF
+//-----------------------------
+IFB CHKIMG("../picture/ホーリーシンボル.bmp")
+KBD(VK_7,0,100)
+KBD(VK_7,0,100)
+KBD(VK_7,0,100)
+ENDIF
+//-----------------------------
+IFB CHKIMG("../picture/シャープアイズ.bmp")
+KBD(VK_8,0,100)
+KBD(VK_8,0,100)
+KBD(VK_8,0,100)
+ENDIF
+//-----------------------------
+IFB CHKIMG("../picture/コンバットオーダー.bmp")
+KBD(VK_9,0,100)
+KBD(VK_9,0,100)
+KBD(VK_9,0,100)
+ENDIF
+//-----------------------------
+IFB CHKIMG("../picture/ダークフレア.bmp")
+KBD(VK_F11,0,100)
+KBD(VK_F11,0,100)
+KBD(VK_F11,0,100)
+ENDIF
+//------------------------------赤点
+fileName = "march1.mp3"
+IFB CHKIMG("../picture/赤点.bmp")
+SOUND(fileName, TRUE)
+ENDIF
+//----------------------------石化
+IF CHKIMG("../picture/石化.BMP") THEN
+FOR X = 1 TO 130
+KBD(VK_RIGHT,CLICK,10)
+KBD(VK_LEFT,CLICK,10)
+NEXT
+ENDIF
+//-------------------------------
+WEND
+FEND
+
+function checkRuneStage()
+
+    // 上段にあるか
+    ifb chkimg(lib.picPathHelper("runePoint"),0,0,0,180,120)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを上段で発見しました。");
+        moveStage(1);
+        result = constant.DISCOVERY_RUNE;
+    elseif chkimg(lib.picPathHelper("runePoint"),0,0,127,180,145)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを下段で発見しました。");
+        moveStage(2);
+        result = constant.DISCOVERY_RUNE;
+    endif
+    
+    result = constant.UNDISCOVERED_RUNE;
+fend
+
+
+//=========================================
+// param   : 1 or 2
+// comment : ルーンが出現している段へ移動
+//=========================================
+function moveStage(num)
+    // いったん一番→へいく
+    KBD(VK_RIGHT,1,500)
+    while true
+        if chkimg(lib.picPathHelper("yellowPoint"),0,170,0,180,143) then break;
+        KBD(key.TELEPORT_KEY,0,100)
+    wend
+    KBD(VK_RIGHT,2,500)
+    
+    // 上段にルーンがある場合は右へ行って終了
+    ifb num = 1
+        result = 0;
+    
+    // 下段にある場合は右へ行って下ジャンプ
+    else
+        KBD(VK_DOWN,1,500)
+        for i = 1 to 5
+            KBD(VK_C,0,100)
+        next
+        KBD(VK_DOWN,2,100)
+        result = 0;
+    endif
+    lib.OpenRune();
+    
+    result = 0;
+fend
+
+

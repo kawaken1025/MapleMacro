@@ -295,7 +295,7 @@ function checkGameMaster()
     ifb chkimg(picPathHelper("replyRequest"),1,0,400,150,780); //「ご返答」がチャット欄にあるか
         logger.logWriter(LogLevel.LOG_WARN,Messages.REPLY_REQUEST);
         ifb !chkimg(picPathHelper("heart"),0,0,0,150,780);   //ハート拡声器ではないか
-            ifb chkimg(picPathHelper("赤点"),0,0,0,400,400);   //ミニMAPに赤点が存在するか
+            ifb chkimg(picPathHelper("redpoint2"),0,0,0,400,400);   //ミニMAPに赤点が存在するか
                 logger.logWriter(LogLevel.LOG_WARN,Messages.ENCOUNT_GAME_MASTER);
                 responseToGameMaster(getResponse()); //返答処理
                 screenShot(); //スクリーンショット保存
@@ -311,11 +311,11 @@ function checkGameMaster()
     endif
 
     //追加質問返答チェック
-    //isNextResponse = false;
-    //while !isNextResponse
-        //logger.logWriter(LogLevel.LOG_WARN,Messages.WAIT_NEXT_RESPONSE);
-    //    isNextResponse = waitNextQuestion();
-    //wend
+    // isNextResponse = false;
+    // while !isNextResponse
+    //     logger.logWriter(LogLevel.LOG_WARN,Messages.WAIT_NEXT_RESPONSE);
+    //     isNextResponse = waitNextQuestion();
+    // wend
 
     result = MAPLE_RESULT_OK;
 fend
@@ -916,9 +916,12 @@ function ChannelChange(isRuneCheck)
             ifb chkimg(lib.picPathHelper("runePoint"),0,0,0,250,300) _
               or _
             chkimg(lib.picPathHelper("RuneNotice"),0,0,0,1366,768)
-                logger.logWriter(LogLevel.LOG_WARN,Messages.CHANNEL_CHANGE_DET_RUNE);
+                logger.logWriter(LogLevel.LOG_WARN, Messages.CHANNEL_CHANGE_DET_RUNE);
             elseif chkimg(lib.picPathHelper("guild_member"),0,0,0,250,300)
                 logger.logWriter(LogLevel.LOG_WARN, "ギルドメンバーを検知しました。");
+                continue;
+            elseif chkimg(lib.picPathHelper("redpoint2"),0,0,0,250,300)
+                logger.logWriter(LogLevel.LOG_WARN, "CC時に赤点を検知しました。");
                 continue;
             else
                 break;
@@ -1050,10 +1053,17 @@ function moveRunePoint()
         moveKey = VK_LEFT
     endif
     
+    moveErrTime = GETTIME(30/86400)
     // ルーンの横位置まで移動
     KBD(moveKey,1,100);
     while true
-        if chkimg(lib.picPathHelper("yellowPoint"),0, runePointX-5, 0, runePointX+5, 300) then break;  
+        ifb chkimg(lib.picPathHelper("yellowPoint"),0, runePointX-5, 0, runePointX+5, 300)
+            break;
+        else
+            ifb GETTIME() > moveErrTime
+                break;
+            endif
+        endif  
     wend
     KBD(moveKey,2,50)
     
@@ -1088,10 +1098,17 @@ function moveRunePointXY(x,y)
         moveKey = VK_LEFT
     endif
     
+    moveErrTime = GETTIME(30/86400)
     // ルーンの横位置まで移動
     KBD(moveKey,1,100);
     while true
-        if chkimg(lib.picPathHelper("yellowPoint"),0, runePointX-5, 0, runePointX+5, 300) then break;  
+        ifb chkimg(lib.picPathHelper("yellowPoint"),0, runePointX-5, 0, runePointX+5, 300)
+            break;
+        else
+            ifb GETTIME() > moveErrTime
+                break;
+            endif
+        endif  
     wend
     KBD(moveKey,2,10)
     
@@ -1137,6 +1154,55 @@ function SetCoordinate(var x1, var y1, var x2, var y2)
     y1 = G_IMG_Y - 1;
     y2 = G_IMG_Y + 5;
     result = 0;
+fend
+
+
+//=========================================
+// comment : 深夜の自動探知機回避
+// param   : None
+// return  : 0
+//=========================================
+function CheckAutoLieDetector()
+
+    GETTIME()
+    c = 0;
+    ifb IsAutoLieDetectorTime()
+        while true
+            sleep(5);
+            KBD(comKey.POINT_SHOP_KEY,0,1000);
+            sleep(5);
+            ifb chkimg(lib.picPathHelper("ConfirmButton"),0, 0, 0, 1366, 800)
+                BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,1000);
+            endif
+            ifb chkimg(lib.picPathHelper("point_shop_now"),0, 0, 0, 300, 800)
+                logger.logWriter(LogLevel.LOG_INFO, "ポイントショップに移動しました");
+                sleep(300)
+                logger.logWriter(LogLevel.LOG_INFO, "待機を終了しました");
+                for i = 1 to 3
+                    BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,400);
+                next
+                break;
+            endif  
+        wend
+    endif
+    result = 0;
+fend
+
+function IsAutoLieDetectorTime()
+    GETTIME()
+    ifb G_TIME_HH = 2 and G_TIME_NN > 6  and G_TIME_HH = 2 and G_TIME_NN < 10 or _
+        G_TIME_HH = 3 and G_TIME_NN > 16 and G_TIME_HH = 3 and G_TIME_NN < 20 or  _
+        G_TIME_HH = 4 and G_TIME_NN > 6  and G_TIME_HH = 4 and G_TIME_NN < 10 or _
+        G_TIME_HH = 4 and G_TIME_NN > 41 and G_TIME_HH = 4 and G_TIME_NN < 45
+        result = true;
+    else
+        result = false;
+    endif
+fend
+
+function ExecPowerShell(cmd)
+    DOSCMD("powershell -Command " + cmd)
+    result = MAPLE_RESULT_OK;
 fend
 
 

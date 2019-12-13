@@ -25,5 +25,6 @@ class key
     const CRITICAL_REINFORCE  = VK_T
     const EVOLVE              = VK_R
     const GUIDED_ARROW        = VK_L
+    const MAPLE_WORLD_MGM_SH  = VK_W
 
 endclass

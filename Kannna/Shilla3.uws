@@ -57,14 +57,13 @@ function oneWayAttack(moveKey,x1,y1,x2,y2)
     while true
         KBD(moveKey,1,100);
         if chkimg(lib.picPathHelper("yellowPoint"),0,x1,y1,x2,y2)     then break;
-        KBD(VK_SPACE,0,700);
-        for i = 1 to 2
-           KBD(VK_A,0,1000);
-        next
+        Attack()
     wend
     //lib.checkGameMaster();
     KBD(moveKey,2,200);
+    lib.CheckAutoLieDetector();
     util.KannnaSkillCheck();
+    
     result = 0;
 fend
 
@@ -93,6 +92,29 @@ function useSkill()
 	result = 0;
 
 fend
+
+function Attack()
+    for i = 1 to 5
+        KBD(VK_SPACE,0,100);
+    next   
+    thread tengu()
+    // for i = 1 to 2
+    //     KBD(VK_C,0,150);
+    // next
+    for i = 1 to 6
+        KBD(VK_X,0,100);
+    next
+    thread tengu()
+    result = 0;
+fend
+
+function tengu()
+    for i = 1 to 3
+        KBD(VK_A,0,300)
+    next
+    result = 0
+fend
+
 
 procedure parallelProgramExitMode()
     while TRUE
@@ -126,3 +148,17 @@ procedure parallelProgramExitMode()
         endif
     wend
 fend
+
+function para()
+    while true
+        //sleep(1)
+        GETTIME();
+        ifb !lib.IsAutoLieDetectorTime()
+            KBD(VK_A,0,150);
+            KBD(VK_A,0,150);
+            sleep(1.5)
+        endif
+    wend
+    result = 0;
+fend
+

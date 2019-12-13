@@ -29,12 +29,13 @@ while true
         if !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,135,130) then break;
         lib.urgentCheck();
     wend
-    //KBD(key.NORMAL_ATTACK_KEY,2,200);
+    
     KBD(VK_RIGHT,2,200);
     for i = 1 to 3
         KBD(VK_H,0,200);
     next
 
+    lib.CheckAutoLieDetector()
     ifb petTime < GETTIME()
         KBD(VK_T,0,1000)
         logger.logWriter(LogLevel.LOG_INFO,"ペットの餌を使用しました。");
@@ -44,8 +45,10 @@ while true
 wend
 
 function Attack()
-    for i = 1 to 4
-        KBD(VK_C,0,80);
+    KBD(VK_SPACE,0,300);
+    KBD(VK_SPACE,0,300);    
+    for i = 1 to 2
+        KBD(VK_C,0,150);
     next
     for i = 1 to 4
         KBD(VK_X,0,100);
@@ -55,12 +58,13 @@ fend
 
 function para()
     while true
-        KBD(VK_SPACE,0,300);
-        KBD(VK_SPACE,0,300);
-        sleep(1)
-        KBD(VK_A,0,150);
-        KBD(VK_A,0,150);
-        sleep(1.5)
+        //sleep(1)
+        GETTIME();
+        ifb !lib.IsAutoLieDetectorTime()
+            KBD(VK_A,0,150);
+            KBD(VK_A,0,150);
+            sleep(1.5)
+        endif
     wend
     result = 0;
 fend
@@ -85,3 +89,4 @@ function upStage()
     
     result = 0;
 fend
+

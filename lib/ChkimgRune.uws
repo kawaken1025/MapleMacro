@@ -73,7 +73,7 @@ try
                 list.add(VK_LEFT)
             next
         endif
-
+        
         if isNew or list.count = 0
             arrowCountL = CHKIMGX("../picture/arrow/newl.png",0,x1,y1,x2,y2,-1,threshold,-1)
             for i = 0 to arrowCountL - 1
@@ -89,66 +89,74 @@ try
             exit;
         endif
 
-        ifb !isNew
-            arrowCountR = CHKIMGX("../picture/arrow/r.png",0,x1,y1,x2,y2,-1,threshold,-1)
-            for i = 0 to arrowCountR - 1
-                list.add(ALL_IMGX_X[i])
-                list.add(VK_RIGHT)
-            next
+
+        ifb list.count <> 8
+            ifb !isNew
+                arrowCountR = CHKIMGX("../picture/arrow/r.png",0,x1,y1,x2,y2,-1,threshold,-1)
+                for i = 0 to arrowCountR - 1
+                    list.add(ALL_IMGX_X[i])
+                    list.add(VK_RIGHT)
+                next
+            endif
+
+            ifb isNew or list.count = 0 
+                arrowCountR = CHKIMGX("../picture/arrow/newr.png",0,x1,y1,x2,y2,-1,threshold,-1)
+                for i = 0 to arrowCountR - 1
+                    list.add(ALL_IMGX_X[i])
+                    list.add(VK_RIGHT)
+                    isNew = true;
+                next
+            endif
+            print "右発見個数:" + arrowCountR
+
+            ifb 8 < list.count
+                logger.logWriter(LogLevel.LOG_WARN, "検出数が4個を超過しました。解析を終了します。");
+                exit;
+            endif
         endif
 
-        ifb isNew or list.count = 0 
-            arrowCountR = CHKIMGX("../picture/arrow/newr.png",0,x1,y1,x2,y2,-1,threshold,-1)
-            for i = 0 to arrowCountR - 1
-                list.add(ALL_IMGX_X[i])
-                list.add(VK_RIGHT)
-                isNew = true;
-            next
-        endif
-        print "右発見個数:" + arrowCountR
+        ifb list.count <> 8
+            ifb !isNew
+                arrowCountU = CHKIMGX("../picture/arrow/u.png",0,x1,y1,x2,y2,-1,threshold,-1)
+                for i = 0 to arrowCountU - 1
+                    list.add(ALL_IMGX_X[i])
+                    list.add(VK_UP)
+                next
+            endif
+            ifb isNew or list.count = 0 
+                arrowCountU = CHKIMGX("../picture/arrow/newu.png",0,x1,y1,x2,y2,-1,threshold,-1)
+                for i = 0 to arrowCountU - 1
+                    list.add(ALL_IMGX_X[i])
+                    list.add(VK_UP)
+                next
+            endif
+            print "上発見個数:" + arrowCountU
 
-        ifb 8 < list.count
-            logger.logWriter(LogLevel.LOG_WARN, "検出数が4個を超過しました。解析を終了します。");
-            exit;
-        endif
-
-        ifb !isNew
-            arrowCountU = CHKIMGX("../picture/arrow/u.png",0,x1,y1,x2,y2,-1,threshold,-1)
-            for i = 0 to arrowCountU - 1
-                list.add(ALL_IMGX_X[i])
-                list.add(VK_UP)
-            next
-        endif
-        ifb isNew or list.count = 0 
-            arrowCountU = CHKIMGX("../picture/arrow/newu.png",0,x1,y1,x2,y2,-1,threshold,-1)
-            for i = 0 to arrowCountU - 1
-                list.add(ALL_IMGX_X[i])
-                list.add(VK_UP)
-            next
-        endif
-        print "上発見個数:" + arrowCountU
-
-        ifb 8 < list.count
-            logger.logWriter(LogLevel.LOG_WARN, "検出数が4個を超過しました。解析を終了します。");
-            exit;
+            ifb 8 < list.count
+                logger.logWriter(LogLevel.LOG_WARN, "検出数が4個を超過しました。解析を終了します。");
+                exit;
+            endif
         endif
 
-        ifb !isNew
-            arrowCountD = CHKIMGX("../picture/arrow/d.png",0,x1,y1,x2,y2,-1,threshold,-1)
-            for i = 0 to arrowCountD - 1
-                list.add(ALL_IMGX_X[i])
-                list.add(VK_DOWN)
-            next
+
+        ifb list.count <> 8
+            ifb !isNew
+                arrowCountD = CHKIMGX("../picture/arrow/d.png",0,x1,y1,x2,y2,-1,threshold,-1)
+                for i = 0 to arrowCountD - 1
+                    list.add(ALL_IMGX_X[i])
+                    list.add(VK_DOWN)
+                next
+            endif
+            ifb isNew or list.count = 0 
+                arrowCountD = CHKIMGX("../picture/arrow/newd.png",0,x1,y1,x2,y2,-1,threshold,-1)
+                for i = 0 to arrowCountD - 1
+                    list.add(ALL_IMGX_X[i])
+                    list.add(VK_DOWN)
+                    isNew = true;
+                next
+            endif
+            print "下発見個数:" + arrowCountD
         endif
-        ifb isNew or list.count = 0 
-            arrowCountD = CHKIMGX("../picture/arrow/newd.png",0,x1,y1,x2,y2,-1,threshold,-1)
-            for i = 0 to arrowCountD - 1
-                list.add(ALL_IMGX_X[i])
-                list.add(VK_DOWN)
-                isNew = true;
-            next
-        endif
-        print "下発見個数:" + arrowCountD
 
         print "合計検出数:" + list.count
         ifb list.count <> 8

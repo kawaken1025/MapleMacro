@@ -49,7 +49,7 @@ while true;
             Attack()
         next
         KBD(VK_RIGHT,1)
-        KBD(VK_RIGHT,2,200)
+        KBD(VK_RIGHT,2,350)
         for i = 1 to 2
             Attack()
         next
@@ -71,7 +71,7 @@ function Attack()
     yp();
     // execute moveHunting
     util.PathFinder5thJobSkillCheck();
-    util.PathFinderSkillCheckSelect(true);
+    util.PathFinderSkillCheckSelect(false);
     pSkill();
     for i = 1 to 20
         // 探知機に引っかからないsec:350
@@ -99,12 +99,6 @@ function yp()
            KBD(VK_DOWN,2,200);            
         endif
 
-        ifb 45 < G_IMG_X and 130 < G_IMG_Y
-           KBD(VK_UP,1,200);
-           KBD(key.TRANSITION,0,500);
-           KBD(VK_UP,2,200);            
-        endif
-
         ifb G_IMG_X <= 60
             KBD(VK_RIGHT,1)
             KBD(VK_RIGHT,2,1000)
@@ -119,6 +113,12 @@ function yp()
                 endif
             wend
             KBD(VK_LEFT,2,1500)
+        endif
+
+        ifb 45 < G_IMG_X and 130 < G_IMG_Y
+           KBD(VK_UP,1,200);
+           KBD(key.TRANSITION,0,500);
+           KBD(VK_UP,2,200);            
         endif
     endif
 
@@ -196,10 +196,10 @@ function checkStage(b, runeY, YellowPointY)
     elseif runeY < yellowPointY
         //print "自分の位置より上にルーンを発見"
         KBD(VK_UP,1,100)
-        for i = 1 to 2
+        for i = 1 to 4
             KBD(VK_V,0,250);
         next
-        KBD(VK_UP,2,10)        
+        KBD(VK_UP,2,10)
     endif
 
     result = 0;
@@ -216,8 +216,8 @@ function useSkill()
 fend
 
 function pSkill()
-    if chkimg("../picture/PHS.bmp",0,800,600,1368,800) then KBD(pSkillKey.P_HOLY_SYMBOL,0,1000);
-    //if chkimg("../picture/PCO.bmp",0,0,0,1368,800) then KBD(pSkillKey.P_COMBAT_ORDER_KEY,0,1000);
+    if chkimg("../picture/PHS.bmp",0,800,600,1368,800) then KBD(pSkillKey.P_HOLY_SYMBOL,0,600);
+    if chkimg("../picture/PCO.bmp",0,800,600,1368,800) then KBD(pSkillKey.P_COMBAT_ORDER_KEY,0,600);
     //if chkimg("../picture/PSE.bmp",0,0,0,1368,800) then KBD(pSkillKey.P_SHARP_EYES_KEY,0,500);
     //if chkimg("../picture/PWB.bmp",0,0,0,1368,800) then KBD(pSkillKey.P_WIND_BOOSTER,0,500);
     //if chkimg("../picture/PHB.bmp",0,0,0,1368,800) then KBD(pSkillKey.P_HYPER_BODY_KEY,0,500);
