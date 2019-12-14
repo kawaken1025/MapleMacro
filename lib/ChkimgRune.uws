@@ -27,11 +27,11 @@ CALL MapleLibrary.uws;
 CALL ChkImgX.uws
 startup_chkimgx()
 
-isNew = false;
+isNew = false; // ver3.82 矢印の種類判定用
 
 try
     // ルーン起動
-    KBD(VK_Y,0,500);
+    KBD(comKey.NPC_TALK_KEY,0,500);
     // 画像判定閾値
     threshold = 15
     MaxAnalyzeCount = 3 // 失敗時のリトライ回数

@@ -15,9 +15,11 @@ CLASS comKey
     // スキル以外
     const FAM_BOOK_KEY        = VK_F6  // ファミリアブックキー
     const FAM_RECOVERY_KEY    = VK_4   // ファミリア気力回復薬キー
-    const MAPRAGE_KEY         = VK_F9  // メイプレージキー
+    const MAPLAGE_KEY         = VK_F9  // メイプレージキー
     const DURABILITY_RCV_KEY  = VK_F10 // 耐久装備回復クーポンキー
     const PET_FEED_KEY        = VK_T   // ペットのえさ
-    const POINT_SHOP_KEY      = VK_F8  //　ポイントショップ
+    const POINT_SHOP_KEY      = VK_F8  // ポイントショップ
+    const NPC_TALK_KEY        = VK_Y   // NPC会話キー
+
 ENDCLASS
 

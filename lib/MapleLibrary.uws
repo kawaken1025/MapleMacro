@@ -66,7 +66,7 @@ fend
 //==========================================
 function useMaprage()
 
-    KBD(comKey.MAPRAGE_KEY,0,500)
+    KBD(comKey.MAPLAGE_KEY,0,500)
     //TODO:5回以上使用したときの窓を閉じる処理
     result = MAPLE_RESULT_OK;
 fend
