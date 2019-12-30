@@ -4,16 +4,17 @@
 // param       : None
 // return      : None
 // 
-// Display Dpl : 1366x768 [only]
+// Display Dpl : 1024x768 [only]
 //
 // Copy Right (C) 2018 All Right Reserved. 
 //   @author k.kawabata @kawaken1025
 //     Create Date : 2018/04/02
 //=========================================
 
-while TRUE
-    BTN(LEFT,CLICK,850,490,500)
-    BTN(LEFT,CLICK,850,490,500)
+while true
+    for i = 1 to 2
+        BTN(LEFT,CLICK,673,490,500)
+    next
     KBD(VK_ENTER,0,500)
     if GetKeyState(VK_ESC) then break;
 wend

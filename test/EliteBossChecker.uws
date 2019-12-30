@@ -1,0 +1,11 @@
+
+for i = 1 to 5
+
+    ifb  chkimg("../picture/elite_ignore.bmp",0,0,0,2000,2000)
+        print "elite_ignoreの画像を検出しました"
+        sleep(0.5)
+    else
+        print "elite_ignoreの画像はありませんでした"
+    endif
+    
+next

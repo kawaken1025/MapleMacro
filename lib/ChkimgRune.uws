@@ -24,24 +24,26 @@
 
 OPTION OPTFINALLY
 CALL MapleLibrary.uws;
-CALL ChkImgX.uws
-startup_chkimgx()
+CALL ChkImgX.uws;
+startup_chkimgx();
 
-isNew = false; // ver3.82 矢印の種類判定用
+isNew           = false; // ver3.82 矢印の種類判定フラグ
+isThresholdUP   = true;  // 認識失敗時に判定閾値度を上げるフラグ
+isRange         = false; // 画像範囲取得フラグ
+threshold       = 15;    // 画像判定閾値
+addThreshold    = 0.55;  // 増加閾値
+maxAnalyzeCount = 5;     // 失敗時のリトライ回数
+analyzeTimeLimit = GETTIME(8/86400) // 解析タイムリミット
 
 try
+
     // ルーン起動
     KBD(comKey.NPC_TALK_KEY,0,500);
-    // 画像判定閾値
-    threshold = 15
-    MaxAnalyzeCount = 3 // 失敗時のリトライ回数
-    sleep(1)
-    isRange = false;
-
     GETTIME() 
     start = G_TIME_NN2 + "分" + G_TIME_SS2 + "秒" + G_TIME_ZZ2 + "ミリ秒"
 
-    for i = 1 to MaxAnalyzeCount
+    for i = 1 to maxAnalyzeCount
+        // 画像判定範囲を取得
         ifb !isRange
             // 範囲チェック5回まで実施
             for ii = 1 to 5
@@ -158,29 +160,49 @@ try
             print "下発見個数:" + arrowCountD
         endif
 
-        print "合計検出数:" + list.count
+        // 検出数出力
+        ifb list.count = 0 
+            print "合計検出数:" + list.count
+        else
+            print "合計検出数:" + list.count/2
+        endif
+        
+        // 解析失敗処理
         ifb list.count <> 8
+            // タイムリミットチェック
+            ifb GETTIME() > analyzeTimeLimit
+                logger.logWriter(LogLevel.LOG_INFO,"ルーンの解析時間がタイムリミットに達したためルーン解析を終了します");
+                exit;            
+            endif
+            // 範囲チェック済の場合再解析
             ifb isRange
                 list.clear();
                 logger.logWriter(LogLevel.LOG_INFO, "ルーンのコマンド解析に失敗しました");
                 logger.logWriter(LogLevel.LOG_INFO, "ルーンの再解析を行います");
+                // 判定閾値を上昇
+                ifb isThresholdUP
+                    newThreshold = threshold + addThreshold
+                    logger.logWriter(LogLevel.LOG_INFO, "画像判定閾値を増加します。現在閾値:" + threshold + " 増加後閾値:" + newThreshold);
+                    threshold = newThreshold
+                endif
+            // 範囲チェックが未の場合解析終了
             else
                 logger.logWriter(LogLevel.LOG_INFO, "ルーンのコマンド解析に失敗しました");
                 logger.logWriter(LogLevel.LOG_INFO, "範囲が検出できていないためルーン解析を終了します");
                 exit;
             endif
-
+        // 解析成功 ループを抜ける
         elseif list.count = 8
             break;
         endif
-
     next
 
     ifb list.count <> 8
-        logger.logWriter(LogLevel.LOG_INFO,"ルーンの解析回数が最大リトライ回数"　+ MaxAnalyzeCount + "回に達しました");
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンの解析回数が最大リトライ回数"　+ maxAnalyzeCount + "回に達しました");
         exit;
     endif
 
+    // 矢印キーの格納先List
     arrowList = CreateOleObj("System.Collections.ArrayList")
 
     // ここからソート

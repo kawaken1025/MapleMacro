@@ -1,0 +1,10 @@
+class LogWriteAPI
+    const LOG_WRITE_API_URI = "http://kawaken.sub.jp/maple-assist/api/v1/log/write/?";
+
+    function ExecLogWriteAPI(userID, logLevelID, logText)
+        reqData = "curl <#DBL>" + LOG_WRITE_API_URI + "user_id=" + userID + "&log_level_id=" + logLevelID + "&log_text=" + logText + "<#DBL>";
+        POWERSHELL(reqData,true,false)
+        result = 0;
+    fend
+
+endclass

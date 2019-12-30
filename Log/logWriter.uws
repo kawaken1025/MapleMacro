@@ -79,6 +79,20 @@ CLASS logger
 
         print logText; // UWSCプリント
         DOSCMD("echo " + logText + " >> " + mLogPath); // コマンドプロンプトからログファイルへ追記
+        
+        ifb logLevel    = "[INFO]"
+            apiLogLevel = 0
+        elseif logLevel = "[WARN]"
+            apiLogLevel = 10
+        elseif logLevel = "[DEBUG]"
+            apiLogLevel = 50
+        elseif logLevel = "[ERROR]"
+            apiLogLevel = 99
+        else
+            apiLogLevel = 0 // info
+        endif
+
+        logWriteAPI.ExecLogWriteAPI("kawaken090", apiLogLevel, outputLog)
         result = MAPLE_RESULT_OK;
     fend
 

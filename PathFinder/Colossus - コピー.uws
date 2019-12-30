@@ -1,0 +1,127 @@
+
+CALL ../MapleAPI/MapleAPI.uws;
+CALL PathFinderUtil.uws;
+lib.activeWindow();
+thread lib.parallelProgramExitMode();
+
+skillTime = GETTIME( 140 / 86400 )
+
+KBD(VK_G,0,1000)
+SLEEP(3)
+KBD(VK_H,0,500)
+SLEEP(3.3)
+
+while true
+
+    KBD(VK_LEFT,1,500);
+    while true
+        util.JumpAttack();
+        if chkimg(lib.picPathHelper("yellowPoint"),0,0,0,70,120) then break;
+        util.PathFinderSkillCheckSelect(false)
+        //lib.urgentCheck();
+        //lib.checkStartingMapleStory();
+    wend
+    KBD(VK_LEFT,2,200);
+    checkRuneStage()
+    //upStage();
+
+    KBD(VK_RIGHT,1,500)
+    while true
+        util.JumpAttack();
+        if chkimg(lib.picPathHelper("yellowPoint"),0,130,90,167,130) then break;
+        util.PathFinderSkillCheckSelect(false)
+        //lib.checkGameMaster();
+       // RedPointStop();
+    wend
+    KBD(VK_RIGHT,2,200);
+    checkRuneStage()
+    //downStage();
+
+    ifb skillTime < GETTIME()
+        KBD(VK_G,0,1000)
+        SLEEP(3)
+        KBD(VK_H,0,500)
+        SLEEP(3.3)
+        skillTime = GETTIME( 140 / 86400 )
+    endif
+
+wend
+
+function upStage()
+
+    KBD(VK_RIGHT,1,1000)
+    while true
+        if !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,50,120) then break;
+    wend
+    KBD(VK_RIGHT,0,200)
+    KBD(VK_UP,1)
+    for i = 1 to 2
+        KBD(VK_V,0,500)
+    next
+    KBD(VK_UP,2,300)
+    result = 0;
+fend
+
+function downStage()
+
+    KBD(VK_DOWN,1,500)
+    KBD(VK_C,0,100)
+    KBD(VK_C,0,100)
+    KBD(VK_C,0,100)
+    KBD(VK_DOWN,2,1500)
+      
+    result = 0;
+fend
+
+
+//=========================================
+// param   : None 
+// comment : ルーンが出現しているか確認
+//=========================================
+function checkRuneStage()
+
+    // 上段にあるか
+    ifb chkimg(lib.picPathHelper("runePoint"),0,0,0,163,102)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを上段で発見しました。");
+        moveStage(1);
+        result = 1;
+    elseif chkimg(lib.picPathHelper("runePoint"),0,0,103,163,150)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを下段で発見しました。");
+        moveStage(2);
+        result = 1;
+    endif
+    
+    result = 0;
+fend
+
+
+//=========================================
+// param   : 1 or 2
+// comment : ルーンが出現している段へ移動
+//=========================================
+function moveStage(num)
+    // いったん一番→へいく
+    KBD(VK_RIGHT,1,500)
+    while true
+        if chkimg(lib.picPathHelper("yellowPoint"),0,136,87,180,150) then break;
+    wend
+    KBD(VK_RIGHT,2,500)
+    
+    // 下段にルーンがある場合は右へ行って終了
+    ifb num = 2
+        result = 0;
+    
+    // 上段にある場合は真ん中から行って↑テレポ
+    else
+    	KBD(VK_LEFT,1,500)
+    	while true
+	        if chkimg(lib.picPathHelper("yellowPoint"),0,64,87,110,150) then break;
+   	    wend
+	    KBD(VK_LEFT,2,500)
+        KBD(VK_B,0,800)
+        result = 0;
+    endif
+    lib.OpenRune();
+    
+    result = 0;
+fend

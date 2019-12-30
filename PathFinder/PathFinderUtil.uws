@@ -60,9 +60,6 @@ class util
     fend
 
     function PathFinderSkillCheckSelect(isAstra)
-
-
-
         // Hyper:エピックアドベンチャー
         ifb mEAx1 = 0
             ifb chkimg("../picture/EpicAdventure.bmp",0,x1,y1,x2,y2)
@@ -320,11 +317,12 @@ class util
     fend
 
     function JumpAttack()
-        for i = 1 to 7
+        
+        for i = 1 to 5
             KBD(VK_C,0,100)
         next
         for i = 1 to 4
-            KBD(key.BLAST_AND_DISCHARGE,0,150)
+            KBD(key.BLAST_AND_DISCHARGE,0,100)
         next
         result = 0;
     fend

@@ -10,13 +10,14 @@ petTime = GETTIME( 300 / 86400 )
 skillTime = GETTIME( 120 / 86400 )
 skill();
 while true
+    Attack()
     KBD(VK_LEFT,1,100);
     while true
         KBD(VK_LEFT,1,100);
-        Attack();
-        if chkimg(lib.picPathHelper("yellowPoint"),0,0,0,50,160) then break;
-        urgentCheck();
-        util.PathFinderSkillCheck();
+        util.JumpAttack();
+        if chkimg(lib.picPathHelper("yellowPoint"),0,0,0,75,160) then break;
+        //urgentCheck();
+        util.PathFinderSkillCheckSelect(false)
     wend
     KBD(VK_LEFT,2,200);
     ret = checkRuneStage();
@@ -24,16 +25,17 @@ while true
         lib.OpenRune();
     endif
 
+    Attack()
     KBD(VK_RIGHT,1,100)
     while true
         KBD(VK_RIGHT,1,100)
-        Attack();
-        if !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,130,160) then break;
-        urgentCheck();
-        util.PathFinderSkillCheck();
+        util.JumpAttack();
+        if !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,120,160) then break;
+        //urgentCheck();
+        util.PathFinderSkillCheckSelect(false)
     wend
     KBD(VK_RIGHT,2,200);
-
+    Attack()
     ret = checkRuneStage();
     ifb ret <> 0
         lib.OpenRune();
@@ -54,29 +56,11 @@ while true
 wend
 
 function Attack()
-    for i = 1 to 8
-        KBD(VK_X,1,100)
-        KBD(VK_X,2,300)
-        KBD(VK_END,0,100)
+    for i = 1 to 30
+        KBD(VK_X,0,100)
     next
-    KBD(VK_V,0,500)
-    KBD(VK_V,0,250)
     result = 0;
 fend
-
-function upStage()
-
-    KBD(VK_RIGHT,1,500)
-    while true
-        ifb !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,55,130)
-            break;
-        endif
-    wend
-    KBD(VK_RIGHT,2,500)
-    KBD(VK_B,0,500)
-    result = 0;
-fend
-
 
 function skill()
     KBD(VK_G,0,1000)

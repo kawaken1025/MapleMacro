@@ -17,6 +17,7 @@ CALL ../Common/Constant.uws;
 CALL ../lib/MapleLibrary.uws;
 CALL ../Log/logWriter.uws;
 CALL ../MapleManagement/MapleManagement.uws;
+CALL ../MapleAPI/api/v1/LogWriteAPI.uws;
 
 public MAPLE_RESULT_OK = 0;
 // 起動スクリプト名出力

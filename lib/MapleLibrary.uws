@@ -134,6 +134,7 @@ fend
 // param   : None
 // return  : 0
 //=========================================
+public isEvent = false;
 function UrgentCheckCCmode()
 
     ifb chkimg("../picture/runeNotice.bmp",0,0,0,1368,800)
@@ -141,7 +142,8 @@ function UrgentCheckCCmode()
         ChannelChange(true);
     endif
 
-    ifb  chkimg("../picture/エリボス.bmp",0,0,0,2000,2000)    	
+
+    ifb chkimg("../picture/エリボス.bmp",0,0,0,1368,300) and !isEvent
         ifb areaBossEncount = 0 // 初回のみログを出す
             areaBossEncount = 1;
             logger.logWriter(LogLevel.LOG_WARN, Messages.DETECTION_AREA_BOSS);
@@ -151,6 +153,7 @@ function UrgentCheckCCmode()
             ChannelChange(true);
         endif
     endif
+
     
     ifb  chkimg("../picture/緑点.bmp",0,0,0,1368,800)
         logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);

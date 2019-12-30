@@ -3,11 +3,11 @@ lib.activeWindow();
 
 while true
 	SLEEP(1)
-	coreBreak(400,220,4,125,120)
-	coreBreak(470,280,3,100,120)
+	coreBreak(245,225,4,110,120)
+	coreBreak(300,280,3,100,120)
 
-	BTN(LEFT,CLICK,900,520,500)
-	BTN(LEFT,CLICK,731,468,700)
+	BTN(LEFT,CLICK,700,520,500)
+	BTN(LEFT,CLICK,560,468,700)
 	sleep(5)
 
 	KBD(VK_ENTER,0,300)

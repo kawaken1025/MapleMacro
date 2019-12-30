@@ -66,19 +66,15 @@ function oneWayAttack(moveKey,x1,y1,x2,y2)
 
     //execute moveHunting
     while true
-        KBD(VK_F,1,100);
+        for i = 1 to 5
+            KBD(VK_X,0,100);
+        next
+        for i = 1 to 5
+            KBD(VK_SPACE,0,100);
+        next
         KBD(moveKey,1,100);
         if chkimg("../picture/黄点.bmp",0,x1,y1,x2,y2) then break;
-        // 砂かけ婆のCTがなくなっていたら発動する
-        //ifb chkimg("../picture/SandHag.bmp",0,800,700,1366,800)
-        //    KBD(VK_F,2,100)
-        //    for i = 1 to 5
-        //        KBD(VK_DELETE,0,70)
-        //    next
-        //    KBD(VK_F,1,500)
-        //endif
         ifb lib.IsLoginDisp()
-            KBD(VK_F,2,100);
             KBD(moveKey,2,100);
             sleep(1);
             for i = 1 to 20
@@ -192,7 +188,8 @@ function useSkill()
         KBD(VK_H,0,200)
     next
     KBD(VK_G,0,1000);
-    sleep(2);
+    sleep(1);
+    KBD(VK_2,0,500)
 	result = 0;
 
 fend
@@ -204,10 +201,6 @@ fend
         y2 = 800;
 
         KBD(VK_U,0,300);
-
-        ifb chkimg("../picture/SengokuAlliance.bmp",0,x1,y1,x2,y2)
-            KBD(VK_L,0,500);
-        endif
 
         ifb chkimg("../picture/BlessingsOfPrincess.bmp",0,x1,y1,x2,y2)
             KBD(VK_N,0,500);
@@ -224,27 +217,17 @@ fend
 
         ifb chkimg("../picture/白狐.bmp",0,x1,y1,x2,y2)
             KBD(VK_CTRL,0,100);
+            for i = 1 to 3
+                KBD(VK_A,0,100)
+            next
             exit;
-            sleep(2);
         elseif chkimg("../picture/WhiteFox.bmp",0,x1,y1,x2,y2)
             KBD(VK_CTRL,0,100);
-            exit;
-            sleep(2);
-        endif
-
-        //ifb chkimg("../picture/OneDevil.bmp",0,x1,y1,x2,y2)
-        //    KBD(VK_F10,0,100);
-        //    sleep(1);
-        //    exit;
-        //endif
-
-        ifb chkimg("../picture/妖怪巻.bmp",0,x1,y1,x2,y2)
-            KBD(VK_SHIFT,0,100);
-            sleep(1);
+            for i = 1 to 3
+                KBD(VK_A,0,100)
+            next
             exit;
         endif
-
-
 
         result = 0;
     fend
