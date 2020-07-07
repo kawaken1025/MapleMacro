@@ -78,7 +78,7 @@ CLASS logger
         logText = dateTime + outputLog;
 
         print logText; // UWSCプリント
-        DOSCMD("echo " + logText + " >> " + mLogPath); // コマンドプロンプトからログファイルへ追記
+        // DOSCMD("echo " + logText + " >> " + mLogPath); // コマンドプロンプトからログファイルへ追記
         
         ifb logLevel    = "[INFO]"
             apiLogLevel = 0

@@ -25,12 +25,14 @@ CALL KeySetting.uws;
 CALL ../Util/MapleUtil.uws;
 // multiThread checkRedPoint and checkMineralization
 thread parallelProgram();
+thread threadSkillCheck();
 // MessageWindow init
 CALL PathFinderUtil.uws;
 CALL ../Util/MapleUtil.uws;
 public IsEventSkill = false;
 public collectTime = GETTIME( 120 / 86400 );
 util.mIsRavenTempestSwitch = true;
+
 
 while true;
     lib.checkFamiliarPower();
@@ -70,9 +72,9 @@ function Attack()
 
     yp();
     // execute moveHunting
-    util.PathFinder5thJobSkillCheck();
-    util.PathFinderSkillCheckSelect(false);
-    pSkill();
+    // util.PathFinder5thJobSkillCheck();
+    // util.PathFinderSkillCheckSelect(false);
+    // pSkill();
     for i = 1 to 20
         // 探知機に引っかからないsec:350
         KBD(key.BLAST_AND_DISCHARGE,0,100)
@@ -80,6 +82,23 @@ function Attack()
     // ルーンが出現しているか確認します。
     // 出現していた場合は解除します
     checkRuneStage();
+    result = 0;
+fend
+
+function threadSkillCheck()
+    while true
+        ifb !chkimg(lib.picPathHelper("runePoint"),0,0,0,250,300)
+            util.PathFinder5thJobSkillCheck();
+            sleep(3);
+            util.PathFinderSkillCheckSelect(false);
+            sleep(3);
+            pSkill();
+            sleep(3);
+        else
+            sleep(15);
+        endif
+        sleep(2)
+    wend
     result = 0;
 fend
 
@@ -295,26 +314,34 @@ fend
 //=========================================
 procedure parallelProgram()
     while TRUE
-        ifb chkimg("../picture/石化2.bmp",0,0,0,1368,800)
-            for i = 1 to 20
-                KBD(VK_LEFT,0,100);
-                KBD(VK_RIGHT,0,100);
-            next
+        for i = 1 to 10
+            ifb chkimg("../picture/石化2.bmp",0,0,0,1368,800)
+                for i = 1 to 20
+                    KBD(VK_LEFT,0,100);
+                    KBD(VK_RIGHT,0,100);
+                next
+            endif
+
+            ifb chkimg("../picture/赤点.bmp",0,0,0,200,200)
+                logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+                lib.alartSound();  
+            endif   
+
+            ifb chkimg("../picture/redpoint2.bmp",0,0,0,200,200)
+                logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+                lib.alartSound();
+            endif   
+
+            ifb chkimg("../picture/緑点.bmp",0,0,115,169,160)
+                logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
+                exitexit;
+            endif
+        next
+        
+        ifb  chkimg("../picture/エリボス.bmp",0,0,0,2000,2000)
+            logger.logWriter(LogLevel.LOG_WARN, Messages.DETECTION_AREA_BOSS);
+            SOUND(" ");
         endif
 
-        ifb chkimg("../picture/赤点.bmp",0,0,0,200,200)
-            logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
-            lib.alartSound();  
-        endif   
-
-        ifb chkimg("../picture/redpoint2.bmp",0,0,0,200,200)
-            logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
-            lib.alartSound();
-        endif   
-
-        ifb chkimg("../picture/緑点.bmp",0,0,115,169,160)
-            logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
-            exitexit;
-        endif
     wend
 fend

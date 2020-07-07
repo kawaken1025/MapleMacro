@@ -1,5 +1,5 @@
 public SellValue
-def = 18000
+def = 150000
 SellValue = input("売却値を入力してください", def)
 CALL ../MapleAPI/MapleAPI.uws;
 

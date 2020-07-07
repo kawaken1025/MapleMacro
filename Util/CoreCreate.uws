@@ -10,10 +10,19 @@
 //   @author k.kawabata @kawaken1025
 //     Create Date : 2018/04/02
 //=========================================
+CALL ../lib/MapleLibrary.uws;
+ret = lib.getWindowSize();
+ifb ret = "800x600"
+    x1 = 570
+	y1 = 405
+else // 1266x768
+    x1 = 673
+    y1 = 490
+endif
 
 while true
     for i = 1 to 2
-        BTN(LEFT,CLICK,673,490,500)
+        BTN(LEFT,CLICK,x1,y1,500)
     next
     KBD(VK_ENTER,0,500)
     if GetKeyState(VK_ESC) then break;

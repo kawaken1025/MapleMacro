@@ -1,0 +1,2 @@
+CALL ../lib/MapleLibrary.uws;
+lib.JpgScreenShot()

@@ -1,5 +1,5 @@
 //=========================================//
-// Illium Utility Class
+// Kannna Utility Class
 // comment     : None
 // param       : None
 // return      : None
@@ -121,9 +121,15 @@ class util
         else
             ifb chkimg("../picture/白狐.bmp",0,mWFx1, mWFy1, mWFx2, mWFy2)
                 KBD(VK_CTRL,0,100);
+                for i = 1 to 3
+                    KBD(VK_A,0,200 + random(30))
+                next
                 exit;
             elseif chkimg("../picture/WhiteFox.bmp",0,mWFx1, mWFy1, mWFx2, mWFy2)
                 KBD(VK_CTRL,0,100);
+                for i = 1 to 3
+                    KBD(VK_A,0,200 + random(30))
+                next
                 exit;
             endif
         endif
@@ -142,6 +148,10 @@ class util
             ifb chkimg(lib.picPathHelper("SpiderInMirror"),0,mSiMx1, mSiMy1, mSiMx2, mSiMy2)
                 KBD(VK_DELETE,0,500);
             endif            
+        endif
+
+        ifb chkimg("../picture/暁5thMH.bmp")
+            KBD(VK_R,0,100);
         endif
 
         // ifb chkimg("../picture/OneDevil.bmp",0,x1,y1,x2,y2)

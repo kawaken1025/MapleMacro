@@ -15,9 +15,10 @@ CALL ../Log/logWriter.uws;
 CALL ../Common/Messages.uws;
 CALL ../Common/CommonKeySetting.uws;
 CALL ../MapleManagement/MapleManagement.uws;
+CALL ../MapleAPI/api/v1/LogWriteAPI.uws;
 
 public PIC_PATH             = "../picture/";
-public SCREEN_SHOT_SAVE_DIR = "../picture/ScreenShot/";
+public SCREEN_SHOT_SAVE_DIR = "../picture/screen_shot/";
 public MAPLE_STORY_EXE_DIR  = "\\192.168.10.107\MapleStory - コピー\MapleStory.exe";
 public LOGIN_INFO_INI_PATH  = "C:\Users\sisyo\Documents\LoginInfo.ini";
 public LOGIN_INFO_CSV_PATH  = "C:\LoginInfo.csv"
@@ -50,7 +51,7 @@ function checkFamiliarPower()
     
     KBD(comKey.FAM_BOOK_KEY,0,300);
     SLEEP(1);
-    ifb chkimg("../picture/fam500以下.bmp",0,0,0,1368,800);
+    ifb chkimg("../picture/fam40.bmp",0,335,590,360,620);
         KBD(comKey.FAM_RECOVERY_KEY,0,10);
         logger.logWriter(LogLevel.LOG_INFO,Messages.RECOVERY_FAMILIAR_POWER);
     endif
@@ -144,13 +145,26 @@ function UrgentCheckCCmode()
 
 
     ifb chkimg("../picture/エリボス.bmp",0,0,0,1368,300) and !isEvent
-        ifb areaBossEncount = 0 // 初回のみログを出す
-            areaBossEncount = 1;
-            logger.logWriter(LogLevel.LOG_WARN, Messages.DETECTION_AREA_BOSS);
-            ChannelChange(true);
-        else
-            SOUND(" ");
-            ChannelChange(true);
+        sleep(2)
+        ifb !chkimg("../picture/glory_gauge_event.bmp",0,0,0,300,300)        
+            ifb areaBossEncount = 0 // 初回のみログを出す
+                areaBossEncount = 1;
+                logger.logWriter(LogLevel.LOG_WARN, Messages.DETECTION_AREA_BOSS);
+                while true
+                    ret = ChannelChange(true);
+                    ifb ret <> MAPLE_RESULT_NG
+                        break;
+                    endif
+                wend
+            else
+                SOUND(" ");
+                while true
+                    ret = ChannelChange(true);
+                    ifb ret <> MAPLE_RESULT_NG
+                        break;
+                    endif
+                wend
+            endif
         endif
     endif
 
@@ -220,15 +234,17 @@ fend
 function getWindowSize()
 
     mapleWindowID = GETID("MapleStory","MapleStoryClass");
+    ww = STATUS(mapleWindowID,ST_CLWIDTH)
+    wh = STATUS(mapleWindowID,ST_CLHEIGHT)
     size = "1024x768";
     //ウィンドウが左上(1,1)にあるなら移動させない
-    ifb ST_CLWIDTH = 800 AND ST_CLHEIGHT = 600
+    ifb ww = 800 AND wh = 600
         size = "800x600"; 
-    elseif ST_CLWIDTH = 1024 AND ST_CLHEIGHT = 768
+    elseif ww = 1024 AND wh = 768
         size = "1024x768";
-    elseif ST_CLWIDTH = 1280 AND ST_CLHEIGHT = 720
+    elseif ww = 1280 AND wh = 720
         size = "1280x720";
-    elseif ST_CLWIDTH = 1366 AND ST_CLHEIGHT = 768
+    elseif ww = 1366 AND wh = 768
         size = "1366x768";
     endif
     
@@ -448,6 +464,8 @@ fend
 //
 //=========================================
 procedure parallelProgram()
+    isEnc = false;
+    wzEditValue = 0 
     while TRUE
         ifb chkimg("../picture/石化2.bmp",0,0,0,1368,800)
             for i = 1 to 20
@@ -458,16 +476,26 @@ procedure parallelProgram()
 
         if chkimg("../picture/加護.bmp",0,0,0,1368,800) then KBD(VK_F4,0,1000)
 
-        ifb chkimg("../picture/赤点.bmp",0,0,0,1368,800)
-            logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
-            alartSound();  
-        endif   
+        ifb wzEditValue <> 2
+            ifb chkimg("../picture/赤点.bmp",0,0,0,200,200)
+                logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+                lib.alartSound();  
+                wzEditValue = 1;
+            endif   
+        endif
 
-        ifb chkimg("../picture/redpoint2.bmp",0,0,0,800,600)
-            logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
-            alartSound();
-            print "2"  
-        endif   
+        ifb wzEditValue <> 1 
+            ifb chkimg("../picture/redpoint2.bmp",0,0,0,200,200)
+                ifb !isEnc;
+                    isEnc = true;
+                    logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+                endif
+                lib.alartSound();
+                wzEditValue = 2;
+            else
+                isEnc = false;
+            endif
+        endif     
 
         ifb chkimg("../picture/緑点.bmp",0,0,0,1368,800)
             logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
@@ -706,6 +734,29 @@ function screenShot()
 fend
 
 //=========================================
+// comment : スクリーンショット保存(jpg)
+// param   : None
+// return  : 0 
+//=========================================
+const API_SS_NAME = "__start__.jpg";
+public ApiBase64Txt = "";
+function JpgScreenShot()
+    //現在日時を名前にして保存する
+    SAVEIMG(API_SS_NAME, 0, null, null, null, null , false, 20);
+    result = MAPLE_RESULT_OK;
+fend
+
+function DoStartSS()
+    JpgScreenShot();
+    result = MAPLE_RESULT_OK;
+fend
+
+function ConvertBase64()
+    DOSCMD("",TRUE,FALSE)
+    result = MAPLE_RESULT_OK;
+fend
+
+//=========================================
 // comment : 現在日時(ミリ秒まで)を取得する
 // param   : None
 // return  : YYYYMMDDHHNNSSZZ
@@ -934,7 +985,7 @@ function ChannelChange(isRuneCheck)
         endif
     wend
 
-    result = 0;
+    result = ret;
 
 fend
 

@@ -1,0 +1,106 @@
+//=========================================//
+// Name : ver3.87 新システム ファミリア分解  
+// ========================================//
+// Display Dpl : 800x600 or 1366x768
+//=========================================//
+// Copy Right (C) 2020 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2020/05/24
+//=========================================//
+
+// 開始ログとウィンドウ位置初期化(MapleAPI.uwsないor初期処理不要なら消してOK)
+CALL ../MapleAPI/MapleAPI.uws;
+
+// ファミリア使用数
+public useValue
+// デフォルト使用数(1～100 or 999指定で所持数全て使用する)
+def = 999
+// 分解対象となるファミリアの画像配列(picture/new_fam_system/item に分解対象となる画像を格納してあること)
+// dim targetFamList[] = "gaitou100", "gaitou100rare"
+GETDIR("../picture/new_fam_system/item/", "*.bmp", false, 0);
+// 使用するファミリアの個数入力
+// 100個以上スロット空けてるならコメントアウトしてもいいかも
+useValue = input("ファミリアスロットの空き枠を入力してください", def)
+
+while true
+    // ファミリア使用
+    for i = 0 to length(GETDIR_FILES)-1
+        ifb chkimg("../picture/new_fam_system/item/" + GETDIR_FILES[i] ,0,0,0,1366,768)
+            btn(left,click,g_img_x,g_img_y,100)
+            btn(left,click,g_img_x,g_img_y,100)
+            break;
+        else
+            ifb i = length(GETDIR_FILES)-1
+                print "分解対象となるファミリアが存在しませんでした"
+                exitexit;
+            endif
+        endif
+    next
+    sleep(0.5)
+    ifb def <> 999
+        countEntry();
+    endif
+    KBD(VK_ENTER,0,500)
+    KBD(VK_ENTER,0,500)
+
+    // 全選択
+    for i = 1 to 3
+        ifb chkimg("../picture/new_fam_system/ui/all_select.bmp",0,0,0,1366,768)
+            BTN(left,click,g_img_x,g_img_y,500)
+            sleep(0.5);
+            break;
+        else
+            ifb i = 3
+                exitexit;
+            endif
+            sleep(1)
+        endif
+    next
+
+    // 分解する
+    ifb chkimg("../picture/new_fam_system/ui/break.bmp",0,0,0,1366,768)
+        BTN(left,click,g_img_x,g_img_y,100)
+        KBD(VK_ENTER,0,750)
+        while true
+            sleep(1)
+            ifb chkimg("../picture/new_fam_system/ui/confirm.bmp",0,0,0,1366,768)
+                KBD(VK_ENTER,0,750)
+                sleep(0.5)
+                break;
+            endif
+        wend
+    endif
+
+wend
+
+function countEntry()
+    
+    for i = 1 to length(useValue)
+        v = copy(useValue, i, 1)
+        select v
+            case "0"
+                KBD(VK_0,0,50)
+            case "1"
+                KBD(VK_1,0,50)
+            case "2"
+                KBD(VK_2,0,50)
+            case "3"
+                KBD(VK_3,0,50)
+            case "4"
+                KBD(VK_4,0,50)
+            case "5"
+                KBD(VK_5,0,50)
+            case "6"
+                KBD(VK_6,0,50)
+            case "7"
+                KBD(VK_7,0,50)
+            case "8"
+                KBD(VK_8,0,50)
+            case "9"
+                KBD(VK_9,0,50)
+            default
+                print "error!"
+        selend
+    next
+    result = 0;
+fend

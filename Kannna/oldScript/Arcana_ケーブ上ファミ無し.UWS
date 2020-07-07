@@ -1,0 +1,356 @@
+
+SLEEP(0.5)
+
+THREAD 並列1 //並列
+THREAD 並列2 //並列
+
+ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+
+//=========================================
+// init
+//=========================================
+// MapleAPI : LogWriter.uws , MapleLibrary.uws , UseSkillFiveJob.uws
+CALL ../MapleAPI/MapleAPI.uws;
+// Util - sugarTime exec
+CALL ../Util/MapleUtil.uws;
+// multiThread checkRedPoint and checkMineralization
+thread manager.CheckEncountStatus("../MapleManagement/status/Kannna/status");
+// MessageWindow init
+LOGPRINT(true,10,800,500,100)
+
+//////////////////////////////////////////////////
+propUseTime = GETTIME( 7350 / 86400 ); // 財物
+WHILE TRUE
+		
+//--------------------------------------------
+//バフ、CTスキル関連
+
+	
+        ifb GETTIME() > propUseTime
+            KBD(VK_OEM_MINUS,0,1000);
+            KBD(VK_OEM_MINUS,0,100);
+            KBD(VK_OEM_MINUS,0,100);
+            propUseTime = GETTIME( 7350 / 86400 );
+        endif
+		
+		ifb chkimg("../picture/狐.BMP")
+			SLEEP(0.5)
+			kbd(vk_DELETE,0,350)//狐
+			kbd(vk_DELETE,0,50)
+			kbd(vk_DELETE,0,50)
+			KBD(VK_D,CLICK,200)//天狗
+			sleep(0.2)
+		endif
+	  
+		ifb chkimg("../picture/雪女.BMP")
+			SLEEP(0.3)
+			KBD(VK_H,CLICK,500)//　鬼神
+			KBD(VK_H,CLICK,300) 
+			sleep(0.8)
+			kbd(VK_HOME,0,500)//雪女
+			sleep(0.2)
+		endif
+	    
+		ifb chkimg("../picture/SE.BMP")
+			SLEEP(0.2)
+			KBD(VK_SPACE,CLICK,300)//ハク
+			KBD(VK_SPACE,CLICK,200)
+			KBD(VK_U,CLICK,800)//MH
+			KBD(VK_U,CLICK,200)
+			SLEEP(1)
+			kbd(VK_G,0,200)//SE
+			kbd(VK_G,0,200)
+			sleep(0.8)
+		endif
+
+		ifb chkimg("../picture/暁.BMP")
+			SLEEP(0.3)	
+			KBD(VK_H,CLICK,500)//　鬼神
+			KBD(VK_H,CLICK,300)
+			KBD(VK_H,CLICK,200)
+			SLEEP(0.3)
+			kbd(vk_N,0,200)//暁
+			kbd(vk_N,0,300)
+			kbd(vk_N,0,200)
+			sleep(0.5)
+		endif	 
+	  
+		ifb chkimg("../picture/HS.BMP")
+			SLEEP(0.3)
+			kbd(vk_SHIFT,0,350)//HS
+			kbd(vk_SHIFT,0,200)//HS
+			sleep(1.2)
+			kbd(VK_CTRL,0,300)//HB
+			kbd(VK_CTRL,0,200)
+			sleep(0.5)
+		endif
+
+		IFB CHKIMG("../picture/残り時間.BMP",0,250,0,600,300)
+			SLEEP(10)
+			kbd(vk_ESCAPE,0,50)
+			kbd(VK_RETURN,0,300)
+			kbd(VK_LEFT,1,300)
+			kbd(VK_LEFT,2,150)
+			kbd(VK_RETURN,0,300)
+			SLEEP(3)
+		ENDIF
+
+		IFB CHKIMG("../picture/赤点.BMP",0,0,0,250,200)
+			SOUND("beep")
+			SLEEP(10)
+			kbd(vk_ESCAPE,0,50)
+			kbd(VK_RETURN,0,300)
+			kbd(VK_LEFT,1,300)
+			kbd(VK_LEFT,2,150)
+			kbd(VK_RETURN,0,300)
+			SLEEP(3)
+		ENDIF
+		
+        IFB CHKIMG("../picture/紫点.BMP",0,0,0,250,200)
+			SLEEP(10)
+	        kbd(vk_ESCAPE,0,50)
+			kbd(VK_RETURN,0,300)
+			kbd(VK_LEFT,1,300)
+			kbd(VK_LEFT,2,150)
+			kbd(VK_RETURN,0,300)
+			SLEEP(3)
+        ENDIF
+
+//--------------------------------------------
+//狩り、ルーンチェック
+
+　　　　while chkimg("../picture/黄点.bmp",0,0,0,171,200)
+
+
+        ret = checkRuneStage();
+        ifb ret <> 0
+            lib.OpenRune();
+        endif
+
+			KBD(vk_right,1)
+			
+				VALUE = RANDOM(3)+1
+				SELECT VALUE
+	 
+				CASE 1
+				KBD(VK_D,CLICK,300)//天狗
+				KBD(VK_V,CLICK,300)//テレポ
+				sleep(0.1)
+				
+				CASE 2 
+				KBD(VK_D,CLICK,350)//天狗
+				KBD(VK_V,CLICK,280)//テレポ
+				sleep(0.1)
+
+				CASE 3	 
+				KBD(VK_D,CLICK,300)//天狗
+				KBD(VK_V,CLICK,250)//テレポ
+				sleep(0.1)
+
+				SELEND
+
+    wend
+        kbd(vk_right,2)
+
+        for A = 1 to 3
+
+        ret = checkRuneStage();
+        ifb ret <> 0
+            lib.OpenRune();
+        endif
+		
+
+        if !chkimg("../picture/黄点.bmp",0,0,0,200,120) then break
+            KBD(VK_down,1,50)//下ジャンプ準備
+            KBD(VK_C,CLICK,100)//下ジャンプ
+            KBD(VK_V,CLICK,400)//下テレポ
+            KBD(VK_V,CLICK,100)//下テレポ
+            KBD(VK_DOWN,UP,200)//下入力解除
+			        sleep(0.5)
+        if !chkimg("../picture/黄点.bmp",0,0,0,200,120) then break
+
+        next
+    
+    while true
+        ret = checkRuneStage();
+        ifb ret <> 0
+            lib.OpenRune();
+        endif
+
+		if chkimg("../picture/黄点.bmp",0,0,0,200,120) then break
+
+        kbd(vk_left,1)
+				VALUE = RANDOM(3)+1
+				SELECT VALUE
+	 
+				CASE 1
+				KBD(VK_D,CLICK,300)//天狗
+				if chkimg("../picture/黄点.bmp",0,0,0,200,120) then break
+				KBD(VK_V,CLICK,300)//テレポ
+				if chkimg("../picture/黄点.bmp",0,0,0,200,120) then break
+				sleep(0.1)
+					        if chkimg("../picture/黄点.bmp",0,0,0,200,120) then break
+							
+				CASE 2 
+				KBD(VK_D,CLICK,350)//天狗
+				if chkimg("../picture/黄点.bmp",0,0,0,200,120) then break
+				KBD(VK_V,CLICK,280)//テレポ
+				if chkimg("../picture/黄点.bmp",0,0,0,200,120) then break
+				sleep(0.1)
+						    if chkimg("../picture/黄点.bmp",0,0,0,200,120) then break
+							
+				CASE 3	 
+				KBD(VK_D,CLICK,300)//天狗
+				if chkimg("../picture/黄点.bmp",0,0,0,200,120) then break
+				KBD(VK_V,CLICK,250)//テレポ
+				if chkimg("../picture/黄点.bmp",0,0,0,200,120) then break
+				sleep(0.1)
+						    if chkimg("../picture/黄点.bmp",0,0,0,200,120) then break
+							
+				SELEND
+    wend
+        kbd(vk_left,2)
+	
+WEND//永久に繰り返し処理の末尾
+
+
+//=========================================
+// param   : None 
+// comment : ルーンが出現しているか確認
+//=========================================
+function checkRuneStage()
+
+    // 上段にあるか
+    ifb chkimg(lib.picPathHelper("runePoint"),0,0,0,180,120)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを上段で発見しました。");
+        moveStage(1);
+        result = constant.DISCOVERY_RUNE;
+    elseif chkimg(lib.picPathHelper("runePoint"),0,0,127,180,145)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを下段で発見しました。");
+        moveStage(2);
+        result = constant.DISCOVERY_RUNE;
+    endif
+    
+    result = constant.UNDISCOVERED_RUNE;
+fend
+
+
+//=========================================
+// param   : 1 or 2
+// comment : ルーンが出現している段へ移動
+//=========================================
+function moveStage(num)
+        kbd(vk_right,2)
+		kbd(vk_left,2)
+    // いったん一番→へいく
+    KBD(VK_RIGHT,1,500)
+    while true
+        if chkimg(lib.picPathHelper("yellowPoint"),0,170,0,180,143) then break;
+        kbd(vk_v,0,100)
+    wend
+    KBD(VK_RIGHT,2,500)
+    
+    // 上段にルーンがある場合は右へ行って終了
+    ifb num = 1
+        KBD(VK_W,CLICK,500)//ロープ
+        SLEEP(1)		
+        result = 0;
+    
+    // 下段にある場合は右へ行って下ジャンプ
+    else
+	
+	    IFB CHKIMG("../picture/黄点.bmp",0,0,0,200,115)
+        KBD(VK_DOWN,1,500)
+        for i = 1 to 5
+            KBD(VK_C,0,100)
+        next
+        KBD(VK_DOWN,2,100)
+	    endif
+		
+        result = 0;
+    endif
+    lib.OpenRune();
+    
+    result = 0;
+fend
+//////////////////////////////////////////////////
+PROCEDURE 並列1
+
+        SLEEP(5)
+
+   WHILE TRUE
+//--------------------------------------------
+//虹色探知機対策（天狗ランダム周期発動）
+        SLEEP(5)
+    while true
+
+     IF CHKIMG("../picture/赤点.BMP",0,0,0,250,200)THEN break
+     IF CHKIMG("../picture/紫点.BMP",0,0,0,250,200)THEN break
+     IF CHKIMG("../picture/残り時間.BMP",0,250,0,600,300)then break
+     IF CHKIMG("../picture/rune.BMP",0,0,0,200,200)THEN break
+     IF !CHKIMG("../picture/rune.BMP",0,0,0,200,200) THEN KBD(VK_X,CLICK,100)//紫扇
+     IF !CHKIMG("../picture/rune.BMP",0,0,0,200,200) THEN KBD(VK_X,CLICK,200)//紫扇
+     SLEEP(5)
+
+    wend
+	  
+   WEND
+
+FEND
+
+PROCEDURE 並列2
+
+        SLEEP(10)
+
+   WHILE TRUE
+
+     ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+
+     SLEEP(1.5)
+
+        IFB CHKIMG("../picture/会話.BMP",0,0,0,800,600)
+            KBD(VK_ESCAPE,CLICK,50)
+        ENDIF
+
+        IFB CHKIMG("../picture/確認.BMP",0,0,0,800,600)
+            BTN(LEFT,0,G_IMG_X,G_IMG_Y,100)
+            MMV(400,100,300)
+        ENDIF
+
+        IFB CHKIMG("../picture/NPC.BMP",0,0,0,250,200) 
+            sound("beep")
+            EXITEXIT
+        ENDIF
+		
+        IFB CHKIMG("../picture/石化.bmp",0,0,0,1368,800)
+            For i = 1 to 20
+                KBD(VK_LEFT,0,100)
+                KBD(VK_RIGHT,0,100)
+            NEXT
+        ENDIF
+		
+        IFB CHKIMG("../picture/石化2.bmp",0,0,0,1368,800)
+            For ii = 1 to 20
+                KBD(VK_LEFT,0,100)
+                KBD(VK_RIGHT,0,100)
+            NEXT
+        ENDIF
+		
+        IFB CHKIMG("../picture/赤点.BMP",0,0,0,250,200)
+            SOUND("beep")
+			SLEEP(1)
+        ENDIF
+		
+        IFB CHKIMG("../picture/マクロ探知機1.BMP")
+            SOUND("beep")
+			SLEEP(1)
+        ENDIF
+		
+        IFB CHKIMG("../picture/マクロ探知機2.BMP")
+            SOUND("beep")
+			SLEEP(1)
+        ENDIF
+		
+  WEND//ループの最後
+     
+FEND

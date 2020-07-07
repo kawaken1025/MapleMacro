@@ -9,18 +9,19 @@ skillTime = GETTIME(100/86400)
 while true
     KBD(VK_G,CLICK,1000)
 	While true
-	    KBD(VK_H,CLICK,1000)
-		KBD(VK_RIGHT,1,100)
-		KBD(VK_RIGHT,2,500)
-        sleep(10)
-		KBD(VK_H,CLICK,1000)
-		KBD(VK_LEFT,1,100)
-		KBD(VK_LEFT,2,800)
-		sleep(10)
-		ifb GETTIME() > skillTime
-             skillTime = GETTIME(100/86400)
-			 break;
-		endif
+        ran = random(100)
+        for i = 1 to 2
+            KBD(VK_H,CLICK,1000)
+            KBD(VK_RIGHT,1,1000)
+            KBD(VK_RIGHT,2,250+ran)
+            sleep(30)
+        next
+		for i = 1 to 2
+            KBD(VK_H,CLICK,1000)
+            KBD(VK_LEFT,1,1000)
+            KBD(VK_LEFT,2,250+ran)
+            sleep(30)
+        next
 	wend
 wend
 

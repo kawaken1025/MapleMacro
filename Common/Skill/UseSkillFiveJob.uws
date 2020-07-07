@@ -45,7 +45,7 @@ public mPSEy2 = 0;
 
 function pSkill()
     // PHSチェック 
-    ifb chkimg("../picture/PHS.bmp",0,840,700,1033,800)
+    ifb chkimg("../picture/PHS.bmp",0,840,655,1366,800)
         // ifb mPHSx1 = 0
              KBD(pSkillKey.P_HOLY_SYMBOL,0,1000);
         //     //lib.SetCoordinate(mPHSx1, mPHSy1, mPHSx2, mPHSy2);
@@ -55,11 +55,11 @@ function pSkill()
     endif
     
     // PCOチェック
-    ifb chkimg("../picture/PCO.bmp",0,840,700,1033,800)
+    ifb chkimg("../picture/PCO.bmp",0,840,655,1366,800)
          KBD(pSkillKey.P_COMBAT_ORDER_KEY,0,1000);
     endif 
     // // PSEチェック
-    ifb chkimg("../picture/PSE.bmp",0,840,700,1033,800)
+    ifb chkimg("../picture/PSE.bmp",0,840,655,1366,800)
     //     ifb mPSEx1 = 0
         KBD(pSkillKey.P_SHARP_EYES_KEY,0,500);
     //         //lib.SetCoordinate(mPSEx1, mPSEy1, mPSEx2, mPSEy2);
@@ -70,12 +70,12 @@ function pSkill()
     
 
     // PWBチェック
-    ifb chkimg("../picture/PWB.bmp",0,840,700,1033,800) 
+    ifb chkimg("../picture/PWB.bmp",0,840,655,1366,800) 
         KBD(pSkillKey.P_WIND_BOOSTER,0,500);
     endif
 
     // PHBチェック
-    ifb chkimg("../picture/PHB.bmp",0,840,700,1033,800)
+    ifb chkimg("../picture/PHB.bmp",0,840,700,1366,800)
         KBD(pSkillKey.P_HYPER_BODY_KEY,0,500);
     endif
     result = 0;

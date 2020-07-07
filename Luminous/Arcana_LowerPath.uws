@@ -1,0 +1,350 @@
+//=========================================//
+// Map Name    : アルカナ 洞窟の通路(下)       //
+//=========================================//
+// Mob Name    : 悲嘆の精霊
+// Mob Level   : 239
+// Mob HP      : 312,451,200
+// Mob Exp     : 462,670
+//=========================================//
+// Mob Name    : 不調和の精霊
+// Mob Level   : 240
+// Mob HP      : 318,873,600
+// Mob Exp     : 470,824
+//=========================================//
+// comment     : None
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 800x600 or 1366x768
+//=========================================//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/04/01
+//=========================================//
+
+//=========================================
+// init
+//=========================================
+// MapleAPI : LogWriter.uws , MapleLibrary.uws , UseSkillFiveJob.uws
+CALL ../MapleAPI/MapleAPI.uws;
+// import Luminous skillKeySetting
+CALL KeySetting.uws;
+// Util - sugarTime exec
+CALL ../Util/MapleUtil.uws;
+// multiThread checkRedPoint and checkMineralization
+thread parallelProgram();
+thread manager.CheckEncountStatus("../MapleManagement/status/Kannna/status");
+// Main Script Start
+// StartMessage and MessageWindow init
+LOGPRINT(true,10,800,500,100)
+public isEqulibrium = false;
+
+while true;
+    //Acquisition of Time : Get the time after 3 minutes
+    reUseSkillTime = GETTIME( 180 / 86400 );
+    skill.luminous_useSkill();
+    SLEEP(0.5);
+    lib.checkFamiliarPower();
+    lib.useMaprage();
+    while true;
+        // Equlibrium check
+        oneWayAttack(VK_RIGHT, 95, 95, 150, 150)
+        oneWayAttack(VK_LEFT, 35, 95, 75, 150)
+        moveUPorDownStage()
+        // ルーンが出現しているか確認します。
+        // 出現していた場合は解除します
+        ret = checkRuneStage()
+
+        //3minutes elapsed?
+        if GETTIME() > reUseSkillTime then break;
+    wend
+wend
+
+function oneWayAttack(moveKey, x1, y1, x2, y2)
+    while true
+        KBD(moveKey,1)
+        ifb chkimg(lib.picPathHelper("mode"),0,840,700,1033,800) or chkimg(lib.picPathHelper("memorize"),0,840,700,1033,800)
+            isEqulibrium = true;
+        endif
+        skill.luminous_skillCheck();
+        ifb isEqulibrium
+            KBD(key.MEMORIZE_KEY,0,500);
+            KBD(key.PSYCHOLOGY_DOOR_KEY,0,800);
+            isEqulibrium = false;
+        endif
+
+        for i = 1 to 2
+            KBD(key.REFLECTION_KEY,0,120);
+        next
+        KBD(key.TELEPORT_KEY,0,300);
+        // 下2段にいたらロープコネクトで上へいく
+        ifb chkimg(lib.picPathHelper("yellowPoint"),0,45,115,150,150)
+            KBD(key.ROPE_CONNECT_KEY,0,500);
+        endif
+        ifb chkimg(lib.picPathHelper("yellowPoint"),0,x1,y1,x2,y2)
+            break;
+        endif
+        // ifb chkimg(lib.picPathHelper("guild_member"),0,0,0,250,200);
+        //     responseToGuildMember(random(3));
+        //     mGuildMemberCount = 1;
+        // else
+        //     mGuildMemberCount = 0;
+        // endif
+    wend
+    for i = 1 to 2
+        KBD(key.REFLECTION_KEY,0,200);
+    next
+    KBD(moveKey,2)
+    result = 0
+fend
+
+//=========================================
+// param   : None 
+// comment : ルーンが出現しているか確認
+//=========================================
+function checkRuneStage()
+
+	ret = 0;
+    runeX = 0;
+    runeY = 0;
+    ifb chkimg(lib.picPathHelper("runePoint"),0,0,0,140,140)
+        ifb 45 < G_IMG_Y and G_IMG_Y < 110
+            logger.logWriter(LogLevel.LOG_INFO, "ルーンを上段で発見しました");
+            ret = 1; // 上段
+            runeX = G_IMG_X;
+            runeY = G_IMG_Y;
+        elseif 115 < G_IMG_Y and G_IMG_Y < 125
+            logger.logWriter(LogLevel.LOG_INFO, "ルーンを中段で発見しました");
+            ret = 2; // 中段
+            runeX = G_IMG_X;
+            runeY = G_IMG_Y;
+        elseif 128 < G_IMG_Y and G_IMG_Y < 140
+            logger.logWriter(LogLevel.LOG_INFO, "ルーンを下段で発見しました");
+            ret = 3;
+            runeX = G_IMG_X;
+            runeY = G_IMG_Y;
+        endif
+        moveStage(ret, runeX, runeY);
+    endif
+    result = ret;
+fend
+
+//=========================================
+// param   : 1 or 2 or 3
+// comment : ルーンが出現している段へ移動
+//=========================================
+function moveStage(num, runeX, runeY)
+
+    yellowPointX = 0;
+    yellowPointY = 0;
+    b = IsSameStage(runeY);
+    lib.OpenRuneXY(runeX, runeY, false);
+    result = 0;
+fend
+
+function IsSameStage(runeY)
+    b = false;
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,140,140)
+        yellowPointY = G_IMG_Y;
+        ifb runeY-7 < yellowPointY and yellowPointY < runeY+7
+            b = true;
+        endif
+    endif
+    
+    // 同じ段になるまでループする
+    while true
+        ifb checkStage(b, runeY, YellowPointY)
+            break;
+        else
+            print "同じ段にありませんでした。1秒後に再チェックします"
+            sleep(1)
+        endif
+    wend    
+    result = b;
+fend
+
+function checkStage(b, runeY, YellowPointY)
+    
+    //print "rune:" + runeY + " yp:" + YellowPointY
+    v = false;
+    ifb b
+        result = true;
+    elseif runeY > yellowPointY
+        //print "自分の位置より下にルーンを発見"
+        KBD(VK_DOWN,1,100)
+        sleep(0.5);
+        for i = 1 to 3
+            KBD(VK_C,0,100)
+        next
+        KBD(VK_DOWN,2,10)
+    elseif runeY < yellowPointY
+        //print "自分の位置より上にルーンを発見"
+        KBD(VK_UP,1,100)
+        useSkill.teleport(key.TELEPORT_KEY);
+        KBD(VK_UP,2,10)        
+    endif
+
+    sleep(0.5)
+    // 再チェック
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,140,140)
+        yellowPointY = G_IMG_Y;
+        ifb runeY-7 < yellowPointY and yellowPointY < runeY+7
+            v = true            
+        endif
+    endif
+
+    result = v;
+fend
+
+
+function moveUPorDownStage()
+    //yp();
+
+    // 3段目にいるときの処理。上へ行く
+    ifb chkimg("../picture/黄点.BMP",0,45,110,124,145)
+        upStage();
+        exit
+        result = 23;
+    endif
+    exit;
+
+    // 下記保留
+    // 上段にいるときの処理。下へ行く
+    ifb chkimg("../picture/黄点.BMP",0,45,99,95,110)
+        KBD(VK_DOWN,1);
+        useSkill.teleport(key.TELEPORT_KEY);
+        KBD(VK_DOWN,2);
+        exit
+        result = 1;
+    endif
+
+    // 3段目にいるときの処理。上へ行く
+    ifb chkimg("../picture/黄点.BMP",0,45,110,124,145)
+        upStage();
+        exit
+        result = 23;
+    endif
+
+fend
+
+function upStage()
+
+    KBD(VK_UP,1)
+    useSkill.teleport(key.TELEPORT_KEY);
+    KBD(VK_UP,2)
+    result = 0;
+fend
+
+function yp()
+
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,160,165)
+        ifb 45 < G_IMG_X and 130 < G_IMG_Y
+           KBD(VK_UP,1,200);
+           KBD(key.TELEPORT_KEY,0,500);
+           KBD(VK_UP,2,200);            
+        endif
+
+        ifb G_IMG_X <= 60
+            KBD(VK_RIGHT,1)
+            KBD(VK_RIGHT,2,1000)
+        elseif 80 < G_IMG_X
+            KBD(VK_LEFT,1)
+            KBD(VK_LEFT,2,1500)
+        elseif 125 < G_IMG_X
+            while true
+                KBD(VK_LEFT,1)
+                ifb chkimg(lib.picPathHelper("yellowPoint"),0,45,100,85,165)
+                    break;
+                endif
+            wend
+            KBD(VK_LEFT,2,1500)
+        endif
+    endif
+
+    result = 0;
+fend
+
+//=========================================
+//
+// comment : 石化チェック・赤点チェック・加護チェック
+// param   : None
+// return  : 0 
+//
+//=========================================
+procedure parallelProgram()
+    isEnc = false;
+    wzEditValue = 0 
+    while TRUE
+        ifb chkimg("../picture/石化2.bmp",0,0,0,1368,800)
+            for i = 1 to 20
+                KBD(VK_LEFT,0,100);
+                KBD(VK_RIGHT,0,100);
+            next
+        endif
+
+        if chkimg("../picture/加護.bmp",0,840,700,1033,800) then KBD(VK_F4,0,1000)
+
+        ifb wzEditValue <> 2
+            ifb chkimg("../picture/赤点.bmp",0,0,0,200,200)
+                logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+                lib.alartSound();  
+                wzEditValue = 1;
+            endif   
+        endif
+
+        ifb wzEditValue <> 1 
+            ifb chkimg("../picture/redpoint2.bmp",0,0,0,200,200)
+                ifb !isEnc;
+                    isEnc = true;
+                    logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+                endif
+                lib.alartSound();
+                wzEditValue = 2;
+            else
+                isEnc = false;
+            endif
+        endif  
+
+        ifb chkimg("../picture/緑点.bmp",0,0,115,169,160)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
+            exitexit;
+        endif
+
+        ifb chkimg("../picture/突発.bmp",0,0,0,1368,800)
+            for i = 1 to 3
+                BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,200);
+            next
+        endif
+
+        ifb chkimg("../picture/エリボス.bmp",0,300,50,800,200)
+            sleep(1)
+            SOUND(" ");
+        endif
+
+    wend
+fend
+
+public mGuildMemberCount = 0;
+function responseToGuildMember(msgNum)
+
+    if mGuildMemberCount <> 0 then exit;
+    responseStr = ""
+    ifb msgNum = 0
+        responseStr = "MessageID["+ msgNum +"] : 中身はいないかもしれません" 
+    elseif msgNum = 1
+        responseStr = "MessageID["+ msgNum +"] : not available right now." 
+    else
+        responseStr = "MessageID[null] : Failed to get message." 
+    endif
+    GETTIME();
+    msg = "[Auto-Response] " + G_TIME_HH2 + ":" + G_TIME_NN2  + " >> " + responseStr
+    KBD(VK_1,0,1000);
+    SendStr(0,msg,1,True);
+    KBD(VK_CTRL,1,1500);
+    KBD(VK_V,0,1500);
+    KBD(VK_CTRL,2,1000);
+    KBD(VK_ENTER,0,1000);
+    BTN(LEFT,CLICK,400,350,600);
+    BTN(LEFT,CLICK,400,350,600);
+    result = MAPLE_RESULT_OK; 
+fend

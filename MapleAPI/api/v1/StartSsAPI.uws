@@ -1,0 +1,10 @@
+class LogWriteAPI
+    const START_SS_API_URI = "http://kawaken.sub.jp/maple-assist/api/v1/log/write/?";
+
+    function ExecStartSSAPI(base64txt)
+        reqData = "curl <#DBL>" + START_SS_API_URI + "base64txt=" + base64txt + "<#DBL>";
+        POWERSHELL(reqData,true,false)
+        result = 0;
+    fend
+
+endclass

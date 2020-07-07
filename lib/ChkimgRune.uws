@@ -51,12 +51,12 @@ try
                     break;
                 endif
             next
-            print " X = " + G_IMGX_X + " Y = " + G_IMGX_Y;
+            logger.logWriter(LogLevel.LOG_INFO, "Rune coordinate info: X = " + G_IMGX_X + ", Y = " + G_IMGX_Y);
             ifb G_IMGX_X < 0 and G_IMGX_Y < 0
                 x1 = 300;
                 x2 = 900;
-                y1 = 150;
-                y2 = 350;
+                y1 = 180;
+                y2 = 310;
             else
                 x1 = G_IMGX_X - 100;
                 x2 = x1 + 350;

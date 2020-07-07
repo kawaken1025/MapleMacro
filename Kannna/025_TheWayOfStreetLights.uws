@@ -3,7 +3,8 @@ CALL ../MapleAPI/MapleAPI.uws;
 CALL KeySetting.uws;
 
 lib.activeWindow();
-thread lib.parallelProgramExitMode();
+//thread lib.parallelProgramExitMode();
+thread parallelProgramWaitMode();
 thread para();
 
 petTime = GETTIME( 300 / 86400 )
@@ -90,3 +91,42 @@ function upStage()
     result = 0;
 fend
 
+
+procedure parallelProgramWaitMode()
+
+    path = "../MapleManagement/status/Kannna/status";
+    manager.WritePlayerNotEncoutStatus(path);
+    isEncount = false;
+
+    while TRUE
+        ifb chkimg("../picture/石化2.bmp",0,0,0,1368,800)
+            for i = 1 to 20
+                KBD(VK_LEFT,0,100);
+                KBD(VK_RIGHT,0,100);
+            next
+        endif
+
+        ifb chkimg("../picture/赤点.bmp",0,0,0,300,300)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+            //exitexit;
+        endif
+        
+        ifb chkimg(lib.picPathHelper("redpoint2"),0,0,0,300,300)
+            manager.WritePlayerEncoutStatus(path)
+            isEncount = true;
+            sleep(1);
+            //exitexit;
+        else
+            ifb isEncount = true
+                sleep(1)
+                manager.WritePlayerNotEncoutStatus(path);
+                isEncount = false;
+            endif
+        endif
+
+        ifb  chkimg("../picture/緑点.bmp",0,0,0,1368,800)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
+            exitexit;
+        endif
+    wend
+fend

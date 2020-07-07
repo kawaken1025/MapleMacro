@@ -22,11 +22,14 @@ CLASS key
 	const LING_STONE       = VK_HOME   // 霊石召喚
 	const SENGOKU_ALLIANCE = VK_L      // 戦国同盟
 	const BLESSING         = VK_N      // 姫の加護
+	const WHITE_FOX_KEY    = VK_CTRL   // 白狐
 
 	//SupportSkillKey
 	const SKILL_MACRO1_KEY    = VK_G     // 補助スキルマクロ
 	const ROPE_CONNECT_KEY    = VK_B     // ロープコネクト
 	const TELEPORT_KEY        = VK_SPACE // テレポート
+	const HAKU_KEY            = VK_2     // ハク
+	const P_SE_KEY            = VK_9     // PSE
 
 	//SupportKey
 	const FAM_BOOK_KEY        = VK_F6

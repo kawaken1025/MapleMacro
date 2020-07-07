@@ -146,7 +146,7 @@ function IsSameStage(runeY)
     b = false;
     ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,140,140)
         yellowPointY = G_IMG_Y;
-        ifb runeY-7 < yellowPointY and yellowPointY < runeY+7
+        ifb runeY-10 < yellowPointY and yellowPointY < runeY+10
             b = true;
         endif
     endif
@@ -156,7 +156,6 @@ function IsSameStage(runeY)
         ifb checkStage(b, runeY, YellowPointY)
             break;
         else
-            print "同じ段にありませんでした。1秒後に再チェックします"
             sleep(1)
         endif
     wend    

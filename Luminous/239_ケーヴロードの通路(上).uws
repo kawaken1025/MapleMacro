@@ -94,14 +94,14 @@ function oneWayAttack(moveKey,x1,y1,x2,y2)
         useSkill.Teleport(key.TELEPORT_KEY);
         if chkimg(lib.picPathHelper("yellowPoint"),0,x1,y1,x2,y2)     then break;
         if chkimg(lib.picPathHelper("yellowPoint"),0,163,123,180,143) then KBD(key.ROPE_CONNECT_KEY,0,800);
-        lib.checkStartingMapleStory();
-        lib.checkGameMaster();
-        ifb chkimg(lib.picPathHelper("guild_member"),0,0,0,250,200);
-            responseToGuildMember(random(3));
-            mGuildMemberCount = 1;
-        else
-            mGuildMemberCount = 0;
-        endif
+        // lib.checkStartingMapleStory();
+        // lib.checkGameMaster();
+        // ifb chkimg(lib.picPathHelper("guild_member"),0,0,0,250,200);
+        //     responseToGuildMember(random(3));
+        //     mGuildMemberCount = 1;
+        // else
+        //     mGuildMemberCount = 0;
+        // endif
     wend
     useSkill.Reflection(key.REFLECTION_KEY);
     KBD(moveKey,2);
