@@ -1,0 +1,44 @@
+//=========================================//
+// comment     : カイザー　キー設定
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : AllDpl
+//=========================================//
+// Copy Right (C) 2020 All Right Reserved. 
+//   @Author : hojoman @hojomandayo
+//    @Special Thanks : k.kawabata @kawaken1025
+//     Create Date : 2020/08/06
+//=========================================//
+
+CLASS key
+
+    //スキル
+    //const TELEPORT_KEY         = VK_  　　　　　　//
+    const SWORD_STRIKE_KEY       = VK_X  　　　　　　//ソードストライク
+    const GIGA_SLASHER_KEY     = VK_D　　　　　　　　//ギガスラッシャー
+    const DEMON_SUMMON_KEY　    = VK_J　　　　　　　　//鬼神召喚
+    const ROPE_CONNECT_KEY     = VK_V　　　　　　　　//ロープコネクト
+    const GUARDIAN_OF_NOVA_KEY 　　= VK_SHIFT　　　　　　//ガーディアンオブノヴァ
+    const DRAGON_BLAZE_KEY 　　= VK_OEM_MINUS　　　　　　//ドラゴンブレイズ
+	
+	//バフ
+	const NINE_TAIL_FURY_KEY   = VK_END　　　//紫扇白狐
+	const HAKU_REBORN		   = VK_F7    //ハク
+	const BUFF_MACRO           = VK_F5        //MH
+
+	//5次バフ
+	const SHARP_EYES		   = VK_CTRL        //SE
+	//const HYPER_BODY           = VK_OEM_MINUS     //HB
+	const HOLY_SYMBOL          = VK_W    //HS
+	const YUKI_MUSUME_KEY	   = VK_R     //雪女
+	const SENGOKU_FORCE        = VK_SHIFT        //暁
+
+
+    //スキル以外 
+    const PETUSE_KEY          　= VK_F1  　　　　//ペットの餌
+    const PROPERTYUSE_KEY     　= VK_0		//財物などその他のアイテム
+	
+
+ENDCLASS
+

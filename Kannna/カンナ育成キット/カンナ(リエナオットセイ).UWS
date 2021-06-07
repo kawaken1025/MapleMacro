@@ -1,0 +1,121 @@
+THREAD 並列処理() 
+
+
+ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+
+
+
+sleep(1)
+
+B  = gettime( 100 / 86400 )
+
+     SLEEP(0.5)
+     KBD(VK_SPACE,CLICK,100)//　はく
+     SLEEP(1)
+     KBD(VK_U,CLICK,100)//　BUFF
+     KBD(VK_U,CLICK,100)//　BUFF
+     SLEEP(0.5)
+
+//petに餌の自動回復がついていない場合は「//」を削除
+
+//PET  = gettime( 700 / 86400 )
+//     SLEEP(1)
+//     KBD(VK_F12,CLICK,100)//　えさ
+//     SLEEP(0.5)
+
+WHILE TRUE
+
+//    IFB GETTIME() > PET
+//     SLEEP(1)
+//     KBD(VK_F12,CLICK,100)//　buff
+//     SLEEP(0.5)
+//    PET = gettime( 700 / 86400 )
+//    ENDIF
+
+ifb gettime() > B
+
+     SLEEP(0.5)
+     KBD(VK_SPACE,CLICK,100)//　はく
+     SLEEP(1)
+     KBD(VK_U,CLICK,100)//　BUFF
+     KBD(VK_U,CLICK,100)//　BUFF
+     SLEEP(0.5)
+
+PET = gettime( 100 / 86400 )
+endif
+
+for aa = 1 to 6
+
+kbd(vk_left,1)
+KBD(VK_C,0,50)
+KBD(VK_C,0,50)
+KBD(VK_X,0,50)
+KBD(VK_X,0,50)
+KBD(VK_X,0,50)
+KBD(VK_X,0,70)
+KBD(VK_V,0,400)
+KBD(VK_V,0,50)
+KBD(VK_V,0,50)
+sleep(0.1)
+next
+kbd(vk_left,2)
+
+
+
+for aa = 1 to 6
+kbd(vk_right,1)
+KBD(VK_C,0,50)
+KBD(VK_C,0,50)
+KBD(VK_X,0,50)
+KBD(VK_X,0,50)
+KBD(VK_X,0,50)
+KBD(VK_X,0,70)
+KBD(VK_V,0,400)
+KBD(VK_V,0,50)
+KBD(VK_V,0,50)
+sleep(0.1)
+next
+kbd(vk_right,2)
+
+
+WEND
+
+
+
+
+
+
+PROCEDURE 並列処理()
+WHILE TRUE
+
+//--------------------------------------------
+//探知機後の停止処理
+
+　　　　IFB CHKIMG("NPC.BMP") 
+
+        sound("beep")
+        SLEEP(1)
+        EXITEXIT
+
+　　　　endif
+
+//--------------------------------------------
+//探知機後の停止処理
+
+　　　　IFB CHKIMG("赤点.BMP") 
+
+        sound("beep")
+        SLEEP(1)
+
+　　　　endif
+
+KBD(VK_d,CLICK,50)//じょれいふ
+KBD(VK_d,CLICK,50)
+sleep(3)
+
+
+
+WEND
+FEND
+
+

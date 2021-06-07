@@ -47,14 +47,14 @@ PET = PET + 1
 WEND
 
 procedure jumpAttack()
-	KBD(VK_C,0,300)
-	KBD(VK_C,0,200)
-	KBD(VK_C,0,100)
+        for i = 1 to 5
+	    KBD(VK_C,0,125)
+        next
 	//KBD(VK_CTRL,0,350)
 	//KBD(VK_CTRL,0,150)
-	KBD(VK_X,0,150)
-	KBD(VK_X,0,50)
-	KBD(VK_X,0,50)	
+	for i = 1 to 3
+            KBD(VK_X,0,150)
+	next	
 fend
 
 

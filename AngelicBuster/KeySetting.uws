@@ -5,9 +5,9 @@
 // ========================================//
 // Display Dpl : 
 //=========================================//
-// Copy Right (C) 2018 All Right Reserved. 
+// Copy Right (C) 2020 All Right Reserved. 
 //   @author k.kawabata @kawaken1025
-//     Create Date : 2018/11/15
+//     Create Date : 2020/12/21
 //=========================================//
 
 CLASS key
@@ -15,13 +15,24 @@ CLASS key
     //スキル
     const NORMAL_ATTACK_KEY   = VK_X
     const DAY_DREAM_KEY       = VK_8
-    const PRIMAL_LOWER        = VK_A
+    const PRIMAL_LOWER        = VK_SHIFT
     const PINK_SCUD           = VK_V
+    const ROPE_CONNECT        = VK_ALT
 
     // HYPER
-    const SUPER_NOVA     = VK_SHIFT
-    const SOUL_EXULTS    = VK_HOME
-    const FINAL_CONTRACT = VK_END
+    const SUPER_NOVA     = VK_A
+    const SOUL_EXULTS    = VK_G
+    const FINAL_CONTRACT = VK_F
+
+    // 5th JOB
+    const MUSCOT_FAMILIA = VK_6
+    const ENERGY_BURST   = VK_1
+    const SPOT_LIGHT     = VK_2
+    const PANTHEON       = VK_Q
+    
+    // SKILL MACROd
+    const SKILL_MACRO_KEY  = VK_INSERT
+    const SKILL_MACRO_KEY2 = VK_HOME
 
     //スキル以外 
     const FAM_BOOK_KEY        = VK_F6  //ファミリアブックキー

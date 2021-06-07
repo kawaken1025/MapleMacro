@@ -18,8 +18,11 @@ CALL ../lib/MapleLibrary.uws;
 CALL ../Log/logWriter.uws;
 CALL ../MapleManagement/MapleManagement.uws;
 CALL ../MapleAPI/api/v1/LogWriteAPI.uws;
+CALL ../MapleAPI/api/v1/StartSsAPI.uws;
 
 public MAPLE_RESULT_OK = 0;
 // 起動スクリプト名出力
 logger.logWriter(LogLevel.LOG_INFO, Messages.START_SCRIPT_NAME);
-LOGPRINT(true,10,800,500,100)
+StartSsAPI.sendSS();
+LOGPRINT(true,600,800,500,100)
+SPEAK("START", true, true)

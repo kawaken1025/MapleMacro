@@ -28,6 +28,7 @@ thread lib.parallelProgram();
 // MessageWindow init
 CALL PathFinderUtil.uws;
 CALL ../Util/MapleUtil.uws;
+isEvent = true;
 
 while true;
     lib.checkFamiliarPower();
@@ -42,6 +43,9 @@ while true;
     //lib.useMaprage();
     while true;
         Attack(VK_LEFT,0,0,90,125)
+        ifb isEvent
+            KBD(VK_Q,0,250)
+        endif
         Attack(VK_RIGHT,170,85,220,125)
         //3minutes elapsed?
         if GETTIME() > reUseSkillTime then break;

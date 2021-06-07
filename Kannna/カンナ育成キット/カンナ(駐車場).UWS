@@ -1,0 +1,255 @@
+
+
+ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+
+sleep(1)
+
+THREAD 並列1 //並列
+THREAD 並列2 //並列
+
+KBD(VK_U,CLICK,200)
+KBD(VK_U,CLICK,50)
+
+
+sleep(1)
+for M = 1 to 3
+KBD(VK_SPACE,click,200)
+next
+sleep(1)
+
+BB = gettime( 180 / 86400 )
+
+
+for J = 1 to 3
+KBD(VK_J,click,200)
+next
+sleep(0.5)
+
+J = gettime( 120 / 86400 )
+
+
+//petに餌の自動回復がついていない場合は「//」を削除
+
+//PET  = gettime( 700 / 86400 )
+//     SLEEP(1)
+//     KBD(VK_F12,CLICK,100)//　えさ
+//     SLEEP(0.5)
+
+WHILE TRUE
+
+//    IFB GETTIME() > PET
+//     SLEEP(1)
+//     KBD(VK_F12,CLICK,100)//　buff
+//     SLEEP(0.5)
+//    PET = gettime( 700 / 86400 )
+//    ENDIF
+
+	  ifb chkimg("狐.BMP")
+	  
+	  SLEEP(1)
+	  kbd(vk_DELETE,0,350)//狐
+	  kbd(vk_DELETE,0,50)
+	  kbd(vk_DELETE,0,50)
+      KBD(VK_D,CLICK,200)//天狗
+      sleep(0.2)
+	  
+      endif
+
+while !chkimg("黄点.bmp",0,0,0,60,180)
+
+kbd(vk_left,1)
+for A = 1 to 3
+kbd(vk_x,0,50)
+kbd(vk_x,0,50)
+kbd(vk_x,0,50)
+next
+
+
+for A = 1 to 3
+kbd(vk_v,0,50)
+kbd(vk_v,0,50)
+next
+
+if chkimg("黄点.bmp",0,0,0,60,180) then break
+
+for A = 1 to 3
+kbd(vk_x,0,50)
+kbd(vk_x,0,50)
+kbd(vk_x,0,50)
+next
+
+
+for A = 1 to 3
+kbd(vk_v,0,50)
+kbd(vk_v,0,50)
+next
+
+if chkimg("黄点.bmp",0,0,0,60,180) then break
+
+for A = 1 to 3
+kbd(vk_x,0,50)
+kbd(vk_x,0,50)
+kbd(vk_x,0,50)
+next
+for A = 1 to 3
+kbd(vk_v,0,50)
+kbd(vk_v,0,50)
+next
+
+wend
+
+kbd(vk_left,2,50)
+
+
+
+
+while chkimg("黄点.bmp",0,0,0,150,180)
+
+kbd(vk_right,1)
+for A = 1 to 3
+kbd(vk_x,0,50)
+kbd(vk_x,0,50)
+kbd(vk_x,0,50)
+next
+
+
+for A = 1 to 3
+kbd(vk_v,0,50)
+kbd(vk_v,0,50)
+next
+
+if !chkimg("黄点.bmp",0,0,0,170,180) then break
+
+for A = 1 to 3
+kbd(vk_x,0,50)
+kbd(vk_x,0,50)
+kbd(vk_x,0,50)
+next
+
+
+for A = 1 to 3
+kbd(vk_v,0,50)
+kbd(vk_v,0,50)
+next
+
+if !chkimg("黄点.bmp",0,0,0,170,180) then break
+
+for A = 1 to 3
+kbd(vk_x,0,50)
+kbd(vk_x,0,50)
+kbd(vk_x,0,50)
+next
+for A = 1 to 3
+kbd(vk_v,0,50)
+kbd(vk_v,0,50)
+next
+
+
+
+wend
+
+kbd(vk_right,2,50)
+
+
+
+
+ifb gettime() > BB
+sleep(1)
+KBD(VK_U,CLICK,200)
+KBD(VK_U,CLICK,50)
+sleep(1)
+for M = 1 to 3
+KBD(VK_SPACE,click,200)
+next
+sleep(1)
+
+BB = gettime( 180 / 86400 )
+endif
+
+
+ifb gettime() > J
+
+for J = 1 to 3
+KBD(VK_J,click,200)
+next
+sleep(0.5)
+
+J = gettime( 120 / 86400 )
+endif
+
+WEND
+
+//////////////////////////////////////////////////
+PROCEDURE 並列1
+
+     SLEEP(10)
+
+  WHILE TRUE
+//--------------------------------------------
+//虹色探知機対策（天狗ランダム周期発動）
+
+    VALUE = RANDOM(3)+1
+    SELECT VALUE
+	 
+	CASE 1
+     KBD(VK_D,CLICK,50)//双天狗
+     KBD(VK_D,CLICK,50)
+     SLEEP(3)
+
+	CASE 2 
+     KBD(VK_D,CLICK,50)
+     KBD(VK_D,CLICK,50)
+     SLEEP(3.5)
+
+	CASE 3	 
+     KBD(VK_D,CLICK,50)
+     KBD(VK_D,CLICK,50)
+     SLEEP(4)
+
+    SELEND
+     
+  WEND//ループの最後
+     
+FEND
+//////////////////////////////////////////////////
+PROCEDURE 並列2
+
+     SLEEP(10)
+
+  WHILE TRUE
+
+     SLEEP(1.5)
+
+        IFB CHKIMG("会話.BMP",0,0,0,800,600)
+            KBD(VK_ESCAPE,CLICK,50)
+        ENDIF
+
+        IFB CHKIMG("赤点.BMP",0,0,0,200,200)
+            SOUND("beep")
+            SLEEP(1)
+        ENDIF
+
+        IFB CHKIMG("確認.BMP",0,0,0,800,600)
+            BTN(LEFT,0,G_IMG_X,G_IMG_Y,100)
+            MMV(400,100,300)
+        ENDIF
+
+        IFB CHKIMG("NPC.BMP",0,0,0,250,200) 
+            sound("beep")
+            EXITEXIT
+        ENDIF
+		
+        IFB CHKIMG("残り時間.BMP",0,250,0,600,300) 
+            sound("beep")
+            SLEEP(1)
+            EXITEXIT
+        ENDIF
+		
+        IFB CHKIMG("ルーン.BMP",0,0,0,200,200) 
+            sound("beep")
+            SLEEP(1)
+        ENDIF
+     
+  WEND//ループの最後
+     
+FEND

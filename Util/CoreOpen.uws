@@ -5,7 +5,7 @@ CALL ../lib/MapleLibrary.uws
 // メモリリークリミット
 limit = GETTIME(150/86400)
 while true
-    print "開始します"
+    //print "開始します"
     BTN(LEFT,CLICK,200,405,500);
     while true
         KBD(VK_6,0,200)
@@ -14,19 +14,6 @@ while true
             break;
         endif
     wend
-    print "待機します"
-    sleep(210); // 3.5分待機 
+    //print "待機します"
+    //sleep(210); // 3.5分待機 
 wend
-// for i = 1 to 100
-//     //KBD(VK_6,0,100)
-// next
-// sleep(3)
-
-//IFB CHKIMG("�ϐg.BMP",0,0,0,800,600)
-//SLEEP(0.5)
-//BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y)
-//BTN(LEFT,CLICK,300,100,1000)
-//KBD(VK_ENTER,0,1000)
-//BTN(LEFT,CLICK,300,100,1000)
-//ENDIF
-

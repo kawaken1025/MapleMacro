@@ -2,7 +2,7 @@ CALL ../lib/MapleLibrary.uws;
 lib.activeWindow();
 
 ret = lib.getWindowSize();
-
+// 解像度1024x768の座標設定
 x1 = 245
 y1 = 225
 x2 = 300
@@ -11,6 +11,8 @@ clx1 = 700
 cly1 = 520
 clx2 = 560
 cly2 = 468
+
+// 解像度800x600の座標設定
 ifb ret = "800x600"
     x1 = 120
 	y1 = 130

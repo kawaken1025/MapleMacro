@@ -1,0 +1,89 @@
+//=========================================
+//
+// comment     : メッセージ定義
+// param       : None
+// return      : None
+//
+// Copy Right (C) 2018 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2018/05/12
+//=========================================
+CLASS Messages
+
+    const RECOVERY_FAMILIAR_POWER = "ファミリアの気力を回復しました。";
+    const DETECTION_RED_POINT     = "プレイヤーを検知しました。";
+    const DETECTION_AREA_BOSS     = "エリアボスが出現しました";
+    const SCRIPT_START            = "スクリプトが起動しました。";
+    const SCRIPT_END              = "異常を検知したためスクリプトが終了しました。";
+    const DISCOVERY_GREEN_POINT   = "緑点を発見しました。スクリプトを終了します。";
+    const STOP_MAPLE_MESSAGE      = "メイプルストーリーが起動していません。";
+    const START_MAPLE_STORY       = "メイプルストーリーを起動します。";
+    const ENCOUNT_GAME_MASTER     = "ゲームマスターを検知しました。";
+    const REPLY_REQUEST           = "「ご返答」を検出しました。";
+    const HEART_SPEAKER           = "ハート拡声器を検出しました。";
+    const NOT_RED_POINT           = "赤点を確認できませんでした。"
+    const NOT_GAMEMASTER          = "ゲームマスターではありませんでした。";
+    const INIT_CHAT               = "チャット欄を初期化します。";
+    const RESPONSE_MESSAGE        = "ゲームマスターにチャットで返答します。";
+    const WAIT_NEXT_RESPONSE      = "次の質問があるか確認します。";
+    const CAVELOAD_AISLEUP_START  = "ケーヴロードの通路(上)スクリプトを開始しました。";
+    const UNDER_THE_CAVE          = "洞窟の通路(下)スクリプトを開始しました。";
+    const SLEEP_START             = "秒待機します。";
+    const USE_PET_FEED            = "ペットの餌を使用しました。";
+    const USE_PROP_MEDICINE       = "財物獲得秘薬を使用しました。";
+    const BACK_TOWN_STOP          = "緑点を検出しました。マクロを停止します。";
+    const START_SCRIPT_NAME       = REPLACE(GET_UWSC_NAME, ".uws", "") + "スクリプトを開始しました。";
+    const START_COLLECT           = "アイテム回収を行います。";
+    const TASK_KILL_MESSAGE       = "タスクキルでメイプルストーリーを終了しました。";
+    const PLAY_CLICKED            = "ランチャーのPLAYボタンをクリックしました。";
+    const LOGIN_SCREEN_REACHING   = "ログイン画面に到達しました。";
+    const DETECTION_RUNE          = "ルーンを発見しました。";
+    const DETECTION_RUNE_NOTICE   = "呪いのルーン通知ポップアップを発見しました。";
+    const CHANNEL_CHANGE_SUCCESS  = "チャンネル変更を行いました。";
+    const CHANNEL_CHANGE_FAIL     = "チャンネル変更に失敗しました。";
+    const CHANNEL_CHANGE_DET_RUNE = "チャンネル変更時にルーンを発見しました。";
+    const ENCOUNT_GUILD_MEM_RES   = "<<Auto-Response>>  {0} : {1}";
+    const GET_SUDEDN_MISSION      = "突発ミッション報酬を受領しました。"
+
+ENDCLASS
+
+CLASS ErrorCode
+
+    const BACK_TOWN             = "E00001";
+    const DETECTION_GAME_MASTER = "E00002";
+    const DETECTION_PLAYER      = "E00003";
+    const NOT_SCRIPT            = "E00099";
+
+ENDCLASS
+
+CLASS LogLevel
+
+    const LOG_INFO   = "[INFO]";
+    const LOG_DEBUG  = "[DEBUG]";
+    const LOG_ERROR  = "[ERROR]";
+    const LOG_WARN   = "[WARN]";
+
+ENDCLASS
+
+CLASS ResponseMessages
+
+    //初期化用
+    const RESPONSE_STR    = "最近大変っすね"
+    const PLAY_GAME_TITLE = 0;
+    const RESPONSE_CALC4_PLUS_6 = 1;
+
+    //メッセージ
+    public resMessages[] = "今日も元気にメイプルストーリーを楽しんでます",_
+                           "疲れたよゲームマスターさん",_
+                           "本日はお日柄もよく・・・",_
+                           "またかよｗｗｗｗｗｗｗｗｗｗｗｗ",_
+                           "加藤純一最強!!!!!!!!!!!!!!!",_
+                           "加藤純一は偉いよなぁ！？",_
+                           "面白い返答が思いつきません";
+
+    public answer[] = "メイプルストーリー",_
+                      "10",_
+                      "TODO";
+
+ENDCLASS
+

@@ -1,9 +1,22 @@
-class LogWriteAPI
-    const START_SS_API_URI = "http://kawaken.sub.jp/maple-assist/api/v1/log/write/?";
+class StartSsAPI
+    const isSend = true;
 
-    function ExecStartSSAPI(base64txt)
-        reqData = "curl <#DBL>" + START_SS_API_URI + "base64txt=" + base64txt + "<#DBL>";
-        POWERSHELL(reqData,true,false)
+    function sendSS()
+        path = GET_CUR_DIR + "\start_img.jpg"
+        SAVEIMG(path, , , , , ,true,50);
+        ExecStartSSAPI(path);
+        DOSCMD("del " + path,TRUE,FALSE)
+        result = 0;
+    fend
+
+    function ExecStartSSAPI(path)
+        ifb !isSend
+            exit;
+        endif
+        macID = (betweenstr(doscmd("ipconfig /all"), "物理アドレス. . . . . . . . . . . . .:", chrb(13)))
+        hostName = (betweenstr(doscmd("ipconfig /all"), "ホスト名. . . . . . . . . . . . . . .:", chrb(13)))
+        prm = path + " " + macID + " " + hostName
+        doscmd("..\bin\send_ss.exe " + prm)
         result = 0;
     fend
 

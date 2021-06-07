@@ -18,7 +18,7 @@ CALL ../MapleManagement/MapleManagement.uws;
 CALL ../MapleAPI/api/v1/LogWriteAPI.uws;
 
 public PIC_PATH             = "../picture/";
-public SCREEN_SHOT_SAVE_DIR = "../picture/screen_shot/";
+public SCREEN_SHOT_SAVE_DIR = "../picture/ScreenShot/";
 public MAPLE_STORY_EXE_DIR  = "\\192.168.10.107\MapleStory - コピー\MapleStory.exe";
 public LOGIN_INFO_INI_PATH  = "C:\Users\sisyo\Documents\LoginInfo.ini";
 public LOGIN_INFO_CSV_PATH  = "C:\LoginInfo.csv"
@@ -27,6 +27,7 @@ public MAPLE_RESULT_NG      = 1;
 public MAPLE_RESULT_OK_BOOL = true;
 public MAPLE_LOGIN_PW = "";
 public SECOND_PW = "";
+public isGM = false;
 
 CLASS lib
 
@@ -48,16 +49,59 @@ fend
 // return  : 0 
 //==========================================
 function checkFamiliarPower()
-    
-    KBD(comKey.FAM_BOOK_KEY,0,300);
-    SLEEP(1);
-    ifb chkimg("../picture/fam40.bmp",0,335,590,360,620);
+
+    // 解像度によりチェック範囲を切替
+    wSize = getWindowSize()
+    imgPath = "../picture/fam40.bmp"
+    ifb wSize = "800x600"
+        x1 = 233
+        y1 = 506
+        x2 = 250
+        y2 = 540
+        imgPath = "../picture/fam40_800x600.bmp"
+    else
+        x1 = 335
+        y1 = 590
+        x2 = 360
+        y2 = 620
+    endif
+
+    MMV(300,100,100)
+    KBD(comKey.FAM_BOOK_KEY,0,500);
+    SLEEP(0.5);
+    ifb chkimg(imgPath,0,x1,y1,x2,y2);
         KBD(comKey.FAM_RECOVERY_KEY,0,10);
         logger.logWriter(LogLevel.LOG_INFO,Messages.RECOVERY_FAMILIAR_POWER);
     endif
-    KBD(comKey.FAM_BOOK_KEY,0,50);
+    KBD(comKey.FAM_BOOK_KEY,0,500);
+    sleep(1);
+    // ファミリア図鑑が開かれているかチェック
+    while true
+        ifb !chkimg("../picture/new_fam_system/ui/fam_book_x.bmp",0,0,0,1366,768);
+            break;
+        else
+            KBD(comKey.FAM_BOOK_KEY,0,500);
+            sleep(0.3);
+        endif
+    wend
 
     result = MAPLE_RESULT_OK;
+fend
+
+function checkFamiliarPower2()
+	mmv(300,100,100)
+	while !chkimg("../picture/ファミリアホーム.bmp",0,0,0,1000,500)
+	KBD(VK_OEM_6,CLICK,500)
+	sleep(0.5)
+	wend
+	sleep(0.5)
+	if !chkimg("../picture/ファミリアゲージ.bmp",1,0,0,1200,700) then KBD(VK_OEM_PLUS,0,500)
+	while chkimg("../picture/ファミリアホーム.bmp",0,0,0,1000,500)
+	KBD(VK_OEM_6,CLICK,500)
+	sleep(0.5)
+	wend
+    result = 0;
+   // result = MAPLE_RESULT_OK;
 fend
 
 //==========================================
@@ -94,8 +138,6 @@ function roundTripTeleportAttack( execKBD_Attack, execKBD_Move, yellowX_S, yello
     KBD(execKBD_Move,2,500);
 
     result = MAPLE_RESULT_OK;
-
-    
 fend
 
 //=========================================
@@ -109,23 +151,27 @@ function urgentCheck()
     ifb  chkimg("../picture/エリボス.bmp",0,0,0,2000,2000)    	
         ifb areaBossEncount = 0 // 初回のみログを出す
             areaBossEncount = 1;
-            logger.logWriter(LogLevel.LOG_WARN, Messages.DETECTION_AREA_BOSS);
+            logger.logWriter(LogLevel.LOG_WARN,"エリアボスを検出しました");
         else
             SOUND(" ");
         endif
     endif
     
     ifb  chkimg("../picture/緑点.bmp",0,0,0,1368,800)
-        logger.logWriter(LogLevel.LOG_WARN, Messages.DISCOVERY_GREEN_POINT);
+        logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
         exitexit;
     endif
     ifb chkimg("../picture/突発.bmp",0,0,0,1368,800);
         for i = 1 to 3
             BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,200);
         next
-        logger.logWriter(LogLevel.LOG_INFO, Messages.GET_SUDEDN_MISSION);
     endif
     if chkimg("../picture/talkEnd.bmp",0,0,0,1368,800) then BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,500);
+
+    ifb chkimg("../picture/guild_member.bmp",0,0,0,300,300)
+        logger.logWriter(LogLevel.LOG_WARN, "ギルドメンバーを検知しました。");
+        alartSound();
+    endif
 
     result = MAPLE_RESULT_OK; 
 fend
@@ -135,7 +181,6 @@ fend
 // param   : None
 // return  : 0
 //=========================================
-public isEvent = false;
 function UrgentCheckCCmode()
 
     ifb chkimg("../picture/runeNotice.bmp",0,0,0,1368,800)
@@ -143,31 +188,16 @@ function UrgentCheckCCmode()
         ChannelChange(true);
     endif
 
-
-    ifb chkimg("../picture/エリボス.bmp",0,0,0,1368,300) and !isEvent
-        sleep(2)
-        ifb !chkimg("../picture/glory_gauge_event.bmp",0,0,0,300,300)        
-            ifb areaBossEncount = 0 // 初回のみログを出す
-                areaBossEncount = 1;
-                logger.logWriter(LogLevel.LOG_WARN, Messages.DETECTION_AREA_BOSS);
-                while true
-                    ret = ChannelChange(true);
-                    ifb ret <> MAPLE_RESULT_NG
-                        break;
-                    endif
-                wend
-            else
-                SOUND(" ");
-                while true
-                    ret = ChannelChange(true);
-                    ifb ret <> MAPLE_RESULT_NG
-                        break;
-                    endif
-                wend
-            endif
+    ifb  chkimg("../picture/エリボス.bmp",0,0,0,2000,2000)    	
+        ifb areaBossEncount = 0 // 初回のみログを出す
+            areaBossEncount = 1;
+            logger.logWriter(LogLevel.LOG_WARN, Messages.DETECTION_AREA_BOSS);
+            ChannelChange(true);
+        else
+            SOUND(" ");
+            ChannelChange(true);
         endif
     endif
-
     
     ifb  chkimg("../picture/緑点.bmp",0,0,0,1368,800)
         logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
@@ -234,17 +264,17 @@ fend
 function getWindowSize()
 
     mapleWindowID = GETID("MapleStory","MapleStoryClass");
-    ww = STATUS(mapleWindowID,ST_CLWIDTH)
-    wh = STATUS(mapleWindowID,ST_CLHEIGHT)
-    size = "1024x768";
-    //ウィンドウが左上(1,1)にあるなら移動させない
-    ifb ww = 800 AND wh = 600
+    size   = "1024x768";
+    // 縦幅と横幅の取得
+    width  = STATUS(mapleWindowID, ST_CLWIDTH)
+    height = STATUS(mapleWindowID, ST_CLHEIGHT)
+    ifb width = 800 AND height = 600
         size = "800x600"; 
-    elseif ww = 1024 AND wh = 768
+    elseif width = 1024 AND height = 768
         size = "1024x768";
-    elseif ww = 1280 AND wh = 720
+    elseif width = 1280 AND height = 720
         size = "1280x720";
-    elseif ww = 1366 AND wh = 768
+    elseif width = 1366 AND height = 768
         size = "1366x768";
     endif
     
@@ -311,14 +341,16 @@ fend
 //           上記条件が全て当てはまった場合返答処理を行う
 //======================================================================================
 function checkGameMaster()
-    ifb chkimg(picPathHelper("replyRequest"),1,0,400,150,780); //「ご返答」がチャット欄にあるか
+    ifb chkimg("../picture/GMresponse/ご返答.bmp",1,55,600,420,780); //「ご返答」がチャット欄にあるか
         logger.logWriter(LogLevel.LOG_WARN,Messages.REPLY_REQUEST);
-        ifb !chkimg(picPathHelper("heart"),0,0,0,150,780);   //ハート拡声器ではないか
-            ifb chkimg(picPathHelper("redpoint2"),0,0,0,400,400);   //ミニMAPに赤点が存在するか
+        ifb !chkimg("../picture/heart.bmp",0,5,600,400,780);   //ハート拡声器ではないか
+            ifb chkimg("../picture/redpoint.bmp",0,10,85,250,250);   //ミニMAPに赤点が存在するか
+                speak("ゲームマスターを検知しました")
                 logger.logWriter(LogLevel.LOG_WARN,Messages.ENCOUNT_GAME_MASTER);
+				//SendEmail()
                 responseToGameMaster(getResponse()); //返答処理
-                screenShot(); //スクリーンショット保存
-                initChat(); //チャット欄初期化
+
+                //initChat(); //チャット欄初期化
             else //赤点がなかった時はチャット欄を初期化
                 logger.logWriter(LogLevel.LOG_INFO,Messages.NOT_RED_POINT);
                 initChat();
@@ -327,14 +359,33 @@ function checkGameMaster()
             initChat(); //GMではない場合チャット欄初期化
             logger.logWriter(LogLevel.LOG_WARN,Messages.HEART_SPEAKER);
         endif
+    else
+        exit;
     endif
 
+
+	TimeOver = GETTIME( 30 / 86400 )
+	while true
+	
+		while true
+			if chkimg("../picture/GMresponse/お手数.bmp",1,55,600,420,780) then break
+			if GETTIME() > TimeOver then break 2
+			if chkimg("../picture/GMresponse/引き続き.bmp",1,55,600,420,780) then break 2
+			sleep(1)
+		wend
+		
+		logger.logWriter(LogLevel.LOG_WARN,Messages.TROUBLE_REQUEST);	
+		waitNextQuestion()
+	
+
+	wend
+
     //追加質問返答チェック
-    // isNextResponse = false;
-    // while !isNextResponse
-    //     logger.logWriter(LogLevel.LOG_WARN,Messages.WAIT_NEXT_RESPONSE);
-    //     isNextResponse = waitNextQuestion();
-    // wend
+    //isNextResponse = false;
+    //while !isNextResponse
+      //  logger.logWriter(LogLevel.LOG_WARN,Messages.WAIT_NEXT_RESPONSE);
+       // isNextResponse = waitNextQuestion();
+    //wend
 
     result = MAPLE_RESULT_OK;
 fend
@@ -346,20 +397,27 @@ fend
 // 備考    : "引き続き、メイプルストーリーをお楽しみください"が表示されるまで質問に返答する。
 //======================================================================================
 function waitNextQuestion()
-    isNextQuestion = true;
-    while isNextQuestion
-        ifb chkimg(lib.picPathHelper("nextQuestion"),1,0,400,150,780);
+
+	TimeOverB = GETTIME( 22 / 86400 )
+   // isNextQuestion = true;
+    while true // isNextQuestion
+	
             //質問内容解析後、返答を行う。
             responseQuestion( checkQuestionAnalysis() );
-        endif
-        sleep(0.5);
-        ifb chkimg(lib.picPathHelper("pleaseEnjoy"),1,0,400,150,780);
-            isNextQuestion = false; // 引き続き、メイプルストーリーをお楽しみください。
-        endif
+
+        sleep(1);
+
+	
+        if chkimg("../picture/GMresponse/引き続き.bmp",1,55,600,420,780) then break
+		if GETTIME() > TimeOverB then break 
+            //isNextQuestion = false; // 引き続き、メイプルストーリーをお楽しみください。
+
+			
         sleep(1);
     wend
 
     result = MAPLE_RESULT_OK_BOOL;
+	
 fend
 
 //======================================================================================
@@ -371,12 +429,99 @@ fend
 function checkQuestionAnalysis()
     questionNo = 0;
     //念のため5回ループして質問内容を確認
-    for i = 1 to 5
-       //if chkimg(lib.picPathHelper("nowPlayGameTitle"),1,0,400,150,780) then questionNo = 1;
-        //質問内容が追加されたらここに追加。questionNoをインクリメントしてください。
+    for i = 1 to 2
+       if chkimg("../picture/GMresponse/現在.bmp",1,55,600,420,780) and _
+		  chkimg("../picture/GMresponse/タイトル.bmp",1,55,600,420,780) and _
+		  chkimg("../picture/GMresponse/カタカナ.bmp",1,55,600,420,780) then questionNo = 1;
+       if chkimg("../picture/GMresponse/現在.bmp",1,55,600,420,780) and _
+	      chkimg("../picture/GMresponse/タイトル.bmp",1,55,600,420,780) and _
+	      chkimg("../picture/GMresponse/ひらがな.bmp",1,55,600,420,780) then questionNo = 2;
+	   if chkimg("../picture/GMresponse/現在.bmp",1,55,600,420,780) and _
+	      chkimg("../picture/GMresponse/運営会社.bmp",1,55,600,420,780) and _
+	      chkimg("../picture/GMresponse/カタカナ.bmp",1,55,600,420,780) then questionNo = 3;
+	   if chkimg("../picture/GMresponse/現在.bmp",1,55,600,420,780) and _
+	      chkimg("../picture/GMresponse/運営会社.bmp",1,55,600,420,780) and _
+	      chkimg("../picture/GMresponse/ひらがな.bmp",1,55,600,420,780) then questionNo = 4;
+	   if chkimg("../picture/GMresponse/現在.bmp",1,55,600,420,780) and _
+	      chkimg("../picture/GMresponse/サーバー.bmp",1,55,600,420,780) and _
+	      chkimg("../picture/GMresponse/カタカナ.bmp",1,55,600,420,780) then questionNo = 5;
+	   if chkimg("../picture/GMresponse/現在.bmp",1,55,600,420,780) and _
+	      chkimg("../picture/GMresponse/サーバー.bmp",1,55,600,420,780) and _
+	      chkimg("../picture/GMresponse/ひらがな.bmp",1,55,600,420,780) then questionNo = 6;
+	   ifB chkimg("../picture/GMresponse/午前午後.bmp",1,55,600,420,780) and _
+			chkimg("../picture/GMresponse/漢字.bmp",1,55,600,420,780)
+	        gettime() 
+			ifb G_TIME_HH < 12 
+			    questionNo = 7;	 
+			else
+			    questionNo = 8;
+			endif
+       endif
+	   if chkimg("../picture/GMresponse/今日.bmp",1,55,600,420,780) and _
+	   chkimg("../picture/GMresponse/何曜日.bmp",1,55,600,420,780) then questionNo = 9;	   
+	   if chkimg("../picture/GMresponse/明日.bmp",1,55,600,420,780) and _
+	   chkimg("../picture/GMresponse/何曜日.bmp",1,55,600,420,780) then questionNo = 10;	  
+	   if chkimg("../picture/GMresponse/キャラ.bmp",1,55,600,420,780) and _
+	   chkimg("../picture/GMresponse/最初.bmp",1,55,600,420,780) then questionNo = 11;	   
+	   if chkimg("../picture/GMresponse/キャラ.bmp",1,55,600,420,780) and _
+	   chkimg("../picture/GMresponse/最後.bmp",1,55,600,420,780) then questionNo = 12;	  
+	   if chkimg("../picture/GMresponse/キャラ.bmp",1,55,600,420,780) and _
+	   chkimg("../picture/GMresponse/合計.bmp",1,55,600,420,780) then questionNo = 13;	 	
+	   if chkimg("../picture/GMresponse/今日.bmp",1,55,600,420,780) and _
+	   chkimg("../picture/GMresponse/何月何日.bmp",1,55,600,420,780) then questionNo = 14;	
+	   if chkimg("../picture/GMresponse/明日.bmp",1,55,600,420,780) and _
+	   chkimg("../picture/GMresponse/何月何日.bmp",1,55,600,420,780) then questionNo = 15;
+	   if chkimg("../picture/GMresponse/昨日.bmp",1,55,600,420,780) and _
+	   chkimg("../picture/GMresponse/何曜日.bmp",1,55,600,420,780) then questionNo = 16;	
+	   if chkimg("../picture/GMresponse/昨日.bmp",1,55,600,420,780) and _
+	   chkimg("../picture/GMresponse/何月何日.bmp",1,55,600,420,780) then questionNo = 17;	
+	   if chkimg("../picture/GMresponse/今月.bmp",1,55,600,420,780) and _
+	   chkimg("../picture/GMresponse/何月.bmp",1,55,600,420,780) then questionNo = 18;		
+	   if chkimg("../picture/GMresponse/今日.bmp",1,55,600,420,780) and _
+	   chkimg("../picture/GMresponse/何日.bmp",1,55,600,420,780) then questionNo = 19;		   
+	   if chkimg("../picture/GMresponse/昨日.bmp",1,55,600,420,780) and _
+	   chkimg("../picture/GMresponse/何日.bmp",1,55,600,420,780) then questionNo = 20;		
+	   if chkimg("../picture/GMresponse/明日.bmp",1,55,600,420,780) and _
+	   chkimg("../picture/GMresponse/何日.bmp",1,55,600,420,780) then questionNo = 21;			   
+	   if chkimg("../picture/GMresponse/先月.bmp",1,55,600,420,780) or _
+	   chkimg("../picture/GMresponse/昨月.bmp",1,55,600,420,780) and _
+	   chkimg("../picture/GMresponse/何月.bmp",1,55,600,420,780) then questionNo = 22;
+	   if chkimg("../picture/GMresponse/来月.bmp",1,55,600,420,780) and _
+	   chkimg("../picture/GMresponse/何月.bmp",1,55,600,420,780) then questionNo = 23;	
+	   ifB chkimg("../picture/GMresponse/午前午後.bmp",1,55,600,420,780) and _
+			chkimg("../picture/GMresponse/ひらがな.bmp",1,55,600,420,780)
+	   gettime() 
+			ifb G_TIME_HH < 12 
+			questionNo = 24;	 
+			else
+			questionNo = 25;
+			endif
+       endif	
+	   ifB chkimg("../picture/GMresponse/午前午後.bmp",1,55,600,420,780) and _
+			chkimg("../picture/GMresponse/カタカナ.bmp",1,55,600,420,780)
+	   gettime() 
+			ifb G_TIME_HH < 12 
+			questionNo = 26;	 
+			else
+			questionNo = 27;
+			endif
+       endif	
+	   if chkimg("../picture/GMresponse/キャラ.bmp",1,55,600,420,780) and _
+	   chkimg("../picture/GMresponse/職業.bmp",1,55,600,420,780) then questionNo = 28;	
+	   if chkimg("../picture/GMresponse/キャラ.bmp",1,55,600,420,780) and _
+	   chkimg("../picture/GMresponse/レベル.bmp",1,55,600,420,780) then questionNo = 29;
+
+       if chkimg("../picture/GMresponse/キャラ.bmp",1,55,600,420,780) then questionNo = 30;
+	   
+       if chkimg("../picture/GMresponse/いくつか.bmp",1,55,600,420,780) then questionNo = 99; 
+ //質問内容が追加されたらここに追加。questionNoをインクリメントしてください。
     next
+    ifb questionNo<> 0 
+	   isGM = true;
+	endif
     result = questionNo;
 fend
+
 
 //======================================================================================
 // comment : 質問に合わせて返答内容を変えて返答する
@@ -387,14 +532,262 @@ fend
 //======================================================================================
 function responseQuestion(questionNo)
     select questionNo
-        // 現在プレイされているゲームのタイトルをカタカナでお答えください。 に返答
         case 1
-            responseToGameMaster( ResponseMessages.answer[ResponseMessages.PLAY_GAME_TITLE] );
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseA] );
+	    case 2
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseB] );
+	    case 3
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseC] );	
+        case 4
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseD] );
+	    case 5
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseE] );
+	    case 6
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseF] );
+	    case 7
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseG] );
+	    case 8
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseH] );		
+	    case 9
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseI] );	
+	    case 10
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseJ] );	
+	    case 11
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseK] );	
+	    case 12
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseL] );		
+	    case 13
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseM] );	
+	    case 14
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseN] );	
+	    case 15
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseO] );	
+	    case 16
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseP] );
+	    case 17
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseQ] );	
+	    case 18
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseR] );		
+	    case 19
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseS] );	
+	    case 20
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseT] );
+	    case 21
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseU] );			   
+	    case 22
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseV] );
+	    case 23
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseW] );
+	    case 24
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseX] );
+	    case 25
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseY] );
+	    case 26
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseZ] );
+	    case 27
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseAA] );	
+	    case 28
+            characterLevel = getCharacterLevel()
+            responseToGameMaster( characterLevel );	
+	    case 29
+            responseToGameMaster( ResponseMessages.answer[ResponseMessages.Auto_ResponseAC] );
+        case 30
+            responseToGameMaster( getNowChannel() );
+        case 99
+            responseToGameMaster( GameMasterQuestionCalc() );		
         default
+		
             //TODO
     selend 
+	
     result = MAPLE_RESULT_OK;
 fend 
+
+// GMの計算問題を計算する
+function GameMasterQuestionCalc()
+        
+    firstNumber   = 0
+    firstNumberX  = 0
+    secondNumber  = 0
+    secondNumberX = 0
+
+    BTN(LEFT,CLICK,300,150,200);
+	
+	chkimg("../picture/GMresponse/いくつか.bmp",1,55,600,420,780)
+	Xa = g_img_x
+	Ya = g_img_y
+	
+    ifb CHKIMG("../picture/GMresponse/4.bmp",1,Xa-52,Ya-3,Xa-13,Ya+12)
+        firstNumber = 4
+        firstNumberX = G_IMG_X
+        firstNumberY = G_IMG_Y
+    endif
+
+    ifb firstNumber = 0
+        ifb CHKIMG("../picture/GMresponse/8.bmp",1,Xa-52,Ya-3,Xa-13,Ya+12)
+            firstNumber = 8
+            firstNumberX = G_IMG_X
+            firstNumberY = G_IMG_Y
+        
+        endif
+    endif
+
+    ifb firstNumber = 0
+        ifb CHKIMG("../picture/GMresponse/9.bmp",1,Xa-52,Ya-3,Xa-13,Ya+12)
+            firstNumber = 9
+            firstNumberX = G_IMG_X
+            firstNumberY = G_IMG_Y
+        
+        endif
+    endif
+
+    ifb firstNumber = 0
+        ifb CHKIMG("../picture/GMresponse/1.bmp",1,Xa-52,Ya-3,Xa-13,Ya+12)
+            firstNumber = 1
+            firstNumberX = G_IMG_X
+            firstNumberY = G_IMG_Y
+        endif
+    endif
+
+    ifb firstNumber = 0
+        ifb CHKIMG("../picture/GMresponse/2.bmp",1,Xa-52,Ya-3,Xa-13,Ya+12)
+            firstNumber = 2
+            firstNumberX = G_IMG_X
+            firstNumberY = G_IMG_Y
+        
+        endif
+    endif
+
+    ifb firstNumber = 0
+        ifb CHKIMG("../picture/GMresponse/3.bmp",1,Xa-52,Ya-3,Xa-13,Ya+12)
+            firstNumber = 3
+            firstNumberX = G_IMG_X
+            firstNumberY = G_IMG_Y
+        
+        endif
+    endif
+
+    ifb firstNumber = 0
+        ifb CHKIMG("../picture/GMresponse/5.bmp",1,Xa-52,Ya-3,Xa-13,Ya+12)
+            firstNumber = 5
+            firstNumberX = G_IMG_X
+            firstNumberY = G_IMG_Y
+        
+        endif
+    endif
+
+    ifb firstNumber = 0
+        ifb CHKIMG("../picture/GMresponse/6.bmp",1,Xa-52,Ya-3,Xa-13,Ya+12)
+            firstNumber = 6
+            firstNumberX = G_IMG_X
+            firstNumberY = G_IMG_Y
+        endif
+    endif
+
+    ifb firstNumber = 0
+        ifb CHKIMG("../picture/GMresponse/7.bmp",1,Xa-52,Ya-3,Xa-13,Ya+12)
+            firstNumber = 7
+            firstNumberX = G_IMG_X
+            firstNumberY = G_IMG_Y
+        endif
+    endif
+
+print firstNumber
+print firstNumberX
+print firstNumberY
+
+
+    ifb CHKIMG("../picture/GMresponse/4.bmp",1,firstNumberX+6,Ya-3,Xa-13,Ya+12)
+        secondNumber = 4
+        secondNumberX = G_IMG_X
+        secondNumberY = G_IMG_Y
+    endif
+
+    ifb secondNumber = 0
+        ifb CHKIMG("../picture/GMresponse/8.bmp",1,firstNumberX+6,Ya-3,Xa-13,Ya+12)
+            secondNumber = 8
+            secondNumberX = G_IMG_X
+            secondNumberY = G_IMG_Y
+        endif
+    endif
+
+    ifb secondNumber = 0
+        ifb CHKIMG("../picture/GMresponse/9.bmp",1,firstNumberX+6,Ya-3,Xa-13,Ya+12)
+            secondNumber = 9
+            secondNumberX = G_IMG_X
+            secondNumberY = G_IMG_Y
+        endif
+    endif
+
+    ifb secondNumber = 0
+        ifb CHKIMG("../picture/GMresponse/1.bmp",1,firstNumberX+6,Ya-3,Xa-13,Ya+12)
+            secondNumber = 1
+            secondNumberX = G_IMG_X
+        endif
+    endif
+
+    ifb secondNumber = 0
+        ifb CHKIMG("../picture/GMresponse/2.bmp",1,firstNumberX+6,Ya-3,Xa-13,Ya+12)
+            secondNumber = 2
+            secondNumberX = G_IMG_X
+        endif
+    endif
+
+    ifb secondNumber = 0
+        ifb CHKIMG("../picture/GMresponse/3.bmp",1,firstNumberX+6,Ya-3,Xa-13,Ya+12)
+            secondNumber = 3
+            secondNumberX = G_IMG_X
+        endif
+    endif
+
+    ifb secondNumber = 0
+        ifb CHKIMG("../picture/GMresponse/5.bmp",1,firstNumberX+6,Ya-3,Xa-13,Ya+12)
+            secondNumber = 5
+            secondNumberX = G_IMG_X
+        endif
+    endif
+
+    ifb secondNumber = 0
+        ifb CHKIMG("../picture/GMresponse/6.bmp",1,firstNumberX+6,Ya-3,Xa-13,Ya+12)
+            secondNumber = 6
+            secondNumberX = G_IMG_X
+        endif
+    endif
+
+    ifb secondNumber = 0
+        ifb CHKIMG("../picture/GMresponse/7.bmp",1,firstNumberX+6,Ya-3,Xa-13,Ya+12)
+            secondNumber = 7
+            secondNumberX = G_IMG_X
+        endif
+    endif
+	
+print secondNumber
+print G_IMG_X
+print G_IMG_Y
+
+    result = firstNumber + secondNumber
+fend
+
+function getNowChannel()
+
+    // ch変更ショートカットキー
+    KBD(VK_F7,0,500)
+    
+    ch = 1;
+    // pictureフォルダの中にchannelフォルダ作ってその中に画像入れとく
+    // Ex:画像名は 1chであれば 1.bmp 16chだったら　16.bmp
+    GETDIR("../picture/channel/", "*.bmp", false, 0);
+    for i = ch to length(GETDIR_FILES)
+        ifb chkimg("../picture/channel/" + ch + ".bmp")
+            break;
+        else
+            ch = ch + 1
+        endif
+    next
+    KBD(VK_ESC,0,500)
+    // ここで返したいメッセージ設定してもいいかな
+    result = ch
+fend
 
 //======================================================================================
 // comment : ゲームマスターからの返答要求に使用
@@ -422,17 +815,66 @@ fend
 //=========================================
 function responseToGameMaster(responseStr)
 
-    logger.logWriter(LogLevel.LOG_WARN,Messages.RESPONSE_MESSAGE);
-    KBD(VK_1,0,1000);
+    logger.logWriter(LogLevel.LOG_WARN, Messages.RESPONSE_MESSAGE);
+    logger.logWriter(LogLevel.LOG_INFO, "返答MSG:" + responseStr);
+    KBD(VK_1,0,500);
     SendStr(0,responseStr,1,True);
-    KBD(VK_CTRL,1,1500);
-    KBD(VK_V,0,1500);
-    KBD(VK_CTRL,2,1000);
-    KBD(VK_ENTER,0,1000);
-    BTN(LEFT,CLICK,400,350,600);
-    BTN(LEFT,CLICK,400,350,600);
+    KBD(VK_CTRL,1,600);
+    KBD(VK_V,0,600);
+    KBD(VK_CTRL,2,100);
+    KBD(VK_ENTER,0,500);
+    BTN(LEFT,CLICK,300,150,200);
+    BTN(LEFT,CLICK,300,150,200);
+    ifb isGM
+       initChat();
+       isGM = false;
+    endif
     result = MAPLE_RESULT_OK; 
 fend
+
+//=========================================
+// comment : Gメール送信用
+//                  
+// param   : None
+// return  : 
+//=========================================
+function SendEmail()
+
+id = GETID("MapleStory","MapleStoryClass")
+SAVEIMG("screenshot", id,0,600,410,200, , 70) 
+
+//添付画像ファイルまでのディレクトリ(メール添付にはフルパスが必要)
+tempfile = GET_CUR_DIR + "\screenshot.jpg" //GET_CUR_DIR 実行ファイルがあるディレクトリ
+
+//CDOメール送信部分(Gmailを使っています)
+Dim objEmail = CreateOleObj("CDO.Message")
+
+//メールの内容
+objEmail.From = "xxxxxx" //送信元メールアドレス
+objEmail.To = "xxxxxx"　　//送信先メールアドレス
+objEmail.Subject = "GMきたんご" //件名
+objEmail.Textbody = "ノート1"　//本文
+objEmail.AddAttachment (tempfile) //添付ファイルはフルパスを指定する
+
+Schemas = "http://schemas.microsoft.com/cdo/configuration/"
+objEmail.Configuration.Fields.Item(Schemas + "sendusing") = 2
+objEmail.Configuration.Fields.Item(Schemas + "smtpserver") = "smtp.googlemail.com"
+
+objEmail.Configuration.Fields.Item(Schemas + "smtpserverport") = 465 //ポート番号
+objEmail.Configuration.Fields.Item(Schemas + "smtpauthenticate") = True
+objEmail.Configuration.Fields.Item(Schemas + "sendusername") = "xxxxxx" //ログインID
+objEmail.Configuration.Fields.Item(Schemas + "sendpassword") = "xxxxxx" //パスワード
+objEmail.Configuration.Fields.Item(Schemas + "smtpusessl") = True
+
+objEmail.Configuration.Fields.Update
+
+objEmail.Send
+
+    result = 0;
+
+Fend
+
+
 
 //=========================================
 // comment : ♡拡声器が見えたらチャットを初期化する
@@ -447,12 +889,12 @@ function initChat()
 
     KBD(VK_1,0,1000)
     SendStr(0,CHAT_INIT_CMD,1,True)
-    KBD(VK_CTRL,1,1500)
-    KBD(VK_V,0,1500)
-    KBD(VK_CTRL,2,1000)
-    KBD(VK_ENTER,0,1000)
-    BTN(LEFT,CLICK,400,350,600)
-    BTN(LEFT,CLICK,400,350,600)
+    KBD(VK_CTRL,1,1000)
+    KBD(VK_V,0,1000)
+    KBD(VK_CTRL,2,100)
+    KBD(VK_ENTER,0,500)
+    BTN(LEFT,CLICK,300,150,200);
+    BTN(LEFT,CLICK,300,150,200);
     result = MAPLE_RESULT_OK; 
 fend
 
@@ -464,8 +906,6 @@ fend
 //
 //=========================================
 procedure parallelProgram()
-    isEnc = false;
-    wzEditValue = 0 
     while TRUE
         ifb chkimg("../picture/石化2.bmp",0,0,0,1368,800)
             for i = 1 to 20
@@ -476,26 +916,15 @@ procedure parallelProgram()
 
         if chkimg("../picture/加護.bmp",0,0,0,1368,800) then KBD(VK_F4,0,1000)
 
-        ifb wzEditValue <> 2
-            ifb chkimg("../picture/赤点.bmp",0,0,0,200,200)
-                logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
-                lib.alartSound();  
-                wzEditValue = 1;
-            endif   
-        endif
+        ifb chkimg("../picture/赤点.bmp",0,0,0,1368,800)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+            alartSound();  
+        endif   
 
-        ifb wzEditValue <> 1 
-            ifb chkimg("../picture/redpoint2.bmp",0,0,0,200,200)
-                ifb !isEnc;
-                    isEnc = true;
-                    logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
-                endif
-                lib.alartSound();
-                wzEditValue = 2;
-            else
-                isEnc = false;
-            endif
-        endif     
+        ifb chkimg("../picture/redpoint2.bmp",0,0,0,200,200)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+            alartSound();
+        endif   
 
         ifb chkimg("../picture/緑点.bmp",0,0,0,1368,800)
             logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
@@ -676,7 +1105,10 @@ function checkStartingMapleStory()
     
     ifb windowID < 0;
         logger.logWriter(LogLevel.LOG_ERROR,Messages.STOP_MAPLE_MESSAGE);
-        exitexit;
+        while true
+            speak("メイプルストーリーが起動していません")
+            sleep(3);
+        wend
     endif
     result = MAPLE_RESULT_OK;
 fend
@@ -730,29 +1162,6 @@ fend
 function screenShot()
     //現在日時を名前にして保存する
     SAVEIMG(SCREEN_SHOT_SAVE_DIR + getNowDateTime(),0);
-    result = MAPLE_RESULT_OK;
-fend
-
-//=========================================
-// comment : スクリーンショット保存(jpg)
-// param   : None
-// return  : 0 
-//=========================================
-const API_SS_NAME = "__start__.jpg";
-public ApiBase64Txt = "";
-function JpgScreenShot()
-    //現在日時を名前にして保存する
-    SAVEIMG(API_SS_NAME, 0, null, null, null, null , false, 20);
-    result = MAPLE_RESULT_OK;
-fend
-
-function DoStartSS()
-    JpgScreenShot();
-    result = MAPLE_RESULT_OK;
-fend
-
-function ConvertBase64()
-    DOSCMD("",TRUE,FALSE)
     result = MAPLE_RESULT_OK;
 fend
 
@@ -970,12 +1379,12 @@ function ChannelChange(isRuneCheck)
             ifb chkimg(lib.picPathHelper("runePoint"),0,0,0,250,300) _
               or _
             chkimg(lib.picPathHelper("RuneNotice"),0,0,0,1366,768)
-                logger.logWriter(LogLevel.LOG_WARN, Messages.CHANNEL_CHANGE_DET_RUNE);
+                logger.logWriter(LogLevel.LOG_WARN,Messages.CHANNEL_CHANGE_DET_RUNE);
             elseif chkimg(lib.picPathHelper("guild_member"),0,0,0,250,300)
                 logger.logWriter(LogLevel.LOG_WARN, "ギルドメンバーを検知しました。");
                 continue;
-            elseif chkimg(lib.picPathHelper("redpoint2"),0,0,0,250,300)
-                logger.logWriter(LogLevel.LOG_WARN, "CC時に赤点を検知しました。");
+            elseif chkimg(lib.picPathHelper("friend_point"),0,0,0,250,300)
+                logger.logWriter(LogLevel.LOG_WARN, "フレンドを検知しました。");
                 continue;
             else
                 break;
@@ -985,7 +1394,7 @@ function ChannelChange(isRuneCheck)
         endif
     wend
 
-    result = ret;
+    result = 0;
 
 fend
 
@@ -998,26 +1407,29 @@ function CCexec()
 
     ret = MAPLE_RESULT_OK;
 	// 初期化
-	BTN(LEFT,CLICK,200,405,500);
-	BTN(LEFT,CLICK,200,405,200);
-	KBD(VK_ESC,0,500);
-	// ポップアップチェック
-	SLEEP(0.5)
-	ifb chkimg("../picture/ConfirmButton.bmp",0,0,0,1368,800);
-        BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,1000);
-    endif
-	KBD(VK_ENTER,0,1000);
-	KBD(VK_LEFT,0,800);
-	KBD(VK_ENTER,0,2500);
-    // 今はできませんチェック
-	SLEEP(1)
-	ifb chkimg("../picture/ConfirmButton.bmp",0,0,0,1368,800);
-        logger.logWriter(LogLevel.LOG_WARN,Messages.CHANNEL_CHANGE_FAIL);
-        BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,1000);
-        ret = MAPLE_RESULT_NG;
-    else
-        logger.logWriter(LogLevel.LOG_WARN,Messages.CHANNEL_CHANGE_SUCCESS);
-    endif
+    while true
+        BTN(LEFT,CLICK,200,405,500);
+        BTN(LEFT,CLICK,200,405,200);
+        KBD(VK_ESC,0,500);
+        // ポップアップチェック
+        SLEEP(0.5)
+        ifb chkimg("../picture/ConfirmButton.bmp",0,0,0,1368,800);
+            BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,1000);
+        endif
+        KBD(VK_ENTER,0,1000);
+        KBD(VK_LEFT,0,800);
+        KBD(VK_ENTER,0,2500);
+        // 今はできませんチェック
+        SLEEP(1)
+        ifb chkimg("../picture/ConfirmButton.bmp",0,0,0,1368,800);
+            logger.logWriter(LogLevel.LOG_WARN,Messages.CHANNEL_CHANGE_FAIL);
+            BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,1000);
+            ret = MAPLE_RESULT_NG;
+        else
+            logger.logWriter(LogLevel.LOG_WARN,Messages.CHANNEL_CHANGE_SUCCESS);
+            break;
+        endif
+    wend
 
     result = ret;
 fend
@@ -1055,6 +1467,15 @@ function OpenRune()
     result = 0;
 fend
 
+function OpenRuneA()
+
+    moveRunePointA();
+    CALL ChkimgRune.uws;
+    
+    result = 0;
+fend
+
+
 
 //=========================================
 // comment : ルーンの矢印を解析し入力する
@@ -1077,12 +1498,13 @@ fend
 // param   : None
 // return  : 0
 //=========================================
-function moveRunePoint()
+
+function moveRunePoint()  // FJ用
 
     // ルーンの位置を取得
     runePointX = 0;
     runePointY = 0;
-    ifb chkimg(lib.picPathHelper("runePoint"),0,0,0,250,300);
+    ifb chkimg(lib.picPathHelper("runePoint"),0,0,0,250,200);
         runePointX = G_IMG_X;
         runePointY = G_IMG_Y;
     else
@@ -1093,7 +1515,7 @@ function moveRunePoint()
     // 黄点を取得
     yellowPointX = 0;
     yellowPointY = 0;
-    ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,350,350);
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,250,200);
         yellowPointX = G_IMG_X;
         yellowPointY = G_IMG_Y;
     else
@@ -1107,11 +1529,27 @@ function moveRunePoint()
         moveKey = VK_LEFT
     endif
     
-    moveErrTime = GETTIME(30/86400)
+    moveErrTime = GETTIME(5/86400)
     // ルーンの横位置まで移動
     KBD(moveKey,1,100);
+
     while true
-        ifb chkimg(lib.picPathHelper("yellowPoint"),0, runePointX-5, 0, runePointX+5, 300)
+
+		while true
+        	ifb chkimg(lib.picPathHelper("yellowPoint"),0, runePointX-45, 0, runePointX+45, 170)
+        	    break;
+       			 else
+       		     ifb GETTIME() > moveErrTime
+         	       break;
+       		     endif
+      		endif
+        KBD(VK_SPACE,0,100)
+		//kbd(vk_c,0,100)
+		//kbd(vk_s,0,50)
+		wend
+
+
+        ifb chkimg(lib.picPathHelper("yellowPoint"),0, runePointX-5, 0, runePointX+5, 170)
             break;
         else
             ifb GETTIME() > moveErrTime
@@ -1123,6 +1561,70 @@ function moveRunePoint()
     
     result = 0;
 fend
+
+
+function moveRunePointA()  // テレポ用
+
+    // ルーンの位置を取得
+    runePointX = 0;
+    runePointY = 0;
+    ifb chkimg(lib.picPathHelper("runePoint"),0,0,0,250,200);
+        runePointX = G_IMG_X;
+        runePointY = G_IMG_Y;
+    else
+        print "ルーンの位置が取得できません";
+        exit;
+    endif
+    
+    // 黄点を取得
+    yellowPointX = 0;
+    yellowPointY = 0;
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,250,200);
+        yellowPointX = G_IMG_X;
+        yellowPointY = G_IMG_Y;
+    else
+        print "黄点の位置が取得できません";
+        result = 2;
+    endif
+        
+    // 移動する方向を決定
+    moveKey = VK_RIGHT
+    ifb yellowPointX > runePointX
+        moveKey = VK_LEFT
+    endif
+    
+    moveErrTime = GETTIME(6/86400)
+    // ルーンの横位置まで移動
+    KBD(moveKey,1,100);
+
+    while true
+
+		while true
+        	ifb chkimg(lib.picPathHelper("yellowPoint"),0, runePointX-25, 0, runePointX+25, 160)
+        	    break;
+       			 else
+       		     ifb GETTIME() > moveErrTime
+         	       break;
+       		     endif
+      		endif  
+		kbd(VK_SPACE,0,100)
+		wend
+
+
+        ifb chkimg(lib.picPathHelper("yellowPoint"),0, runePointX-5, 0, runePointX+5, 160)
+            break;
+        else
+            ifb GETTIME() > moveErrTime
+                break;
+            endif
+        endif  
+    wend
+    KBD(moveKey,2,50)
+    
+    result = 0;
+fend
+
+
 
 //=========================================
 // comment : ルーンの位置まで移動する
@@ -1152,17 +1654,10 @@ function moveRunePointXY(x,y)
         moveKey = VK_LEFT
     endif
     
-    moveErrTime = GETTIME(30/86400)
     // ルーンの横位置まで移動
-    KBD(moveKey,1,100);
+    KBD(moveKey,1,500);
     while true
-        ifb chkimg(lib.picPathHelper("yellowPoint"),0, runePointX-5, 0, runePointX+5, 300)
-            break;
-        else
-            ifb GETTIME() > moveErrTime
-                break;
-            endif
-        endif  
+        if chkimg(lib.picPathHelper("yellowPoint"),0, runePointX-5, 0, runePointX+5, 300) then break;  
     wend
     KBD(moveKey,2,10)
     
@@ -1209,6 +1704,21 @@ function SetCoordinate(var x1, var y1, var x2, var y2)
     y2 = G_IMG_Y + 5;
     result = 0;
 fend
+
+//=========================================
+// comment : テキストファイルに記載された
+//　　　　　　キャラクターレベルを取得する
+// return  : キャラクターレベル
+//=========================================
+function getCharacterLevel()
+    fileName = "level"
+    Dim wsh = CreateOLEObj("WScript.Shell")
+    Dim file = wsh.SpecialFolders("desktop") + "\" + fileName + ".txt"
+    id = FOPEN(file)
+    level = FGET(id, 1)
+    result = level
+fend
+
 
 
 //=========================================
@@ -1259,5 +1769,17 @@ function ExecPowerShell(cmd)
     result = MAPLE_RESULT_OK;
 fend
 
+function ExpandQuickSlot()
+    ws = getWindowSize()
+    // ウィンドウサイズが800x600以外の時はクイックスロットを広げる
+    ifb ws <> "800x600"
+        // ポイントショップボタンがあれば広がってないと判定しクイックスロットを広げる
+        ifb chkimg(lib.picPathHelper("point_shop_icon"),0, 0, 0, 1366, 800)
+            KBD(comKey.QUICK_SLOT_KEY,0,500);
+        endif
+    endif
+
+    result = MAPLE_RESULT_OK;
+fend
 
 ENDCLASS

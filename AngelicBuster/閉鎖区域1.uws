@@ -1,0 +1,84 @@
+
+CALL ../MapleAPI/MapleAPI.uws;
+CALL ../lib/MapleLibrary.uws;
+CALL AngelicBusterUtil.uws;
+
+lib.activeWindow();
+thread lib.parallelProgram();
+
+skillTime = GETTIME( 140 / 86400 )
+
+KBD(VK_OEM_COMMA,CLICK,500)
+SLEEP(3)
+KBD(VK_OEM_PERIOD,CLICK,500)
+SLEEP(3.3)
+
+while true
+
+    KBD(VK_LEFT,1,500);
+    while true
+        attack();
+        if chkimg(lib.picPathHelper("yellowPoint"),0,0,0,120,165) then break;
+        lib.urgentCheck();
+        //lib.checkStartingMapleStory();
+    wend
+    KBD(VK_LEFT,2,200);
+    upStage();
+
+    KBD(VK_RIGHT,1,500)
+    while true
+        attack();
+        if chkimg(lib.picPathHelper("yellowPoint"),0,255,100,280,160) then break;
+        lib.urgentCheck();
+        //lib.checkGameMaster();
+       // RedPointStop();
+    wend
+    KBD(VK_RIGHT,2,200);
+    //AButil.ABskillCheck();
+
+    ifb skillTime < GETTIME()
+        KBD(VK_OEM_COMMA,CLICK,500)
+        SLEEP(3)
+        KBD(VK_OEM_PERIOD,CLICK,500)
+        SLEEP(3.3)
+        skillTime = GETTIME( 140 / 86400 )
+    endif
+
+wend
+
+function attack()
+    
+    for i = 1 to 3
+        KBD(VK_C,0,125);
+    next
+    sleep(0.1)
+    for i = 1 to 3
+        KBD(key.PRIMAL_LOWER,0,100+random(30));
+    next
+    thread AButil.ABskillCheck();
+    thread skill.pSkill();
+    result = 0;
+fend
+
+function upStage()
+
+    KBD(VK_RIGHT,1,100)
+    while true
+        if !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,85,160) then break;
+    wend
+    KBD(VK_RIGHT,2)
+    KBD(key.ROPE_CONNECT,0,700)
+    sleep(1.3)
+    result = 0;
+fend
+
+function downStage()
+
+    KBD(VK_DOWN,1,500)
+    KBD(VK_C,0,100)
+    KBD(VK_C,0,100)
+    KBD(VK_C,0,100)
+    KBD(VK_DOWN,2,1500)
+      
+    result = 0;
+fend

@@ -1,0 +1,412 @@
+CALL KeySetting.uws
+
+SLEEP(0.5)
+
+//THREAD 並列1 //並列
+THREAD 並列2 //並列
+thread lib.parallelProgram();
+
+//ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+
+//=========================================
+// init
+//=========================================
+// MapleAPI : LogWriter.uws , MapleLibrary.uws , UseSkillFiveJob.uws
+CALL ../MapleAPI/MapleAPI.uws;
+CALL ../Util/MapleUtil.uws;
+CALL KannnaUtil.uws;
+
+// multiThread checkRedPoint and checkMineralization
+//thread manager.CheckEncountStatus("../MapleManagement/status/Kannna/status");
+// MessageWindow init
+LOGPRINT(true,10,800,500,100)
+
+//////////////////////////////////////////////////
+propUseTime = GETTIME( 7350 / 86400 ); // 財物
+famCheckTime = GETTIME( 180 /86400);
+skillTime = GETTIME( 150 / 86400 );
+jahaTime = GETTIME( 1 / 86400 )
+collectTime = GETTIME( 80 / 86400 )
+petTime = GETTIME( 600 / 86400 )
+isEvent = true;
+recvCnt = 0;
+
+useSkill();
+lib.checkFamiliarPower();
+while true
+		
+//--------------------------------------------
+//バフ、CTスキル関連
+    ifb GETTIME() > propUseTime
+        KBD(VK_F12,0,1000);
+        propUseTime = GETTIME( 7350 / 86400 );
+    endif
+
+    ifb GETTIME() > skillTime
+        useSkill();
+        skillTime = GETTIME( 150 / 86400 );
+    endif
+    
+    ifb GETTIME() > famCheckTime
+        lib.checkFamiliarPower();
+        famCheckTime = GETTIME( 180 /86400);
+        sleep(0.5)
+    endif
+
+    ifb GETTIME() > petTime
+        KBD(VK_T,0,500);
+        KBD(VK_T,0,500);
+        petTime = GETTIME( 600 /86400);
+        sleep(0.5)
+    endif
+
+//--------------------------------------------
+//狩り、ルーンチェック
+　　while chkimg("../picture/黄点.bmp",0,0,0,145,120)
+        KBD(vk_right,1)
+        kishin();
+        SELECT RANDOM(3)
+            CASE 0
+            KBD(VK_D,CLICK,100)//天狗
+            thread tengu()
+            KBD(key.TELEPORT_KEY,CLICK,200)//テレポ
+            KBD(key.TELEPORT_KEY,CLICK,120)
+            sleep(0.1)
+            CASE 1
+            KBD(VK_D,CLICK,150)//天狗
+            thread tengu()
+            KBD(key.TELEPORT_KEY,CLICK,180)//テレポ
+            KBD(key.TELEPORT_KEY,CLICK,110)
+            sleep(0.1)
+        CASE 2	 
+            KBD(VK_D,CLICK,100)//天狗
+            thread tengu()
+            KBD(key.TELEPORT_KEY,CLICK,150)//テレポ
+            KBD(key.TELEPORT_KEY,CLICK,100)
+            sleep(0.1)
+        SELEND
+        randomShisen();
+        //util.KannnaSkillCheck();
+        skill.pSkill();
+        lib.UrgentCheck();
+        checkGameMasterInner();
+        channelChange();
+    wend
+    kbd(vk_right,2)
+    ret = checkRuneStage();
+    ifb ret <> 0
+        lib.OpenRune();
+    else
+        ifb chkimg("../picture/黄点.bmp",0,0,0,200,140)
+            ifb G_IMG_Y < 100
+                downStage()
+            else 
+                upStage()
+            endif
+        endif
+        KBD(VK_U,0,200)
+        KBD(VK_U,0,100)
+    endif
+
+    lib.useMaprage();
+
+    while true
+        kishin()
+        // 3回に1回は左端までアイテム回収を行う
+        ifb collectTime < GETTIME()
+            ifb chkimg("../picture/黄点.bmp",0,0,0,55,140)
+                collectTime = GETTIME( 80 / 86400 )
+                break
+            endif
+        else
+            ifb chkimg("../picture/黄点.bmp",0,0,0,83,140)
+                break
+            endif
+        endif
+        kbd(vk_left,1)
+        SELECT RANDOM(3)
+        CASE 0
+            //KBD(VK_D,CLICK,100)//天狗
+            thread tengu()
+            KBD(key.TELEPORT_KEY,CLICK,140)//テレポ
+            KBD(key.TELEPORT_KEY,CLICK,120)
+            sleep(0.1)
+        CASE 1 
+            //KBD(VK_D,CLICK,150)//天狗
+            thread tengu()
+            KBD(key.TELEPORT_KEY,CLICK,180)//テレポ
+            KBD(key.TELEPORT_KEY,CLICK,110)
+            sleep(0.1)  
+        CASE 2	 
+            KBD(VK_D,CLICK,100)//
+            thread tengu()
+            KBD(key.TELEPORT_KEY,CLICK,150)//テレポ
+            KBD(key.TELEPORT_KEY,CLICK,100)
+            sleep(0.1)
+        SELEND
+        randomShisen();
+        util.KannnaSkillCheck();
+        skill.pSkill();
+        lib.UrgentCheck();
+        checkGameMasterInner();
+        channelChange();
+    wend
+    kbd(vk_left,2)
+    ifb recvCnt > 4
+        KBD(VK_U,0,200);
+        KBD(VK_U,0,100);
+        recvCnt = 0;
+    else
+        recvCnt = recvCnt + 1;
+    endif
+    // ret = checkRuneStage();
+    // ifb ret <> 0
+    //     lib.OpenRune();
+    // endif
+
+WEND//永久に繰り返し処理の末尾
+
+function tengu
+    
+    ifb 0 <> random(30)
+        KBD(key.BRAGGART_KEY,CLICK,100 + random(50))//紫扇
+        KBD(key.BRAGGART_KEY,CLICK,200 + random(50))
+    endif
+    result = 0;
+fend
+
+
+function checkGameMasterInner()
+    ifb chkimg("../picture/GMResponse/ご返答.bmp",1,5,600,420,780) and _
+        chkimg("../picture/redpoint.bmp",0,10,85,250,160) and _
+        !chkimg("../picture/heart.bmp",0,5,600,400,780)
+        print "Detected GameMaster"
+        KBD(VK_SCROLL,CLICK,100)
+        lib.checkGameMaster();
+        BTN(LEFT,CLICK,740,340,500);
+        //exitexit
+    endif
+    result = 0;
+fend
+
+function randomShisen()
+    
+    ifb 0 <> random(30)
+        KBD(VK_X,CLICK,100 + random(50))//紫扇
+        KBD(VK_X,CLICK,200 + random(50))
+        KBD(VK_X,CLICK,100 + random(50))
+    endif
+    result = 0;
+fend
+//=========================================
+// param   : None 
+// comment : ルーンが出現しているか確認
+//=========================================
+function checkRuneStage()
+
+	ret = 0;
+    // 上段にあるか
+    ifb chkimg("../picture/runePoint.bmp",0,85,102,180,120)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを下段で発見しました");
+        moveStage(2,G_IMG_X,G_IMG_Y);
+        ret = 1;
+    // 右の段にあるか
+    elseif chkimg("../picture/runePoint.bmp",0,85,90,180,107)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを上段で発見しました");
+        moveStage(1,G_IMG_X,G_IMG_Y);
+        ret = 1;
+    // 下段にあるか
+    elseif chkimg("../picture/runePoint.bmp",0,0,0,84,120)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを下段で発見しました");
+        moveStage(2,G_IMG_X,G_IMG_Y);
+        ret = 1;
+    // 右の段にあるか
+    elseif chkimg("../picture/runePoint.bmp",0,180,90,220,120)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを右奥で発見しました");
+        moveStage(3,G_IMG_X,G_IMG_Y);
+        ret = 1;
+    endif
+    result = ret;
+fend
+
+function moveStage(num,x,y)
+
+    ifb num = 1
+        ifb chkimg("../picture/yellowPoint.bmp",0,140,102,180,125)
+            sleep(0.2)
+            upStage()
+        endif
+    elseif num = 2
+
+    elseif num = 3
+        KBD(VK_RIGHT,1,10)
+        for i = 1 to 3
+            KBD(VK_SPACE,0,150)
+        next
+        KBD(VK_RIGHT,2,50)
+    endif
+    result = 0;
+fend
+
+function upStage()
+    KBD(VK_UP,1,10)
+    for i = 1 to 3
+        KBD(VK_SPACE,0,150)
+    next
+    KBD(VK_UP,2,10)
+    result = 0;
+fend
+
+function downStage()
+    KBD(VK_DOWN,1,10)
+    for i = 1 to 3
+        KBD(VK_SPACE,0,150)
+    next
+    KBD(VK_DOWN,2,10)
+    result = 0;
+fend
+
+PROCEDURE 並列1
+
+    SLEEP(5)
+    WHILE TRUE
+//--------------------------------------------
+//虹色探知機対策（天狗ランダム周期発動）
+        while true
+            if CHKIMG("../picture/赤点.BMP",0,0,0,250,200)THEN break
+            if CHKIMG("../picture/紫点.BMP",0,0,0,250,200)THEN break
+            if CHKIMG("../picture/残り時間.BMP",0,0,0,500,300)then break
+            ifb !CHKIMG("../picture/rune.BMP",0,0,0,200,200)
+                KBD(VK_X,CLICK,100)//紫扇
+                KBD(VK_X,CLICK,200)
+            endif
+            SLEEP(5)
+        wend
+        SLEEP(20)
+    WEND
+FEND
+
+PROCEDURE 並列2
+    path = "../MapleManagement/status/Kannna/status";
+    manager.WritePlayerNotEncoutStatus(path);
+    isEncount = false;
+    SLEEP(10)
+    WHILE TRUE
+        SLEEP(1.5)
+        IFB CHKIMG("../picture/会話.BMP",0,0,0,800,600)
+            KBD(VK_ESCAPE,CLICK,50)
+        ENDIF
+
+        IFB CHKIMG("../picture/確認.BMP",0,0,0,800,600)
+            BTN(LEFT,0,G_IMG_X,G_IMG_Y,100)
+            MMV(400,100,300)
+        ENDIF
+
+        IFB CHKIMG("../picture/NPC.BMP",0,0,0,250,200) 
+            sound("beep")
+            EXITEXIT
+        ENDIF
+		
+        IFB CHKIMG("../picture/石化.bmp",0,0,0,1368,800)
+            For i = 1 to 20
+                KBD(VK_LEFT,0,100)
+                KBD(VK_RIGHT,0,100)
+            NEXT
+        ENDIF
+		
+        IFB CHKIMG("../picture/石化2.bmp",0,0,0,1368,800)
+            For ii = 1 to 20
+                KBD(VK_LEFT,0,100)
+                KBD(VK_RIGHT,0,100)
+            NEXT
+        ENDIF
+		
+        ifb chkimg(lib.picPathHelper("redpoint2"),0,0,0,300,300) or chkimg(lib.picPathHelper("redpoint"),0,0,0,300,300)
+            //isEncount = true;
+            thread lib.alartSound();
+            //exitexit;
+        endif
+		thread lib.checkStartingMapleStory();
+		sleep(0.5)
+  WEND//ループの最後
+     
+FEND
+
+function kishin()
+    ifb chkimg("../picture/kishin.BMP")
+        while chkimg("../picture/kishin.BMP")
+            KBD(VK_H,0,100)//　鬼神
+            if !chkimg("../picture/kishin.BMP")then break
+            SLEEP(0.1)
+        wend
+    endif	
+    result = 0;
+fend
+
+function useSkill()
+
+	KBD(VK_H,0,500);
+    for i = 1 to 5
+        KBD(VK_H,0,200)
+    next
+    KBD(VK_G,0,600);
+    sleep(1);
+    KBD(VK_2,0,1000);
+
+	result = 0;
+
+fend
+
+
+
+function channelChange()
+
+    while true
+        //▼▼エリボ処理（ｃｈ変更）▼▼
+        ifb chkimg("../picture/残り時間.bmp",0,0,0,700,200) 
+            count = 0
+            sleep(5)
+
+            while true
+                sleep(0.1)
+
+                kbd(vk_F7,0,500)
+                kbd(vk_F7,0,200)
+
+                // ch = 1//RANDOM(1)
+                // for i = 1 to ch
+                //     KBD(VK_RIGHT,0,150)
+                // next
+                KBD(VK_RIGHT,0,150)
+                kbd(vk_enter,0,500)
+                sleep(1)
+                BTN(left,0,300,100,100)
+                while !chkimg("../picture/黄点.bmp",0,0,40,250,150)
+                    sleep(0.4)
+                wend
+                BTN(left,0,300,100,100)
+
+                for x = 1 to 10
+                    if chkimg("../picture/redpoint.bmp",0,0,45,250,170) or _
+                    chkimg("../picture/guild_member.bmp",0,0,45,250,170) or _
+                    chkimg("../picture/friend_point.bmp",0,0,45,250,170) or _
+                    chkimg("../picture/残り時間.bmp",0,0,0,700,200) then count = count + 1
+                    sleep(0.2)
+                next
+
+                ifb count >= 1
+                    count = 0
+                    ifb chkimg("../picture/確認.bmp",0,200,200,800,650)
+                        btn(left,0,g_img_x,g_img_y,500)
+                        btn(left,0,g_img_x,g_img_y,500)
+                    endif
+                else
+                    exit;
+                endif
+            wend
+        else
+            exit;
+        endif
+    wend
+    result = 0
+fend

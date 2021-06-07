@@ -1,0 +1,118 @@
+//=========================================//
+// Adele Utility Class
+// comment     : None
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : y2x600 or x2xy2
+//=========================================//
+// Copy Right (C) 2020 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2021/01/21
+//=========================================//
+
+CALL ../lib/MapleLibrary.uws;
+//import Kannna skillKeySetting
+CALL KeySetting.uws;
+
+class util
+    
+    public impaleFlag = false;
+
+    function adeleSkillCheck()
+        x1 = 0
+        x2 = 1366
+        y1 = 0
+        y2 = 800
+        
+
+        flag = false
+        ifb impaleFlag
+            ifb chkimg("../picture/impale.bmp",0,x1,y1,x2,y2)
+                KBD(key.IMPALE,0,100);
+                for i = 1 to 5
+                    KBD(key.RESONANCE,0,70)
+                next
+                sleep(0.3);
+                flag = true
+            endif
+        endif
+
+        ifb chkimg("../picture/blossom.bmp",0,x1,y1,x2,y2)
+            KBD(key.BLOSSOM,0,200);
+            sleep(0.3);
+            flag = true
+        endif
+
+        ifb chkimg("../picture/marker.bmp",0,x1,y1,x2,y2)
+            KBD(key.MARKER,0,200);
+            sleep(0.3);
+        endif
+        
+        ifb chkimg("../picture/territory.bmp",0,x1,y1,x2,y2)
+            KBD(key.TERRITORY,0,200);
+            sleep(0.3);
+        endif
+        
+        ifb chkimg("../picture/scall.bmp",0,x1,y1,x2,y2)
+            KBD(key.SCALL,0,200);
+            sleep(0.3);
+        endif
+
+        ifb chkimg("../picture/gathering.bmp",0,x1,y1,x2,y2)
+            KBD(key.GATHERING,0,200);
+            sleep(0.3);
+        endif
+
+        thread adele5thSkillCheck(x1,y1,x2,y2)
+        
+        result = 0;
+    fend
+
+    function adele5thSkillCheck(x1,y1,x2,y2)
+
+        ifb chkimg("../picture/ruin.bmp",0,x1,y1,x2,y2)
+            KBD(key.RUIN,0,200);
+            sleep(0.3);
+        endif
+
+        ifb chkimg("../picture/storm.bmp",0,x1,y1,x2,y2)
+            KBD(key.STORM,0,200);
+            sleep(0.3);
+        endif
+
+        ifb chkimg("../picture/restore.bmp",0,x1,y1,x2,y2)
+            KBD(key.RESTORE,0,200);
+            sleep(0.3);
+        endif
+
+        ifb chkimg("../picture/infinite.bmp",0,x1,y1,x2,y2)
+            KBD(key.INFINITE,0,200);
+            sleep(0.3);
+        endif
+
+
+        result = 0;
+    fend
+
+    procedure jumpAttack()
+        // for i = 1 to 6
+        //     KBD(key.DIVIDE,0,15+random(10))
+        // next
+        // sleep(0.5)
+        for i = 1 to 6
+            KBD(VK_C,0,35+random(10))
+        next
+        for i = 1 to 6
+            KBD(key.DIVIDE,0,15+random(10))
+        next
+        ret = util.adeleSkillCheck()
+        thread sword();
+    fend
+
+    function sword()
+        KBD(key.ORDER,0,300)
+        result = 0;
+    fend
+
+endclass

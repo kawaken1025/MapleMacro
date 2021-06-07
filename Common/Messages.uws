@@ -8,6 +8,8 @@
 //   @author k.kawabata @kawaken1025
 //     Create Date : 2018/05/12
 //=========================================
+
+
 CLASS Messages
 
     const RECOVERY_FAMILIAR_POWER = "ファミリアの気力を回復しました。";
@@ -20,6 +22,7 @@ CLASS Messages
     const START_MAPLE_STORY       = "メイプルストーリーを起動します。";
     const ENCOUNT_GAME_MASTER     = "ゲームマスターを検知しました。";
     const REPLY_REQUEST           = "「ご返答」を検出しました。";
+	const TROUBLE_REQUEST         = "「お手数ですが、」を検出しました。";
     const HEART_SPEAKER           = "ハート拡声器を検出しました。";
     const NOT_RED_POINT           = "赤点を確認できませんでした。"
     const NOT_GAMEMASTER          = "ゲームマスターではありませんでした。";
@@ -43,7 +46,6 @@ CLASS Messages
     const CHANNEL_CHANGE_FAIL     = "チャンネル変更に失敗しました。";
     const CHANNEL_CHANGE_DET_RUNE = "チャンネル変更時にルーンを発見しました。";
     const ENCOUNT_GUILD_MEM_RES   = "<<Auto-Response>>  {0} : {1}";
-    const GET_SUDEDN_MISSION      = "突発ミッション報酬を受領しました。"
 
 ENDCLASS
 
@@ -65,24 +67,110 @@ CLASS LogLevel
 
 ENDCLASS
 
+
 CLASS ResponseMessages
+
+
+// ResponseMessagesコンストラクタ
+// Messages.uws読み込み時に1回だけ自動的に実行されるメソッド
+function ResponseMessages
+    GETTIME()
+	TimeA = G_TIME_MM
+	TimeB = G_TIME_MM	
+    answer[8] = "今日は" + day[G_TIME_WW] + "です!"
+    answer[13] = "今日は" + G_TIME_MM2 + "/" + G_TIME_DD2 + "です!"
+    answer[17] = "今月は" + G_TIME_MM2 + "月" + "ですね"	
+	answer[18] = "今日は" + G_TIME_DD2 + "日です!"
+	if TimeA = 1 then TimeA = TimeA + 12
+	answer[21] = "" + (TimeA - 1) + "月"
+	if TimeB = 12 then TimeB = TimeB - 12
+	answer[22] = "" + (TimeB + 1) + "月"	
+    GETTIME(+1)
+    answer[9] = "明日は" + day[G_TIME_WW] + "です!"
+    answer[14] = "明日は" + G_TIME_MM2 + "/" + G_TIME_DD2 + ""
+	answer[20] = "明日は" + G_TIME_DD2 + "日"
+    GETTIME(-1)	
+	answer[15] = "昨日は" + day[G_TIME_WW] + "です!"
+    answer[16] = "昨日は" + G_TIME_MM2 + "/" + G_TIME_DD2 + "だと思います！"
+	answer[19] = "昨日は" + G_TIME_DD2 + "日だと思います！"
+    result = 0
+fend
 
     //初期化用
     const RESPONSE_STR    = "最近大変っすね"
-    const PLAY_GAME_TITLE = 0;
+    const Auto_ResponseA = 0;	//A=現在プレイされているゲームのタイトルをカタカナでお答えください。
+	const Auto_ResponseB = 1;	//B=現在プレイされているゲームのタイトルをひらがなでお答えください。
+	const Auto_ResponseC = 2;	//C=現在プレイされているゲームの運営会社を、カタカナでお答えください。
+	const Auto_ResponseD = 3;	//D=現在プレイされているゲームの運営会社を、ひらがなでお答えください。
+	const Auto_ResponseE = 4;	//E=現在ログインしているサーバー名をカタカナでお答えください。
+	const Auto_ResponseF = 5;	//F=現在ログインしているサーバー名をひらがなでお答えください。
+	const Auto_ResponseG = 6;	//I=現在は午前/午後どちらか、漢字でお答えください。 →午前
+	const Auto_ResponseH = 7;	//J=現在は午前/午後どちらか、漢字でお答えください。　→午後
+	const Auto_ResponseI = 8;	//K=今日は何曜日かお答えください。
+	const Auto_ResponseJ = 9;	//L=明日は何曜日かお答えください。
+	const Auto_ResponseK = 10;	//M=あなたのキャラクター名の最初の文字をお答えください。
+	const Auto_ResponseL = 11;	//N=あなたのキャラクター名の最後の文字をお答えください。
+	const Auto_ResponseM = 12;	//O=あなたのキャラクター名に使用されている文字は、合計何文字かお答えください。	
+	const Auto_ResponseN = 13;	//Q=今日は何月何日かお答えください。
+	const Auto_ResponseO = 14;	//R=明日は何月何日かお答えください。
+	const Auto_ResponseP = 15;	//K=昨日は何曜日かお答えください。	
+	const Auto_ResponseQ = 16;	//Q=昨日は何月何日かお答えください。
+	const Auto_ResponseR = 17;	//R=今月は何月かお答えください。
+	const Auto_ResponseS = 18;	//S=今日は何日かお答えください。
+	const Auto_ResponseT = 19;	//T=昨日は何日かお答えください。	
+	const Auto_ResponseU = 20;	//U=明日は何日かお答えください。	
+	const Auto_ResponseV = 21;	//V=先月(昨月)は何月かお答えください。
+	const Auto_ResponseW = 22;	//W=来月は何月かお答えください。	
+	const Auto_ResponseX = 23;	//I=現在は午前/午後どちらか、ひらがなでお答えください。 →ごぜん
+	const Auto_ResponseY = 24;	//J=現在は午前/午後どちらか、ひらがなでお答えください。　→ごご
+	const Auto_ResponseZ = 25;	//I=現在は午前/午後どちらか、カタカナでお答えください。 →ゴゼン
+	const Auto_ResponseAA = 26;	//J=現在は午前/午後どちらか、カタカナでお答えください。　→ゴゴ	
+	const Auto_ResponseAB = 27;	//J=あなたのキャラクターの職業をお答えください。
+	const Auto_ResponseAC = 28;	//J=あなたのキャラクターのレベルをお答えください。	
     const RESPONSE_CALC4_PLUS_6 = 1;
 
     //メッセージ
-    public resMessages[] = "今日も元気にメイプルストーリーを楽しんでます",_
-                           "疲れたよゲームマスターさん",_
-                           "本日はお日柄もよく・・・",_
-                           "またかよｗｗｗｗｗｗｗｗｗｗｗｗ",_
-                           "加藤純一最強!!!!!!!!!!!!!!!",_
-                           "加藤純一は偉いよなぁ！？",_
-                           "面白い返答が思いつきません";
+    public resMessages[] = "やあ",_
+                           "GM帽子ください",_
+                           "また？",_
+                           "GG",_
+                           "ほい！",_
+                           "はい",_
+						   "b",_
+						   "yaa",_
+                           "加藤純一";
 
-    public answer[] = "メイプルストーリー",_
-                      "10",_
+	DIM day[] = "日曜日","月曜日","火曜日","水曜日","木曜日","金曜日","土曜日"
+
+    public answer[] = "メイプルストーリー",_ //0
+                      "めいぷるすとーりー",_ //1
+                      "ネクソン",_ //2
+                      "ねくそん",_ //3
+                      "クルミ",_	//4	　//要変更	
+                      "くるみ",_	//5	　//要変更	
+                      "午前",_   //6
+		              "午後",_   //7
+                      "今日は" + day[G_TIME_WW] + "です!",_   //8
+		              "明日は" + day[G_TIME_WW] + "です!",_  //9
+                      "ぷ",_	　　   //10 　//要変更
+                      "ぃ",_　　　　　//11　　//要変更
+		              "６文字です",_　//12　//要変更	
+                      "今日は" + G_TIME_MM2 + "/" + G_TIME_DD2 + "",_  //13
+		              "明日は" + G_TIME_MM2 + "/" + G_TIME_DD2 + "",_	 //14
+                      "昨日は" + day[G_TIME_WW] + "",_  //15
+		              "昨日は" + G_TIME_MM2 + "/" + G_TIME_DD2 + "",_  //16
+                      "今月は" + G_TIME_MM2 + "月" + "",_		//17
+					  "今日は" + G_TIME_DD2 + "日",_   //18
+					  "昨日は" + G_TIME_DD2 + "日",_   //19
+					  "明日は" + G_TIME_DD2 + "日",_		  //20	
+					  " ",_	   //21
+					  " ",_	   //22
+                      "ごぜん",_   //23
+		              "ごご",_   //24
+                      "ゴゼン",_   //25
+		              "ゴゴ",_   //26			
+                      "カンナ",_   //27
+		              "249",_   //28					  
                       "TODO";
 
 ENDCLASS

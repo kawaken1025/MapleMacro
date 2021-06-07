@@ -1,0 +1,18 @@
+CALL ../lib/MapleLibrary.uws;
+lib.activeWindow();
+
+while true
+    ifb chkimg("../picture/inner_ability/use.BMP")
+        clickx = G_IMG_X;
+        clicky = G_IMG_Y;
+    endif
+
+    BTN(LEFT,CLICK,clickx,clicky,100)
+    KBD(VK_ENTER,0,300)
+    KBD(VK_ENTER,0,500)
+
+    ifb chkimg("../picture/inner_ability/unique.BMP")
+        print "Unique detected."
+        break;
+    endif
+wend

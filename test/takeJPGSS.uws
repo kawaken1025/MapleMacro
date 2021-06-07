@@ -1,2 +1,3 @@
-CALL ../lib/MapleLibrary.uws;
-lib.JpgScreenShot()
+CALL ../MapleAPI/api/v1/StartSsAPI.uws;
+
+

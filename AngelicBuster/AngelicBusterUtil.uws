@@ -22,13 +22,51 @@ class AButil
         x2 = 1366;
         y2 = 800;
 
-        ifb chkimg("../picture/SuperNova.bmp",0,x1,y1,x2,y2)
-            KBD(key.SUPER_NOVA,0,100);
+        ifb chkimg("../picture/SuperNova.bmp")
+            for i = 1 to 5
+                KBD(key.SUPER_NOVA,0,100);
+            next
             sleep(1);
         endif
 
-        ifb chkimg("../picture/SoulExults.bmp",0,x1,y1,x2,y2)
-            KBD(key.SOUL_EXULTS,0,100);
+        ifb chkimg("../picture/SoulExults.bmp")
+            for i = 1 to 5
+                KBD(key.SOUL_EXULTS,0,100);
+            next
+            sleep(1);
+        endif
+
+        ifb chkimg("../picture/FINAL_CONTRACT.bmp")
+            for i = 1 to 5
+                KBD(key.FINAL_CONTRACT,0,100);
+            next
+            print "final"
+            sleep(1);
+        endif
+
+        ifb chkimg("../picture/ENERGY_BURST.bmp")
+            for i = 1 to 5
+                KBD(key.ENERGY_BURST,0,100);
+            next
+            sleep(1);
+        endif
+
+        ifb chkimg("../picture/SPOT_LIGHT.bmp")
+            for i = 1 to 5
+                KBD(key.SPOT_LIGHT,0,100);
+            next
+            sleep(1);
+        endif
+
+        ifb chkimg("../picture/MUSCOT_FAMILIA.bmp")
+            for i = 1 to 5
+                KBD(key.MUSCOT_FAMILIA,0,100);
+            next
+            sleep(1);
+        endif
+
+        ifb chkimg("../picture/PANTHEON.bmp")
+            KBD(key.PANTHEON,0,100);
             sleep(1);
         endif
 

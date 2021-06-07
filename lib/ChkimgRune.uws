@@ -30,8 +30,9 @@ startup_chkimgx();
 isNew           = false; // ver3.82 矢印の種類判定フラグ
 isThresholdUP   = true;  // 認識失敗時に判定閾値度を上げるフラグ
 isRange         = false; // 画像範囲取得フラグ
+isSpinnig       = false; // 回転ルーンフラグ
 threshold       = 15;    // 画像判定閾値
-addThreshold    = 0.55;  // 増加閾値
+addThreshold    = 0.50;  // 増加閾値
 maxAnalyzeCount = 5;     // 失敗時のリトライ回数
 analyzeTimeLimit = GETTIME(8/86400) // 解析タイムリミット
 
@@ -43,6 +44,24 @@ try
     start = G_TIME_NN2 + "分" + G_TIME_SS2 + "秒" + G_TIME_ZZ2 + "ミリ秒"
 
     for i = 1 to maxAnalyzeCount
+
+        for ii = 1 to 5
+            ifb CHKIMGX("../picture/arrow/spinning_str1.png",0,0,0,700,150,-1,threshold,-1) or _
+            CHKIMGX("../picture/arrow/spinning_str2.png",0,0,0,400,200,-1,threshold,-1)
+                isSpinnig = true;
+                logger.logWriter(LogLevel.LOG_INFO, "回転ルーンを検知しました");
+                break;
+            endif
+        next
+
+        ifb isSpinnig
+            // 適当なキーを押してルーン入力を終了
+            KBD(VK_LEFT,0,100)
+            movePointShop();
+            isSpinnig = false;
+            exit;
+        endif
+
         // 画像判定範囲を取得
         ifb !isRange
             // 範囲チェック5回まで実施
@@ -76,21 +95,20 @@ try
             next
         endif
         
-        if isNew or list.count = 0
-            arrowCountL = CHKIMGX("../picture/arrow/newl.png",0,x1,y1,x2,y2,-1,threshold,-1)
-            for i = 0 to arrowCountL - 1
-                list.add(ALL_IMGX_X[i])
-                list.add(VK_LEFT)
-                isNew = true;
-            next
-        endif
+        // if isNew or list.count = 0
+        //     arrowCountL = CHKIMGX("../picture/arrow/newl.png",0,x1,y1,x2,y2,-1,threshold,-1)
+        //     for i = 0 to arrowCountL - 1
+        //         list.add(ALL_IMGX_X[i])
+        //         list.add(VK_LEFT)
+        //         isNew = true;
+        //     next
+        // endif
         print "左発見個数:" + arrowCountL
 
         ifb 8 < list.count
             logger.logWriter(LogLevel.LOG_WARN, "検出数が4個を超過しました。解析を終了します。");
             exit;
         endif
-
 
         ifb list.count <> 8
             ifb !isNew
@@ -101,14 +119,14 @@ try
                 next
             endif
 
-            ifb isNew or list.count = 0 
-                arrowCountR = CHKIMGX("../picture/arrow/newr.png",0,x1,y1,x2,y2,-1,threshold,-1)
-                for i = 0 to arrowCountR - 1
-                    list.add(ALL_IMGX_X[i])
-                    list.add(VK_RIGHT)
-                    isNew = true;
-                next
-            endif
+            // ifb isNew or list.count = 0 
+            //     arrowCountR = CHKIMGX("../picture/arrow/newr.png",0,x1,y1,x2,y2,-1,threshold,-1)
+            //     for i = 0 to arrowCountR - 1
+            //         list.add(ALL_IMGX_X[i])
+            //         list.add(VK_RIGHT)
+            //         isNew = true;
+            //     next
+            // endif
             print "右発見個数:" + arrowCountR
 
             ifb 8 < list.count
@@ -125,13 +143,13 @@ try
                     list.add(VK_UP)
                 next
             endif
-            ifb isNew or list.count = 0 
-                arrowCountU = CHKIMGX("../picture/arrow/newu.png",0,x1,y1,x2,y2,-1,threshold,-1)
-                for i = 0 to arrowCountU - 1
-                    list.add(ALL_IMGX_X[i])
-                    list.add(VK_UP)
-                next
-            endif
+            // ifb isNew or list.count = 0 
+            //     arrowCountU = CHKIMGX("../picture/arrow/newu.png",0,x1,y1,x2,y2,-1,threshold,-1)
+            //     for i = 0 to arrowCountU - 1
+            //         list.add(ALL_IMGX_X[i])
+            //         list.add(VK_UP)
+            //     next
+            // endif
             print "上発見個数:" + arrowCountU
 
             ifb 8 < list.count
@@ -149,14 +167,14 @@ try
                     list.add(VK_DOWN)
                 next
             endif
-            ifb isNew or list.count = 0 
-                arrowCountD = CHKIMGX("../picture/arrow/newd.png",0,x1,y1,x2,y2,-1,threshold,-1)
-                for i = 0 to arrowCountD - 1
-                    list.add(ALL_IMGX_X[i])
-                    list.add(VK_DOWN)
-                    isNew = true;
-                next
-            endif
+            // ifb isNew or list.count = 0 
+            //     arrowCountD = CHKIMGX("../picture/arrow/newd.png",0,x1,y1,x2,y2,-1,threshold,-1)
+            //     for i = 0 to arrowCountD - 1
+            //         list.add(ALL_IMGX_X[i])
+            //         list.add(VK_DOWN)
+            //         isNew = true;
+            //     next
+            // endif
             print "下発見個数:" + arrowCountD
         endif
 
@@ -172,13 +190,17 @@ try
             // タイムリミットチェック
             ifb GETTIME() > analyzeTimeLimit
                 logger.logWriter(LogLevel.LOG_INFO,"ルーンの解析時間がタイムリミットに達したためルーン解析を終了します");
-                exit;            
+                exit;
             endif
             // 範囲チェック済の場合再解析
             ifb isRange
+                for t = 0 to list.count-1
+                    print list.item(t)
+                next
                 list.clear();
                 logger.logWriter(LogLevel.LOG_INFO, "ルーンのコマンド解析に失敗しました");
                 logger.logWriter(LogLevel.LOG_INFO, "ルーンの再解析を行います");
+                sleep(0.8)
                 // 判定閾値を上昇
                 ifb isThresholdUP
                     newThreshold = threshold + addThreshold
@@ -241,4 +263,59 @@ finally
   shutdown_chkimgx()
 endtry
 
+// =======================================================
+// comment : 回転ルーンを検知した場合PSHOP移動する処理
+// create date : 2021/03/07
+// =======================================================
+function movePointShop()
+    while true
+        // 少し待機してポイントショップ移動
+        sleep(5);
+        KBD(comKey.POINT_SHOP_KEY,0,1000);
+        sleep(2);
+        ifb chkimg(lib.picPathHelper("ConfirmButton"),0, 0, 0, 1366, 800)
+            BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,500);
+            BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,500);
+        endif
+        ifb chkimg(lib.picPathHelper("point_shop_now"),0, 0, 0, 300, 800)
+            logger.logWriter(LogLevel.LOG_INFO, "ポイントショップに移動しました");
+            break;
+        endif
+    wend
+ 
+    // ポイントショップから戻るボタンを判定
+    while true
+        ifb chkimg(lib.picPathHelper("point_shop_now"),0, 0, 0, 300, 800)
+            for i = 1 to 3
+                BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,400);
+            next
+            break;
+        else
+            sleep(1)
+        endif
+    wend
+    
+    // 黄点見えるまで待機
+    while true
+        ifb chkimg(lib.picPathHelper("黄点"),0, 0, 0, 300, 800)
+            break;
+        endif
+    wend
 
+    // 赤点検知でチャンネル変更する判定
+    flag = false;
+    for i = 1 to 5
+        ifb chkimg(lib.picPathHelper("redpoint"),0, 0, 0, 300, 800)
+            flag = true;
+            break;
+        endif
+        sleep(0.5)
+    next
+
+    // 赤点検知時はチャンネル変更
+    ifb flag 
+        lib.channelChange(true);
+    endif
+
+    result = 0
+fend

@@ -1,0 +1,447 @@
+//============================================//
+// Map Name    : 苦痛最深部１
+//============================================//
+// Job Name    : カイザー
+//============================================//
+// Mob Name    : 
+// Mob Level   : 
+// Mob HP      : 
+// Mob Exp     : 
+//============================================//
+// Mob Name    : 
+// Mob Level   :
+// Mob HP      : 
+// Mob Exp     : 
+// ===========================================//
+// Display Dpl : 1024x768
+//============================================//
+// Copy Right (C) 2020 All Right Reserved. 
+//   @Author :
+//    @Special Thanks : k.kawabata @kawaken1025
+//     Create Date : 2020/06/01
+//============================================//
+
+SLEEP(0.5)
+//ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+//CALL ../otherfiles/autologin.uws;
+
+THREAD 並列1 //並列
+THREAD 並列2 //並列
+THREAD 並列3 //並列
+
+//=========================================
+// init
+//=========================================
+// MapleAPI : LogWriter.uws , MapleLibrary.uws , UseSkillFiveJob.uws
+CALL ../MapleAPI/MapleAPI.uws;
+// Util - sugarTime exec
+CALL ../Util/MapleUtil.uws;
+// keyset - 0_KannaKeySetting.uws;
+CALL 0_KaiserKeySetting.uws;
+// MessageWindow init
+LOGPRINT(true,10,800,500,100)
+
+//////////////////////////////////////////////////
+ReLoginTime = GETTIME( 28800 / 86400 ); // 自動再起動
+propUseTime = GETTIME( 7200 / 86400 ); // 財物
+//petUseTime = GETTIME( 600 / 86400 ); // petのえさ
+KBD(key.PETUSE_KEY,0,500);
+
+WHILE TRUE		
+//--------------------------------------------
+//バフ、CTスキル関連
+	
+	ifb GETTIME() > ReLoginTime
+		//CALL ../otherfiles/autologout.uws;
+		//CALL ../otherfiles/autologin.uws;
+		THREAD 並列3 //並列
+		ReLoginTime = GETTIME( 28800 / 86400 );
+//			1hour = 3600sec , 4hour = 14400sec , 8hour = 28800sec
+	endif
+	
+	//ifb GETTIME() > petUseTime
+		//KBD(key.PETUSE_KEY,0,500);
+		//KBD(key.PETUSE_KEY,0,100);
+		//KBD(key.PETUSE_KEY,0,100);
+		//petUseTime = GETTIME( 600 / 86400 );
+	//endif
+	
+	ifb GETTIME() > propUseTime
+		THREAD 並列3 //並列
+		propUseTime = GETTIME( 7260 / 86400 );
+	endif
+		
+        MMV(30,240,100)
+		
+	//CALL ../OtherFiles/allbuffs_kaiser.uws;//buffチェック
+	sleep(0.1)
+	
+//--------------------------------------------
+//狩り、ルーンチェック
+
+　　　　while chkimg("../picture/黄点.bmp",0,0,0,173,178)
+
+        ret = checkRuneStage();
+        ifb ret <> 0
+            lib.OpenRune();
+        endif
+		
+		ret = checkCallRed();
+		ifb ret <> 0
+			//CALL ../OtherFiles/CallRed.uws;//赤点＆GMチェック
+		endif
+		
+		KBD(VK_DOWN,2)
+
+		KBD(VK_left,1)
+		attack()
+		IF !CHKIMG("../picture/黄点.BMP",0,0,0,160,130) THEN BREAK					
+
+	WEND
+
+	KBD(VK_left,2)
+
+	//if chkimg("../picture/スパイダー.BMP")　then KBD(VK_J,0,1000)
+	sleep(0.2)
+	
+	
+
+	while true//下段を右へ移動しながら狩り
+		
+		ret = checkRuneStage4();
+		ifb ret <> 0
+			lib.OpenRune();
+		endif
+		
+		ret = checkCallRed();
+		ifb ret <> 0
+			//CALL ../OtherFiles/CallRed.uws;//赤点＆GMチェック
+		endif
+
+		KBD(VK_RIGHT,1)
+		attack()
+		IF !CHKIMG("../picture/黄点.BMP",0,0,0,130,165) 
+			kbd(vk_right,2)
+			KBD(key.ROPE_CONNECT_KEY,0,500)
+			sleep(1)
+			break
+		endif		
+	    
+	wend
+
+//ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+	
+WEND//永久に繰り返し処理の末尾	
+
+
+//=========================================
+// param   : None 
+// comment : 赤点と遭遇しているか確認
+//=========================================
+function checkCallRed()
+
+	ifb chkimg("../picture/赤点.BMP",0,0,0,250,200)
+        logger.logWriter(LogLevel.LOG_INFO,"赤点を検知しました。");
+        result = 0
+		//result = constant.REDPOINT_TRUE;
+		CallRed(1);
+    endif
+    
+	result = 0
+    //result = constant.REDPOINT_FALSE;
+	
+fend
+//=========================================
+// param   : None 
+// comment : 赤点と遭遇している場合の処理
+//=========================================
+function CallRed(num)
+
+	ifb num = 1
+	//赤点＆GM対応
+		while chkimg("../picture/赤点.BMP",0,0,0,250,200)
+			
+			kbd(vk_left,2)
+			
+		for x = 1 to 5		
+			SLEEP(2)
+			if !chkimg("../picture/赤点.BMP",0,0,0,250,200) then break
+		next
+			if !chkimg("../picture/赤点.BMP",0,0,0,250,200) then break
+			//■GM対策■
+			ifb chkimg("../picture/replyRequest.bmp",1,0,580,500,800) and chkimg("../picture/赤点.bmp",0,0,0,250,250) and !chkimg("../picture/ハート拡声器.bmp",1,0,580,500,800)
+				sound("BEEP")
+				sound("BEEP")
+				sound("BEEP")
+				KBD(VK_F9,CLICK,1000)
+					sleep(0.5)
+						
+					VALUE = RANDOM(6)+1
+						SELECT VALUE
+							case 1
+								SendStr(0,"こんちゃ")
+							case 2
+								SendStr(0,"おいっす～")
+							case 3
+								SendStr(0,"はい")
+							case 4
+								SendStr(0,"ほーい")
+							case 5
+								SendStr(0,"こん")
+							case 6
+								SendStr(0,"おつかれさまです")
+					SELEND
+					
+				KBD(VK_CTRL,1,500) // Ctrl+Vで↑を貼り付け
+				KBD(VK_CTRL,2,100)
+				KBD(VK_ENTER,0,500) // Enterで発言
+				KBD(VK_ENTER,0,500)
+					sleep(0.5)
+				CTRLWIN(GETID("MapleStory","MapleStoryClass"), CLOSE)
+				kbd(vk_enter,0,500)
+					logger.logWriter(LogLevel.LOG_INFO,"GMに遭遇しました");
+				exitexit
+			endif
+			kbd(vk_ESCAPE,0,50)
+			kbd(VK_RETURN,0,300)
+			kbd(VK_LEFT,1,300)
+			kbd(VK_LEFT,2,150)
+			kbd(VK_RETURN,0,300)
+			SLEEP(3)
+			if !chkimg("../picture/赤点.BMP",0,0,0,250,200) then break
+		wend
+    endif
+    
+    result = MAPLE_RESULT_OK; 
+	
+fend
+
+//=========================================
+// param   : None 
+// comment : ルーンが出現しているか確認
+//=========================================
+function checkRuneStage()
+
+    // 上段にあるか
+    ifb chkimg(lib.picPathHelper("runePoint"),0,0,90,170,110)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを1段目で発見しました。");
+        moveStage(1,G_IMG_X, G_IMG_Y);
+        result = constant.DISCOVERY_RUNE;
+    elseif chkimg(lib.picPathHelper("runePoint"),0,0,110,173,128)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを2段目で発見しました。");
+        moveStage(2,G_IMG_X, G_IMG_Y);
+        result = constant.DISCOVERY_RUNE;
+    elseif chkimg(lib.picPathHelper("runePoint"),0,0,130,173,143)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを3段目で発見しました。");
+        moveStage(3,G_IMG_X, G_IMG_Y);
+        result = constant.DISCOVERY_RUNE;
+    // elseif chkimg(lib.picPathHelper("runePoint"),0,0,145,173,160)
+    //     logger.logWriter(LogLevel.LOG_INFO,"ルーンを4段目で発見しました。");
+    //     moveStage(4,G_IMG_X, G_IMG_Y);
+    //     result = constant.DISCOVERY_RUNE;
+    endif
+    
+    result = constant.UNDISCOVERED_RUNE;
+fend
+
+//=========================================
+// param   : None 
+// comment : ルーンが出現しているか確認
+//=========================================
+function checkRuneStage4()
+
+    if chkimg(lib.picPathHelper("runePoint"),0,0,145,173,160)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを4段目で発見しました。");
+        moveStage(4,G_IMG_X, G_IMG_Y);
+        result = constant.DISCOVERY_RUNE;
+    endif
+    
+    result = constant.UNDISCOVERED_RUNE;
+fend
+
+//=========================================
+// param   : 1~10
+// comment : ルーンが出現している段へ移動
+//=========================================
+function moveStage(num,X,Y)
+
+	KBD(VK_left,2)
+	KBD(VK_right,2)
+
+	ifb num <> 2 or num <> 4
+		moveRunePointXY(x,y);
+	endif
+	isUpper = false;
+	isDown = false;
+
+	ifb chkimg("../picture/yellowPoint.bmp",0,0,0,300,300)
+		yellowPointY = G_IMG_Y;
+		ifb num <> 2 or num <> 4
+			ifb y <= yellowPointY
+				isUpper = true;
+			elseif y >= yellowPointY
+				isDown = true;
+			endif
+		endif
+
+		ifb isUpper
+			KBD(key.ROPE_CONNECT_KEY,0,500)
+		elseif isDown
+			KBD(VK_DOWN,1,10)
+			for i = 1 to 3
+				KBD(VK_C,0,150)
+			next
+			KBD(VK_DOWN,2,10)
+		endif
+
+		isUpper = false;
+		isDown = false;
+
+		lib.OpenRune()
+	endif
+    result = 0;
+    
+fend
+//////////////////////////////////////////////////
+PROCEDURE 並列1
+while true
+     SLEEP(10)
+
+//--------------------------------------------
+//虹色探知機対策（天狗ランダム周期発動）
+
+    while true
+	
+		IF !CHKIMG("../picture/黄点.BMP",0,0,0,250,250)THEN break
+		IF CHKIMG("../picture/赤点.BMP",0,0,0,250,200)THEN break
+		IF CHKIMG("../picture/紫点.BMP",0,0,0,250,200)THEN break
+		IF CHKIMG("../picture/残り時間.BMP",0,250,0,600,300)then break
+		//if chkimg("../picture/メイプレージ.bmp",0,800,0,1024,200) then break
+		IF CHKIMG("../picture/rune.BMP",0,0,0,250,200)THEN break
+		//IF !CHKIMG("../picture/rune.BMP",0,0,0,250,200) THEN KBD(key.TENGU_STRIKE_KEY,0,100)//天狗
+		//IF !CHKIMG("../picture/rune.BMP",0,0,0,250,200) THEN KBD(key.TENGU_STRIKE_KEY,0,50)//天狗
+		//IF !CHKIMG("../picture/rune.BMP",0,0,0,250,200) THEN KBD(key.TENGU_STRIKE_KEY,0,50)//天狗
+		SLEEP(3)
+
+    wend
+wend
+     
+FEND
+//////////////////////////////////////////////////
+PROCEDURE 並列2
+		
+WHILE TRUE
+
+     SLEEP(10)
+
+  WHILE TRUE
+
+     SLEEP(1)
+	 
+		IF !CHKIMG("../picture/黄点.BMP",0,0,0,250,250)THEN break
+
+        IFB CHKIMG("../picture/会話.BMP",0,0,0,800,600)
+            KBD(VK_ESCAPE,CLICK,50)
+        ENDIF
+
+        IFB CHKIMG("../picture/赤点.BMP",0,0,0,200,200)
+            SOUND("beep")
+            SLEEP(1)
+        ENDIF
+
+        IFB CHKIMG("../picture/確認.BMP",0,0,0,800,600)
+            BTN(LEFT,0,G_IMG_X,G_IMG_Y,100)
+            MMV(400,100,300)
+        ENDIF
+
+        IFB CHKIMG("../picture/NPC.BMP",0,0,0,250,200) 
+            sound("beep")
+            EXITEXIT
+        ENDIF
+		
+        IFB CHKIMG("../picture/石化.bmp",0,0,0,1368,800)
+            For i = 1 to 20
+                KBD(VK_LEFT,0,100)
+                KBD(VK_RIGHT,0,100)
+            NEXT
+        ENDIF
+		
+        IFB CHKIMG("../picture/石化2.bmp",0,0,0,1368,800)
+            For ii = 1 to 20
+                KBD(VK_LEFT,0,100)
+                KBD(VK_RIGHT,0,100)
+            NEXT
+        ENDIF
+     
+  WEND//ループの最後
+     
+WEND
+
+FEND
+
+//--------------------------------------------
+//自動開始後の財物使用処理
+PROCEDURE 並列3
+
+	sleep(30)
+
+	KBD(key.PROPERTYUSE_KEY,0,1000)
+	KBD(key.PROPERTYUSE_KEY,0,100)
+	KBD(key.PROPERTYUSE_KEY,0,100)
+
+FEND
+
+
+//=========================================
+// comment : ルーンの位置まで移動する
+// param   : None
+// return  : 0
+//=========================================
+function moveRunePointXY(x,y)
+
+    // ルーンの位置を取得
+    runePointX = x;
+    runePointY = y;
+
+    // 黄点を取得
+    yellowPointX = 0;
+    yellowPointY = 0;
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,0,0,350,350);
+        yellowPointX = G_IMG_X;
+        yellowPointY = G_IMG_Y;
+    else
+        print "黄点の位置が取得できません";
+        result = 2;
+    endif
+
+    // 移動する方向を決定
+    moveKey = VK_RIGHT
+    ifb yellowPointX > runePointX
+        moveKey = VK_LEFT
+    endif
+
+    // ルーンの横位置まで移動
+    KBD(moveKey,1,500);
+    while true
+        if chkimg(lib.picPathHelper("yellowPoint"),0, runePointX-5, 0, runePointX+5, 300) then break;
+    wend
+    KBD(moveKey,2,10)
+
+    result = 0;
+fend
+	
+////////////////////////////////////
+function attack()
+
+	for i = 1 to 3
+		KBD(VK_c,0,150) //FJ
+	next
+	for i = 1 to 3
+		KBD(VK_X,0,100+random(30)) //ソードストライク
+	next
+	result = 0
+fend
+
+
+	
+	

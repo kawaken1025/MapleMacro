@@ -1,0 +1,21 @@
+		WHILE TRUE	
+			KBD(VK_DOWN,2)
+
+			KBD(VK_left,1)
+					KBD(VK_c,0,100) //FJ
+					KBD(VK_c,0,50) //
+					KBD(VK_c,0,50) //
+					KBD(VK_X,0,200) //ソードストライク
+					KBD(VK_X,0,100) //ソードストライク
+						IF CHKIMG("../picture/黄点.BMP",0,0,0,20,180) THEN BREAK					
+
+		WEND
+		
+//kbd(vk_c,0,100)
+//kbd(vk_c,0,50)
+//kbd(vk_c,0,50)
+//kbd(vk_c,0,50)
+//kbd(vk_x,0,200)
+//kbd(vk_x,0,100)
+//kbd(vk_x,0,50)
+//kbd(vk_x,0,50)

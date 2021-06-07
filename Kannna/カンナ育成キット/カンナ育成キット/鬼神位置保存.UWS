@@ -1,0 +1,204 @@
+// SHIFT 鬼神
+// END 桜結界
+
+THREAD 並列処理() 
+
+ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+
+chkimg("黄点.bmp")
+Xa = g_img_x
+
+Ya = g_img_y
+
+		while CHKIMG("残り時間.BMP",0,250,0,600,300)
+			if !CHKIMG("残り時間.BMP",0,250,0,600,300) then break
+			SLEEP(10)
+			if !CHKIMG("残り時間.BMP",0,250,0,600,300) then break
+			kbd(vk_ESCAPE,0,50)
+			kbd(VK_RETURN,0,300)
+			kbd(VK_LEFT,1,300)
+			kbd(VK_LEFT,2,150)
+			kbd(VK_RETURN,0,300)
+			SLEEP(3)
+		wend
+		
+		While !CHKIMG("青点.BMP",0,0,0,250,200)
+			if CHKIMG("青点.BMP",0,0,0,250,200) then break
+			SLEEP(10)
+			if CHKIMG("青点.BMP",0,0,0,250,200) then break
+			kbd(vk_ESCAPE,0,50)
+			kbd(VK_RETURN,0,300)
+			kbd(VK_LEFT,1,300)
+			kbd(VK_LEFT,2,150)
+			kbd(VK_RETURN,0,300)
+			SLEEP(3)
+		wend
+
+sleep(1)
+
+kbd(vk_SHIFT,0,200)
+kbd(vk_SHIFT,0,50)
+kbd(vk_SHIFT,0,50)
+kbd(vk_SHIFT,0,50)
+
+sleep(1)
+
+kbd(vk_END,0,400)
+kbd(vk_END,0,50)
+kbd(vk_END,0,50)
+
+
+スキル = gettime( 50 / 86400 )
+
+while true
+
+while true
+
+
+while chkimg("黄点.bmp",0,0,0,Xa-2,200)
+kbd(vk_right,1)
+sleep(0.04)
+kbd(vk_right,2)
+wend
+
+
+while !chkimg("黄点.bmp",0,0,0,Xa+2,200)
+kbd(vk_left,1)
+sleep(0.04)
+kbd(vk_left,2)
+wend
+
+sleep(0.1)
+
+IFB GETTIME() > スキル
+スキル = gettime( 50 / 86400 )
+BREAK
+ENDIF
+
+wend
+
+ifb chkimg("黄点.bmp",0,0,0,Xa,200)
+
+while chkimg("黄点.bmp",0,0,0,Xa,200)
+kbd(vk_right,1)
+sleep(0.04)
+kbd(vk_right,2)
+wend
+
+sleep(1)
+
+		while CHKIMG("残り時間.BMP",0,250,0,600,300)
+			if !CHKIMG("残り時間.BMP",0,250,0,600,300) then break
+			SLEEP(10)
+			if !CHKIMG("残り時間.BMP",0,250,0,600,300) then break
+			kbd(vk_ESCAPE,0,50)
+			kbd(VK_RETURN,0,300)
+			kbd(VK_LEFT,1,300)
+			kbd(VK_LEFT,2,150)
+			kbd(VK_RETURN,0,300)
+			SLEEP(3)
+		wend
+		
+		While !CHKIMG("青点.BMP",0,0,0,250,200)
+			if CHKIMG("青点.BMP",0,0,0,250,200) then break
+			SLEEP(10)
+			if CHKIMG("青点.BMP",0,0,0,250,200) then break
+			kbd(vk_ESCAPE,0,50)
+			kbd(VK_RETURN,0,300)
+			kbd(VK_LEFT,1,300)
+			kbd(VK_LEFT,2,150)
+			kbd(VK_RETURN,0,300)
+			SLEEP(3)
+		wend
+
+kbd(vk_SHIFT,0,200)
+kbd(vk_SHIFT,0,50)
+kbd(vk_SHIFT,0,50)
+kbd(vk_SHIFT,0,50)
+
+sleep(1)
+
+kbd(vk_END,0,400)
+kbd(vk_END,0,50)
+kbd(vk_END,0,50)
+
+elseif !chkimg("黄点.bmp",0,0,0,Xa,200)
+
+while !chkimg("黄点.bmp",0,0,0,Xa,200)
+kbd(vk_left,1)
+sleep(0.04)
+kbd(vk_left,2)
+wend
+
+sleep(1)
+
+		while CHKIMG("残り時間.BMP",0,250,0,600,300)
+			if !CHKIMG("残り時間.BMP",0,250,0,600,300) then break
+			SLEEP(10)
+			if !CHKIMG("残り時間.BMP",0,250,0,600,300) then break
+			kbd(vk_ESCAPE,0,50)
+			kbd(VK_RETURN,0,300)
+			kbd(VK_LEFT,1,300)
+			kbd(VK_LEFT,2,150)
+			kbd(VK_RETURN,0,300)
+			SLEEP(3)
+		wend
+		
+		While !CHKIMG("青点.BMP",0,0,0,250,200)
+			if CHKIMG("青点.BMP",0,0,0,250,200) then break
+			SLEEP(10)
+			if CHKIMG("青点.BMP",0,0,0,250,200) then break
+			kbd(vk_ESCAPE,0,50)
+			kbd(VK_RETURN,0,300)
+			kbd(VK_LEFT,1,300)
+			kbd(VK_LEFT,2,150)
+			kbd(VK_RETURN,0,300)
+			SLEEP(3)
+		wend
+
+kbd(vk_SHIFT,0,200)
+kbd(vk_SHIFT,0,50)
+kbd(vk_SHIFT,0,50)
+kbd(vk_SHIFT,0,50)
+
+sleep(1)
+
+kbd(vk_END,0,400)
+kbd(vk_END,0,50)
+kbd(vk_END,0,50)
+
+endif
+
+
+
+wend
+
+
+PROCEDURE 並列処理()
+WHILE TRUE
+
+	
+//--------------------------------------------
+//自動復活（バトロのみ）
+
+　　　　IFB CHKIMG("確認.BMP")
+
+　　　　BTN(LEFT,0,G_IMG_X,G_IMG_Y,100)
+　　　　MMV(400,100,300)
+
+　　　　ENDIF
+	
+//--------------------------------------------
+//探知機後の停止処理
+
+        IFB CHKIMG("NPC.BMP",0,0,0,250,200) 
+            sound("beep")
+            EXITEXIT
+        ENDIF
+
+
+sleep(4)
+
+
+WEND
+FEND

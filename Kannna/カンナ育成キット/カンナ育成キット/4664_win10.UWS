@@ -1,0 +1,258 @@
+//スリーピーウッド地域
+//静かな湿地（ドレイク）
+//2019年12月16日
+//スキルキー設定は同フォルダの[kannaKeySetting.uws]より
+
+
+//時計回りでの狩り
+//バフ類は一切なし
+//46～63レベルくらいまでの予定（鬼神・天狗が手に入れば次のへ）
+//エリボが沸いたらストップ
+//並列スキルは天狗がないので紫扇迎波でごまかし(10秒ごと）
+//ビープ音がなるのは赤点・ルーン・チャット欄に庵(GM)・エリボ(そのあとストップ)
+
+
+
+
+call kannaKeySetting.uws
+call kannaLibrary.uws
+
+
+
+bahu = gettime(1/86400)
+haku = gettime(1/86400)
+
+
+ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+thread SeachOther
+thread logout
+thread skill
+
+
+
+
+while true
+
+
+
+
+
+
+ifb gettime() >= bahu
+	kbd(SKILLKEY.MACRO_SKILL_KEY,0,500)
+	sleep(0.2)
+	bahu = gettime(200/86400)
+endif
+
+
+
+ifb gettime() >= haku
+	kbd(SKILLKEY.HAKU_KEY,0,300)
+	kbd(SKILLKEY.HAKU_KEY,0,100)
+	haku = gettime(250/86400)
+endif
+
+
+
+
+
+
+
+
+
+//-----------------------------------------------------下段ポータルで上へ
+while !chkimg("../picture/YellowPoint.bmp",0,10,85,125,145)
+	while !chkimg("../picture/YellowPoint.bmp",0,10,87,86,165)//下段ポータルより右にいるとき左へ移動
+		kbd(vk_left,1,30)
+	wend
+	kbd(vk_left,2,10)
+	kbd(vk_up,0,50)
+	sleep(0.1)
+	while chkimg("../picture/YellowPoint.bmp",0,10,84,75,165)//下段ポータルより左にいるとき右へ移動
+		kbd(vk_right,1,50)
+		kbd(SKILLKEY.REIMYAKU_TENNI_KEY,0,50)
+		sleep(0.05)
+	wend
+	while chkimg("../picture/YellowPoint.bmp",0,10,83,85,165)//下段ポータルより左にいるとき右へ移動
+		kbd(vk_right,1,50)
+	wend
+	kbd(vk_right,2,30)
+	kbd(vk_up,0,50)
+	sleep(0.1)
+
+sleep(0.2)
+wend
+
+
+kbd(vk_left,1,30)
+kbd(vk_left,2,100)
+
+for x = 1 to 10
+	kbd(SKILLKEY.SISEN_KEY,0,100)
+next
+
+
+
+
+
+ifb !chkimg("../picture/YellowPoint.bmp",0,10,85,98,165)
+	kbd(vk_left,1)
+	while !chkimg("../picture/YellowPoint.bmp",0,10,85,98,165)
+		kbd(SKILLKEY.REIMYAKU_TENNI_KEY,0,100)
+	wend
+	kbd(vk_left,2,50)
+endif
+
+while chkimg("../picture/YellowPoint.bmp",0,10,85,125,111)//-------------1段目から2段目
+	kbd(vk_down,1,10)
+	kbd(vk_left,1,10)
+	kbd(SKILLKEY.JUMP_KEY,0,50)
+wend
+kbd(vk_left,2,10)
+kbd(vk_down,2,20)
+
+for x = 1 to 10
+	kbd(SKILLKEY.SISEN_KEY,0,100)
+next
+
+
+
+while chkimg("../picture/YellowPoint.bmp",0,10,85,125,130)//-------------2段目から3段目
+	kbd(vk_down,1,10)
+	kbd(vk_left,1,10)
+	kbd(SKILLKEY.JUMP_KEY,0,50)
+wend
+kbd(vk_left,2,10)
+kbd(vk_down,2,20)
+
+for x = 1 to 10
+	kbd(SKILLKEY.SISEN_KEY,0,100)
+next
+
+
+while chkimg("../picture/YellowPoint.bmp",0,10,85,125,157)//-------------3段目から最下段
+	kbd(vk_down,1,10)
+	kbd(vk_left,1,10)
+	kbd(SKILLKEY.JUMP_KEY,0,50)
+	kbd(SKILLKEY.JUMP_KEY,0,50)
+	kbd(vk_left,2,30)
+	kbd(SKILLKEY.REIMYAKU_TENNI_KEY,0,50)
+	kbd(SKILLKEY.REIMYAKU_TENNI_KEY,0,50)
+	kbd(SKILLKEY.REIMYAKU_TENNI_KEY,0,50)
+wend
+kbd(vk_left,2,10)
+kbd(vk_down,2,10)
+
+
+
+
+for x = 1 to 10
+	kbd(SKILLKEY.SISEN_KEY,0,100)
+next
+
+
+
+
+wend
+
+
+
+
+procedure SeachOther
+	red = gettime(5/86400)
+	rune = gettime(30/86400)
+	an = gettime(5/86400)
+	endspeak = gettime(3/86400)
+while true
+	ifb gettime() >= red
+		ifb chkimg("../picture/RedPoint.bmp",0,10,85,170,170) or chkimg("../picture/RedPoint2.bmp",0,10,85,170,150)
+			sound("beep")
+			KBD(VK_SCROLL,CLICK,500)
+			KBD(VK_SNAPSHOT,CLICK,500)
+		endif
+		red = gettime(4/86400)
+	endif
+
+	ifb gettime() >= rune
+		ifb chkimg("../picture/runePoint.bmp",0,10,85,170,150)
+			sound("beep")
+		endif
+		rune = gettime(30/86400)
+	endif
+
+	ifb gettime() >= an
+		ifb CHKIMG("../picture/庵.BMP",1,1,580,400,780) and !CHKIMG("../picture/ハート拡声器.BMP",0,1,580,400,780) 
+			sound("beep") 
+			sound("beep") 
+		endif
+		an = gettime(5/86400)
+	endif
+
+	ifb CHKIMG("../picture/eribo.BMP",0,1,1,1300,1000) 
+		sound("beep") 
+		sound("beep") 
+		exitexit
+	endif
+
+	ifb gettime() >= endspeak
+		ifb chkimg("../picture/会話.bmp",0,200,450,400,520) 
+			btn(left,0,g_img_x,g_img_y,500)
+			btn(left,0,g_img_x,g_img_y,100)
+			mmv(300,200,100)
+		endif
+		endspeak = gettime(3/86400)
+	endif
+	sleep(0.5)
+
+wend
+fend
+
+
+procedure logout
+while true
+	ifb !chkimg("../picture/静かな湿地.bmp",1,96,55,119,76)
+		sound("beep")
+		sleep(4)
+		ifb !chkimg("../picture/静かな湿地.bmp",1,96,55,119,76)
+			sound("beep")
+			sound("beep")
+			sound("beep")
+			KBD(VK_SCROLL,CLICK,500)
+			KBD(VK_SNAPSHOT,CLICK,1000)
+			sleep(0.5)
+//			CTRLWIN(GETID("MapleStory","MapleStoryClass"), CLOSE)
+//			kbd(vk_enter,0,500)
+			gettime()
+			A = g_time_hh
+			B = g_time_nn
+			print A + ":" + B
+			exitexit
+		endif
+	endif
+	sleep(1)
+wend
+fend
+
+
+
+
+
+procedure skill
+oyabun = gettime(5/86400)
+joreihu = gettime(5/86400)
+while true
+	ifb gettime() >= joreihu
+		while chkimg("../picture/joreihu.bmp")
+			kbd(SKILLKEY.ONMYOU_JOREIHU_KEY,0,100)
+		WEND
+		joreihu = gettime(5/86400)
+	endif
+	ifb gettime() >= oyabun
+		for x = 1 to 10
+			kbd(SKILLKEY.OYABUN_KEY,0,50)
+		next
+		oyabun = gettime(33/86400)
+	endif
+	sleep(1)
+wend
+fend

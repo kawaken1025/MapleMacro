@@ -15,7 +15,7 @@ CLASS pSkillKey
 	//SupportSkillKey
 	const P_COMBAT_ORDER_KEY  = VK_F7
 	const P_SHARP_EYES_KEY    = VK_9
-	const P_HOLY_SYMBOL       = VK_5
+	const P_HOLY_SYMBOL       = VK_F8
 	const P_WIND_BOOSTER      = VK_8
 	const P_HYPER_BODY_KEY    = VK_R
 

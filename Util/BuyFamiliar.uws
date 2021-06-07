@@ -11,6 +11,9 @@
 //     Create Date : 2018/07/15
 //=========================================
 
+CALL ../lib/MapleLibrary.uws;
+lib.activeWindow();
+
 while TRUE
     BTN(LEFT,CLICK,400,235,500) //1段目選択
     BTN(LEFT,CLICK,950,750,500) //購入ボタン

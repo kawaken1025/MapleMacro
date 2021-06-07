@@ -16,18 +16,17 @@ public useValue
 // デフォルト使用数(1～100 or 999指定で所持数全て使用する)
 def = 999
 // 分解対象となるファミリアの画像配列(picture/new_fam_system/item に分解対象となる画像を格納してあること)
-// dim targetFamList[] = "gaitou100", "gaitou100rare"
 GETDIR("../picture/new_fam_system/item/", "*.bmp", false, 0);
 // 使用するファミリアの個数入力
 // 100個以上スロット空けてるならコメントアウトしてもいいかも
-useValue = input("ファミリアスロットの空き枠を入力してください", def)
+//useValue = input("ファミリアスロットの空き枠を入力してください", def)
 
 while true
     // ファミリア使用
     for i = 0 to length(GETDIR_FILES)-1
         ifb chkimg("../picture/new_fam_system/item/" + GETDIR_FILES[i] ,0,0,0,1366,768)
-            btn(left,click,g_img_x,g_img_y,100)
-            btn(left,click,g_img_x,g_img_y,100)
+            BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,100)
+            BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,100)
             break;
         else
             ifb i = length(GETDIR_FILES)-1
@@ -46,7 +45,7 @@ while true
     // 全選択
     for i = 1 to 3
         ifb chkimg("../picture/new_fam_system/ui/all_select.bmp",0,0,0,1366,768)
-            BTN(left,click,g_img_x,g_img_y,500)
+            BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,500)
             sleep(0.5);
             break;
         else
@@ -59,7 +58,7 @@ while true
 
     // 分解する
     ifb chkimg("../picture/new_fam_system/ui/break.bmp",0,0,0,1366,768)
-        BTN(left,click,g_img_x,g_img_y,100)
+        BTN(LEFT,CLICK,G_IMG_X,G_IMG_Y,100)
         KBD(VK_ENTER,0,750)
         while true
             sleep(1)

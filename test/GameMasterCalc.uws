@@ -1,0 +1,194 @@
+
+firstNumber   = 0
+firstNumberX  = 0
+secondNumber  = 0
+secondNumberX = 0
+
+BTN(LEFT,CLICK,0,850,100);
+
+ifb CHKIMG("../picture/number/4.bmp",1,60,600,800,753)
+    firstNumber = 4
+    firstNumberX = G_IMG_X
+    firstNumberY = G_IMG_Y
+endif
+
+ifb firstNumber = 0
+    ifb CHKIMG("../picture/number/8.bmp",1,60,600,800,753)
+        firstNumber = 8
+        firstNumberX = G_IMG_X
+        firstNumberY = G_IMG_Y
+    
+    endif
+endif
+
+ifb firstNumber = 0
+    ifb CHKIMG("../picture/number/9.bmp",1,60,600,800,753)
+        firstNumber = 9
+        firstNumberX = G_IMG_X
+        firstNumberY = G_IMG_Y
+    
+    endif
+endif
+
+ifb firstNumber = 0
+    ifb CHKIMG("../picture/number/1.bmp",1,60,600,800,753)
+        firstNumber = 1
+        firstNumberX = G_IMG_X
+        firstNumberY = G_IMG_Y
+    endif
+endif
+
+ifb firstNumber = 0
+    ifb CHKIMG("../picture/number/2.bmp",1,60,600,800,753)
+        firstNumber = 2
+        firstNumberX = G_IMG_X
+        firstNumberY = G_IMG_Y
+    
+    endif
+endif
+
+ifb firstNumber = 0
+    ifb CHKIMG("../picture/number/3.bmp",1,60,600,800,753)
+        firstNumber = 3
+        firstNumberX = G_IMG_X
+        firstNumberY = G_IMG_Y
+    
+    endif
+endif
+
+ifb firstNumber = 0
+    ifb CHKIMG("../picture/number/5.bmp",1,60,600,800,753)
+        firstNumber = 5
+        firstNumberX = G_IMG_X
+        firstNumberY = G_IMG_Y
+    
+    endif
+endif
+
+ifb firstNumber = 0
+    ifb CHKIMG("../picture/number/6.bmp",1,60,600,800,753)
+        firstNumber = 6
+        firstNumberX = G_IMG_X
+        firstNumberY = G_IMG_Y
+    endif
+endif
+
+ifb firstNumber = 0
+    ifb CHKIMG("../picture/number/7.bmp",1,60,600,800,753)
+        firstNumber = 7
+        firstNumberX = G_IMG_X
+        firstNumberY = G_IMG_Y
+    
+    endif
+endif
+
+print firstNumber
+print firstNumberX
+print firstNumberY
+
+
+ifb CHKIMG("../picture/number/4.bmp",1,firstNumberX+6,600,800,753)
+    secondNumber = 4
+    secondNumberX = G_IMG_X
+    secondNumberY = G_IMG_Y
+endif
+
+ifb secondNumber = 0
+    ifb CHKIMG("../picture/number/8.bmp",1,firstNumberX+6,600,800,753)
+        secondNumber = 8
+        secondNumberX = G_IMG_X
+        secondNumberY = G_IMG_Y
+    
+    endif
+endif
+
+ifb secondNumber = 0
+    ifb CHKIMG("../picture/number/9.bmp",1,firstNumberX+6,600,800,753)
+        secondNumber = 9
+        secondNumberX = G_IMG_X
+        secondNumberY = G_IMG_Y
+    
+    endif
+endif
+
+ifb secondNumber = 0
+    ifb CHKIMG("../picture/number/1.bmp",1,firstNumberX+6,600,800,753)
+        secondNumber = 1
+        secondNumberX = G_IMG_X
+        
+    endif
+endif
+
+ifb secondNumber = 0
+    ifb CHKIMG("../picture/number/2.bmp",1,firstNumberX+6,600,800,753)
+        secondNumber = 2
+        secondNumberX = G_IMG_X
+        
+    
+    endif
+endif
+
+ifb secondNumber = 0
+    ifb CHKIMG("../picture/number/3.bmp",1,firstNumberX+6,600,800,753)
+        secondNumber = 3
+        secondNumberX = G_IMG_X
+        
+    
+    endif
+endif
+
+ifb secondNumber = 0
+    ifb CHKIMG("../picture/number/5.bmp",1,firstNumberX+6,600,800,753)
+        secondNumber = 5
+        secondNumberX = G_IMG_X
+        
+    
+    endif
+endif
+
+ifb secondNumber = 0
+    ifb CHKIMG("../picture/number/6.bmp",1,firstNumberX+6,600,800,753)
+        secondNumber = 6
+        secondNumberX = G_IMG_X
+        
+    
+    endif
+endif
+
+ifb secondNumber = 0
+    ifb CHKIMG("../picture/number/7.bmp",1,firstNumberX+6,600,800,753)
+        secondNumber = 7
+        secondNumberX = G_IMG_X
+        
+    
+    endif
+endif
+
+
+
+print secondNumber
+print G_IMG_X
+print G_IMG_Y
+
+// チャット入力
+BTN(LEFT,CLICK,400,350,200);
+BTN(LEFT,CLICK,400,350,200);
+num = firstNumber + secondNumber
+KBD(VK_1,0,500);
+SendStr(0,num,1,True);
+KBD(VK_CTRL,1,500);
+KBD(VK_V,0,200);
+KBD(VK_CTRL,2,100);
+KBD(VK_ENTER,0,500);
+BTN(LEFT,CLICK,400,350,200);
+BTN(LEFT,CLICK,400,350,200);
+
+
+// for i = 1 to 9
+//     ifb CHKIMG("../picture/number/" + i + ".bmp",0,G_IMG_X+5,660,150,786)
+//             secondNumber = i
+//         
+//     endif
+// next
+
+//  + secondNumber

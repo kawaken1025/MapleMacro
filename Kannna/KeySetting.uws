@@ -13,16 +13,19 @@
 CLASS key
 
 	//SkillKey
+	const SHISEN_KEY       = VK_X      // 紫扇
+	const OYABUN_KEY       = VK_W      // 親分
 	const DEMON_KEY        = VK_H      // 鬼神
 	const BRAGGART_KEY     = VK_A      // 天狗
 	const SAKURA_KEY       = VK_G      // サクラ
-	const CONTINUOUS_KEY   = VK_F      // 邪破連撃符
-	const SAND_OVER_KEY    = VK_DELETE // 砂かけ婆
+	const CONTINUOUS_KEY   = VK_F3     // 邪破連撃符
 	const SNOW_WOMEN       = VK_F5     // 雪女召喚
 	const LING_STONE       = VK_HOME   // 霊石召喚
-	const SENGOKU_ALLIANCE = VK_L      // 戦国同盟
+	const SENGOKU_ALLIANCE = VK_L      // 暁(5th)
 	const BLESSING         = VK_N      // 姫の加護
 	const WHITE_FOX_KEY    = VK_CTRL   // 白狐
+	const SPIDER_IN_MIRROR = VK_DELETE // スパイダーインミラー
+	const JOREIFU_KEY      = VK_D      // 除霊符
 
 	//SupportSkillKey
 	const SKILL_MACRO1_KEY    = VK_G     // 補助スキルマクロ

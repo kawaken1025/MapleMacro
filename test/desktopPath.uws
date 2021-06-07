@@ -1,0 +1,11 @@
+getCharacterLevel()
+
+function getCharacterLevel()
+    fileName = "level"
+    Dim wsh = CreateOLEObj("WScript.Shell")
+    Dim file = wsh.SpecialFolders("desktop") + "\" + fileName + ".txt"
+    id = FOPEN(file)
+    level = FGET(id, 1)
+    print level
+    result = level
+fend

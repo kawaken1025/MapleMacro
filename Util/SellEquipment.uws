@@ -27,9 +27,22 @@ else
 endif
 
 
-ifb chkimg("../picture/selected_equipment.bmp",0,0,0,1024,768)
+ifb chkimg("../picture/selected_equipment.bmp",0,0,0,1024,768) or chkimg("../picture/selected_equipment2.bmp",0,0,0,1024,768)
     x = G_IMG_X
     y = G_IMG_Y + 30
+    tmp = 0;
+    ifb chkimg("../picture/buy_item_ignore/ヴェラペン.bmp",0,0,0,1024,768)
+        x = G_IMG_X;
+        tmp = G_IMG_Y;
+        y = G_IMG_Y + 45;
+    endif
+
+    ifb chkimg("../picture/buy_item_ignore/awake_ring.bmp",0,0,0,1024,768)
+        ifb tmp < G_IMG_Y
+            x = G_IMG_X;
+            y = G_IMG_Y + 45;
+        endif
+    endif
 else
     print "装備タブの座標取得に失敗しました"
     exitexit

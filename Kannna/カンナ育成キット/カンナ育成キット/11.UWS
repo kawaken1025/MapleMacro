@@ -1,0 +1,289 @@
+
+SLEEP(0.5)
+
+THREAD 並列1 //並列
+THREAD 並列2 //並列
+
+ACW(GETID("MapleStory","MapleStoryClass"),1,1)
+
+STOP = GETTIME( 1080 / 86400 ) //時間取得
+//////////////////////////////////////////////////
+
+ A = gettime( 140 / 86400 )
+
+     SLEEP(0.5)
+     KBD(VK_J,CLICK,500)//　鬼神
+     KBD(VK_J,CLICK,300)
+     KBD(VK_J,CLICK,200)
+     KBD(VK_J,CLICK,300)
+     KBD(VK_J,CLICK,200)
+     SLEEP(0.1)
+
+ B = gettime( 280 / 86400 )
+
+     SLEEP(1)
+     KBD(VK_7,CLICK,300)//ハク
+     KBD(VK_7,CLICK,200)
+	 KBD(VK_0,CLICK,800)//MH
+     KBD(VK_0,CLICK,200)
+     SLEEP(1)
+ 
+WHILE TRUE
+
+//--------------------------------------------
+//バフ、CTスキル関連
+     
+ifb gettime() > A
+
+     SLEEP(0.5)
+     KBD(VK_SPACE,CLICK,500)//　鬼神
+     KBD(VK_SPACE,CLICK,300)
+     KBD(VK_SPACE,CLICK,200)
+     KBD(VK_SPACE,CLICK,300)
+     KBD(VK_SPACE,CLICK,200)
+     SLEEP(0.1)
+
+A = gettime( 140 / 86400 )
+endif
+     
+ifb gettime() > B
+
+     SLEEP(0.2)
+     KBD(VK_F1,CLICK,300)//ハク
+     KBD(VK_F1,CLICK,200)
+	 KBD(VK_F4,CLICK,800)//MH
+     KBD(VK_F4,CLICK,200)
+     SLEEP(1)
+ 
+B = gettime( 280 / 86400 )
+endif
+
+	  ifb chkimg("狐.BMP")
+	  
+	  SLEEP(0.2)
+	  kbd(vk_0,0,350)//狐
+	  kbd(vk_0,0,50)
+	  kbd(vk_0,0,50)
+      KBD(VK_6,CLICK,200)//天狗
+      sleep(0.2)
+	  
+      endif
+	  
+      ifb chkimg("雪女.BMP")
+	 
+      sleep(0.2)
+      kbd(vk_B,0,200)//雪女
+      kbd(vk_B,0,200)
+      kbd(vk_B,0,200)
+      sleep(0.2)
+	  
+      endif
+	    
+      ifb chkimg("SE.BMP")
+	 
+      sleep(0.2)
+      kbd(vk_M,0,200)//SE
+      kbd(vk_M,0,200)
+      kbd(vk_M,0,200)
+      sleep(0.8)
+	  
+      endif
+
+      ifb chkimg("暁.BMP")
+	 
+      sleep(0.2)
+      kbd(vk_N,0,200)//暁
+      kbd(vk_N,0,200)
+      kbd(vk_N,0,200)
+      sleep(0.3)
+	  
+      endif	 
+	  
+	  ifb chkimg("HS.BMP")
+	  
+	  SLEEP(0.2)
+	  kbd(vk_F2,0,350)//HS
+	  kbd(vk_F2,0,50)//HS
+	  kbd(vk_F2,0,50)//HS
+      sleep(1)
+	  kbd(vk_F3,0,350)//暁加護
+	  kbd(vk_F3,0,50)//HS
+	  kbd(vk_F3,0,50)//HS
+	  SLEEP(0.3)
+	  
+      endif
+
+
+while !chkimg("黄点.bmp",0,0,0,51,160)　
+kbd(vk_left,1)
+
+KBD(VK_C,0,50)
+KBD(VK_C,0,50)
+KBD(VK_4,0,50)
+KBD(VK_4,0,50)
+KBD(VK_4,0,50)
+KBD(VK_4,0,50)
+KBD(VK_8,0,350)
+KBD(VK_8,0,50)
+KBD(VK_8,0,50)
+sleep(0.2)
+
+wend
+kbd(vk_left,2)
+
+
+
+WHILE TRUE
+
+
+if chkimg("黄点.bmp",0,0,0,170,110) THEN BREAK 
+
+if chkimg("黄点.bmp",0,0,0,21,160)
+kbd(vk_right,1)
+sleep(0.1)
+kbd(vk_right,2)
+endif
+
+sleep(0.5)
+KBD(VK_C,0,50)
+KBD(VK_C,0,50)
+KBD(vk_UP,1)
+KBD(VK_8,0,350)
+KBD(VK_8,0,50)
+KBD(VK_8,0,50)
+sleep(0.4)
+kbd(vk_UP,2)
+sleep(0.3)
+
+
+if chkimg("黄点.bmp",0,0,0,170,120) THEN BREAK 
+WEND
+KBD(VK_UP,2)
+
+
+
+for ee = 1 to 2
+KBD(VK_4,0,50)
+KBD(VK_4,0,50)
+next
+
+while chkimg("黄点.bmp",0,0,0,135,115)
+kbd(vk_right,1)
+
+
+KBD(VK_C,0,50)
+KBD(VK_C,0,50)
+KBD(VK_4,0,50)
+KBD(VK_4,0,50)
+KBD(VK_4,0,50)
+KBD(VK_4,0,50)
+KBD(VK_8,0,350)
+KBD(VK_8,0,50)
+KBD(VK_8,0,50)
+sleep(0.2)
+
+
+
+
+wend
+
+kbd(vk_right,2)
+
+
+WHILE TRUE
+
+if !chkimg("黄点.bmp",0,0,0,170,115) THEN BREAK 
+kbd(vk_left,1)
+sleep(0.3)
+kbd(vk_left,2)
+sleep(0.1)
+KBD(VK_down,1)
+KBD(VK_8,0)
+if !chkimg("黄点.bmp",0,0,0,170,115) THEN BREAK 
+WEND
+KBD(VK_down,2)
+
+for ee = 1 to 3
+KBD(VK_4,0,50)
+KBD(VK_4,0,50)
+next
+
+WEND
+
+
+
+//////////////////////////////////////////////////
+PROCEDURE 並列1
+
+        SLEEP(10)
+
+   WHILE TRUE
+
+//--------------------------------------------
+//虹色探知機対策（天狗ランダム周期発動）
+
+    VALUE = RANDOM(3)+1
+    SELECT VALUE
+	 
+	CASE 1
+     KBD(VK_6,CLICK,50)//双天狗
+     KBD(VK_6,CLICK,50)
+     SLEEP(3)
+
+	CASE 2 
+     KBD(VK_6,CLICK,50)
+     KBD(VK_6,CLICK,50)
+     SLEEP(3.5)
+
+	CASE 3	 
+     KBD(VK_6,CLICK,50)
+     KBD(VK_6,CLICK,50)
+     SLEEP(4)
+
+    SELEND     
+	  
+   WEND
+
+FEND
+
+PROCEDURE 並列2
+
+        SLEEP(10)
+
+   WHILE TRUE
+
+     SLEEP(1.5)
+
+        IFB CHKIMG("会話.BMP",0,0,0,800,600)
+            KBD(VK_ESCAPE,CLICK,50)
+        ENDIF
+
+        IFB CHKIMG("赤点.BMP",0,0,0,200,200)
+            SOUND("beep")
+            SLEEP(1)
+        ENDIF
+
+        IFB CHKIMG("確認.BMP",0,0,0,800,600)
+            BTN(LEFT,0,G_IMG_X,G_IMG_Y,100)
+            MMV(400,100,300)
+        ENDIF
+
+        IFB CHKIMG("NPC.BMP",0,0,0,250,200) 
+            sound("beep")
+            EXITEXIT
+        ENDIF
+		
+        IFB CHKIMG("残り時間.BMP",0,250,0,600,300) 
+            sound("beep")
+            SLEEP(1)
+            EXITEXIT
+        ENDIF
+		
+        IFB CHKIMG("ルーン.BMP",0,0,0,200,200) 
+            sound("beep")
+            SLEEP(1)
+        ENDIF
+     
+  WEND//ループの最後
+     
+FEND

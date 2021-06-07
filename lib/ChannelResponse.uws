@@ -1,0 +1,29 @@
+CALL ../lib/MapleLibrary.uws;
+
+// ch取得
+ch = getNowChannel();
+// 応答用メッセージ
+msg = ch +  "ちゃんねる"
+
+// GMにチャットで返答
+// responseToGameMaster( msg );	
+
+function getNowChannel()
+
+    // ch変更ショートカットキー
+    KBD(VK_F7,0,500)
+    
+    ch = 1;
+    // pictureフォルダの中にchannelフォルダ作ってその中に画像入れとく
+    // Ex:画像名は 1chであれば 1.bmp 16chだったら　16.bmp
+    GETDIR("../picture/channel/", "*.bmp", false, 0);
+    for i = ch to length(GETDIR_FILES)
+        ifb chkimg("../picture/channel/" + ch + ".bmp")
+            break;
+        else
+            ch = ch + 1
+        endif
+    next
+    // ここで返したいメッセージ設定してもいいかな
+    result = ch
+fend

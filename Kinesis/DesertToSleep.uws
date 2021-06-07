@@ -1,0 +1,124 @@
+//=========================================//
+// Map Name    : 眠る砂漠　　　　　　　　　   //
+//=========================================//
+
+//=========================================//
+// comment     : None
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 800x600 or 1366x768
+//=========================================//
+// Copy Right (C) 2019 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2019/02/09
+//=========================================//
+
+//=========================================
+// init
+//=========================================
+// MapleAPI : LogWriter.uws , MapleLibrary.uws , UseSkillFiveJob.uws
+CALL ../MapleAPI/MapleAPI.uws;
+// Util - sugarTime exec
+CALL ../Util/MapleUtil.uws;
+// multiThread checkRedPoint and checkMineralization
+thread lib.parallelProgram();
+// MessageWindow init
+CALL ../Util/MapleUtil.uws;
+
+while true;
+    //Acquisition of Time : Get the time after 3 minutes
+    reUseSkillTime = GETTIME( 150 / 86400 );
+    useSkill();
+    SLEEP(0.5);
+    KBD(VK_T,0,2000)
+    //lib.checkFamiliarPower();
+    //lib.useMaprage();
+    while true;
+        oneWayAttack(VK_LEFT,0,0,50,120);
+        oneWayAttack(VK_RIGHT,120,110,145,120);
+        //3minutes elapsed?
+        if GETTIME() > reUseSkillTime then break;
+    wend
+wend
+//=========================================
+// param   : $1:移動方向キー
+//           $2:chkimg準拠
+// comment : 左右往復
+//=========================================
+function oneWayAttack(moveKey,x1,y1,x2,y2)
+
+    //execute moveHunting
+    KBD(moveKey,1,1000);
+    cnt = 0
+    while true
+        if chkimg(lib.picPathHelper("yellowPoint"),0,x1,y1,x2,y2)     then break;
+        for i = 1 to 3
+            KBD(VK_C,0,150 + random(20));
+        next
+        for i = 1 to 2
+            KBD(VK_X,0,200 + random(20));
+        next
+        ifb cnt > 2
+            KBD(VK_A,0,200 + random(20));
+            cnt = 0
+        else
+            cnt = cnt + 1
+        endif
+    wend
+    //lib.checkGameMaster();
+    KBD(moveKey,2,200);
+
+    // ルーンが出現しているか確認します。
+    // 出現していた場合は解除します
+    ret = checkRuneStage()
+    ifb ret <> 0
+    	sleep(0.5);
+        lib.OpenRune();
+        sleep(1);
+    endif    
+    result = 0;
+fend
+
+//=========================================
+// param   : None 
+// comment : ルーンが出現しているか確認
+//=========================================
+function checkRuneStage()
+
+	ret = 0;
+    // 上段にあるか
+    ifb chkimg(lib.picPathHelper("runePoint"),0,0,0,63,103)
+        ret = 2;
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを上段で発見しました。");
+        moveRuneUpStage();
+    elseif chkimg(lib.picPathHelper("runePoint"),0,30,107,145,120)
+        ret = 1;
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを下段で発見しました。");
+    endif
+    result = ret;
+fend
+
+function moveRuneUpStage()
+
+    KBD(VK_LEFT,1,1000)
+    while true
+        if chkimg(lib.picPathHelper("runePoint"),0,30,108,50,120) then break;
+    wend
+    KBD(VK_LEFT,2,100)
+    KBD(VK_RIGHT,1,500)
+    while true
+        if chkimg(lib.picPathHelper("runePoint"),0,40,108,60,120) then break;
+    wend
+    KBD(VK_RIGHT,2,10)
+    KBD(VK_B,0,500)
+    result = 0;
+fend
+
+function useSkill()
+
+	KBD(VK_G,0,1000);
+	KBD(VK_H,0,3000);
+	result = 0;
+
+fend
