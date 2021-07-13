@@ -18,7 +18,7 @@ CALL ../MapleAPI/MapleAPI.uws;
 CALL ../Util/MapleUtil.uws;
 CALL KannnaUtil.uws;
 // multiThread checkRedPoint and checkMineralization
-thread manager.CheckEncountStatus("../MapleManagement/status/Kannna/status");
+//thread manager.CheckEncountStatus("../MapleManagement/status/Kannna/status");
 // MessageWindow init
 LOGPRINT(true,10,800,500,100)
 lib.ExpandQuickSlot()
@@ -134,11 +134,13 @@ while true
             KBD(key.TELEPORT_KEY,CLICK,120)
             sleep(0.1)
         CASE 1 
-            KBD(key.BRAGGART_KEY,CLICK,150)//天狗
+            KBD(key.JOREIFU_KEY,CLICK,350)//天狗
+            KBD(key.BRAGGART_KEY,CLICK,100)//天狗
             KBD(key.TELEPORT_KEY,CLICK,180)//テレポ
             KBD(key.TELEPORT_KEY,CLICK,110)
             sleep(0.1)  
         CASE 2	 
+            KBD(key.JOREIFU_KEY,CLICK,300)//天狗
             KBD(key.BRAGGART_KEY,CLICK,100)//天狗
             KBD(key.TELEPORT_KEY,CLICK,150)//テレポ
             KBD(key.TELEPORT_KEY,CLICK,100)
@@ -252,8 +254,9 @@ PROCEDURE 並列2
     isEncount = false;
     SLEEP(0.5)
     while true
-        ifb chkimg(lib.picPathHelper("redpoint"),0,0,0,300,300) or chkimg(lib.picPathHelper("redpoint2"),0,0,0,300,300)
+        ifb chkimg(lib.picPathHelper("赤点"),0,0,0,300,300) or chkimg(lib.picPathHelper("redpoint2"),0,0,0,300,300)
             isEncount = true;
+            KBD(VK_SCROLL,CLICK,100)
             for i = 1 to 2
                 sound("BEEP")
             next
@@ -332,7 +335,7 @@ fend
 
 
 function channelChange()
-
+    //exit;
     while true
         //▼▼エリボ処理（ｃｈ変更）▼▼
         ifb chkimg("../picture/残り時間.bmp",0,0,0,700,200) 
@@ -357,7 +360,7 @@ function channelChange()
                 BTN(left,0,300,100,100)
 
                 for x = 1 to 10
-                    if chkimg("../picture/redpoint.bmp",0,0,45,250,170) or _
+                    if chkimg("../picture/赤点.bmp",0,0,45,250,170) or _
                     chkimg("../picture/redpoint2.bmp",0,0,45,250,170) or _
                     chkimg("../picture/guild_member.bmp",0,0,45,250,170) or _
                     chkimg("../picture/friend_point.bmp",0,0,45,250,170) or _

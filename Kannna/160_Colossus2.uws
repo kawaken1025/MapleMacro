@@ -45,21 +45,20 @@ try
         collectTime = GETTIME( 110 / 86400 );
         oyabunTime = GETTIME( 30 / 86400 )
         useSkill();
-        KBD(VK_T,0,500);
-        lib.checkFamiliarPower();
-        lib.useMaprage();
+        //KBD(VK_T,0,500);
+        //lib.checkFamiliarPower();
+        //lib.useMaprage();
         while true;
             oneWayAttack(VK_LEFT,0,0,65,145);
             upStage();
             oneWayAttack(VK_RIGHT,130,80,170,150);
             DownJump();
-            
-            // ルーンが出現しているか確認します。
-            // 出現していた場合は解除します
-            ret = checkRuneStage()
+
+            ret = checkRuneStage();
             ifb ret <> 0
                 lib.OpenRune();
             endif
+            
             // 時間経過チェック
             if GETTIME() > reUseSkillTime then break;
             ifb GETTIME() > propUseTime
@@ -81,7 +80,7 @@ function upStage()
     KBD(VK_RIGHT,0,200)
     KBD(VK_UP,1)
     for i = 1 to 3
-        KBD(VK_SPACE,0,200)
+        KBD(key.TELEPORT_KEY,0,200)
     next
     KBD(VK_UP,2)
     result = 0;
@@ -119,30 +118,23 @@ function oneWayAttack(moveKey,x1,y1,x2,y2)
         //lib.UrgentCheckCCmode();
         util.KannnaSkillCheck();
         skill.pSkill();
-        ifb isEvent
-            KBD(VK_Q,0,250)
-        endif
+
         ifb chkimg(lib.picPathHelper("yellowPoint"),0,x1,y1,x2,y2)
             ifb 125 < G_IMG_Y and moveKey = VK_LEFT
-                KBD(moveKey,2)
-                KBD(VK_B,0,500)
+                upStage();
                 sleep(0.7)
             endif
             break;
         endif
     wend
     KBD(moveKey,2)
-    //3minutes elapsed?
-    ifb GETTIME() > oyabunTime
-        KBD(VK_W,0,500)
-        oyabunTime = GETTIME(30 /86400)
-    endif
+
     result = 0;
 fend
 
 function Attack()
     for i = 1 to 5
-        KBD(VK_SPACE,0,100);
+        KBD(key.TELEPORT_KEY,0,100);
     next   
     thread tengu()
     ifb chkimg(lib.picPathHelper("kishin"),0,0,0,1366,800) 
@@ -152,8 +144,8 @@ function Attack()
             if !chkimg(lib.picPathHelper("kishin"),0,0,0,1366,800) then break;
         wend
     endif
-    for i = 1 to 6
-        KBD(VK_X,0,100);
+    for i = 1 to 4
+        KBD(key.SHISEN_KEY,0,100+random(50));
     next
     thread tengu()
     result = 0;
@@ -161,11 +153,11 @@ fend
 
 function tengu()
     for i = 1 to 3
-        KBD(VK_A,0,300+random(50))
+        KBD(key.BRAGGART_KEY,0,300+random(50))
     next
     ifb chkimg(lib.picPathHelper("kishin"),0,0,0,1366,800) 
         while true
-            KBD(VK_H,0,200);
+            KBD(key.DEMON_KEY,0,200);
             if !chkimg(lib.picPathHelper("kishin"),0,0,0,1366,800) then break;
         wend
     endif
@@ -180,7 +172,7 @@ function DownJump()
         KBD(VK_DOWN,1,50)
         for i = 1 to 2
             KBD(VK_C,0,100)
-            KBD(VK_SPACE,0,100)
+            KBD(key.TELEPORT_KEY,0,100)
         next
         KBD(VK_DOWN,2,500)
         result = false;
@@ -230,7 +222,7 @@ function moveStage(num)
 	    KBD(VK_LEFT,2,500)
         KBD(VK_UP,1,500)
         for i = 1 to 5
-            KBD(VK_SPACE,0,100)
+            KBD(key.TELEPORT_KEY,0,100)
         next
         KBD(VK_UP,2,100)
         result = 0;
@@ -250,53 +242,12 @@ fend
 
 function useSkill()
 
-	KBD(VK_H,0,500);
-    for i = 1 to 5
-        KBD(VK_H,0,200)
-    next
-    KBD(VK_G,0,600);
-    sleep(1);
-    KBD(VK_2,0,1000);
-
+	KBD(key.SKILL_MACRO1_KEY,0,600);
+    KBD(key.HAKU_KEY,0,800);
 	result = 0;
 
 fend
 
-function KannnaSkillCheck()
-    x1 = 800;
-    y1 = 600;
-    x2 = 1366;
-    y2 = 800;
-
-    KBD(VK_U,0,300);
-
-    ifb chkimg("../picture/BlessingsOfPrincess.bmp",0,x1,y1,x2,y2)
-        KBD(VK_N,0,500);
-        //sleep(1);
-    endif
-
-    ifb chkimg("../picture/雪女.bmp",0,x1,y1,x2,y2)
-        KBD(VK_F5,0,500);
-    endif
-
-    ifb chkimg("../picture/LingStone.bmp",0,x1,y1,x2,y2)
-        KBD(VK_HOME,0,500);
-    endif
-
-    ifb chkimg("../picture/白狐.bmp",0,x1,y1,x2,y2)
-        KBD(VK_CTRL,0,100);
-        KBD(VK_A,0,200)
-        KBD(VK_A,0,200)
-    elseif chkimg("../picture/WhiteFox.bmp",0,x1,y1,x2,y2)
-        KBD(VK_CTRL,0,100);
-        KBD(VK_A,0,200)
-        KBD(VK_A,0,200)
-        sleep(2);
-    endif
-
-    if chkimg(lib.picPathHelper("SpiderInMirror"),0,0,0,1368,800) then KBD(VK_DELETE,0,500);
-    result = 0;
-fend
 
 procedure parallelProgramWaitMode()
 
@@ -314,19 +265,15 @@ procedure parallelProgramWaitMode()
 
         ifb chkimg("../picture/赤点.bmp",0,0,0,300,300)
             logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+            SOUND("BEEP")
             //exitexit;
         endif
         
         ifb chkimg(lib.picPathHelper("redpoint2"),0,0,0,300,300)
-            manager.WritePlayerEncoutStatus(path)
             isEncount = true;
             sleep(1);
+            SOUND("BEEP")
             //exitexit;
-        else
-            ifb isEncount = true
-                manager.WritePlayerNotEncoutStatus(path);
-                isEncount = false;
-            endif
         endif
 
         ifb  chkimg("../picture/緑点.bmp",0,0,0,1368,800)

@@ -56,8 +56,6 @@ class util
         x2 = 1366;
         y2 = 800;
 
-        KBD(VK_U,0,300);
-
         ifb mSaLx1 = 0
             ifb chkimg("../picture/SengokuAlliance.bmp",0,x1,y1,x2,y2)
                 KBD(key.SENGOKU_ALLIANCE,0,300);
@@ -85,80 +83,81 @@ class util
 
         ifb mYOx1 = 0
             ifb chkimg("../picture/雪女.bmp",0,x1,y1,x2,y2)
-                KBD(VK_F5,0,100);
+                KBD(key.SNOW_WOMEN,0,100);
                 sleep(0.2);
                 lib.SetCoordinate(mYOx1, mYOy1, mYOx2, mYOy2);
             endif
         else
             ifb chkimg("../picture/雪女.bmp",0,mYOx1, mYOy1, mYOx2, mYOy2)
-                KBD(VK_F5,0,100);
+                KBD(key.SNOW_WOMEN,0,100);
                 sleep(0.3);
             endif
         endif
 
         ifb mLSx1 = 0
             ifb chkimg("../picture/LingStone.bmp",0,x1,y1,x2,y2)
-                KBD(VK_HOME,0,100);
+                KBD(key.LING_STONE,0,100);
                 sleep(0.3);
                 lib.SetCoordinate(mLSx1, mLSy1, mLSx2, mLSy2);
             endif
         else
             ifb chkimg("../picture/LingStone.bmp",0,mLSx1, mLSy1, mLSx2, mLSy2)
-                KBD(VK_HOME,0,100);
+                KBD(key.LING_STONE,0,100);
                 sleep(0.3);
             endif            
         endif
 
         ifb mWFx1 = 0
             ifb chkimg("../picture/白狐.bmp",0,x1,y1,x2,y2)
-                KBD(VK_CTRL,0,100);
+                KBD(key.WHITE_FOX_KEY,0,100);
                 lib.SetCoordinate(mWFx1, mWFy1, mWFx2, mWFy2);
                 exit;
             elseif chkimg("../picture/WhiteFox.bmp",0,x1,y1,x2,y2)
-                KBD(VK_CTRL,0,100);
+                KBD(key.WHITE_FOX_KEY,0,100);
                 lib.SetCoordinate(mWFx1, mWFy1, mWFx2, mWFy2);
                 exit;
             endif
         else
             ifb chkimg("../picture/白狐.bmp",0,mWFx1, mWFy1, mWFx2, mWFy2)
-                KBD(VK_CTRL,0,100);
+                KBD(key.WHITE_FOX_KEY,0,100);
                 for i = 1 to 3
-                    KBD(VK_A,0,200 + random(30))
+                    KBD(key.BRAGGART_KEY,0,200 + random(30))
                 next
                 exit;
             elseif chkimg("../picture/WhiteFox.bmp",0,mWFx1, mWFy1, mWFx2, mWFy2)
-                KBD(VK_CTRL,0,100);
+                KBD(key.WHITE_FOX_KEY,0,100);
                 for i = 1 to 3
-                    KBD(VK_A,0,200 + random(30))
+                    KBD(key.BRAGGART_KEY,0,200 + random(30))
                 next
                 exit;
             endif
         endif
 
         ifb mOyabunTime < GETTIME()
-            KBD(VK_W,0,800);
+            KBD(key.OYABUN_KEY,0,800);
             mOyabunTime = GETTIME( 30 / 86400 );
         endif
 
         ifb mSiMx1 = 0
             ifb chkimg(lib.picPathHelper("SpiderInMirror"),0,x1,y1,x2,y2)
-                KBD(VK_END,0,500);
+                KBD(key.SPIDER_IN_MIRROR,0,500);
                 lib.SetCoordinate(mSiMx1, mSiMy1, mSiMx2, mSiMy2);
             endif
         else
             ifb chkimg(lib.picPathHelper("SpiderInMirror"),0,mSiMx1, mSiMy1, mSiMx2, mSiMy2)
-                KBD(VK_END,0,500);
+                KBD(key.SPIDER_IN_MIRROR,0,500);
             endif            
         endif
 
         ifb chkimg("../picture/暁5thMH.bmp")
-            KBD(VK_R,0,500);
+            KBD(key.MAPLE_HERO,0,500);
         endif
 
         ifb chkimg("../picture/5th_oyabun.bmp")
             ifb oyabunTime5th < GETTIME();
+                sleep(1);
                 for i = 1 to 2
-                    KBD(VK_F9,0,125);
+                    KBD(key.OYABUN_5TH,0,125);
                 next
                 oyabunTime5th = GETTIME( 60 / 86400 )
             endif
@@ -166,8 +165,8 @@ class util
 
         ifb chkimg(lib.picPathHelper("kishin"),0,0,0,1366,800) 
             while true
-                KBD(VK_H,0,500);
-                KBD(VK_H,0,500);
+                KBD(key.DEMON_KEY,0,500);
+                KBD(key.DEMON_KEY,0,500);
                 if !chkimg(lib.picPathHelper("kishin"),0,0,0,1366,800) then break;
             wend
         endif
@@ -175,31 +174,14 @@ class util
         // 5th:スパイダーインミラー
         ifb mSiMx1 = 0
             ifb chkimg(lib.picPathHelper("SpiderInMirror"),0,x1,y1,x2,y2) or chkimg(lib.picPathHelper("SpiderInMirror2"),0,x1,y1,x2,y2)
-                KBD(VK_DELETE,0,500);
+                KBD(key.SPIDER_IN_MIRROR,0,500);
                 lib.SetCoordinate(mSiMx1, mSiMy1, mSiMx2, mSiMy2);
             endif
         else
             ifb chkimg(lib.picPathHelper("SpiderInMirror"),0,mSiMx1, mSiMy1, mSiMx2, mSiMy2) or chkimg(lib.picPathHelper("SpiderInMirror2"),0,mSiMx1, mSiMy1, mSiMx2, mSiMy2)
-                KBD(VK_DELETE,0,500);
+                KBD(key.SPIDER_IN_MIRROR,0,500);
             endif            
         endif
-
-        // ifb chkimg("../picture/OneDevil.bmp",0,x1,y1,x2,y2)
-        //     KBD(VK_F10,0,100);
-        //     sleep(1);
-        //     exit;
-        // endif
-
-        // ifb chkimg("../picture/妖怪巻.bmp",0,x1,y1,x2,y2)
-        //     KBD(VK_SHIFT,0,100);
-        //     sleep(1);
-        //     exit;
-        // endif
-
-        // ifb chkimg("../picture/SengokuAlliance.bmp",0,x1,y1,x2,y2)
-        //     KBD(VK_L,0,100);
-        //     sleep(1);
-        // endif
 
         result = 0;
     fend
@@ -221,22 +203,22 @@ class util
         endif
 
         ifb chkimg("../picture/雪女.bmp",0,x1,y1,x2,y2)
-            KBD(VK_F5,0,100);
+            KBD(key.SNOW_WOMEN,0,100);
             sleep(1);
         endif
 
         ifb chkimg("../picture/白狐.bmp",0,x1,y1,x2,y2)
-            KBD(VK_CTRL,0,100);
+            KBD(key.WHITE_FOX_KEY,0,100);
             exit;
             sleep(2);
         elseif chkimg("../picture/WhiteFox.bmp",0,x1,y1,x2,y2)
-            KBD(VK_CTRL,0,100);
+            KBD(key.WHITE_FOX_KEY,0,100);
             exit;
             sleep(2);
         endif
 
         ifb chkimg("../picture/LingStone.bmp",0,x1,y1,x2,y2)
-            KBD(VK_HOME,0,100);
+            KBD(key.LING_STONE,0,100);
             sleep(1);
         endif
 
@@ -245,12 +227,6 @@ class util
             sleep(1);
             exit;
         endif
-
-        // ifb chkimg("../picture/妖怪巻.bmp",0,x1,y1,x2,y2)
-        //     KBD(VK_SHIFT,0,100);
-        //     sleep(1);
-        //     exit;
-        // endif
 
         ifb chkimg("../picture/SengokuAlliance.bmp",0,x1,y1,x2,y2)
             KBD(VK_L,0,100);
@@ -263,7 +239,7 @@ class util
     function useSkill()
         KBD(VK_2,0,1000);
         KBD(VK_G,0,1000);
-        KBD(VK_H,0,3000);
+        KBD(key.DEMON_KEY,0,3000);
         result = 0;
 
     fend
@@ -275,7 +251,7 @@ class util
             KBD(key.CONTINUOUS_KEY,1,500);
             KBD(key.CONTINUOUS_KEY,2,1200);
             SLEEP(1);
-            KBD(VK_DELETE,0,500);
+            KBD(key.SPIDER_IN_MIRROR,0,500);
             
         next
         sleep(0.2);

@@ -23,6 +23,13 @@ CALL ../MapleAPI/api/v1/StartSsAPI.uws;
 public MAPLE_RESULT_OK = 0;
 // 起動スクリプト名出力
 logger.logWriter(LogLevel.LOG_INFO, Messages.START_SCRIPT_NAME);
+logger.logWriter(LogLevel.LOG_INFO, "Revision:3.0.0");
+
+ifb 1 = 0
+    mes = "";
+    logger.logWriter(LogLevel.LOG_INFO, mes);
+endif
+
 StartSsAPI.sendSS();
 LOGPRINT(true,600,800,500,100)
 SPEAK("START", true, true)

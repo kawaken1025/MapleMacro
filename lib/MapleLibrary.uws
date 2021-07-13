@@ -1205,14 +1205,28 @@ fend
 function killMapleStory()
     cmd = "taskkill /F /IM MapleStory.exe";
     DOSCMD(cmd,TRUE,FALSE);
-    logger.logWriter(LogLevel.LOG_ERROR,Messages.TASK_KILL_MESSAGE);
+    //logger.logWriter(LogLevel.LOG_ERROR,Messages.TASK_KILL_MESSAGE);
     SLEEP(5)
-    execMapleStory(); // 再起動
+    //execMapleStory(); // 再起動
     result = MAPLE_RESULT_OK;
 fend
 
 function IsLoginDisp()
     result = chkimg(lib.picPathHelper("StartButton"),0,0,0,1366,768)
+fend
+
+function limit()
+    num = 300 + random(300)
+    t = GETTIME( num / 86400 )
+    while true
+        ifb t < GETTIME()
+            killMapleStory();
+            break
+        else
+            sleep(10)
+        endif
+    wend
+    result = 0;
 fend
 
 //=========================================

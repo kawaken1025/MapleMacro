@@ -1,5 +1,5 @@
 class StartSsAPI
-    const isSend = true;
+    const isSend = false;
 
     function sendSS()
         path = GET_CUR_DIR + "\start_img.jpg"

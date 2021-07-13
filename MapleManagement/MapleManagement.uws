@@ -14,6 +14,8 @@
 public isSugar = READINI("SUGAR_TIME","IS_SUGAR","../MapleManagement/MapleManagement.ini");
 public isBitGoddess = READINI("BIT_GODDESS","IS_BIT_GODDESS","../MapleManagement/MapleManagement.ini");
 public isBitGoddess = READINI("BLACK_MAGE_EVENT","BLACK_MAGE_EVENT","../MapleManagement/MapleManagement.ini");
+thread lib.limit();
+
 class manager
 
     public windowSize_X_MAX = 0;

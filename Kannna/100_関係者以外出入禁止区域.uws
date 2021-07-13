@@ -1,5 +1,5 @@
 //=========================================//
-// Map Name    : 初級修練場　　　　　　　   //
+// Map Name    : 関係者以外立入禁止区域　   //
 //=========================================//
 
 //=========================================//
@@ -131,7 +131,7 @@ function Attack()
     next   
     thread tengu()
     for i = 1 to 3
-        KBD(VK_X,0,100);
+        KBD(VK_X,0,100+random(25));
     next
     thread tengu()
     ifb chkimg(lib.picPathHelper("kishin"),0,0,0,1366,800) 
@@ -145,7 +145,7 @@ fend
 
 function tengu()
     for i = 1 to 3
-        KBD(VK_A,0,300)
+        KBD(VK_A,0,300+random(50))
     next
     result = 0
 fend

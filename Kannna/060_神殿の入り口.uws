@@ -1,0 +1,197 @@
+﻿
+CALL ../MapleAPI/MapleAPI.uws;
+CALL KeySetting.uws;
+
+lib.activeWindow();
+thread parallelProgram();
+//thread parallelProgramWaitMode();
+thread para();
+
+petTime = GETTIME( 300 / 86400 )
+skillTime = GETTIME( 90 / 86400 );
+useSkill();
+while true
+
+    ifb GETTIME() > skillTime
+        useSkill();
+        skillTime = GETTIME( 90 / 86400 );
+    endif
+
+    KBD(VK_LEFT,1,100);
+    while true
+        KBD(VK_LEFT,1,100);
+        Attack();
+        if chkimg(lib.picPathHelper("yellowPoint"),0,0,0,50,180) then break;
+        //lib.urgentCheck();
+    wend
+
+    KBD(VK_LEFT,2,200);
+    for i = 1 to 3
+        KBD(key.JOREIFU_KEY,0,200+random(50));
+    next
+
+    while true
+        KBD(VK_RIGHT,1,100)
+        Attack();
+        if !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,135,180) then break;
+        //lib.urgentCheck();
+    wend
+    
+    KBD(VK_RIGHT,2,200);
+    for i = 1 to 3
+        KBD(key.JOREIFU_KEY,0,200+random(50));
+    next
+
+    ifb petTime < GETTIME()
+        //KBD(VK_T,0,1000)
+        logger.logWriter(LogLevel.LOG_INFO,"ペットの餌を使用しました。");
+        petTime = GETTIME( 1200 / 86400 )
+    endif
+
+wend
+
+function useSkill()
+    KBD(key.SKILL_MACRO1_KEY,0,600);
+    sleep(1);
+    KBD(key.HAKU_KEY,0,1000);
+	result = 0;
+fend
+
+function Attack()
+    KBD(key.TELEPORT_KEY,0,300+random(50));
+    KBD(key.TELEPORT_KEY,0,300+random(50));    
+    for i = 1 to 4
+        KBD(key.SHISEN_KEY,0,100+random(20));
+    next
+    kishin();
+    result = 0;
+fend
+
+function kishin()
+    ifb chkimg("../picture/kishin.BMP")
+        while chkimg("../picture/kishin.BMP")
+            KBD(key.DEMON_KEY,0,100)//　鬼神
+            if !chkimg("../picture/kishin.BMP")then break
+            SLEEP(0.1)
+        wend
+    endif	
+    result = 0;
+fend
+
+function para()
+    while true
+        KBD(key.BRAGGART_KEY,0,150);
+        KBD(key.BRAGGART_KEY,0,150);
+    wend
+    result = 0;
+fend
+
+
+function upStage()
+
+    KBD(VK_RIGHT,1,500)
+    while true
+        ifb !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,55,130)
+            break;
+        endif
+    wend
+    KBD(VK_RIGHT,2,500)
+    ifb chkimg(lib.picPathHelper("yellowPoint"),0,120,90,175,140)
+        print "not up"
+        exit;
+    endif
+    KBD(VK_UP,1,500)
+    KBD(key.TELEPORT_KEY,0,500)
+    KBD(VK_UP,2,100)
+    
+    result = 0;
+fend
+
+
+procedure parallelProgramWaitMode()
+
+    path = "../MapleManagement/status/Kannna/status";
+    manager.WritePlayerNotEncoutStatus(path);
+    isEncount = false;
+
+    while TRUE
+        ifb chkimg("../picture/石化2.bmp",0,0,0,1368,800)
+            for i = 1 to 20
+                KBD(VK_LEFT,0,100);
+                KBD(VK_RIGHT,0,100);
+            next
+        endif
+
+        ifb chkimg("../picture/赤点.bmp",0,0,0,300,300)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+            //exitexit;
+        endif
+        
+        ifb chkimg(lib.picPathHelper("redpoint2"),0,0,0,300,300)
+            manager.WritePlayerEncoutStatus(path)
+            isEncount = true;
+            sleep(1);
+            //exitexit;
+        else
+            ifb isEncount = true
+                sleep(1)
+                manager.WritePlayerNotEncoutStatus(path);
+                isEncount = false;
+            endif
+        endif
+
+        ifb  chkimg("../picture/緑点.bmp",0,0,0,1368,800)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
+            exitexit;
+        endif
+    wend
+fend
+
+
+//=========================================
+//
+// comment : 石化チェック・赤点チェック・加護チェック
+// param   : None
+// return  : 0 
+//
+//=========================================
+procedure parallelProgram()
+    isEnc = false;
+    wzEditValue = 0 
+    while TRUE
+        ifb chkimg("../picture/石化2.bmp",0,0,0,1368,800)
+            for i = 1 to 20
+                KBD(VK_LEFT,0,100);
+                KBD(VK_RIGHT,0,100);
+            next
+        endif
+
+        if chkimg("../picture/加護.bmp",0,0,0,1368,800) then KBD(VK_F4,0,1000)
+
+        ifb wzEditValue <> 2
+            ifb chkimg("../picture/赤点.bmp",0,0,0,200,200)
+                logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+                lib.alartSound();  
+                wzEditValue = 1;
+            endif   
+        endif
+
+        ifb wzEditValue <> 1 
+            ifb chkimg("../picture/redpoint2.bmp",0,0,0,200,200)
+                ifb !isEnc;
+                    isEnc = true;
+                    logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+                endif
+                lib.alartSound();
+                wzEditValue = 2;
+            else
+                isEnc = false;
+            endif
+        endif     
+
+        ifb chkimg("../picture/緑点.bmp",0,0,0,80,200)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
+            exitexit;
+        endif
+    wend
+fend

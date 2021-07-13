@@ -26,6 +26,9 @@ CLASS key
 	const WHITE_FOX_KEY    = VK_CTRL   // 白狐
 	const SPIDER_IN_MIRROR = VK_DELETE // スパイダーインミラー
 	const JOREIFU_KEY      = VK_D      // 除霊符
+	const OYABUN_5TH       = VK_F9     // 親分(5th)
+	const MAPLE_HERO       = VK_R      // MH(5th)
+	const SHIKIGAMI        = VK_J      // 式神炎舞
 
 	//SupportSkillKey
 	const SKILL_MACRO1_KEY    = VK_G     // 補助スキルマクロ

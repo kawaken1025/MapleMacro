@@ -1,0 +1,279 @@
+//=========================================//
+// Map Name    : アルカナ　ケーヴロードの通路上
+//=========================================//
+
+//=========================================//
+// comment     : 
+// param       : None
+// return      : None
+// ========================================//
+// Display Dpl : 800x600 or 1366x768
+//=========================================//
+// Copy Right (C) 2019 All Right Reserved. 
+//   @author k.kawabata @kawaken1025
+//     Create Date : 2019/02/09
+//=========================================//
+
+//=========================================
+// init
+//=========================================
+// MapleAPI : LogWriter.uws , MapleLibrary.uws , UseSkillFiveJob.uws
+CALL ../MapleAPI/MapleAPI.uws;
+// import Luminous skillKeySetting
+CALL KeySetting.uws;
+// Util - sugarTime exec
+CALL ../Util/MapleUtil.uws;
+// multiThread checkRedPoint and checkMineralization
+thread parallelProgramWaitMode();
+thread lib.RegularOnClick();
+thread lib.KillMicrosoftEdge();
+public IsEvent = true;
+// MessageWindow init
+CALL KannnaUtil.uws;
+CALL ../Util/MapleUtil.uws;
+
+
+propUseTime = GETTIME( 7350 / 86400 ); // 財物
+public reUseSkillTime
+public collectTime
+public oyabunTime
+try
+    while true;
+        //mutil.useBlackUnionEventItem();
+        //Acquisition of Time : Get the time after 3 minutes
+        reUseSkillTime = GETTIME( 150 / 86400 );
+        collectTime = GETTIME( 110 / 86400 );
+        oyabunTime = GETTIME( 30 / 86400 )
+        useSkill();
+        //KBD(VK_T,0,500);
+        //lib.checkFamiliarPower();
+        //lib.useMaprage();
+        while true;
+            oneWayAttack(VK_LEFT,0,0,65,145);
+            upStage();
+            oneWayAttack(VK_RIGHT,130,80,170,150);
+            DownJump();
+            
+            // 時間経過チェック
+            if GETTIME() > reUseSkillTime then break;
+            ifb GETTIME() > propUseTime
+                KBD(VK_F12,0,1000);
+                propUseTime = GETTIME( 7350 / 86400 );
+            endif
+        wend
+    wend
+except
+    exitexit;
+endtry
+
+function upStage()
+
+    KBD(VK_RIGHT,1,1000)
+    while true
+        if !chkimg(lib.picPathHelper("yellowPoint"),0,0,0,50,120) then break;
+    wend
+    KBD(VK_RIGHT,0,200)
+    KBD(VK_UP,1)
+    for i = 1 to 3
+        KBD(key.TELEPORT_KEY,0,200)
+    next
+    KBD(VK_UP,2)
+    result = 0;
+fend
+
+function downStage()
+
+    KBD(VK_DOWN,1,500)
+    KBD(VK_C,0,100)
+    KBD(VK_C,0,100)
+    KBD(VK_C,0,100)
+    KBD(VK_DOWN,2,1500)
+      
+    result = 0;
+fend
+
+
+function oneWayAttack(moveKey,x1,y1,x2,y2)
+    
+    while true
+        ifb moveKey = VK_RIGHT
+            ifb chkimg(lib.picPathHelper("yellowPoint"),0,30,125,100,150)
+                KBD(VK_DOWN,1)
+                for i = 1 to 5
+                    KBD(VK_C,0,100)
+                next
+                KBD(VK_DOWN,2,300)
+            endif
+        endif
+        KBD(moveKey,1)
+        for i = 1 to 2
+            Attack();
+            if chkimg(lib.picPathHelper("yellowPoint"),0,x1,y1,x2,y2) then break
+        next
+        //lib.UrgentCheckCCmode();
+        util.KannnaSkillCheck();
+        skill.pSkill();
+
+        ifb chkimg(lib.picPathHelper("yellowPoint"),0,x1,y1,x2,y2)
+            ifb 125 < G_IMG_Y and moveKey = VK_LEFT
+                upStage();
+                sleep(0.7)
+            endif
+            break;
+        endif
+    wend
+    KBD(moveKey,2)
+
+    result = 0;
+fend
+
+function Attack()
+    for i = 1 to 5
+        KBD(key.TELEPORT_KEY,0,100);
+    next   
+    thread tengu()
+    ifb chkimg(lib.picPathHelper("kishin"),0,0,0,1366,800) 
+        while true
+            KBD(VK_H,0,500);
+            KBD(VK_H,0,500);
+            if !chkimg(lib.picPathHelper("kishin"),0,0,0,1366,800) then break;
+        wend
+    endif
+    for i = 1 to 6
+        KBD(key.SHISEN_KEY,0,100);
+    next
+    thread tengu()
+    result = 0;
+fend
+
+function tengu()
+    for i = 1 to 3
+        KBD(key.BRAGGART_KEY,0,300+random(50))
+    next
+    ifb chkimg(lib.picPathHelper("kishin"),0,0,0,1366,800) 
+        while true
+            KBD(key.DEMON_KEY,0,200);
+            if !chkimg(lib.picPathHelper("kishin"),0,0,0,1366,800) then break;
+        wend
+    endif
+    result = 0
+fend
+
+function DownJump()
+    // 下段にいた場合は下ジャンプしない
+    ifb chkimg("../picture/yellowPoint.bmp",0,0,110,180,140)
+        result = true;
+    else
+        KBD(VK_DOWN,1,50)
+        for i = 1 to 2
+            KBD(VK_C,0,100)
+            KBD(key.TELEPORT_KEY,0,100)
+        next
+        KBD(VK_DOWN,2,500)
+        result = false;
+    endif
+fend
+
+//=========================================
+// param   : None 
+// comment : ルーンが出現しているか確認
+//=========================================
+function checkRuneStage()
+
+    // 上段にあるか
+    ifb chkimg(lib.picPathHelper("runePoint"),0,0,0,180,120)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを上段で発見しました。");
+        moveStage(1);
+        result = constant.DISCOVERY_RUNE;
+    elseif chkimg(lib.picPathHelper("runePoint"),0,0,127,180,145)
+        logger.logWriter(LogLevel.LOG_INFO,"ルーンを下段で発見しました。");
+        moveStage(2);
+        result = constant.DISCOVERY_RUNE;
+    endif
+    
+    result = constant.UNDISCOVERED_RUNE;
+fend
+
+
+//=========================================
+// param   : 1 or 2
+// comment : ルーンが出現している段へ移動
+//=========================================
+function moveStage(num)
+    // いったん一番→へいく
+    KBD(VK_RIGHT,1,500)
+    while true
+        if chkimg(lib.picPathHelper("yellowPoint"),0,150,0,180,143) then break;
+        KBD(key.TELEPORT_KEY,0,100)
+    wend
+    KBD(VK_RIGHT,2,500)
+    
+    // 上段にルーンがある場合は右へ行って終了
+    ifb num = 1
+    	KBD(VK_LEFT,1,500)
+    	while true
+	        if chkimg(lib.picPathHelper("yellowPoint"),0,64,87,110,150) then break;
+   	    wend
+	    KBD(VK_LEFT,2,500)
+        KBD(VK_UP,1,500)
+        for i = 1 to 5
+            KBD(key.TELEPORT_KEY,0,100)
+        next
+        KBD(VK_UP,2,100)
+        result = 0;
+    // 下段にある場合は右へ行って下ジャンプ
+    else
+        KBD(VK_DOWN,1,500)
+        for i = 1 to 5
+            KBD(VK_C,0,100)
+        next
+        KBD(VK_DOWN,2,100)
+        result = 0;
+    endif
+    lib.OpenRune();
+    
+    result = 0;
+fend
+
+function useSkill()
+
+	KBD(key.SKILL_MACRO1_KEY,0,600);
+    KBD(key.HAKU_KEY,0,800);
+	result = 0;
+
+fend
+
+
+procedure parallelProgramWaitMode()
+
+    path = "../MapleManagement/status/Kannna/status";
+    manager.WritePlayerNotEncoutStatus(path);
+    isEncount = false;
+
+    while TRUE
+        ifb chkimg("../picture/石化2.bmp",0,0,0,1368,800)
+            for i = 1 to 20
+                KBD(VK_LEFT,0,100);
+                KBD(VK_RIGHT,0,100);
+            next
+        endif
+
+        ifb chkimg("../picture/赤点.bmp",0,0,0,300,300)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DETECTION_RED_POINT);
+            SOUND("BEEP")
+            //exitexit;
+        endif
+        
+        ifb chkimg(lib.picPathHelper("redpoint2"),0,0,0,300,300)
+            isEncount = true;
+            sleep(1);
+            SOUND("BEEP")
+            //exitexit;
+        endif
+
+        ifb  chkimg("../picture/緑点.bmp",0,0,0,1368,800)
+            logger.logWriter(LogLevel.LOG_WARN,Messages.DISCOVERY_GREEN_POINT);
+            exitexit;
+        endif
+    wend
+fend

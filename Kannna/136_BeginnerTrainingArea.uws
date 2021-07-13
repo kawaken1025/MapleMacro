@@ -31,7 +31,7 @@ while true;
     reUseSkillTime = GETTIME( 150 / 86400 );
     useSkill();
     SLEEP(0.5);
-    KBD(VK_T,0,2000)
+    //KBD(VK_T,0,2000)
     //lib.checkFamiliarPower();
     //lib.useMaprage();
     while true;
@@ -50,25 +50,12 @@ function oneWayAttack(moveKey,x1,y1,x2,y2)
 
     //execute moveHunting
     KBD(moveKey,1,100);
-    ifb oyabunTime < GETTIME()
-        KBD(VK_W,0,800);
-        oyabunTime = GETTIME( 30 / 86400 );
-    endif
     while true
         KBD(moveKey,1,100);
         if chkimg(lib.picPathHelper("yellowPoint"),0,x1,y1,x2,y2)     then break;
         Attack()
     wend
-    //lib.checkGameMaster();
     KBD(moveKey,2,200);
-    // ルーンが出現しているか確認します。
-    // 出現していた場合は解除します
-    ret = checkRuneStage()
-    ifb ret <> 0
-    	sleep(0.5);
-        lib.OpenRune();
-        sleep(1);
-    endif
     Attack()
     util.KannnaSkillCheck();
     result = 0;
@@ -76,16 +63,16 @@ fend
 
 function Attack()
     for i = 1 to 3
-        KBD(VK_SPACE,0,100);
+        KBD(key.TELEPORT_KEY,0,100);
     next   
     thread tengu()
     for i = 1 to 3
-        KBD(VK_X,0,100);
+        KBD(key.SHISEN_KEY,0,100+random(50));
     next
     thread tengu()
     ifb chkimg(lib.picPathHelper("kishin"),0,0,0,1366,800) 
         while true
-            KBD(VK_H,0,200);
+            KBD(key.DEMON_KEY,0,200);
             if !chkimg(lib.picPathHelper("kishin"),0,0,0,1366,800) then break;
         wend
     endif
@@ -94,7 +81,7 @@ fend
 
 function tengu()
     for i = 1 to 3
-        KBD(VK_A,0,300)
+        KBD(key.BRAGGART_KEY,0,250+random(50))
     next
     result = 0
 fend
@@ -117,10 +104,8 @@ fend
 
 function useSkill()
 
-	KBD(VK_G,0,600);
-    KBD(VK_2,0,800);
-	KBD(VK_H,0,1800);
-    KBD(VK_H,0,300);
+	KBD(key.SKILL_MACRO1_KEY,0,600);
+    KBD(key.HAKU_KEY,0,800);
 	result = 0;
 
 fend
